@@ -1,0 +1,63 @@
+---
+/**
+ * Labeled example block for API pages.
+ * Uses CodeBlock for syntax highlighting and copy button.
+ * Auto-detects language from contentType if lang is not specified.
+ *
+ * Usage:
+ *   <ExampleBlock title="Response 200" json={responseData} />
+ *   <ExampleBlock title="Request Body" json={requestBody} contentType="application/xml" />
+ *   <ExampleBlock title="Custom" code={rawText} lang="yaml" />
+ */
+import CodeBlock from "../code-block/CodeBlock.astro";
+
+interface Props {
+  title: string;
+  json?: unknown;
+  code?: string;
+  lang?: string;
+  contentType?: string;
+  class?: string;
+}
+
+const contentTypeToLang: Record<string, string> = {
+  "application/json": "json",
+  "application/xml": "xml",
+  "application/x-www-form-urlencoded": "plaintext",
+  "text/xml": "xml",
+  "text/html": "html",
+  "text/plain": "plaintext",
+  "text/yaml": "yaml",
+  "application/yaml": "yaml",
+  "application/x-yaml": "yaml",
+  "multipart/form-data": "plaintext",
+};
+
+function detectLang(contentType?: string): string {
+  if (!contentType) return "json";
+  // Exact match
+  if (contentTypeToLang[contentType]) return contentTypeToLang[contentType];
+  // Match base type (ignore parameters like charset)
+  const base = contentType.split(";")[0].trim();
+  if (contentTypeToLang[base]) return contentTypeToLang[base];
+  // Fallback heuristics
+  if (base.includes("json")) return "json";
+  if (base.includes("xml")) return "xml";
+  if (base.includes("yaml") || base.includes("yml")) return "yaml";
+  return "json";
+}
+
+const { title, json, code, lang, contentType, class: className } = Astro.props;
+
+const resolvedLang = lang || detectLang(contentType);
+const content = code || (json !== undefined && json !== null ? JSON.stringify(json, null, 2) : null);
+---
+
+{content && (
+  <div class={className}>
+    <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+      {title}
+    </h3>
+    <CodeBlock code={content} lang={resolvedLang} copy={true} />
+  </div>
+)}

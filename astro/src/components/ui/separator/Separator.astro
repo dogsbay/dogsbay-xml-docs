@@ -1,0 +1,35 @@
+---
+import { tv, type VariantProps } from "tailwind-variants";
+
+const separator = tv({
+  base: "shrink-0 bg-border",
+  variants: {
+    orientation: {
+      horizontal: "h-[1px] w-full",
+      vertical: "w-[1px] self-stretch",
+    },
+  },
+  defaultVariants: {
+    orientation: "horizontal",
+  },
+});
+
+type SeparatorVariants = VariantProps<typeof separator>;
+
+interface Props {
+  orientation?: SeparatorVariants["orientation"];
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { orientation = "horizontal", class: className, ...rest } = Astro.props;
+---
+
+<div
+  class={separator({ orientation, class: className })}
+  role="separator"
+  aria-orientation={orientation}
+  data-orientation={orientation}
+  {...rest}
+>
+</div>

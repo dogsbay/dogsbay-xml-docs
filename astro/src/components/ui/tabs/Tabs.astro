@@ -1,0 +1,37 @@
+---
+import { tv } from "tailwind-variants";
+
+const tabs = tv({
+  base: "w-full my-4 border border-border rounded-lg overflow-hidden",
+});
+
+interface Props {
+  defaultValue?: string;
+  orientation?: "horizontal" | "vertical";
+  syncKey?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  defaultValue,
+  orientation = "horizontal",
+  syncKey,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<db-tabs
+  class={tabs({ class: className })}
+  default-value={defaultValue}
+  orientation={orientation}
+  sync-key={syncKey}
+  {...rest}
+>
+  <slot />
+</db-tabs>
+
+<script>
+  import "@dogsbay/elements/db-tabs";
+</script>

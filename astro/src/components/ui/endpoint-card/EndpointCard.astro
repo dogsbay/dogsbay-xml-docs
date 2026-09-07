@@ -1,0 +1,60 @@
+---
+/**
+ * API endpoint card with URL bar and collapsible sections.
+ *
+ * Usage:
+ *   <EndpointCard method="get" path="/pet/{petId}" baseUrl="https://petstore.swagger.io/api/v3">
+ *     <EndpointSection value="parameters" title="Parameters" default>
+ *       <PropertyList parameters={params} />
+ *     </EndpointSection>
+ *     <EndpointSection value="responses" title="Responses">
+ *       <ResponseTabs responses={responses} />
+ *     </EndpointSection>
+ *   </EndpointCard>
+ */
+import { tv } from "tailwind-variants";
+import ApiUrlBar from "../api-url-bar/ApiUrlBar.astro";
+import Badge from "../badge/Badge.astro";
+
+const endpointCard = tv({
+  base: "space-y-4",
+});
+
+interface Props {
+  method: "get" | "post" | "put" | "patch" | "delete" | "head" | "options";
+  path: string;
+  baseUrl?: string;
+  summary?: string;
+  description?: string;
+  deprecated?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { method, path, baseUrl, summary, description, deprecated = false, class: className, ...rest } = Astro.props;
+---
+
+<div
+  class={endpointCard({ class: className })}
+  data-component="endpoint-card"
+  data-deprecated={deprecated ? "" : undefined}
+  {...rest}
+>
+  <ApiUrlBar method={method} path={path} baseUrl={baseUrl} />
+
+  {deprecated && (
+    <div class="flex items-center gap-2 rounded-lg border border-api-deprecated/30 bg-api-deprecated/10 px-4 py-2 text-sm text-api-deprecated">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+      <span>This endpoint is deprecated.</span>
+    </div>
+  )}
+
+  {summary && <p class="text-sm text-muted-foreground">{summary}</p>}
+  {description && description !== summary && (
+    <div class="text-sm text-muted-foreground" set:html={description} />
+  )}
+
+  <div class="space-y-3">
+    <slot />
+  </div>
+</div>

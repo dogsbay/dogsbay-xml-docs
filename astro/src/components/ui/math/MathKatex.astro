@@ -1,0 +1,35 @@
+---
+/**
+ * MathKatex — renders LaTeX math at build time using KaTeX.
+ * Zero client JS. Includes MathML for accessibility.
+ */
+import katex from "katex";
+
+interface Props {
+  /** LaTeX math string */
+  latex: string;
+  /** Display mode (block) vs inline */
+  display?: boolean;
+  class?: string;
+}
+
+const { latex, display = false, class: className } = Astro.props;
+
+let html: string;
+try {
+  html = katex.renderToString(latex, {
+    displayMode: display,
+    throwOnError: false,
+    output: "htmlAndMathml",
+  });
+} catch {
+  // Fallback: render as code
+  html = `<code class="text-destructive">${latex}</code>`;
+}
+---
+
+{display ? (
+  <div class:list={["my-4 overflow-x-auto", className]} set:html={html} />
+) : (
+  <span class={className} set:html={html} />
+)}

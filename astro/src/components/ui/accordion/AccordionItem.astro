@@ -1,0 +1,26 @@
+---
+import { tv } from "tailwind-variants";
+
+const accordionItem = tv({
+  base: "border-b",
+});
+
+interface Props {
+  value: string;
+  disabled?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { value, disabled = false, class: className, ...rest } = Astro.props;
+---
+
+<div
+  class={accordionItem({ class: className })}
+  data-part="item"
+  data-value={value}
+  data-disabled={disabled || undefined}
+  {...rest}
+>
+  <slot />
+</div>

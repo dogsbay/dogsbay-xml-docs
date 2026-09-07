@@ -1,0 +1,22 @@
+---
+import { tv } from "tailwind-variants";
+
+const sectionTitle = tv({
+  base: "px-6 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground bg-muted/50",
+});
+
+interface Props {
+  title: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { title, class: className, ...rest } = Astro.props;
+---
+
+<div class={className} {...rest}>
+  <h3 class={sectionTitle()}>{title}</h3>
+  <div class="px-6 py-4">
+    <slot />
+  </div>
+</div>

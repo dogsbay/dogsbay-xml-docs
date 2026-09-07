@@ -1,0 +1,32 @@
+.api-source {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--color-border, oklch(0.85 0 0));
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.api-source summary {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground, oklch(0.55 0 0));
+  background: var(--color-muted, oklch(0.96 0 0));
+  user-select: none;
+}
+
+.api-source summary:hover {
+  color: var(--color-foreground, oklch(0.15 0 0));
+}
+
+.api-source[open] summary {
+  border-bottom: 1px solid var(--color-border, oklch(0.85 0 0));
+}
+
+/* Remove extra margin from the code block inside */
+.api-source :global(pre) {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}

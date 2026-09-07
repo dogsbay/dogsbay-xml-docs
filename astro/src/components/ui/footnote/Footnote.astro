@@ -1,0 +1,37 @@
+---
+/**
+ * Footnote component — click a superscript reference to show content in a popover.
+ *
+ * Usage:
+ *   <Footnote label="1" content="<p>Footnote content</p>" />
+ *
+ * Or with a slot:
+ *   <Footnote label="1">
+ *     <p>Footnote content</p>
+ *   </Footnote>
+ */
+import Popover from "../popover/Popover.astro";
+import PopoverTrigger from "../popover/PopoverTrigger.astro";
+import PopoverContent from "../popover/PopoverContent.astro";
+
+interface Props {
+  /** Footnote label (e.g. "1", "note") */
+  label: string;
+  /** Pre-rendered HTML content (alternative to slot) */
+  content?: string;
+  class?: string;
+}
+
+const { label, content, class: className } = Astro.props;
+---
+
+<Popover class:list={["inline", className]}>
+  <PopoverTrigger asChild>
+    <sup class="cursor-pointer text-primary hover:underline" aria-label={`Footnote ${label}`}>
+      [{label}]
+    </sup>
+  </PopoverTrigger>
+  <PopoverContent side="top" align="center" class="max-w-sm text-sm">
+    {content ? <Fragment set:html={content} /> : <slot />}
+  </PopoverContent>
+</Popover>

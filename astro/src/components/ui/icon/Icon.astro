@@ -1,0 +1,84 @@
+---
+/**
+ * Icon — render an icon by name from any Iconify pack (defaults
+ * to Lucide).
+ *
+ * Resolves at BUILD time via `@dogsbay/icons`'s registry — the
+ * SVG is inlined into the static HTML, so there's no client-side
+ * fetch and no FOUC. Tree-shakeable: only icons actually used in
+ * pages get inlined, since Astro statically evaluates the
+ * resolution per template instance.
+ *
+ * Usage:
+ *
+ *   <Icon name="rocket" />              // bare → Lucide rocket
+ *   <Icon name="lucide:book-open" />    // explicit pack
+ *   <Icon name="mdi:home" />            // Material Design Icons
+ *   <Icon name="simple-icons:github" /> // brand icons
+ *   <Icon name="rocket" class="size-5 text-primary" />
+ *
+ * Bare names check the emoji map first (so `rocket` → 🚀
+ * matches existing inline-icon behaviour), then fall through to
+ * Lucide. When the icon doesn't exist anywhere, the component
+ * renders nothing — silent fallback rather than a broken-image
+ * box, since icons are decorative and consistent typography is
+ * preferable to a placeholder.
+ *
+ * Accessibility: when `alt` is supplied, the icon is announced
+ * to screen readers as a labelled image. Without `alt` (the
+ * default), the SVG is `aria-hidden` because most icons in this
+ * codebase are paired with adjacent text that already conveys
+ * the meaning. Pass `alt=""` explicitly to force the
+ * decorative-only state when needed by external tooling.
+ */
+import { resolveIcon } from "@dogsbay/icons";
+
+interface Props {
+  /**
+   * Icon shorthand. Either bare (`rocket`, `book-open`) or
+   * namespaced (`pack:name`). See file header for examples.
+   */
+  name: string;
+  /** Tailwind class string. Defaults to `size-4` for inline-text sizing. */
+  class?: string;
+  /**
+   * Accessible label. Set to a non-empty string for icons that
+   * convey information without surrounding text. Leave undefined
+   * (or pass empty string) for decorative icons paired with a
+   * text label.
+   */
+  alt?: string;
+}
+
+const { name, class: className = "size-4", alt } = Astro.props;
+const svg = resolveIcon(name);
+const labelled = typeof alt === "string" && alt.length > 0;
+---
+
+{
+  svg ? (
+    svg.startsWith("<") ? (
+      <span
+        class:list={["inline-flex shrink-0", className]}
+        role={labelled ? "img" : undefined}
+        aria-label={labelled ? alt : undefined}
+        aria-hidden={labelled ? undefined : "true"}
+        set:html={svg}
+        data-icon={name}
+      />
+    ) : (
+      // Emoji fallback — `svg` is actually a Unicode character
+      // when the name resolved against the emoji map (e.g.
+      // `rocket` → 🚀). Render it as text so font emoji shows.
+      <span
+        class:list={["inline-flex shrink-0", className]}
+        role={labelled ? "img" : undefined}
+        aria-label={labelled ? alt : undefined}
+        aria-hidden={labelled ? undefined : "true"}
+        data-icon={name}
+      >
+        {svg}
+      </span>
+    )
+  ) : null
+}

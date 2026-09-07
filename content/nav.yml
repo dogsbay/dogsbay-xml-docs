@@ -1,0 +1,21 @@
+# Sidebar navigation. Loaded by Dogsbay automatically — name this
+# file nav.yml, nav.yaml, or nav.json (in that order of precedence).
+#
+# Each entry is a single-key map. The key is the sidebar label.
+# The value is one of:
+#   - a file path (relative to content/, e.g. "guide.md")
+#   - an absolute URL (e.g. "https://...")
+#   - a list of child entries (creates a group)
+#
+# Examples:
+#   - Home: index.md                       # leaf — file path
+#   - GitHub: https://github.com/…         # leaf — external URL
+#   - Guides:                              # group — children below
+#       - Configuration: guides/config.md
+#       - Deployment: guides/deploy.md
+#
+# Edit freely as you add or rearrange pages. See
+# https://github.com/dogsbay/dogsbay for the full nav-file reference.
+
+- Home: index.md
+- Getting started: getting-started.md

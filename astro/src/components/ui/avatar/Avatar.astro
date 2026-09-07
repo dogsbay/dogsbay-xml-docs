@@ -1,0 +1,57 @@
+---
+import { tv } from "tailwind-variants";
+
+const avatar = tv({
+  base: "relative inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted",
+});
+
+const avatarImage = tv({
+  base: "aspect-square h-full w-full object-cover",
+});
+
+const avatarFallback = tv({
+  base: "flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-semibold text-muted-foreground",
+});
+
+interface Props {
+  src?: string;
+  alt?: string;
+  fallback?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { src, alt = "", fallback, class: className, ...rest } = Astro.props;
+
+const initials =
+  fallback ||
+  alt
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+---
+
+<span class={avatar({ class: className })} {...rest}>
+  {
+    src ? (
+      <>
+        <img
+          class={avatarImage()}
+          src={src}
+          alt={alt}
+          width="40"
+          height="40"
+          onerror="this.hidden=true;this.nextElementSibling.hidden=false"
+        />
+        <span class={avatarFallback()} aria-hidden="true" hidden>
+          {initials}
+        </span>
+      </>
+    ) : (
+      <span class={avatarFallback()} aria-hidden="true">
+        {initials}
+      </span>
+    )
+  }
+</span>

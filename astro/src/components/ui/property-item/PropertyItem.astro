@@ -1,0 +1,183 @@
+---
+/**
+ * Single property row for API documentation.
+ * Used by both PropertyList (parameters) and SchemaViewer (schemas).
+ *
+ * Layout:
+ *   name  type <format>                          REQUIRED
+ *   Description text here
+ *   Enum: value1 | value2
+ *   Example: "doggie"
+ *
+ * Expandable: if properties/items are provided, renders with
+ * details/summary for nested object/array expansion.
+ */
+import { tv } from "tailwind-variants";
+
+interface SchemaProperty {
+  name: string;
+  type: string;
+  description?: string;
+  required?: boolean;
+  nullable?: boolean;
+  format?: string;
+  enum?: string[];
+  default?: unknown;
+  example?: unknown;
+  deprecated?: boolean;
+  properties?: SchemaProperty[];
+  items?: SchemaProperty[];
+}
+
+interface Props extends SchemaProperty {
+  level?: number;
+  showLocation?: boolean;
+  location?: string;
+  class?: string;
+}
+
+const {
+  name,
+  type,
+  description,
+  required = false,
+  nullable = false,
+  format,
+  enum: enumValues,
+  default: defaultValue,
+  example,
+  deprecated = false,
+  properties,
+  items,
+  level = 0,
+  showLocation = false,
+  location,
+  class: className,
+} = Astro.props;
+
+const typeBadge = tv({
+  base: "rounded px-1.5 py-0.5 text-[10px] font-medium",
+  variants: {
+    type: {
+      string: "bg-api-type-string/20 text-api-type-string",
+      number: "bg-api-type-number/20 text-api-type-number",
+      integer: "bg-api-type-number/20 text-api-type-number",
+      boolean: "bg-api-type-boolean/20 text-api-type-boolean",
+      object: "bg-api-type-object/20 text-api-type-object",
+      array: "bg-api-type-array/20 text-api-type-array",
+      null: "bg-muted/20 text-muted-foreground",
+    },
+  },
+  defaultVariants: { type: "string" },
+});
+
+const locationBadge = tv({
+  base: "rounded px-1.5 py-0.5 text-[10px] font-medium uppercase",
+  variants: {
+    location: {
+      path: "bg-api-put/20 text-api-put",
+      query: "bg-api-post/20 text-api-post",
+      header: "bg-api-head/20 text-api-head",
+      cookie: "bg-muted/20 text-muted-foreground",
+    },
+  },
+});
+
+function getTypeVariant(t: string) {
+  const known = ["string", "number", "integer", "boolean", "object", "array", "null"];
+  return known.includes(t) ? t as any : "string";
+}
+
+const hasChildren = (properties && properties.length > 0) || (items && items.length > 0);
+const childProps = properties || items || [];
+const indent = level * 16;
+---
+
+<div
+  class:list={["border-b border-border last:border-b-0", deprecated && "opacity-60", className]}
+>
+  {hasChildren ? (
+    <details>
+      <summary
+        class="flex cursor-pointer items-start justify-between gap-4 px-4 py-3 list-none [&::-webkit-details-marker]:hidden hover:bg-muted/50 rounded"
+        style={indent > 0 ? `padding-left: ${16 + indent}px;` : undefined}
+      >
+        <div class="flex items-center gap-2 min-w-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3 shrink-0 text-muted-foreground transition-transform duration-200" data-property-chevron aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+          <code class="text-sm font-semibold">{name}</code>
+          <span class={typeBadge({ type: getTypeVariant(type) })}>
+            {type}{format ? ` <${format}>` : ""}
+          </span>
+          {showLocation && location && (
+            <span class={locationBadge({ location: location as any })}>{location}</span>
+          )}
+          {nullable && <span class="text-muted-foreground text-[10px]">nullable</span>}
+        </div>
+        <div class="flex shrink-0 items-center gap-2">
+          {required && (
+            <span class="text-[10px] font-semibold uppercase text-api-required">required</span>
+          )}
+        </div>
+      </summary>
+      {description && (
+        <p class="px-4 pb-1 text-sm text-muted-foreground" style={`padding-left: ${32 + indent}px;`} set:html={description} />
+      )}
+      <div class="border-l border-border" style={`margin-left: ${24 + indent}px;`}>
+        {childProps.map((child: SchemaProperty) => (
+          <Astro.self {...child} level={level + 1} />
+        ))}
+      </div>
+    </details>
+  ) : (
+    <div
+      class="flex items-start justify-between gap-4 px-4 py-3"
+      style={indent > 0 ? `padding-left: ${16 + indent}px;` : undefined}
+    >
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2">
+          {level > 0 && <span class="size-3 shrink-0" />}
+          <code class="text-sm font-semibold">{name}</code>
+          <span class={typeBadge({ type: getTypeVariant(type) })}>
+            {type}{format ? ` <${format}>` : ""}
+          </span>
+          {showLocation && location && (
+            <span class={locationBadge({ location: location as any })}>{location}</span>
+          )}
+          {nullable && <span class="text-muted-foreground text-[10px]">nullable</span>}
+        </div>
+        {description && (
+          <p class:list={["mt-1 text-sm text-muted-foreground", level > 0 && "pl-5"]} set:html={description} />
+        )}
+        {enumValues && (
+          <div class:list={["mt-1.5 flex flex-wrap items-center gap-1 text-[10px]", level > 0 && "pl-5"]}>
+            <span class="text-muted-foreground">Enum:</span>
+            {enumValues.map((v) => (
+              <code class="rounded bg-muted px-1.5 py-0.5">{v}</code>
+            ))}
+          </div>
+        )}
+        {example !== undefined && (
+          <div class:list={["mt-1 text-xs text-muted-foreground", level > 0 && "pl-5"]}>
+            Example: <code class="rounded bg-muted px-1 py-0.5">{JSON.stringify(example)}</code>
+          </div>
+        )}
+        {defaultValue !== undefined && (
+          <div class:list={["mt-1 text-xs text-muted-foreground", level > 0 && "pl-5"]}>
+            Default: <code class="rounded bg-muted px-1 py-0.5">{JSON.stringify(defaultValue)}</code>
+          </div>
+        )}
+      </div>
+      <div class="flex shrink-0 items-center gap-2 pt-0.5">
+        {required && (
+          <span class="text-[10px] font-semibold uppercase text-api-required">required</span>
+        )}
+      </div>
+    </div>
+  )}
+</div>
+
+<style is:global>
+  details[open] > summary [data-property-chevron] {
+    transform: rotate(90deg);
+  }
+</style>

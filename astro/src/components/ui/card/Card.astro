@@ -1,0 +1,17 @@
+---
+import { tv } from "tailwind-variants";
+
+const card = tv({
+  base: "rounded-lg border bg-card text-card-foreground shadow-sm",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class={card({ class: className })} {...rest}>
+  <slot />
+</div>

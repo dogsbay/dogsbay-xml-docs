@@ -1,0 +1,38 @@
+---
+import { tv } from "tailwind-variants";
+
+const accordionTrigger = tv({
+  base: "flex w-full items-center justify-between py-4 font-medium transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180 disabled:pointer-events-none disabled:opacity-50",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<button
+  class={accordionTrigger({ class: className })}
+  data-part="trigger"
+  type="button"
+  {...rest}
+>
+  <slot />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="shrink-0 transition-transform duration-200"
+    aria-hidden="true"
+  >
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+</button>

@@ -1,0 +1,119 @@
+---
+/**
+ * CollapsibleAlert — a <details>-based alert with two-tone backgrounds.
+ *
+ * Title bar gets a stronger variant tint, body gets a subtle tint.
+ * Composes with the same variant tokens as Alert.
+ *
+ * Usage:
+ *   <CollapsibleAlert variant="warning" title="Warning" open>
+ *     <p>Body content here.</p>
+ *   </CollapsibleAlert>
+ */
+import { tv, type VariantProps } from "tailwind-variants";
+import { contentVariants, icons, chevronSvg } from "./variants.js";
+
+const wrapper = tv({
+  base: "relative w-full rounded-lg border overflow-hidden [&>summary]:list-none [&>summary::-webkit-details-marker]:hidden",
+  variants: {
+    variant: {
+      default: "border-border",
+      // `plain` = a disclosure that is CHROME, not an alert: no tint, no
+      // icon, no ARIA role. Used for collapsed context (e.g. the
+      // comparison view's unchanged-section folds), where announcing a
+      // "note" or a live-region "status" would be a lie.
+      plain: "border-border",
+      destructive: "border-destructive/50",
+      note: "border-note/50",
+      abstract: "border-abstract/50",
+      info: "border-info/50",
+      tip: "border-tip/50",
+      success: "border-success/50",
+      question: "border-question/50",
+      warning: "border-warning/50",
+      failure: "border-failure/50",
+      danger: "border-danger/50",
+      bug: "border-bug/50",
+      example: "border-example/50",
+      quote: "border-quote/50",
+    },
+  },
+  defaultVariants: { variant: "default" },
+});
+
+type Variant = VariantProps<typeof wrapper>["variant"];
+
+/** Title bar: stronger tint (~10%) */
+const titleBg: Record<string, string> = {
+  default: "bg-muted",
+  plain: "bg-transparent",
+  destructive: "bg-destructive/10 text-destructive",
+  note: "bg-note/10", abstract: "bg-abstract/10", info: "bg-info/10",
+  tip: "bg-tip/10", success: "bg-success/10", question: "bg-question/10",
+  warning: "bg-warning/10", failure: "bg-failure/10", danger: "bg-danger/10",
+  bug: "bg-bug/10", example: "bg-example/10", quote: "bg-quote/10",
+};
+
+/** Body: subtle tint (~3%) */
+const bodyBg: Record<string, string> = {
+  default: "bg-background",
+  plain: "bg-transparent",
+  destructive: "bg-destructive/3",
+  note: "bg-note/3", abstract: "bg-abstract/3", info: "bg-info/3",
+  tip: "bg-tip/3", success: "bg-success/3", question: "bg-question/3",
+  warning: "bg-warning/3", failure: "bg-failure/3", danger: "bg-danger/3",
+  bug: "bg-bug/3", example: "bg-example/3", quote: "bg-quote/3",
+};
+
+/** Icon color per variant */
+const iconColor: Record<string, string> = {
+  destructive: "text-destructive",
+  note: "text-note", abstract: "text-abstract", info: "text-info",
+  tip: "text-tip", success: "text-success", question: "text-question",
+  warning: "text-warning", failure: "text-failure", danger: "text-danger",
+  bug: "text-bug", example: "text-example", quote: "text-quote",
+};
+
+interface Props {
+  variant?: Variant;
+  /** Title text shown in the summary bar */
+  title?: string;
+  /** Whether the details starts open */
+  open?: boolean;
+  class?: string;
+}
+
+const { variant = "note", title, open = false, class: className } = Astro.props;
+const v = variant || "note";
+
+// `plain` is chrome — a disclosure, nothing more. No role at all:
+// role="note"/"status" on collapsed context misinforms assistive tech
+// (and "status" would make it a live region).
+const role = v === "plain" ? undefined : contentVariants.has(v) ? "note" : "status";
+const icon = contentVariants.has(v) ? icons[v] : null;
+---
+
+{/*
+  The role belongs on the CONTENT, not on <details>. A <details> element
+  has an implicit `group` role, and ARIA does not permit overriding it
+  with `note`/`status` — axe flags it (aria-allowed-role), which is
+  exactly what an accessibility pass found on the comparison site's
+  collapsed sections. Moving it to the body keeps the semantics legal.
+*/}
+<details
+  class:list={[wrapper({ variant, class: className }), "group/collapsible"]}
+  data-variant={variant}
+  open={open}
+>
+  <summary class:list={[
+    "flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-semibold select-none",
+    titleBg[v],
+  ]}>
+    {icon && <span class:list={["shrink-0 [&>svg]:size-4", iconColor[v]]} set:html={icon} />}
+    <span class="flex-1 text-foreground" data-part="title">{title || v.charAt(0).toUpperCase() + v.slice(1)}</span>
+    <span class="shrink-0 text-muted-foreground group-open/collapsible:rotate-180 transition-transform duration-200" set:html={chevronSvg} />
+  </summary>
+  <div class:list={["px-4 py-3 text-sm [&_p]:leading-relaxed", bodyBg[v]]} role={role}>
+    <slot />
+  </div>
+</details>

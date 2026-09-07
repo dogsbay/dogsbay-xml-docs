@@ -1,0 +1,210 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+/* Custom elements have no user-agent style, so an unstyled one is
+   display:inline — on which w-full does nothing and a border paints
+   as detached fragments rather than around the content. @dogsbay/elements
+   injects these same defaults at runtime, which is what reaches EXISTING
+   sites (global.css is scaffolded once and never rewritten). Having them
+   here too means a new site is correct at CSS time, with no flash before
+   the module script runs.
+
+   :where() keeps specificity at zero, so any utility class wins. */
+:where(db-tabs, db-accordion, db-collapsible, db-card, db-steps, db-code-block) {
+  display: block;
+}
+:where(db-link-button) {
+  display: inline-block;
+}
+
+/* Scan @dogsbay packages for Tailwind classes */
+@source "../../node_modules/@dogsbay/ui/src";
+@source "../../node_modules/@dogsbay/docs-layout/src";
+
+/* Pin the grid-tone palette. These classes are emitted into
+   markdown-generated .astro pages by the grid-item serializer
+   (TONE_CLASSES in @dogsbay/format-astro). Without inlining,
+   opacity-modified utilities like bg-primary/10 get purged when
+   Tailwind doesn't see them in the scanned globs, leaving grid
+   demo cells with no visible background. */
+@source inline("bg-amber-500/15 bg-blue-500/15 bg-green-500/15 bg-muted bg-primary bg-primary/10 bg-primary/20 bg-primary/50 bg-primary/60 bg-primary/80 bg-purple-500/15 bg-red-500/15 dark:text-amber-300 dark:text-blue-300 dark:text-green-300 dark:text-purple-300 dark:text-red-300 text-amber-700 text-blue-700 text-green-700 text-muted-foreground text-primary text-primary-foreground text-purple-700 text-red-700");
+
+/* Prose typography for rendered content.
+   Every element rule is guarded with :not(.dba-api *): API-reference
+   regions (ApiLayout root carries the dba-api marker) compose their own
+   typography from utility classes, and unguarded .docs-prose rules would
+   out-specify them. The guard lets mixed prose+endpoint pages (MDX
+   imports) keep full typography outside the cards. */
+.docs-prose {
+  line-height: 1.7;
+
+  & h1:not(.dba-api *) { font-family: var(--font-heading); font-size: 2rem; font-weight: 700; margin-top: 0; margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.025em; }
+  & h2:not(.dba-api *) { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 0.75rem; line-height: 1.3; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; letter-spacing: -0.015em; }
+  & h3:not(.dba-api *) { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.5rem; line-height: 1.4; }
+  & h4:not(.dba-api *) { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+
+  & p:not(.dba-api *) { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+
+  /* The :not([data-variant]) guard exempts anchors that ARE components. A
+     link-button renders as an <a> carrying bg-primary + text-primary-foreground
+     and a data-variant attribute, and this rule repainted its text with
+     var(--primary) — primary on primary: an unreadable solid block in light
+     mode, a blank one in dark. The secondary variant survived only because its
+     background is light enough to read primary-coloured text, which is why it
+     looked like a colour bug in one button rather than a cascade bug in both.
+     (No backticks in this comment: the whole stylesheet is a template
+     literal.) */
+  & a:not(.dba-api *):not([data-variant]) { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+  & a:hover:not(.dba-api *):not([data-variant]) { opacity: 0.8; }
+
+  & strong:not(.dba-api *) { font-weight: 600; }
+  & code:not(.dba-api *) { font-size: 0.875em; padding: 0.15em 0.35em; border-radius: 0.25rem; background: var(--muted); font-family: var(--font-code, ui-monospace, monospace); }
+  & pre code:not(.dba-api *) { padding: 0; background: none; font-size: 1em; }
+
+  /* Spacing between consecutive block elements (code blocks, alerts, etc.) */
+  & > * + * { margin-top: 0.75rem; }
+  & li > * + *:not(.dba-api *) { margin-top: 0.75rem; }
+
+  & ul:not(.dba-api *) { list-style: disc; padding-left: 1.5rem; margin: 0.75rem 0; }
+  & ol:not(.dba-api *) { list-style: decimal; padding-left: 1.5rem; margin: 0.75rem 0; }
+  & li:not(.dba-api *) { margin: 0.25rem 0; }
+  & li > ul:not(.dba-api *), & li > ol:not(.dba-api *) { margin: 0.25rem 0; }
+
+  & blockquote:not(.dba-api *) { border-left: 4px solid var(--border); padding-left: 1rem; color: var(--muted-foreground); font-style: italic; margin: 1rem 0; }
+
+  & hr:not(.dba-api *) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  & table:not(.dba-api *) { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
+  & th:not(.dba-api *) { text-align: left; vertical-align: bottom; font-weight: 600; padding: 0.5rem; border-bottom: 2px solid var(--border); }
+  & td:not(.dba-api *) { padding: 0.5rem; vertical-align: top; border-bottom: 1px solid var(--border); }
+
+    /* Tailwind Preflight sets display: block on every img, which turns an
+       INLINE icon into its own line and splits the sentence around it —
+       AsciiDoc UI macros render mid-step and were breaking every procedure
+       that used one. inline-block restores the flow and leaves a standalone
+       image (the only child of its paragraph) looking exactly as before. */
+    & img:not(.dba-api *) { display: inline-block; max-width: 100%; border-radius: 0.5rem; }
+    /* A standalone image — the only child of its paragraph — keeps block
+       layout, so the vertical rhythm and the absence of baseline descender
+       space are exactly what they were before inline icons were fixed. */
+    & p > img:only-child:not(.dba-api *) { display: block; }
+
+  & .heading-anchor { text-decoration: none; opacity: 0; margin-right: 0.25rem; transition: opacity 0.2s; }
+  & h1:hover .heading-anchor, & h2:hover .heading-anchor, & h3:hover .heading-anchor, & h4:hover .heading-anchor { opacity: 0.4; }
+
+  & details:not(.dba-api *) { border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; }
+  & summary:not(.dba-api *) { cursor: pointer; font-weight: 600; }
+
+  /* mark is emitted by the highlight directive AND can arrive as raw HTML
+     from an importer. Without a rule here it renders as the browser default
+     yellow, which clashes in light mode and is unreadable on a dark page
+     (nothing declares color-scheme). Token-based so it follows the theme. */
+  & mark:not(.dba-api *) { background: var(--dsb-mark-bg, rgb(254 240 138 / 0.6)); color: inherit; border-radius: 0.125rem; padding: 0 0.125rem; }
+  &:where(.dark *) mark:not(.dba-api *), .dark & mark:not(.dba-api *) { background: var(--dsb-mark-bg-dark, rgb(234 179 8 / 0.3)); }
+
+  & dl:not(.dba-api *) { margin: 1rem 0; }
+  & dt:not(.dba-api *) { font-weight: 600; margin-top: 0.75rem; }
+  & dd:not(.dba-api *) { margin-left: 1.5rem; color: var(--muted-foreground); }
+
+  /* In-cell admonitions. Inside a raw HTML table cell nothing
+     markdown-native works, so the AsciiDoc engine emits a neutral
+     dl.db-admonition shape (DD-010) and this rule renders it as a compact
+     callout box — same contract the Obsidian plugin styles. Per-type
+     accent from theme tokens; overrides the generic dl/dt/dd rules above. */
+  & dl.db-admonition {
+    margin: 0.75rem 0;
+    padding: 0.5rem 0.75rem;
+    border-left: 3px solid var(--info);
+    border-radius: 0.25rem;
+    background: color-mix(in oklab, var(--info) 8%, transparent);
+  }
+  /* The LABEL blends the accent toward the foreground; the border and the
+     tint keep the accent at full strength, so the callout still reads as
+     its colour while the text stays legible.
+  
+     Measured from painted pixels on a real page, light mode, 13px/600 —
+     the accent used raw is a genuine AA failure, not one of axe's oklch
+     misreads:
+  
+       --info        raw 2.18:1   mixed 5.66:1
+       --warning     raw 2.25:1   mixed 5.74:1
+       --destructive raw 5.97:1   mixed 10.98:1
+  
+     Mixed with var(--foreground), not black, on purpose. Black fixes
+     light and BREAKS dark: 70% black measures 5.21:1 light but 3.25:1
+     dark, because the tint it sits on is dark too. --foreground is
+     near-black in light and near-white in dark, so one rule serves both
+     (dark measures 10.96 / 10.87 / 9.79). A fixed colour used in both
+     themes is a bug waiting. */
+  & dl.db-admonition > dt {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: color-mix(in oklab, var(--info) 60%, var(--foreground));
+  }
+  & dl.db-admonition > dd { margin-left: 0; margin-top: 0.25rem; color: var(--foreground); }
+  & dl.db-admonition-warning, & dl.db-admonition-caution {
+    border-left-color: var(--warning);
+    background: color-mix(in oklab, var(--warning) 8%, transparent);
+  }
+  & dl.db-admonition-warning > dt, & dl.db-admonition-caution > dt { color: color-mix(in oklab, var(--warning) 60%, var(--foreground)); }
+  & dl.db-admonition-important {
+    border-left-color: var(--destructive);
+    background: color-mix(in oklab, var(--destructive) 8%, transparent);
+  }
+  & dl.db-admonition-important > dt { color: color-mix(in oklab, var(--destructive) 60%, var(--foreground)); }
+
+  /* Granularity book-view affordances (plans/granularity-views.md):
+     "Read as single page →" on topics, "Open as page ↗" on book sections.
+     Deliberately subtle/muted — the book has one per section. */
+  & .dsb-read-single-page {
+    display: inline-block;
+    margin: 0 0 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+    text-decoration: none;
+  }
+  & .dsb-read-single-page:hover { color: var(--foreground); text-decoration: underline; }
+  & .dsb-open-as-page { margin: -0.25rem 0 0.5rem; font-size: 0.75rem; }
+  & .dsb-open-as-page a { color: var(--muted-foreground); text-decoration: none; }
+  & .dsb-open-as-page a:hover { color: var(--foreground); text-decoration: underline; }
+
+  /* AsciiDoc block roles ([role="x"] / [.x]) preserved as classes (#384).
+     _abstract marks a module's lead/intro paragraph; .lead/.small are
+     Asciidoctor built-ins; _additional-resources marks the trailing
+     "Additional resources" section heading. */
+  & ._abstract, & .abstract, & .lead {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+  & .small { font-size: 0.875rem; }
+  & h2._additional-resources, & h3._additional-resources {
+    font-size: 1.15rem;
+    margin-top: 2rem;
+  }
+
+  /* Related resources (#384 R3): [role="_additional-resources"] + .Title +
+     list folds to a <section class="related-resources"> (→ DITA related-links). */
+  & .related-resources {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  & .related-resources-title {
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
+}
+
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+/* dogsbay:plugins:begin */
+/* dogsbay:plugins:end */

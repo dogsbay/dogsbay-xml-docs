@@ -1,0 +1,68 @@
+---
+/**
+ * Stripe-style property list for API parameters.
+ * Groups parameters by location (path, query, header, cookie)
+ * and renders each with PropertyItem.
+ *
+ * Replaces ParameterTable with a more readable layout at all widths.
+ */
+import PropertyItem from "../property-item/PropertyItem.astro";
+
+interface Parameter {
+  name: string;
+  in: "path" | "query" | "header" | "cookie";
+  type: string;
+  required?: boolean;
+  description?: string;
+  default?: string;
+  enum?: string[];
+  deprecated?: boolean;
+}
+
+interface Props {
+  parameters: Parameter[];
+  class?: string;
+}
+
+const { parameters, class: className } = Astro.props;
+
+// Group by location
+const locationOrder = ["path", "query", "header", "cookie"] as const;
+const locationLabels: Record<string, string> = {
+  path: "Path Parameters",
+  query: "Query Parameters",
+  header: "Header Parameters",
+  cookie: "Cookie Parameters",
+};
+
+const groups = locationOrder
+  .map((loc) => ({
+    location: loc,
+    label: locationLabels[loc],
+    params: parameters.filter((p) => p.in === loc),
+  }))
+  .filter((g) => g.params.length > 0);
+---
+
+<div class={className}>
+  {groups.map((group) => (
+    <div class="mb-4 last:mb-0">
+      <h4 class="mb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {group.label}
+      </h4>
+      <div class="rounded-lg border bg-card">
+        {group.params.map((param) => (
+          <PropertyItem
+            name={param.name}
+            type={param.type}
+            required={param.required}
+            description={param.description}
+            default={param.default}
+            enum={param.enum}
+            deprecated={param.deprecated}
+          />
+        ))}
+      </div>
+    </div>
+  ))}
+</div>

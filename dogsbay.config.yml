@@ -1,0 +1,42 @@
+schemaVersion: 1
+site:
+  name: DogsBay XML
+  basePath: ""
+  url: https://dogsbay.ai/dogsbay-xml-docs
+  description: The XML and DITA editor with an AI agent that understands your content model.
+  repoUrl: https://github.com/dogsbay/dogsbay-xml
+content:
+  sources:
+    - path: ./content
+      from: auto
+  codeBlockTitle: true
+theme: default
+deploy:
+  target: cloudflare-workers
+agent:
+  llmsTxt: true
+  mdMirror: true
+  llmsTxtDirective: false
+  contentSignal:
+    aiTrain: no
+    aiInput: yes
+    search: yes
+    # Article 4(3) of EU Directive 2019/790 requires rights to be "expressly
+    # reserved in an appropriate manner" for the TDM exception not to apply.
+    # ai-train: no alone is a preference; this preamble is what makes it a
+    # reservation. Safe to emit only because Cloudflare's managed robots.txt is
+    # disabled on this zone, as it is for the blog — with both on, the served
+    # file carries two User-agent groups and two conflicting Content-Signal
+    # lines.
+    preamble: true
+  pageActions:
+    enabled: true
+    providers:
+      - claude
+      - chatgpt
+      - perplexity
+      - gemini
+    placement: header
+    copyButton: true
+    footerLink: true
+output: ./astro

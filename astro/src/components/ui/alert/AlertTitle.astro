@@ -1,0 +1,21 @@
+---
+import { tv } from "tailwind-variants";
+
+const alertTitle = tv({
+  base: "mb-1 text-sm font-semibold leading-none tracking-tight",
+});
+
+type Element = "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "div" | "span";
+
+interface Props {
+  as?: Element;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { as: Tag = "div", class: className, ...rest } = Astro.props;
+---
+
+<Tag class={alertTitle({ class: className })} data-part="title" {...rest}>
+  <slot />
+</Tag>

@@ -1,0 +1,18 @@
+---
+import { tv } from "tailwind-variants";
+
+const tableCaption = tv({
+  base: "mt-4 text-sm text-muted-foreground",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<caption class={tableCaption({ class: className })} {...rest}>
+  <slot />
+</caption>

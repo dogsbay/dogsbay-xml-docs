@@ -1,0 +1,35 @@
+---
+import { tv } from "tailwind-variants";
+
+const collapsible = tv({
+  base: "w-full",
+});
+
+interface Props {
+  defaultOpen?: boolean;
+  disabled?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  defaultOpen = false,
+  disabled = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<db-collapsible
+  class={collapsible({ class: className })}
+  default-open={defaultOpen || undefined}
+  disabled={disabled || undefined}
+  data-state={defaultOpen ? "open" : "closed"}
+  {...rest}
+>
+  <slot />
+</db-collapsible>
+
+<script>
+  import "@dogsbay/elements/db-collapsible";
+</script>

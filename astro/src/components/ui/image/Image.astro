@@ -1,0 +1,136 @@
+---
+/**
+ * Image component — renders optimized images via Astro's Image component
+ * when imageData (from import.meta.glob) is available, falls back to <img>.
+ *
+ * Block mode wraps in <figure> with optional caption.
+ * Supports alignment (float-left, float-right, center).
+ */
+import { Image as AstroImage } from "astro:assets";
+
+interface Props {
+  src: string;
+  alt?: string;
+  title?: string;
+  width?: number;
+  height?: number;
+  /** Resolved ImageMetadata from import.meta.glob (enables Astro optimization) */
+  imageData?: ImageMetadata;
+  /** Render as block-level <figure> with optional caption */
+  block?: boolean;
+  /** Caption text (uses title if not provided) */
+  caption?: string;
+  /** Alignment: left, right, center */
+  align?: "left" | "right" | "center";
+  class?: string;
+}
+
+// Spread `...rest` so plugins can attach arbitrary `data-*` /
+// `aria-*` attrs at the BlockImage call site and have them
+// forwarded onto the inner <img> tag (e.g.
+// @dogsbay/plugin-image-zoom adds `data-zoomable="true"`).
+const {
+  src,
+  alt = "",
+  title,
+  width,
+  height,
+  imageData,
+  block = false,
+  caption,
+  align,
+  class: className,
+  ...rest
+} = Astro.props as Props & Record<string, unknown>;
+
+const captionText = caption || title;
+const w = width || (imageData ? imageData.width : undefined);
+const h = height || (imageData ? imageData.height : undefined);
+
+// When `imageData` is unavailable (image not in import.meta.glob —
+// e.g. SVG, PDF, or build-time `imageOptimization: false`), the
+// `<img src={src}>` fallback fires with the raw markdown src. For
+// absolute paths like `/_assets/foo.png`, we need to prefix with
+// Astro's `base` so the URL resolves on subpath-mounted deploys
+// (GH Pages project pages, multi-mount Cloudflare).
+//
+// `<AstroImage>` does this automatically; raw `<img>` does not.
+//
+// Skip prefixing for: external URLs (http/https), data: URIs,
+// and paths that already start with `import.meta.env.BASE_URL`
+// (defensive; shouldn't normally happen).
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+const resolvedSrc =
+  baseUrl &&
+  src.startsWith("/") &&
+  !src.startsWith(`${baseUrl}/`) &&
+  !/^(?:[a-z]+:|\/\/)/i.test(src)
+    ? `${baseUrl}${src}`
+    : src;
+
+const alignClass = align === "left"
+  ? "float-left mr-4 mb-2"
+  : align === "right"
+    ? "float-right ml-4 mb-2"
+    : align === "center"
+      ? "mx-auto"
+      : "";
+---
+
+{block ? (
+  <figure class:list={["my-4", alignClass, className]}>
+    {imageData ? (
+      <AstroImage
+        src={imageData}
+        alt={alt}
+        title={title}
+        width={w}
+        height={h}
+        class="rounded-lg border"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <img
+        src={resolvedSrc}
+        alt={alt}
+        title={title}
+        width={w}
+        height={h}
+        class="rounded-lg border"
+        loading="lazy"
+        decoding="async"
+        {...rest}
+      />
+    )}
+    {captionText && (
+      <figcaption class="mt-2 text-center text-sm text-muted-foreground">
+        {captionText}
+      </figcaption>
+    )}
+  </figure>
+) : imageData ? (
+  <AstroImage
+    src={imageData}
+    alt={alt}
+    title={title}
+    width={w}
+    height={h}
+    loading="lazy"
+    decoding="async"
+    class:list={[alignClass, className]}
+    {...rest}
+  />
+) : (
+  <img
+    src={resolvedSrc}
+    alt={alt}
+    title={title}
+    width={w}
+    height={h}
+    loading="lazy"
+    decoding="async"
+    class:list={[alignClass, className]}
+    {...rest}
+  />
+)}

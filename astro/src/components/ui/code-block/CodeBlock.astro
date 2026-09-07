@@ -1,0 +1,169 @@
+---
+import { Code } from "astro/components";
+import { tv } from "tailwind-variants";
+
+const codeBlockWrapper = tv({
+  base: "group relative overflow-hidden rounded-lg border bg-code-bg text-sm",
+});
+
+const codeBlockHeader = tv({
+  base: "flex items-center justify-between border-b border-code-fg/10 bg-code-fg/5 px-4 py-2 text-xs text-code-fg/70",
+});
+
+const codeBlockCopy = tv({
+  base: "inline-flex h-7 w-7 items-center justify-center rounded-md text-code-fg/50 transition-colors hover:bg-code-fg/10 hover:text-code-fg/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+});
+
+interface Props {
+  /** The code string to highlight */
+  code: string;
+  /** Programming language for syntax highlighting */
+  lang?: string;
+  /** Optional title displayed in the header bar */
+  title?: string;
+  /** Show copy button (default: true) */
+  copy?: boolean;
+  /** Show the header title bar. true = always, false = never, "auto" = only when title prop is set (default: true) */
+  showTitle?: boolean | "auto";
+  /** Shiki theme (default: "github-dark") */
+  theme?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  code,
+  lang = "plaintext",
+  title,
+  copy = true,
+  showTitle = true,
+  theme = "github-dark-default",
+  class: className,
+  ...rest
+} = Astro.props;
+
+// AsciiDoc/docs language tokens that are not Shiki grammars → the nearest real
+// one, so the block actually highlights (and data-language is meaningful)
+// instead of silently falling back to plaintext. The header still shows the
+// original label (`lang` below), only the highlighter input is aliased. #009.
+const LANG_ALIASES: Record<string, string> = {
+  terminal: "bash",
+};
+const shikiLang = LANG_ALIASES[lang.toLowerCase()] ?? lang.toLowerCase();
+
+// Show header bar based on showTitle prop:
+// - true: show when there's a title or a declared language (default, original behavior)
+// - false: never show
+// - "auto": only show when an explicit title is provided (not lang-only)
+const showHeader =
+  showTitle === false ? false
+  : showTitle === "auto" ? !!title
+  : !!title || lang !== "plaintext";
+// When no header, copy button floats inside the code body
+const floatingCopy = copy && !showHeader;
+---
+
+<div
+  class={codeBlockWrapper({ class: className })}
+  data-component="code-block"
+  {...rest}
+>
+  {showHeader && (
+    <div class={codeBlockHeader()}>
+      <span class="select-none">{title || lang}</span>
+      {copy && (
+        <button
+          class={codeBlockCopy()}
+          data-part="copy"
+          data-copy-text={code}
+          type="button"
+          aria-label="Copy code"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-copy-icon
+            aria-hidden="true"
+          >
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-check-icon
+            class="hidden"
+            aria-hidden="true"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </button>
+      )}
+    </div>
+  )}
+  <div class="relative overflow-x-auto [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!border-0 [&_pre]:px-4 [&_pre]:py-3">
+    <Code code={code} lang={shikiLang} themes={{ light: "github-light-default", dark: theme }} defaultColor={false} />
+    {floatingCopy && (
+      <button
+        class:list={[codeBlockCopy(), "absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"]}
+        data-part="copy"
+        data-copy-text={code}
+        type="button"
+        aria-label="Copy code"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-copy-icon aria-hidden="true">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-check-icon class="hidden" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </button>
+    )}
+  </div>
+</div>
+
+<script>
+  function setupCodeBlockCopy() {
+    document.querySelectorAll("[data-component='code-block'] [data-part='copy']").forEach((btn) => {
+      if ((btn as any).__copyBound) return;
+      (btn as any).__copyBound = true;
+
+      btn.addEventListener("click", async () => {
+        const text = btn.getAttribute("data-copy-text") || "";
+        try {
+          await navigator.clipboard.writeText(text);
+          const copyIcon = btn.querySelector("[data-copy-icon]") as HTMLElement;
+          const checkIcon = btn.querySelector("[data-check-icon]") as HTMLElement;
+          if (copyIcon && checkIcon) {
+            copyIcon.classList.add("hidden");
+            checkIcon.classList.remove("hidden");
+            setTimeout(() => {
+              copyIcon.classList.remove("hidden");
+              checkIcon.classList.add("hidden");
+            }, 2000);
+          }
+        } catch {
+          // Fallback: do nothing
+        }
+      });
+    });
+  }
+
+  setupCodeBlockCopy();
+  document.addEventListener("astro:after-swap", setupCodeBlockCopy);
+</script>

@@ -1,0 +1,53 @@
+---
+/**
+ * Two-column layout for API reference pages.
+ * Description/schema on the left, code/examples on the right (dark background).
+ * Stacks vertically on mobile.
+ *
+ * Usage:
+ *   <ApiLayout>
+ *     <EndpointCard slot="description" ... />
+ *     <ApiCodePanel slot="code">...</ApiCodePanel>
+ *   </ApiLayout>
+ */
+interface Props {
+  class?: string;
+  /**
+   * "page" (default): a dedicated API operation page — full-viewport
+   * min-height, sticky code rail.
+   * "embedded": the layout sits inline among prose (imported MDX docs
+   * with several endpoints per page) — natural height, no sticky.
+   */
+  variant?: "page" | "embedded";
+}
+
+const { class: className, variant = "page" } = Astro.props;
+const isPage = variant === "page";
+---
+
+{/* dba-api marks an API-reference region: the generated .docs-prose
+    typography rules skip everything inside it via :not(.dba-api *), so
+    endpoint cards keep their own utility-class typography even when the
+    page body is wrapped in the prose article. */}
+<div
+  class:list={[
+    "dba-api grid grid-cols-1 lg:grid-cols-2",
+    isPage ? "lg:min-h-[calc(100vh-3rem)]" : "my-6 rounded-lg border overflow-hidden",
+    className,
+  ]}
+>
+  <div class:list={[isPage ? "px-6 py-10" : "p-6", "lg:border-r"]}>
+    <slot name="description" />
+  </div>
+  <div class="bg-[var(--api-panel-bg)] text-[var(--api-panel-fg)]">
+    <div
+      class:list={[
+        isPage
+          ? "px-6 py-10 lg:sticky lg:top-12 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto"
+          : "p-6",
+      ]}
+    >
+      <slot name="code" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+---
+import { tv } from "tailwind-variants";
+
+const cardHeader = tv({
+  base: "flex flex-col space-y-1.5 p-6",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class={cardHeader({ class: className })} {...rest}>
+  <slot />
+</div>

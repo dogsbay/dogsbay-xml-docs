@@ -1,0 +1,96 @@
+---
+import CodeBlock from "../code-block/CodeBlock.astro";
+
+interface Param {
+  name: string;
+  type: string | null;
+  default: string | null;
+  required: boolean;
+  doc: string | null;
+  docHtml: string | null;
+}
+
+interface Props {
+  params: Param[];
+}
+
+const { params } = Astro.props;
+
+/**
+ * Split rendered HTML into segments: regular HTML and code blocks.
+ * Code blocks get rendered through our CodeBlock component with Shiki.
+ */
+interface Segment {
+  type: "html" | "code";
+  content: string;
+  lang?: string;
+}
+
+function splitCodeBlocks(html: string): Segment[] {
+  const segments: Segment[] = [];
+  const codeBlockRe = /<pre><code(?:\s+class="language-(\w+)")?>([\s\S]*?)<\/code><\/pre>/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = codeBlockRe.exec(html)) !== null) {
+    // HTML before the code block
+    if (match.index > lastIndex) {
+      segments.push({ type: "html", content: html.slice(lastIndex, match.index) });
+    }
+    // The code block itself
+    const lang = match[1] || "python";
+    const code = match[2]
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"');
+    segments.push({ type: "code", content: code, lang });
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Remaining HTML after last code block
+  if (lastIndex < html.length) {
+    segments.push({ type: "html", content: html.slice(lastIndex) });
+  }
+
+  return segments;
+}
+---
+
+<table class="api-params w-full text-sm border-collapse not-prose">
+  <thead>
+    <tr class="border-b border-border">
+      <th class="py-3 px-4 text-left font-semibold text-muted-foreground uppercase tracking-wider text-xs w-[140px]">Parameter</th>
+      <th class="py-3 px-4 text-left font-semibold text-muted-foreground uppercase tracking-wider text-xs">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {params.map((p) => {
+      const segments = p.docHtml ? splitCodeBlocks(p.docHtml) : [];
+      return (
+        <tr class="border-b border-border/50">
+          <td class="py-3 px-4 align-top">
+            <code class="text-sm font-medium">{p.name}</code>
+          </td>
+          <td class="py-3 px-4 align-top">
+            {segments.map((seg) =>
+              seg.type === "html" ? (
+                <div class="prose prose-sm dark:prose-invert max-w-none [&>p:first-child]:mt-0 [&>p:last-child]:mb-0" set:html={seg.content} />
+              ) : (
+                <CodeBlock code={seg.content} lang={seg.lang || "python"} />
+              )
+            )}
+            <div class="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+              {p.type && (
+                <span><strong>TYPE:</strong> <code class="text-xs">{p.type}</code></span>
+              )}
+              {p.default && (
+                <span class="ml-auto"><strong>DEFAULT:</strong> <code class="text-xs">{p.default}</code></span>
+              )}
+            </div>
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>

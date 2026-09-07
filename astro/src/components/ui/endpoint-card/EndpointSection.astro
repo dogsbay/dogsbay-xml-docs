@@ -1,0 +1,35 @@
+---
+/**
+ * Collapsible section within an EndpointCard.
+ * Uses native <details>/<summary> for zero-JS expand/collapse.
+ *
+ * Usage:
+ *   <EndpointSection title="Parameters" open>
+ *     <PropertyList ... />
+ *   </EndpointSection>
+ */
+
+interface Props {
+  title: string;
+  open?: boolean;
+  class?: string;
+}
+
+const { title, open = true, class: className } = Astro.props;
+---
+
+<details open={open} class:list={["rounded-lg border bg-card", className]}>
+  <summary class="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-semibold list-none [&::-webkit-details-marker]:hidden hover:bg-muted/50 select-none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5 shrink-0 text-muted-foreground transition-transform duration-200" data-section-chevron aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+    <span>{title}</span>
+  </summary>
+  <div class="px-4 pb-4 pt-1">
+    <slot />
+  </div>
+</details>
+
+<style is:global>
+  details[open] > summary [data-section-chevron] {
+    transform: rotate(90deg);
+  }
+</style>

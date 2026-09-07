@@ -1,0 +1,44 @@
+---
+import { tv } from "tailwind-variants";
+
+const scrollArea = tv({
+  base: "relative overflow-hidden",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<div
+  class={scrollArea({ class: className })}
+  data-component="scroll-area"
+  {...rest}
+>
+  <div class="h-full w-full overflow-auto scrollbar-none" data-part="viewport" tabindex="0">
+    <slot />
+  </div>
+  <div
+    class="absolute right-0 top-0 h-full w-2.5 touch-none select-none border-l border-l-transparent p-[1px] transition-opacity"
+    data-part="scrollbar"
+    data-orientation="vertical"
+  >
+    <div
+      class="relative w-full rounded-full bg-border"
+      data-part="thumb"
+    ></div>
+  </div>
+  <div
+    class="absolute bottom-0 left-0 h-2.5 w-full touch-none select-none border-t border-t-transparent p-[1px] transition-opacity"
+    data-part="scrollbar"
+    data-orientation="horizontal"
+  >
+    <div
+      class="relative h-full rounded-full bg-border"
+      data-part="thumb"
+    ></div>
+  </div>
+</div>

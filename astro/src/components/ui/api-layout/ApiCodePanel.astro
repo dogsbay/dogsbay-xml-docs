@@ -1,0 +1,21 @@
+---
+/**
+ * Dark-themed container for the right column of an API layout.
+ * Holds code samples, request/response examples.
+ *
+ * Usage:
+ *   <ApiCodePanel>
+ *     <CodeSamples ... />
+ *     <ExampleBlock title="Response 200" json={data} />
+ *   </ApiCodePanel>
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["space-y-8", className]}>
+  <slot />
+</div>

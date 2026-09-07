@@ -1,0 +1,32 @@
+---
+import { tv, type VariantProps } from "tailwind-variants";
+
+const methodBadge = tv({
+  base: "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold uppercase tracking-wide font-mono",
+  variants: {
+    method: {
+      get: "bg-api-get/20 text-api-get",
+      post: "bg-api-post/20 text-api-post",
+      put: "bg-api-put/20 text-api-put",
+      patch: "bg-api-patch/20 text-api-patch",
+      delete: "bg-api-delete/20 text-api-delete",
+      head: "bg-api-head/20 text-api-head",
+      options: "bg-muted/20 text-muted-foreground",
+    },
+  },
+});
+
+type MethodVariants = VariantProps<typeof methodBadge>;
+
+interface Props {
+  method: NonNullable<MethodVariants["method"]>;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { method, class: className, ...rest } = Astro.props;
+---
+
+<span class={methodBadge({ method, class: className })} data-method={method} {...rest}>
+  {method}
+</span>

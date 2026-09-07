@@ -1,0 +1,15 @@
+---
+interface Props {
+  lang: string;
+  code: string;
+  svg: string;
+  title?: string;
+}
+
+const { lang, svg, title } = Astro.props;
+---
+
+<figure class="diagram not-prose" data-lang={lang}>
+  {title && <figcaption class="text-sm text-muted-foreground mb-2">{title}</figcaption>}
+  <div class="diagram-content overflow-x-auto [&>svg]:mx-auto [&>svg]:max-w-full dark:invert dark:[&>svg]:hue-rotate-180" set:html={svg} />
+</figure>

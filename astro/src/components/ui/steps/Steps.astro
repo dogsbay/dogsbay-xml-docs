@@ -1,0 +1,122 @@
+---
+import { tv } from "tailwind-variants";
+
+const steps = tv({
+  base: "steps-list",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<ol
+  class={steps({ class: className })}
+  role="list"
+  {...rest}
+>
+  <slot />
+</ol>
+
+<style>
+  .steps-list {
+    position: relative;
+    padding-left: 1.75rem;
+    counter-reset: step;
+    list-style: none;
+    margin: 0;
+  }
+
+  .steps-list > :global(li) {
+    position: relative;
+    padding-bottom: 1.5rem;
+    counter-increment: step;
+  }
+
+  .steps-list > :global(li:last-child) {
+    padding-bottom: 0;
+  }
+
+  /* Numbered circle */
+  .steps-list > :global(li::before) {
+    content: counter(step);
+    position: absolute;
+    left: -1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    border: 2px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* Connector line */
+  .steps-list > :global(li:not(:last-child)::after) {
+    content: "";
+    position: absolute;
+    left: calc(-1.75rem + 0.6875rem);
+    top: 1.75rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-border);
+  }
+
+  /* Sub-steps: nested ol inside li */
+  .steps-list > :global(li) :global(ol) {
+    position: relative;
+    padding-left: 1.5rem;
+    counter-reset: substep;
+    list-style: none;
+    margin: 0.75rem 0 0 0;
+  }
+
+  .steps-list > :global(li) :global(ol > li) {
+    position: relative;
+    padding-bottom: 1rem;
+    counter-increment: substep;
+  }
+
+  .steps-list > :global(li) :global(ol > li:last-child) {
+    padding-bottom: 0;
+  }
+
+  /* Lettered circle (a, b, c) */
+  .steps-list > :global(li) :global(ol > li::before) {
+    content: counter(substep, lower-alpha);
+    position: absolute;
+    left: -1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-muted-foreground, #737373);
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* Sub-step connector line */
+  .steps-list > :global(li) :global(ol > li:not(:last-child)::after) {
+    content: "";
+    position: absolute;
+    left: calc(-1.5rem + 0.5625rem);
+    top: 1.5rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-border);
+    opacity: 0.6;
+  }
+</style>

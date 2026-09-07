@@ -1,0 +1,8 @@
+# DogsBay XML
+
+> The XML and DITA editor with an AI agent that understands your content model.
+
+## Documentation
+
+- [Home](https://dogsbay.ai/dogsbay-xml-docs.md): Edit content/index.md to get started.
+- [Getting started](https://dogsbay.ai/dogsbay-xml-docs/getting-started.md): Quick orientation for new contributors.

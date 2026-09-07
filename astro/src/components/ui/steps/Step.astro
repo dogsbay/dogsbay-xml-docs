@@ -1,0 +1,16 @@
+---
+/**
+ * Single step item. Used inside <Steps> or <SubSteps>.
+ * Renders as <li> with step styling applied by the parent's CSS.
+ */
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<li class={className} {...rest}>
+  <slot />
+</li>

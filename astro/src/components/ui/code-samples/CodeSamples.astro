@@ -1,0 +1,59 @@
+---
+import Tabs from "../tabs/Tabs.astro";
+import TabsList from "../tabs/TabsList.astro";
+import TabsTrigger from "../tabs/TabsTrigger.astro";
+import TabsContent from "../tabs/TabsContent.astro";
+import CodeBlock from "../code-block/CodeBlock.astro";
+
+interface CodeSample {
+  language: string;
+  label?: string;
+  code: string;
+}
+
+interface Props {
+  samples: CodeSample[];
+  class?: string;
+}
+
+const { samples, class: className } = Astro.props;
+
+const languageLabels: Record<string, string> = {
+  curl: "cURL",
+  python: "Python",
+  typescript: "TypeScript",
+  javascript: "JavaScript",
+  go: "Go",
+  ruby: "Ruby",
+  java: "Java",
+  csharp: "C#",
+  php: "PHP",
+  rust: "Rust",
+};
+
+// Map our language names to Shiki language IDs
+const shikiLangMap: Record<string, string> = {
+  curl: "bash",
+  csharp: "csharp",
+};
+---
+
+<Tabs defaultValue={samples[0]?.language} class={className}>
+  <TabsList>
+    {samples.map((s) => (
+      <TabsTrigger value={s.language}>
+        {s.label || languageLabels[s.language] || s.language}
+      </TabsTrigger>
+    ))}
+  </TabsList>
+
+  {samples.map((s, i) => (
+    <TabsContent value={s.language} default={i === 0}>
+      <CodeBlock
+        code={s.code}
+        lang={shikiLangMap[s.language] || s.language}
+        copy={true}
+      />
+    </TabsContent>
+  ))}
+</Tabs>

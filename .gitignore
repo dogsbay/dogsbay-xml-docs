@@ -1,0 +1,27 @@
+# Dogsbay build-time preprocessor mirror (per-build cache)
+.dogsbay/
+
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+
+# editor / OS noise
+.DS_Store
+.vscode/
+
+# Astro type cache (regenerated on every build)
+astro/.astro/
+
+# Dependency resolution follows the blog: the @dogsbay/* packages track the
+# `beta` dist-tag rather than pinned versions, and the lockfile is deliberately
+# not committed, so publishing a package reaches this site without a bump here.
+#
+# The trade is accepted: a rebuild for an unrelated reason can pull a different
+# library version, so the site can change with nothing in the diff to explain
+# it. If something breaks after a deploy that "changed nothing", suspect a new
+# beta first and check the build log's install step.
+#
+# AT RELEASE, reverse this: pin exact versions and commit the lockfile.
+astro/pnpm-lock.yaml

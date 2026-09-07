@@ -1,0 +1,119 @@
+---
+/**
+ * YouTube component — lightweight facade that shows a thumbnail placeholder
+ * and loads the full YouTube iframe only when clicked.
+ *
+ * Inspired by lite-youtube-embed. Uses youtube-nocookie.com for privacy.
+ *
+ * Usage:
+ *   <YouTube id="xlABhbnNrfI" title="How to set up Material for MkDocs" />
+ */
+
+interface Props {
+  /** YouTube video ID (the part after v= in the URL) */
+  id: string;
+  /** Accessible title for the video */
+  title?: string;
+  /** Custom poster image URL. Defaults to YouTube's maxresdefault thumbnail. */
+  poster?: string;
+  /** Poster quality when using default YouTube thumbnails */
+  posterQuality?: "default" | "hqdefault" | "mqdefault" | "sddefault" | "maxresdefault";
+  /** Additional YouTube player parameters (e.g. "start=30&autoplay=1") */
+  params?: string;
+  /** Embed domain. Default: "www.youtube.com". Use "www.youtube-nocookie.com" for enhanced privacy. */
+  domain?: string;
+  /** Aspect ratio class (default: aspect-video = 16:9) */
+  aspectRatio?: string;
+  class?: string;
+}
+
+const {
+  id,
+  title = "YouTube video",
+  poster,
+  posterQuality = "hqdefault",
+  params = "",
+  domain = "www.youtube.com",
+  aspectRatio = "aspect-video",
+  class: className,
+} = Astro.props;
+
+const posterUrl = poster || `https://i.ytimg.com/vi/${id}/${posterQuality}.jpg`;
+const embedUrl = `https://${domain}/embed/${id}?autoplay=1${params ? "&" + params : ""}`;
+---
+
+<div
+  class:list={[
+    "group/yt relative w-full cursor-pointer overflow-hidden rounded-lg bg-black",
+    aspectRatio,
+    className,
+  ]}
+  data-youtube={id}
+  data-embed-url={embedUrl}
+  data-title={title}
+  role="button"
+  tabindex="0"
+  aria-label={`Play: ${title}`}
+>
+  {/* Thumbnail */}
+  <img
+    src={posterUrl}
+    alt={title}
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 group-hover/yt:opacity-80"
+  />
+
+  {/* Play button overlay */}
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform duration-200 group-hover/yt:scale-110">
+      <svg viewBox="0 0 24 24" fill="white" class="ml-1 h-8 w-8">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </div>
+  </div>
+
+  {/* Title bar */}
+  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3">
+    <span class="text-sm font-medium text-white">{title}</span>
+  </div>
+</div>
+
+<script>
+  function initYouTube() {
+    document.querySelectorAll<HTMLElement>("[data-youtube]").forEach((el) => {
+      if ((el as any).__ytBound) return;
+      (el as any).__ytBound = true;
+
+      function activate() {
+        const embedUrl = el.getAttribute("data-embed-url") || "";
+        const videoTitle = el.getAttribute("data-title") || "YouTube video";
+
+        const iframe = document.createElement("iframe");
+        iframe.src = embedUrl;
+        iframe.title = videoTitle;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        iframe.className = "absolute inset-0 h-full w-full";
+        iframe.style.border = "none";
+
+        // Replace content with iframe
+        el.innerHTML = "";
+        el.appendChild(iframe);
+        el.style.cursor = "default";
+        el.removeAttribute("role");
+        el.removeAttribute("tabindex");
+      }
+
+      el.addEventListener("click", activate, { once: true });
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          activate();
+        }
+      }, { once: true });
+    });
+  }
+
+  initYouTube();
+  document.addEventListener("astro:page-load", initYouTube);
+</script>

@@ -1,0 +1,75 @@
+---
+import { tv } from "tailwind-variants";
+
+interface Parameter {
+  name: string;
+  in: "path" | "query" | "header" | "cookie";
+  type: string;
+  required?: boolean;
+  description?: string;
+  default?: string;
+  enum?: string[];
+  deprecated?: boolean;
+}
+
+interface Props {
+  parameters: Parameter[];
+  class?: string;
+}
+
+const { parameters, class: className } = Astro.props;
+
+const locationBadge = tv({
+  base: "inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium uppercase",
+  variants: {
+    location: {
+      path: "bg-api-put/20 text-api-put",
+      query: "bg-api-post/20 text-api-post",
+      header: "bg-api-head/20 text-api-head",
+      cookie: "bg-muted/20 text-muted-foreground",
+    },
+  },
+});
+---
+
+<div class:list={["overflow-x-auto", className]}>
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b text-left text-xs text-muted-foreground">
+        <th class="pb-2 pr-4 font-medium">Name</th>
+        <th class="pb-2 pr-4 font-medium">Type</th>
+        <th class="pb-2 pr-4 font-medium">In</th>
+        <th class="pb-2 font-medium">Description</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y">
+      {parameters.map((param) => (
+        <tr class:list={[param.deprecated && "opacity-60"]}>
+          <td class="py-3 pr-4 align-top">
+            <code class="text-sm font-medium">{param.name}</code>
+            {param.required && <span class="ml-1 text-api-required text-xs">*</span>}
+          </td>
+          <td class="py-3 pr-4 align-top">
+            <code class="text-xs text-muted-foreground">{param.type}</code>
+            {param.enum && (
+              <div class="mt-1 flex flex-wrap gap-1">
+                {param.enum.map((v) => (
+                  <code class="rounded bg-muted px-1 py-0.5 text-[10px]">{v}</code>
+                ))}
+              </div>
+            )}
+          </td>
+          <td class="py-3 pr-4 align-top">
+            <span class={locationBadge({ location: param.in })}>{param.in}</span>
+          </td>
+          <td class="py-3 align-top text-muted-foreground">
+            {param.description && <span set:html={param.description} />}
+            {param.default !== undefined && (
+              <div class="mt-1 text-xs">Default: <code>{param.default}</code></div>
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,95 @@
+---
+interface Props {
+  /** Number of columns this item spans. Can be responsive: [mobile, sm, md, lg] */
+  span?: number | number[];
+  /** Number of rows this item spans. */
+  rowSpan?: number;
+  /** Number of columns to skip (offset). Can be responsive. */
+  skip?: number | number[];
+  /** CSS order for reordering items. Can be responsive. */
+  order?: number | number[];
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { span, rowSpan, skip, order, class: className, ...rest } = Astro.props;
+
+// Breakpoints match Grid.astro
+const breakpoints = [0, 640, 768, 1024];
+
+function toArray(value: number | number[] | undefined): number[] {
+  if (value === undefined) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+const spanArr = toArray(span);
+const skipArr = toArray(skip);
+const orderArr = toArray(order);
+
+const needsResponsiveCSS =
+  spanArr.length > 1 || skipArr.length > 1 || orderArr.length > 1;
+
+// For non-responsive, use inline styles (simpler)
+const inlineStyle: Record<string, string> = {};
+if (spanArr.length === 1)
+  inlineStyle["grid-column"] = `span ${spanArr[0]} / span ${spanArr[0]}`;
+if (rowSpan !== undefined && rowSpan > 1)
+  inlineStyle["grid-row"] = `span ${rowSpan} / span ${rowSpan}`;
+if (skipArr.length === 1)
+  inlineStyle["grid-column-start"] = String(skipArr[0] + 1);
+if (orderArr.length === 1) inlineStyle["order"] = String(orderArr[0]);
+
+// For responsive, generate scoped CSS
+let responsiveCSS = "";
+let itemId = "";
+
+if (needsResponsiveCSS) {
+  itemId = `gi${Math.random().toString(36).slice(2, 8)}`;
+
+  const baseSpan = spanArr[0];
+  const baseSkip = skipArr[0];
+  const baseOrder = orderArr[0];
+
+  responsiveCSS += `[data-grid-item-id="${itemId}"] {`;
+  if (baseSpan)
+    responsiveCSS += `\n    grid-column: span ${baseSpan} / span ${baseSpan};`;
+  if (baseSkip) responsiveCSS += `\n    grid-column-start: ${baseSkip + 1};`;
+  if (baseOrder !== undefined) responsiveCSS += `\n    order: ${baseOrder};`;
+  responsiveCSS += "\n  }\n";
+
+  const maxLen = Math.max(spanArr.length, skipArr.length, orderArr.length);
+  for (let i = 1; i < maxLen; i++) {
+    const bp = breakpoints[i] || breakpoints[breakpoints.length - 1];
+    const bpSpan = spanArr[i];
+    const bpSkip = skipArr[i];
+    const bpOrder = orderArr[i];
+
+    if (bpSpan !== undefined || bpSkip !== undefined || bpOrder !== undefined) {
+      responsiveCSS += `  @media (min-width: ${bp}px) {\n`;
+      responsiveCSS += `    [data-grid-item-id="${itemId}"] {`;
+      if (bpSpan !== undefined)
+        responsiveCSS += `\n      grid-column: span ${bpSpan} / span ${bpSpan};`;
+      if (bpSkip !== undefined)
+        responsiveCSS += `\n      grid-column-start: ${bpSkip + 1};`;
+      if (bpOrder !== undefined) responsiveCSS += `\n      order: ${bpOrder};`;
+      responsiveCSS += "\n    }\n  }\n";
+    }
+  }
+}
+
+const styleStr =
+  Object.entries(inlineStyle)
+    .map(([k, v]) => `${k}: ${v}`)
+    .join("; ") || undefined;
+---
+
+<div
+  class:list={["base-grid-item", className]}
+  style={!needsResponsiveCSS ? styleStr : undefined}
+  data-grid-item-id={needsResponsiveCSS ? itemId : undefined}
+  {...rest}
+>
+  <slot />
+</div>
+
+{needsResponsiveCSS && <style set:html={responsiveCSS} />}

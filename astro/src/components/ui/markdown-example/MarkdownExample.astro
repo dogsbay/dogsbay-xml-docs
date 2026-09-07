@@ -1,0 +1,138 @@
+---
+/**
+ * Live markdown example — shows rendered output, expandable source, and
+ * optional plain-markdown fallback.
+ *
+ * Used in documentation sites that document markdown dialects. The preview
+ * (slot) is pre-rendered by the pipeline. This component provides the
+ * surrounding chrome and optionally a fallback panel computed at build time
+ * via plain markdown-it.
+ *
+ * Usage in Dogsbay MD content:
+ *   :::example
+ *   > [!NOTE]
+ *   > This is a note.
+ *   :::
+ *
+ *   :::example{title="With fallback" fallback=true}
+ *   ...content...
+ *   :::
+ */
+import MarkdownIt from "markdown-it";
+import mdAttrs from "markdown-it-attrs";
+import mdDeflist from "markdown-it-deflist";
+
+interface Props {
+  /** Raw source text (set automatically by format-astro from :::example node) */
+  source: string;
+  /** Optional example title shown above the preview */
+  title?: string;
+  /** Render a plain-markdown fallback panel showing graceful degradation */
+  showFallback?: boolean;
+}
+
+const { source, title, showFallback = false } = Astro.props;
+
+// Plain-markdown fallback view at build time
+let fallbackHtml = "";
+if (showFallback) {
+  const md = new MarkdownIt({ html: false, linkify: true, breaks: false })
+    .use(mdAttrs, { leftDelimiter: "{", rightDelimiter: "}" })
+    .use(mdDeflist);
+  fallbackHtml = md.render(source);
+}
+---
+
+<figure class="my-6 overflow-hidden rounded-lg border border-border bg-card">
+  {title && (
+    <figcaption class="border-b border-border bg-muted/30 px-4 py-2 text-sm font-medium">
+      {title}
+    </figcaption>
+  )}
+
+  <div class="border-b border-border">
+    <div class="border-b border-border bg-muted/10 px-4 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">
+      Rendered
+    </div>
+    <div class="markdown-preview p-6">
+      <slot />
+    </div>
+  </div>
+
+  <details class="group">
+    <summary class="flex cursor-pointer list-none select-none items-center gap-2 px-4 py-2 text-xs text-muted-foreground hover:text-foreground">
+      <svg
+        class="h-3 w-3 transition-transform group-open:rotate-90"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+      <span class="uppercase tracking-wide">Source</span>
+    </summary>
+    <pre class="m-0 overflow-auto border-t border-border bg-muted/20 p-4 text-xs"><code>{source}</code></pre>
+  </details>
+
+  {showFallback && (
+    <div class="border-t border-border">
+      <div class="bg-muted/10 px-4 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">
+        Plain markdown fallback
+      </div>
+      <div
+        class="plain-markdown p-6 text-sm"
+        set:html={fallbackHtml}
+      />
+    </div>
+  )}
+</figure>
+
+<style>
+  .markdown-preview :global(> *:first-child) {
+    margin-top: 0;
+  }
+  .markdown-preview :global(> *:last-child) {
+    margin-bottom: 0;
+  }
+
+  .plain-markdown :global(> *:first-child) {
+    margin-top: 0;
+  }
+  .plain-markdown :global(> *:last-child) {
+    margin-bottom: 0;
+  }
+  .plain-markdown :global(p) {
+    margin: 0.5rem 0;
+  }
+  .plain-markdown :global(blockquote) {
+    border-left: 3px solid var(--border);
+    padding-left: 1rem;
+    color: var(--muted-foreground);
+    margin: 0.5rem 0;
+  }
+  .plain-markdown :global(dl dt) {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  .plain-markdown :global(dl dd) {
+    margin-left: 1rem;
+    color: var(--muted-foreground);
+  }
+  .plain-markdown :global(code) {
+    background: var(--muted);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.85em;
+  }
+  .plain-markdown :global(pre) {
+    background: var(--muted);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    font-size: 0.85em;
+  }
+</style>

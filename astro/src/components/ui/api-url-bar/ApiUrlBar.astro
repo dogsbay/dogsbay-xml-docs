@@ -1,0 +1,63 @@
+---
+/**
+ * Full endpoint URL display with method badge and copy button.
+ *
+ * Renders: [PUT] https://petstore.swagger.io/api/v3/pet/{petId}  [📋]
+ * Path parameters ({petId}) are highlighted in a different color.
+ *
+ * The whole URL bar background and left border tint to the method
+ * colour (Stripe / Redoc / Mintlify convention) so the request method
+ * is the first thing the eye lands on.
+ */
+import { tv } from "tailwind-variants";
+import MethodBadge from "../method-badge/MethodBadge.astro";
+import CopyButton from "../copy-button/CopyButton.astro";
+
+interface Props {
+  method: "get" | "post" | "put" | "patch" | "delete" | "head" | "options";
+  path: string;
+  baseUrl?: string;
+  class?: string;
+}
+
+const { method, path, baseUrl = "", class: className } = Astro.props;
+
+const fullUrl = `${baseUrl}${path}`;
+
+// Split path into segments, highlighting {param} parts
+const pathParts = path.split(/(\{[^}]+\})/g);
+
+const urlBar = tv({
+  base:
+    "flex items-center gap-3 rounded-lg border-l-4 border border-l-current px-4 py-3",
+  variants: {
+    method: {
+      get: "bg-api-get/10 border-l-api-get",
+      post: "bg-api-post/10 border-l-api-post",
+      put: "bg-api-put/10 border-l-api-put",
+      patch: "bg-api-patch/10 border-l-api-patch",
+      delete: "bg-api-delete/10 border-l-api-delete",
+      head: "bg-api-head/10 border-l-api-head",
+      options: "bg-muted/40 border-l-muted-foreground",
+    },
+  },
+});
+---
+
+<div class={urlBar({ method, class: className })}>
+  <MethodBadge method={method} />
+  <code class="flex-1 truncate text-sm font-medium">
+    {baseUrl && <span class="text-muted-foreground">{baseUrl}</span>}
+    {pathParts.map((part) =>
+      part.startsWith("{") ? (
+        <span class="text-api-put">{part}</span>
+      ) : (
+        <span>{part}</span>
+      )
+    )}
+  </code>
+  <CopyButton
+    text={fullUrl}
+    class="shrink-0"
+  />
+</div>

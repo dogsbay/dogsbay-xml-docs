@@ -1,0 +1,32 @@
+---
+import { tv } from "tailwind-variants";
+
+const tabsContent = tv({
+  base: "px-4 py-3 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&>:first-child]:mt-0 [&>:last-child]:mb-0",
+});
+
+interface Props {
+  value: string;
+  default?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  value,
+  default: isDefault = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<div
+  class={tabsContent({ class: className })}
+  data-part="content"
+  data-value={value}
+  role="tabpanel"
+  hidden={!isDefault}
+  {...rest}
+>
+  <slot />
+</div>

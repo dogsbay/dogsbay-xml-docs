@@ -1,0 +1,59 @@
+---
+import { tv } from "tailwind-variants";
+
+const pagination = tv({
+  base: "flex items-center justify-between gap-4",
+});
+
+const paginationLink = tv({
+  base: "inline-flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+});
+
+const paginationLabel = tv({
+  base: "text-xs text-muted-foreground",
+});
+
+const paginationTitle = tv({
+  base: "text-sm font-medium",
+});
+
+interface PaginationLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  prev?: PaginationLink;
+  next?: PaginationLink;
+  "aria-label"?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { prev, next, "aria-label": ariaLabel = "Pagination", class: className, ...rest } = Astro.props;
+---
+
+<nav class={pagination({ class: className })} aria-label={ariaLabel} {...rest}>
+  {prev ? (
+    <a href={prev.href} class={paginationLink()} rel="prev">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <div class="text-left">
+        <div class={paginationLabel()}>Previous</div>
+        <div class={paginationTitle()}>{prev.label}</div>
+      </div>
+    </a>
+  ) : (
+    <div></div>
+  )}
+  {next ? (
+    <a href={next.href} class={paginationLink()} rel="next">
+      <div class="text-right">
+        <div class={paginationLabel()}>Next</div>
+        <div class={paginationTitle()}>{next.label}</div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </a>
+  ) : (
+    <div></div>
+  )}
+</nav>

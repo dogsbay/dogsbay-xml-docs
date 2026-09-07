@@ -1,0 +1,20 @@
+---
+import CodeBlock from "../code-block/CodeBlock.astro";
+import "./api-source.css";
+
+interface Props {
+  code: string;
+  file?: string;
+  line?: number;
+}
+
+const { code, file, line } = Astro.props;
+const label = file
+  ? `Source code in ${file}${line ? `, line ${line}` : ""}`
+  : "Source code";
+---
+
+<details class="api-source">
+  <summary>{label}</summary>
+  <CodeBlock code={code} lang="python" />
+</details>

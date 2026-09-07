@@ -1,0 +1,17 @@
+---
+import { tv } from "tailwind-variants";
+
+const cardContent = tv({
+  base: "p-6 pt-0",
+});
+
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class={cardContent({ class: className })} {...rest}>
+  <slot />
+</div>

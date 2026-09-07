@@ -1,0 +1,69 @@
+---
+import { tv, type VariantProps } from "tailwind-variants";
+import { contentVariants, icons } from "./variants.js";
+import { resolveIcon } from "./icon.js";
+
+const alert = tv({
+  base: "relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:size-4 [&>svg~div]:pl-7",
+  variants: {
+    variant: {
+      default: "bg-background text-foreground",
+      destructive:
+        "border-destructive/50 text-destructive [&>*[data-part='title']]:text-destructive [&>svg]:text-destructive",
+      note: "border-note/50 bg-note/5 text-foreground [&>svg]:text-note",
+      abstract: "border-abstract/50 bg-abstract/5 text-foreground [&>svg]:text-abstract",
+      info: "border-info/50 bg-info/5 text-foreground [&>svg]:text-info",
+      tip: "border-tip/50 bg-tip/5 text-foreground [&>svg]:text-tip",
+      success: "border-success/50 bg-success/5 text-foreground [&>svg]:text-success",
+      question: "border-question/50 bg-question/5 text-foreground [&>svg]:text-question",
+      warning: "border-warning/50 bg-warning/5 text-foreground [&>svg]:text-warning",
+      failure: "border-failure/50 bg-failure/5 text-foreground [&>svg]:text-failure",
+      danger: "border-danger/50 bg-danger/5 text-foreground [&>svg]:text-danger",
+      bug: "border-bug/50 bg-bug/5 text-foreground [&>svg]:text-bug",
+      example: "border-example/50 bg-example/5 text-foreground [&>svg]:text-example",
+      quote: "border-quote/50 bg-quote/5 text-foreground [&>svg]:text-quote",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+type AlertVariants = VariantProps<typeof alert>;
+
+interface Props {
+  variant?: AlertVariants["variant"];
+  /**
+   * Optional icon shortcode to override the variant default.
+   * Format: `library:name` (e.g. "lucide:rocket", "material:check-circle",
+   * "simple:github") or a bare emoji shortcode (e.g. "rocket" → 🚀).
+   * Unknown icons fall back to the variant default.
+   */
+  icon?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { variant = "default", icon: iconShortcode, class: className, ...rest } = Astro.props;
+
+const role = variant === "destructive"
+  ? "alert"
+  : contentVariants.has(variant || "")
+    ? "note"
+    : "status";
+
+// Resolve icon: user-provided shortcode takes precedence; otherwise variant default
+const customIcon = iconShortcode ? resolveIcon(iconShortcode) : null;
+const variantIcon = contentVariants.has(variant || "") ? icons[variant!] : null;
+const icon = customIcon ?? variantIcon;
+---
+
+<div
+  class={alert({ variant, class: className })}
+  data-variant={variant}
+  role={role}
+  {...rest}
+>
+  {icon && <Fragment set:html={icon} />}
+  <slot />
+</div>

@@ -1,0 +1,38 @@
+---
+import { tv } from "tailwind-variants";
+
+const accordion = tv({
+  base: "w-full",
+});
+
+interface Props {
+  type?: "single" | "multiple";
+  defaultValue?: string | string[];
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  type = "single",
+  defaultValue,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const defaultStr = Array.isArray(defaultValue)
+  ? defaultValue.join(",")
+  : defaultValue || "";
+---
+
+<db-accordion
+  class={accordion({ class: className })}
+  type={type}
+  default-value={defaultStr}
+  {...rest}
+>
+  <slot />
+</db-accordion>
+
+<script>
+  import "@dogsbay/elements/db-accordion";
+</script>

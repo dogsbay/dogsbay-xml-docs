@@ -1,0 +1,117 @@
+---
+interface Props {
+  /** Number of columns. Can be responsive: [mobile, sm, md, lg] */
+  cols?: number | number[];
+  /** Gap between items in Tailwind spacing units (1 = 0.25rem). Can be responsive array. */
+  gap?: number | number[];
+  /** Column gap override. Same format as gap. */
+  colGap?: number | number[];
+  /** Row gap override. Same format as gap. */
+  rowGap?: number | number[];
+  /** Vertical alignment of items. Can be responsive. */
+  align?: AlignValue | AlignValue[];
+  class?: string;
+  [key: string]: unknown;
+}
+
+type AlignValue = "start" | "center" | "end" | "stretch";
+
+const {
+  cols = 1,
+  gap,
+  colGap,
+  rowGap,
+  align,
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Breakpoints: sm=640px, md=768px, lg=1024px
+const breakpoints = [0, 640, 768, 1024];
+
+function toArray<T>(value: T | T[] | undefined): T[] {
+  if (value === undefined) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function toRem(spacingUnit: number): string {
+  return `${spacingUnit * 0.25}rem`;
+}
+
+const colsArr = toArray(cols);
+const gapArr = toArray(gap);
+const colGapArr = toArray(colGap);
+const rowGapArr = toArray(rowGap);
+const alignArr = toArray(align);
+
+function buildResponsiveCSS(id: string): string {
+  let css = "";
+
+  const baseCols = colsArr[0] || 1;
+  const baseGap = gapArr[0];
+  const baseColGap = colGapArr[0] ?? baseGap;
+  const baseRowGap = rowGapArr[0] ?? baseGap;
+  const baseAlign = alignArr[0];
+
+  css += `[data-grid-id="${id}"] {
+    display: grid;
+    grid-template-columns: repeat(${baseCols}, minmax(0, 1fr));`;
+
+  if (baseColGap !== undefined)
+    css += `\n    column-gap: ${toRem(baseColGap)};`;
+  if (baseRowGap !== undefined) css += `\n    row-gap: ${toRem(baseRowGap)};`;
+  if (baseAlign) css += `\n    align-items: ${baseAlign};`;
+  css += "\n  }\n";
+
+  const maxLen = Math.max(
+    colsArr.length,
+    gapArr.length,
+    colGapArr.length,
+    rowGapArr.length,
+    alignArr.length,
+  );
+
+  for (let i = 1; i < maxLen; i++) {
+    const bp = breakpoints[i] || breakpoints[breakpoints.length - 1];
+    const bpCols = colsArr[i];
+    const bpGap = gapArr[i];
+    const bpColGap = colGapArr[i] ?? bpGap;
+    const bpRowGap = rowGapArr[i] ?? bpGap;
+    const bpAlign = alignArr[i];
+
+    const hasChanges =
+      bpCols !== undefined ||
+      bpColGap !== undefined ||
+      bpRowGap !== undefined ||
+      bpAlign !== undefined;
+
+    if (hasChanges) {
+      css += `  @media (min-width: ${bp}px) {\n`;
+      css += `    [data-grid-id="${id}"] {`;
+      if (bpCols !== undefined)
+        css += `\n      grid-template-columns: repeat(${bpCols}, minmax(0, 1fr));`;
+      if (bpColGap !== undefined)
+        css += `\n      column-gap: ${toRem(bpColGap)};`;
+      if (bpRowGap !== undefined) css += `\n      row-gap: ${toRem(bpRowGap)};`;
+      if (bpAlign) css += `\n      align-items: ${bpAlign};`;
+      css += "\n    }\n  }\n";
+    }
+  }
+
+  return css;
+}
+
+const gridId = `g${Math.random().toString(36).slice(2, 8)}`;
+const responsiveCSS = buildResponsiveCSS(gridId);
+---
+
+<div
+  class:list={["base-grid", className]}
+  data-grid-id={gridId}
+  data-cols={Array.isArray(cols) ? cols.join(",") : cols}
+  {...rest}
+>
+  <slot />
+</div>
+
+<style set:html={responsiveCSS}></style>

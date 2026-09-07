@@ -1,0 +1,47 @@
+---
+import { tv } from "tailwind-variants";
+
+const linkCard = tv({
+  base: "group flex flex-col gap-1 rounded-lg border bg-card p-4 text-card-foreground shadow-sm transition-colors hover:bg-accent/50",
+});
+
+const linkCardTitle = tv({
+  base: "text-sm font-semibold group-hover:underline",
+});
+
+const linkCardDescription = tv({
+  base: "text-sm text-muted-foreground",
+});
+
+interface Props {
+  title: string;
+  description?: string;
+  href: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { title, description, href, class: className, ...rest } = Astro.props;
+---
+
+<a href={href} class={linkCard({ class: className })} {...rest}>
+  <div class="flex items-center justify-between">
+    <span class={linkCardTitle()}>{title}</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+      aria-hidden="true"
+    >
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </div>
+  {description && <p class={linkCardDescription()}>{description}</p>}
+</a>

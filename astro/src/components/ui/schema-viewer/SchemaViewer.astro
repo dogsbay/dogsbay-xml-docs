@@ -1,0 +1,42 @@
+---
+/**
+ * JSON Schema property list with nested expand/collapse.
+ * Uses PropertyItem for consistent rendering with PropertyList.
+ */
+import PropertyItem from "../property-item/PropertyItem.astro";
+
+interface SchemaProperty {
+  name: string;
+  type: string;
+  description?: string;
+  required?: boolean;
+  nullable?: boolean;
+  format?: string;
+  enum?: string[];
+  default?: unknown;
+  example?: unknown;
+  properties?: SchemaProperty[];
+  items?: SchemaProperty[];
+}
+
+interface Props {
+  properties: SchemaProperty[];
+  title?: string;
+  class?: string;
+}
+
+const { properties, title, class: className } = Astro.props;
+---
+
+<div class:list={["rounded-lg border bg-card", className]}>
+  {title && (
+    <div class="border-b px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+      {title}
+    </div>
+  )}
+  <div>
+    {properties.map((prop) => (
+      <PropertyItem {...prop} />
+    ))}
+  </div>
+</div>
