@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://dogsbay.ai/dogsbay-xml-docs/getting-started/</loc>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/agent/hosted-agents/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/agent/overview/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/agent/proposals/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps/</loc>
   </url>
   <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/reference/cli/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/start-here/install/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/start-here/tutorial/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/start-here/what-it-is/</loc>
   </url>
 </urlset>

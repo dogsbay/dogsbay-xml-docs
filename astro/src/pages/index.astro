@@ -20,18 +20,11 @@ import AlertDescription from "@ui/alert/AlertDescription.astro";
 import AlertTitle from "@ui/alert/AlertTitle.astro";
 import Card from "@ui/card/Card.astro";
 import CardContent from "@ui/card/CardContent.astro";
-import CodeBlock from "@ui/code-block/CodeBlock.astro";
 import Grid from "@ui/grid/Grid.astro";
 import GridItem from "@ui/grid/GridItem.astro";
 import Icon from "@ui/icon/Icon.astro";
-import Step from "@ui/steps/Step.astro";
-import Steps from "@ui/steps/Steps.astro";
-import Tabs from "@ui/tabs/Tabs.astro";
-import TabsContent from "@ui/tabs/TabsContent.astro";
-import TabsList from "@ui/tabs/TabsList.astro";
-import TabsTrigger from "@ui/tabs/TabsTrigger.astro";
 
-const headings = [{"depth":1,"slug":"welcome","text":"Welcome"},{"depth":2,"slug":"get-started-in-60-seconds","text":"Get started in 60 seconds"},{"depth":2,"slug":"where-to-go-next","text":"Where to go next"},{"depth":2,"slug":"markdown-that-does-more","text":"Markdown that does more"}];
+const headings = [{"depth":1,"slug":"dogsbay-xml","text":"DogsBay XML"},{"depth":2,"slug":"what-it-is-built-around","text":"What it is built around"}];
 const nav = navData;
 const currentPath = "/dogsbay-xml-docs";
 const _navForPagination = filterNavByAxis(nav as any[], {
@@ -41,21 +34,21 @@ const _navForPagination = filterNavByAxis(nav as any[], {
   locale: null ?? undefined,
 });
 const { prev, next } = getPagination(currentPath, _navForPagination);
-const title = "Welcome";
-const description = "Edit content/index.md to get started." || undefined;
+const title = "DogsBay XML";
+const description = "An XML and DITA editor with an AI agent that works on your content model and shows you every change before it lands." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
 const nofollow = false;
 const excludeFromSearch = false;
 const pageTags = null;
 const pageStatus = null;
-const pageType = null;
+const pageType = "explanation";
 const pageAudience = null;
 const pageCategory = null;
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Welcome {#welcome}\n\nThis is the starting point of DogsBay XML, built with [Dogsbay](https://github.com/dogsbay/dogsbay). Replace this content with your own — every `.md` file under `content/` becomes a page.\n\n> [!TIP]\n> Edit this file (`content/index.md`) and save. The dev server reloads automatically.\n\n## Get started in 60 seconds {#get-started-in-60-seconds}\n\n:::steps\n1. **Edit a page** Open `content/index.md` and change something. Save — the preview updates live.\n2. **Add a page** Create `content/about.md` with frontmatter and a heading.\n3. **Wire it in** Add the new page to `content/nav.yml` so it shows up in the sidebar.\n:::\n\n## Where to go next {#where-to-go-next}\n\n:::cards\n- **[Getting started](/dogsbay-xml-docs/getting-started){icon=\"rocket\"}**\n  Three-minute orientation to editing, adding, and grouping pages.\n\n- **[Configuration](/dogsbay-xml-docs/getting-started){icon=\"settings\"}**\n  Site name, theme, base path, and per-source settings live in dogsbay.config.yml.\n\n- **[Source on GitHub](https://github.com/dogsbay/dogsbay){icon=\"github\"}**\n  Star, browse, file an issue, or follow the roadmap.\n\n- **[Plugins](https://github.com/dogsbay/dogsbay/tree/main/docs){icon=\"puzzle\"}**\n  Image zoom, TypeDoc, and your own — the plugin API is small, typed, and explicit.\n:::\n\n## Markdown that does more {#markdown-that-does-more}\n\nCards, steps, tabs, callouts, fenced code — Dogsbay markdown is a small superset of CommonMark with directives for the components docs sites need most. Here's the same config in two formats:\n\n:::tabs\nYAML\n:   ```yaml\n    site:\n      name: DogsBay XML\n      url: https://example.com\n    content:\n      sources:\n        - path: ./content\n          from: dogsbay-md\n    ```\n\nJSON\n:   ```json\n    {\n      \"site\": { \"name\": \"DogsBay XML\" },\n      \"content\": {\n        \"sources\": [{ \"path\": \"./content\", \"from\": \"dogsbay-md\" }]\n      }\n    }\n    ```\n:::\n\nFor the full markdown reference, see [github.com/dogsbay/dogsbay](https://github.com/dogsbay/dogsbay).\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/index.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# DogsBay XML {#dogsbay-xml}\n\nDogsBay XML is a desktop editor for DITA and other XML. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.\n\nIt also has an AI agent. The difference from an agent added to a text editor is that this one calls the editor's own DITA operations, and its edits arrive as proposals that you accept or reject.\n\n:::cards\n- **[Start here](/dogsbay-xml-docs/start-here/install){icon=\"rocket\"}**\n  Install the editor, open the sample project, and fix a real DITA guide with the agent.\n\n- **[Working with the agent](/dogsbay-xml-docs/agent/overview){icon=\"sparkles\"}**\n  Built-in and hosted agents, what each one is allowed to touch, and how their changes are reviewed.\n\n- **[Authoring DITA](/dogsbay-xml-docs/authoring/topics-and-maps){icon=\"file-text\"}**\n  Topics, maps, keys, reuse and conditional content.\n\n- **[Reference](/dogsbay-xml-docs/reference/cli){icon=\"book\"}**\n  Commands, tools and configuration.\n:::\n\n## What it is built around {#what-it-is-built-around}\n\n**One engine, three interfaces.** The editor's menus, the `dogsbay-xml` command line, and the MCP server that AI assistants connect to are not separate implementations. They run the same commands. A rule that fails validation while you type fails the same way in a pipeline.\n\n**Changes are reviewable before they land.** Refactorings report what they would do and change nothing until you pass `--apply`. Edits an agent makes to a DITA file arrive as tracked changes that you accept or reject, marked with the identity that proposed them.\n\n**The project, not the file.** Keys, conrefs, maps and relationship tables describe how files relate to each other, so the operations that matter work across all of them: find every reference to a topic, rename a key everywhere, or check that a build's conditions use values your subject scheme allows.\n\n> [!NOTE]\n> The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in **File > Preferences > Server** when you need it. The built-in agent does not require it.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/index.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -108,80 +101,57 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="welcome" class="group scroll-mt-20">Welcome<a href="#welcome" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
-      <p>This is the starting point of DogsBay XML, built with <a href="https://github.com/dogsbay/dogsbay">Dogsbay</a>. Replace this content with your own — every <code>.md</code> file under <code>content/</code> becomes a page.</p>
-      <Alert variant="tip" class="my-4">
-        <AlertTitle>Tip</AlertTitle>
-        <AlertDescription>
-          <p>Edit this file (<code>content/index.md</code>) and save. The dev server reloads automatically.</p>
-        </AlertDescription>
-      </Alert>
-      <h2 id="get-started-in-60-seconds" class="group scroll-mt-20">Get started in 60 seconds<a href="#get-started-in-60-seconds" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <Steps>
-      <Step>
-      <strong>Edit a page</strong> Open <code>content/index.md</code> and change something. Save — the preview updates live.
-      </Step>
-      <Step>
-      <strong>Add a page</strong> Create <code>content/about.md</code> with frontmatter and a heading.
-      </Step>
-      <Step>
-      <strong>Wire it in</strong> Add the new page to <code>content/nav.yml</code> so it shows up in the sidebar.
-      </Step>
-      </Steps>
-      <h2 id="where-to-go-next" class="group scroll-mt-20">Where to go next<a href="#where-to-go-next" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h1 id="dogsbay-xml" class="group scroll-mt-20">DogsBay XML<a href="#dogsbay-xml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <p>DogsBay XML is a desktop editor for DITA and other XML. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.</p>
+      <p>It also has an AI agent. The difference from an agent added to a text editor is that this one calls the editor's own DITA operations, and its edits arrive as proposals that you accept or reject.</p>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">
-      <a href="/dogsbay-xml-docs/getting-started" class="[text-decoration:none] text-foreground">
+      <a href="/dogsbay-xml-docs/start-here/install" class="[text-decoration:none] text-foreground">
       <Icon name="rocket" class="size-5 mb-2 text-muted-foreground" />
-      <h3 class="text-base font-semibold">Getting started</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Three-minute orientation to editing, adding, and grouping pages.</p>
+      <h3 class="text-base font-semibold">Start here</h3>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Install the editor, open the sample project, and fix a real DITA guide with the agent.</p>
       </a>
       </CardContent>
       </Card>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">
-      <a href="/dogsbay-xml-docs/getting-started" class="[text-decoration:none] text-foreground">
-      <Icon name="settings" class="size-5 mb-2 text-muted-foreground" />
-      <h3 class="text-base font-semibold">Configuration</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Site name, theme, base path, and per-source settings live in dogsbay.config.yml.</p>
+      <a href="/dogsbay-xml-docs/agent/overview" class="[text-decoration:none] text-foreground">
+      <Icon name="sparkles" class="size-5 mb-2 text-muted-foreground" />
+      <h3 class="text-base font-semibold">Working with the agent</h3>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Built-in and hosted agents, what each one is allowed to touch, and how their changes are reviewed.</p>
       </a>
       </CardContent>
       </Card>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">
-      <a href="https://github.com/dogsbay/dogsbay" class="[text-decoration:none] text-foreground">
-      <Icon name="github" class="size-5 mb-2 text-muted-foreground" />
-      <h3 class="text-base font-semibold">Source on GitHub</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Star, browse, file an issue, or follow the roadmap.</p>
+      <a href="/dogsbay-xml-docs/authoring/topics-and-maps" class="[text-decoration:none] text-foreground">
+      <Icon name="file-text" class="size-5 mb-2 text-muted-foreground" />
+      <h3 class="text-base font-semibold">Authoring DITA</h3>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Topics, maps, keys, reuse and conditional content.</p>
       </a>
       </CardContent>
       </Card>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">
-      <a href="https://github.com/dogsbay/dogsbay/tree/main/docs" class="[text-decoration:none] text-foreground">
-      <Icon name="puzzle" class="size-5 mb-2 text-muted-foreground" />
-      <h3 class="text-base font-semibold">Plugins</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Image zoom, TypeDoc, and your own — the plugin API is small, typed, and explicit.</p>
+      <a href="/dogsbay-xml-docs/reference/cli" class="[text-decoration:none] text-foreground">
+      <Icon name="book" class="size-5 mb-2 text-muted-foreground" />
+      <h3 class="text-base font-semibold">Reference</h3>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Commands, tools and configuration.</p>
       </a>
       </CardContent>
       </Card>
       </Grid>
-      <h2 id="markdown-that-does-more" class="group scroll-mt-20">Markdown that does more<a href="#markdown-that-does-more" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>Cards, steps, tabs, callouts, fenced code — Dogsbay markdown is a small superset of CommonMark with directives for the components docs sites need most. Here's the same config in two formats:</p>
-      <Tabs defaultValue="YAML" class="my-4">
-        <TabsList>
-          <TabsTrigger value="YAML">YAML</TabsTrigger>
-          <TabsTrigger value="JSON">JSON</TabsTrigger>
-        </TabsList>
-        <TabsContent value="YAML">
-          <CodeBlock code={"site:\n  name: DogsBay XML\n  url: https://example.com\ncontent:\n  sources:\n    - path: ./content\n      from: dogsbay-md"} lang="yaml" />
-        </TabsContent>
-        <TabsContent value="JSON">
-          <CodeBlock code={"{\n  \"site\": { \"name\": \"DogsBay XML\" },\n  \"content\": {\n    \"sources\": [{ \"path\": \"./content\", \"from\": \"dogsbay-md\" }]\n  }\n}"} lang="json" />
-        </TabsContent>
-      </Tabs>
-      <p>For the full markdown reference, see <a href="https://github.com/dogsbay/dogsbay">github.com/dogsbay/dogsbay</a>.</p>
+      <h2 id="what-it-is-built-around" class="group scroll-mt-20">What it is built around<a href="#what-it-is-built-around" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <p><strong>One engine, three interfaces.</strong> The editor's menus, the <code>dogsbay-xml</code> command line, and the MCP server that AI assistants connect to are not separate implementations. They run the same commands. A rule that fails validation while you type fails the same way in a pipeline.</p>
+      <p><strong>Changes are reviewable before they land.</strong> Refactorings report what they would do and change nothing until you pass <code>--apply</code>. Edits an agent makes to a DITA file arrive as tracked changes that you accept or reject, marked with the identity that proposed them.</p>
+      <p><strong>The project, not the file.</strong> Keys, conrefs, maps and relationship tables describe how files relate to each other, so the operations that matter work across all of them: find every reference to a topic, rename a key everywhere, or check that a build's conditions use values your subject scheme allows.</p>
+      <Alert variant="note" class="my-4">
+        <AlertTitle>Note</AlertTitle>
+        <AlertDescription>
+          <p>The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in <strong>File &gt; Preferences &gt; Server</strong> when you need it. The built-in agent does not require it.</p>
+        </AlertDescription>
+      </Alert>
     </article>
   </MarkdownContentStack>
 </DocsLayout>

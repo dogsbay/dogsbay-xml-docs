@@ -2,128 +2,729 @@
 
 > The XML and DITA editor with an AI agent that understands your content model.
 
-# Welcome
+# DogsBay XML
 
 URL: https://dogsbay.ai/dogsbay-xml-docs.md
 
 ---
-title: Welcome
-description: Edit content/index.md to get started.
+title: DogsBay XML
+description: An XML and DITA editor with an AI agent that works on your content model and shows you every change before it lands.
+type: explanation
 ---
 
-# Welcome {#welcome}
+# DogsBay XML {#dogsbay-xml}
 
-This is the starting point of DogsBay XML, built with [Dogsbay](https://github.com/dogsbay/dogsbay). Replace this content with your own — every `.md` file under `content/` becomes a page.
+DogsBay XML is a desktop editor for DITA and other XML. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.
 
-> [!TIP]
-> Edit this file (`content/index.md`) and save. The dev server reloads automatically.
+It also has an AI agent. The difference from an agent added to a text editor is that this one calls the editor's own DITA operations, and its edits arrive as proposals that you accept or reject.
 
-## Get started in 60 seconds {#get-started-in-60-seconds}
+:::cards
+- **[Start here](/dogsbay-xml-docs/start-here/install){icon="rocket"}**
+  Install the editor, open the sample project, and fix a real DITA guide with the agent.
+
+- **[Working with the agent](/dogsbay-xml-docs/agent/overview){icon="sparkles"}**
+  Built-in and hosted agents, what each one is allowed to touch, and how their changes are reviewed.
+
+- **[Authoring DITA](/dogsbay-xml-docs/authoring/topics-and-maps){icon="file-text"}**
+  Topics, maps, keys, reuse and conditional content.
+
+- **[Reference](/dogsbay-xml-docs/reference/cli){icon="book"}**
+  Commands, tools and configuration.
+:::
+
+## What it is built around {#what-it-is-built-around}
+
+**One engine, three interfaces.** The editor's menus, the `dogsbay-xml` command line, and the MCP server that AI assistants connect to are not separate implementations. They run the same commands. A rule that fails validation while you type fails the same way in a pipeline.
+
+**Changes are reviewable before they land.** Refactorings report what they would do and change nothing until you pass `--apply`. Edits an agent makes to a DITA file arrive as tracked changes that you accept or reject, marked with the identity that proposed them.
+
+**The project, not the file.** Keys, conrefs, maps and relationship tables describe how files relate to each other, so the operations that matter work across all of them: find every reference to a topic, rename a key everywhere, or check that a build's conditions use values your subject scheme allows.
+
+> [!NOTE]
+> The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in **File > Preferences > Server** when you need it. The built-in agent does not require it.
+
+---
+
+# What DogsBay XML is
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/what-it-is.md
+
+---
+title: What DogsBay XML is
+description: What the editor does, who it is for, and the three ideas that shape it.
+type: explanation
+---
+
+# What DogsBay XML is {#what-dogsbay-xml-is}
+
+DogsBay XML is a desktop editor for DITA and other XML, aimed at people who maintain a documentation set rather than a single file.
+
+It validates against your grammar as you type, resolves keys and reuse across the project, refactors without breaking references, publishes through DITA-OT, and runs an AI agent that works on the same model the editor does.
+
+## Who it is for {#who-it-is-for}
+
+A technical writer working in DITA, in a set large enough that the relationships between files matter: keys that resolve differently in different maps, topics reused by conref in three places, conditions that decide what a build contains.
+
+If your set is a handful of files, most of this is unnecessary. The features earn their place when a rename can break something you cannot see from the file you are editing.
+
+## Three ideas {#three-ideas}
+
+### One engine, three interfaces {#one-engine-three-interfaces}
+
+The editor's menus, the `dogsbay-xml` command line and the MCP server that AI assistants connect to are not separate implementations of the same ideas. They run the same commands.
+
+The consequence is worth stating plainly: a check that passes in the editor passes the same way in a pipeline, because it is the same check. There is no second implementation to drift.
+
+### Nothing changes until you say so {#nothing-changes-until-you-say-so}
+
+Refactorings report what they would do and change nothing. You pass `--apply` when the plan is right. In the editor the same plan appears as a table you review before it runs.
+
+The same principle governs the agent. Its edits to DITA files arrive as tracked changes attributed to it, and you accept or reject them.
+
+### The project is the unit {#the-project-is-the-unit}
+
+Keys, conrefs, maps and relationship tables describe how files relate. So the operations that matter work across all of them at once: every reference to a topic, every use of a key, every condition value that no subject scheme allows, every topic no map includes.
+
+That is also why the agent is useful here. It is not editing text in a file; it is calling operations that already understand the project.
+
+## What it is not {#what-it-is-not}
+
+It is not a general-purpose text editor, and it is not a CMS. It edits files on disk, in a folder you control, under whatever version control you already use.
+
+## Where to start {#where-to-start}
+
+:::cards
+- **[Installing](./install){icon="download"}**
+  Packages for Linux, macOS and Windows, or build from source.
+
+- **[Tutorial: fixing a DITA guide](./tutorial){icon="rocket"}**
+  Thirty minutes with a real, deliberately broken project.
+:::
+
+---
+
+# Installing
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/install.md
+
+---
+title: Installing
+description: Install DogsBay XML from a packaged installer, or build it from source.
+type: how-to
+---
+
+# Installing {#installing}
+
+DogsBay XML runs on Linux, macOS and Windows.
+
+## Installing from a package {#installing-from-a-package}
+
+Each installer bundles its own Java runtime, so no separate JDK is required.
 
 :::steps
-1. **Edit a page** Open `content/index.md` and change something. Save — the preview updates live.
-2. **Add a page** Create `content/about.md` with frontmatter and a heading.
-3. **Wire it in** Add the new page to `content/nav.yml` so it shows up in the sidebar.
+1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.
+2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to Applications. On Windows, run the installer.
+3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial) starts.
 :::
+
+## Building from source {#building-from-source}
+
+Building requires Java 25.
+
+```bash
+git clone https://github.com/dogsbay/dogsbay-xml
+cd dogsbay-xml
+./gradlew run
+```
+
+Other tasks:
+
+| Task | Result |
+| --- | --- |
+| `./gradlew run` | Start the editor |
+| `./gradlew test` | Run the test suite |
+| `./gradlew shadowJar` | Build a self-contained JAR |
+| `./gradlew jpackage` | Build a native installer for the current platform |
+
+## Enabling the command line {#enabling-the-command-line}
+
+The `bin/dogsbay-xml` command needs its libraries copied into place once before first use:
+
+```bash
+./gradlew syncLib
+bin/dogsbay-xml --help
+```
+
+Some commands work entirely on files and need nothing else. Commands that drive a running editor, such as `open` or `screenshot`, also need the integration server.
+
+## Turning on the integration server {#turning-on-the-integration-server}
+
+The integration server is what AI assistants and the live-editor commands connect to. It is off until you turn it on.
+
+:::steps
+1. **Open the preferences** Select **File > Preferences**.
+2. **Turn the server on** Go to the **Server** page and enable the server.
+3. **Check that it is listening** Run `bin/dogsbay-xml status`.
+:::
+
+> [!NOTE]
+> The built-in AI agent does not need the integration server. It calls the editor's operations directly, inside the same process.
+
+---
+
+# Tutorial: fixing a DITA guide
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/tutorial.md
+
+---
+title: "Tutorial: fixing a DITA guide"
+description: Open a real DITA project that has problems in it, find them with the project tools, and fix some of them with the AI agent.
+type: tutorial
+---
+
+# Tutorial: fixing a DITA guide {#tutorial-fixing-a-dita-guide}
+
+In this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it with the AI agent.
+
+The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that no subject scheme allows.
+
+**Time:** about 30 minutes. **You need:** DogsBay XML installed. See [Installing](./install). An API key for the agent section is useful but not required until then.
+
+## Step 1: Open the sample project {#step-1-open-the-sample-project}
+
+:::steps
+1. **Select File > Open Sample Project** The editor asks where to put it.
+2. **Choose a location** The sample is copied into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.
+3. **Wait for the project to open** The Map Explorer loads `audacity-guide.ditamap`, and publishing is configured, without you setting anything up.
+:::
+
+You now have your own copy to break further and repair.
+
+## Step 2: See what is wrong {#step-2-see-what-is-wrong}
+
+Rather than opening files to look for problems, ask the project.
+
+Run the health check from the command line:
+
+```bash
+bin/dogsbay-xml project-health .
+```
+
+The report covers three kinds of problem at once: references that point at something missing, keys that are used but never defined or defined but never used, topics that no map includes, and files that fail validation against their grammar.
+
+Read the output before you change anything. The point of this step is that the answer is a property of the project, not of the file you happen to have open.
+
+> [!TIP]
+> `check-links` and `health` are narrower and faster if you only want one part of that picture.
+
+## Step 3: Fix one problem by hand {#step-3-fix-one-problem-by-hand}
+
+Pick a topic that has no short description.
+
+:::steps
+1. **Open the topic** Select it in the Explorer.
+2. **Switch to the Author view** Select **View > Document Views > Author**, or use the view buttons in the menu bar. The topic is shown as blocks rather than as tags.
+3. **Add a short description** Put the cursor after the title and use the insert menu to add a `shortdesc`, then write one sentence that says what the topic is for.
+4. **Save** Select **File > Save**. The XML is written back with your formatting intact.
+:::
+
+Now switch back with **View > Document Views > Editor** and confirm the element is where you expect. The two views are the same document, and your place in it is carried across.
+
+## Step 4: Let the agent do the rest {#step-4-let-the-agent-do-the-rest}
+
+Fixing thirty topics by hand is the wrong tool. This is what the agent is for.
+
+:::steps
+1. **Open the AI Agent panel** It is on the right-hand sidebar.
+2. **Choose a provider and sign in** Use the provider bar at the top of the panel. The key is stored in your operating system keychain, not in the project.
+3. **Ask for the change** Type: `Add a short description to every topic that has none. Keep them to one sentence and lead with what the topic is for.`
+:::
+
+The agent works across the project rather than opening each file in turn, because it has the editor's project operations available to it.
+
+## Step 5: Review what it proposes {#step-5-review-what-it-proposes}
+
+The agent's edits do not overwrite your files. They arrive as tracked changes.
+
+:::steps
+1. **Open the Proposals panel** Each proposed change is listed with the identity that made it.
+2. **Select one** The editor jumps to the affected part of the document and shows the change in place.
+3. **Accept or reject it** Use **Accept** or **Reject** for one change, or **Accept all** and **Reject all** when you have read enough to trust the batch.
+:::
+
+This is the part worth slowing down for. The agent proposes; you decide.
+
+## Step 6: Check the project again {#step-6-check-the-project-again}
+
+```bash
+bin/dogsbay-xml project-health .
+```
+
+Fewer problems should remain. What is left is the more interesting work: the hardcoded product name that should be a key, the conditions that are not in the subject scheme, and the topic that is too long and should be split.
+
+## What you learned {#what-you-learned}
+
+- The sample project is a copy, so you can experiment freely.
+- Problems are found at project level, not file by file.
+- The Author view and the source view are two views of one document.
+- The agent works across a project, and its changes are reviewable before they land.
 
 ## Where to go next {#where-to-go-next}
 
 :::cards
-- **[Getting started](/dogsbay-xml-docs/getting-started){icon="rocket"}**
-  Three-minute orientation to editing, adding, and grouping pages.
+- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon="sparkles"}**
+  Tiers, the write gate, and the audit log.
 
-- **[Configuration](/dogsbay-xml-docs/getting-started){icon="settings"}**
-  Site name, theme, base path, and per-source settings live in dogsbay.config.yml.
-
-- **[Source on GitHub](https://github.com/dogsbay/dogsbay){icon="github"}**
-  Star, browse, file an issue, or follow the roadmap.
-
-- **[Plugins](https://github.com/dogsbay/dogsbay/tree/main/docs){icon="puzzle"}**
-  Image zoom, TypeDoc, and your own — the plugin API is small, typed, and explicit.
+- **[Reviewing an agent's changes](/dogsbay-xml-docs/agent/proposals){icon="check"}**
+  Proposals in more detail, including comments.
 :::
 
-## Markdown that does more {#markdown-that-does-more}
+---
 
-Cards, steps, tabs, callouts, fenced code — Dogsbay markdown is a small superset of CommonMark with directives for the components docs sites need most. Here's the same config in two formats:
+# The agent, and what it may touch
 
-:::tabs
-YAML
-:   ```yaml
-    site:
-      name: DogsBay XML
-      url: https://example.com
-    content:
-      sources:
-        - path: ./content
-          from: dogsbay-md
-    ```
+URL: https://dogsbay.ai/dogsbay-xml-docs/agent/overview.md
 
-JSON
-:   ```json
-    {
-      "site": { "name": "DogsBay XML" },
-      "content": {
-        "sources": [{ "path": "./content", "from": "dogsbay-md" }]
-      }
-    }
-    ```
+---
+title: The agent, and what it may touch
+description: How the built-in agent and hosted agents differ, which tools they get, and the limits that apply before any change reaches a file.
+type: explanation
+---
+
+# The agent, and what it may touch {#the-agent-and-what-it-may-touch}
+
+DogsBay XML can run two kinds of AI agent, and the difference matters more than it first appears.
+
+The **built-in agent** runs inside the editor. You choose a provider, DogsBay XML holds the conversation, and the agent calls the editor's own operations directly.
+
+A **hosted agent** is a separate program that you already use, such as Claude Code, Codex or Gemini CLI. The editor starts it, talks to it over the Agent Client Protocol, and lends it the editor's DITA tools. It keeps its own sign-in and its own model.
+
+Both appear in the **AI Agent** panel on the right. The built-in agent is the first tab; each hosted agent you start gets a tab of its own.
+
+## Why the agent understands DITA {#why-the-agent-understands-dita}
+
+Whichever kind you use, the agent does not get a text editor and a folder of files. It gets the operations the editor itself runs: validate this document against its grammar, list the keys in this map's key space, find everything that references this topic, rename a key across the project, audit the project's health.
+
+Two consequences follow. The agent can act on a whole project without opening every file, and a change it makes goes through the same code as the equivalent menu command, so it obeys the same rules.
+
+## What limits an agent {#what-limits-an-agent}
+
+Three mechanisms apply, in this order.
+
+### Capability tier {#capability-tier}
+
+You choose a tier when a hosted agent session opens. The agent never chooses it.
+
+| Tier | The agent can |
+| --- | --- |
+| **T1** | Call the editor's DITA commands. No file access. |
+| **T2** | Also read project files through the editor, including unsaved buffers. |
+| **T3** | Also write through the editor. Writes still pass the write gate. |
+
+New hosted sessions default to T1. The tier shows as a badge on the session so it is visible while you work.
+
+> [!IMPORTANT]
+> Some agents read and write the disk themselves, through their own tools, regardless of what the editor offers. Where that is true the session is Tier 3 by construction and the badge says so. The tier limits what the editor lends the agent; it cannot limit what the agent already has.
+
+### The write gate {#the-write-gate}
+
+Every change from an agent session passes one checkpoint, which applies three tests.
+
+**Containment.** A hosted or external agent can only write inside the open project. Symbolic links are resolved first, so a link out of the project does not become a way around it.
+
+**Conflict.** An agent may only write a document it has read during this session, and only while that document still holds what the agent read. If the file changed underneath it, the write is refused and the agent is told to read again. The current content comes back with the refusal, so it can.
+
+**Lease.** One agent session may hold a document at a time. Leases expire, so an agent that crashes does not hold a file forever. You are never leased and never refused.
+
+### Proposals {#proposals}
+
+When an agent edits a DITA file, the change is recorded as a tracked change rather than applied silently. You accept or reject it in the **Proposals** panel. See [Reviewing an agent's changes](./proposals).
+
+## What is recorded {#what-is-recorded}
+
+Agent commands are appended to an audit log in the project, at `.dogsbay/agent-audit/commands.jsonl`. Each line records the time, the session, its identity, the command, the files, whether it was a dry run, and the outcome.
+
+Your own commands are not recorded. Tokens are never written to it. The log is excluded from version control on creation, so it does not reach the team repository.
+
+To read it, select **Project > Agent activity**, or run:
+
+```bash
+bin/dogsbay-xml audit-log
+```
+
+## What each kind of agent needs {#what-each-kind-of-agent-needs}
+
+|  | Built-in agent | Hosted agent |
+| --- | --- | --- |
+| Sign-in | An API key, or a ChatGPT sign-in for Codex | Its own, as you already use it |
+| Where the key is stored | Your operating system keychain | The agent's own configuration |
+| Integration server | Not required | Required, for the editor's tools |
+| Tier | Runs as you | You choose, T1 by default |
+
+The integration server is off until you turn it on in **File > Preferences > Server**.
+
+---
+
+# Reviewing an agent's changes
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/agent/proposals.md
+
+---
+title: Reviewing an agent's changes
+description: Agent edits to DITA files arrive as tracked changes. Accept them, reject them, or comment on them.
+type: how-to
+---
+
+# Reviewing an agent's changes {#reviewing-an-agents-changes}
+
+When an agent edits a DITA file, the change is not written over your content. It is recorded as a tracked change, attributed to the agent that proposed it, and left for you to decide on.
+
+Your own edits are never marked this way.
+
+## Reviewing in the Proposals panel {#reviewing-in-the-proposals-panel}
+
+:::steps
+1. **Open the Proposals panel** It is on the right-hand sidebar. Each entry shows what kind of change it is and who proposed it.
+2. **Select a proposal** The editor moves to the affected part of the document and highlights the change in place, so you see it in context rather than as a diff out of context.
+3. **Decide** Select **Accept** to keep the change or **Reject** to discard it. Use **Accept all** or **Reject all** to act on the whole set.
 :::
 
-For the full markdown reference, see [github.com/dogsbay/dogsbay](https://github.com/dogsbay/dogsbay).
+## Kinds of proposal {#kinds-of-proposal}
 
----
+| Kind | What it means |
+| --- | --- |
+| Insert | Content the agent wants to add |
+| Delete | Content it wants to remove |
+| Changed | Content it wants to replace |
+| Comment | A remark on the content, changing nothing |
 
-# Getting started
+A comment is not an edit. Use **Resolve** to settle one without removing it from the document, which keeps the record of the discussion.
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started.md
+## Reviewing from the command line {#reviewing-from-the-command-line}
 
----
-title: Getting started
-description: Quick orientation for new contributors.
----
+The same operations are available headless, which is useful when reviewing a batch or scripting a gate in a pipeline:
 
-# Getting started {#getting-started}
-
-Three minutes to your first edit. Powered by [Dogsbay](https://github.com/dogsbay/dogsbay).
-
-## 1. Edit a page {#1-edit-a-page}
-
-Open `content/index.md` in your editor and change something. Save — the dev server reloads automatically.
-
-## 2. Add a page {#2-add-a-page}
-
-Create a new file like `content/about.md`:
-
-```md
----
-title: About
----
-
-# About
-
-Whatever you want to say here.
+```bash
+bin/dogsbay-xml review list topic.dita
+bin/dogsbay-xml review accept topic.dita insert@1234
+bin/dogsbay-xml review reject topic.dita delete@5678
+bin/dogsbay-xml review accept topic.dita --all
+bin/dogsbay-xml review accept topic.dita --all --author ai:claude-acp
+bin/dogsbay-xml review comment topic.dita "Check this term" --after "normalize"
 ```
 
-Then add it to `content/nav.yml` so it appears in the sidebar. Each entry is a single-key map — key = label, value = file path:
+The proposal id comes from `review list`. `--all` acts on every change and leaves comments alone. `--author` narrows it to one agent, which matters when two have worked on the same file. A comment is placed either after the first occurrence of some text, with `--after`, or as the first child of an element, with `--in`.
 
-```yaml
-- About: about.md
+`project-health` also reports open proposals, so a project with unreviewed agent changes does not look publish-ready.
+
+## What happens to a rejected change {#what-happens-to-a-rejected-change}
+
+Rejecting removes the proposed content and restores what was there. Accepting removes the markup and keeps the content. Either way the document is left as ordinary DITA, with no trace of the review in what you publish.
+
+## Publishing while proposals are open {#publishing-while-proposals-are-open}
+
+Deleted spans stay in the file until you accept the deletion, so they would otherwise still publish. They carry a property that DITAVAL can filter on, which lets a build exclude proposed deletions without you having to resolve every proposal first.
+
+## Two protections worth knowing {#two-protections-worth-knowing}
+
+**An agent cannot quietly remove another author's proposal.** A write that would delete someone else's open proposal is refused, and the agent is told why.
+
+**A change too large to mark is not silently forced through.** If the edit cannot be expressed as tracked changes, it falls back to a plain write only when nobody else has open proposals in that file.
+
+## Turning proposals off {#turning-proposals-off}
+
+Proposals are on by default. The setting is `review-agent-proposals` in the editor configuration. Turning it off means agent edits are written directly, with no review step, which is worth considering only for a project where an agent has no write access anyway.
+
+---
+
+# Using Claude Code, Codex or Gemini
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/agent/hosted-agents.md
+
+---
+title: Using Claude Code, Codex or Gemini
+description: Run an agent you already have inside the editor, and lend it the editor's DITA tools.
+type: how-to
+---
+
+# Using Claude Code, Codex or Gemini {#using-claude-code-codex-or-gemini}
+
+The editor can run an agent you already use as a separate program, and lend it the editor's DITA operations. The agent keeps its own sign-in and its own model; the editor supplies the tools and the limits.
+
+This works with any agent that speaks the Agent Client Protocol. Claude Code, Codex and Gemini CLI are the ones most people have.
+
+## Before you start {#before-you-start}
+
+Turn on the integration server, which is how the agent reaches the editor's tools. Select **File > Preferences > Server** and enable it.
+
+## Starting a session {#starting-a-session}
+
+:::steps
+1. **Open the AI Agent panel** It is on the right-hand sidebar. The first tab is the built-in agent.
+2. **Select the add button** The editor lists the agents it can run on this machine. Agents already installed are shown as ready; others can still start, but the first run downloads them.
+3. **Choose a capability tier** The tier decides what the editor lends the agent. New sessions default to the most restricted.
+4. **Work in the tab** Each hosted agent gets its own tab, with its tier shown as a badge.
+:::
+
+## What the agent can reach {#what-the-agent-can-reach}
+
+The editor passes its tools to the agent when the session starts, so the agent can validate documents, resolve keys, find references and run the project audits without you configuring anything.
+
+The tier decides the rest:
+
+| Tier | The agent can |
+| --- | --- |
+| **T1** | Call the editor's DITA commands, and nothing else |
+| **T2** | Also read project files through the editor, unsaved buffers included |
+| **T3** | Also write through the editor, subject to the write gate |
+
+> [!IMPORTANT]
+> Some agents read and write files with their own tools, whatever the editor offers. Where that is true, the session is Tier 3 in practice and the badge says so. The tier governs what the editor lends, not what the agent already has.
+
+## Signing in {#signing-in}
+
+If the agent needs authentication, a sign-in control appears in its tab. The editor can also hand the agent an API key you have already saved for the same vendor, so you do not enter it twice.
+
+## Managing sessions {#managing-sessions}
+
+Right-click a tab to rename it, export the transcript, copy it, or close it. Closing the tab ends the session.
+
+Sessions are remembered. When you start an agent that supports resuming, the editor offers the earlier session and the agent replays its history into the tab.
+
+## Installing an agent {#installing-an-agent}
+
+Some agents are distributed as a binary rather than run through `npx`. The editor can download those for you, into a folder under your home directory, verifying the checksum where the registry provides one.
+
+Nothing is added to your `PATH`. Deleting the folder uninstalls the agent.
+
+## Seeing what it did {#seeing-what-it-did}
+
+Every command from a hosted agent is recorded in the project's audit log, with the session that ran it. Select **Project > Agent activity**, or:
+
+```bash
+bin/dogsbay-xml audit-log
+bin/dogsbay-xml sessions
 ```
 
-External URLs work the same way:
+## Related {#related}
 
-```yaml
-- GitHub: https://github.com/your-org/your-repo
+:::cards
+- **[The agent, and what it may touch](./overview){icon="shield"}**
+  Tiers, the write gate and the audit log in full.
+
+- **[Reviewing an agent's changes](./proposals){icon="check"}**
+  What happens to the edits it makes.
+:::
+
+---
+
+# Topics and maps
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps.md
+
+---
+title: Topics and maps
+description: Write topics in the source or Author view, assemble them into maps, and edit map structure without breaking references.
+type: how-to
+---
+
+# Topics and maps {#topics-and-maps}
+
+A DITA project is topics plus the maps that assemble them. The editor gives you two ways to write a topic and two ways to change a map.
+
+## Writing a topic {#writing-a-topic}
+
+Each open document offers more than one view of the same file. Switch between them with **View > Document Views**.
+
+**Editor** is the XML source, with completion driven by the grammar the document declares, folding, and validation errors in the margin.
+
+**Author** shows the topic as blocks rather than tags: titles, paragraphs, notes, lists, tables and figures, with the structure visible at the edge. The insert menu offers only what the content model allows at the cursor, so a topic that has its title is not offered a second one.
+
+Both views edit the same document. Switching carries your place across, and undo is shared, so a change made in one view can be undone in the other.
+
+The round trip is content-lossless. Markup the Author view does not visualise, such as conditional attributes or an unusual element, is preserved rather than dropped.
+
+**Author split** shows source and blocks side by side, which is useful while you are learning what a block corresponds to.
+
+## Assembling a map {#assembling-a-map}
+
+The **Topic Maps** panel in the left sidebar shows the map as a tree. Open a map to see its topic references, nested maps and relationship tables.
+
+To change the structure, edit the map in the panel, or use `edit-map` from the command line for a change you want to script or repeat:
+
+```bash
+bin/dogsbay-xml edit-map audacity-guide.ditamap insert \
+  --parent / --href topics/new-topic.dita --navtitle "New topic"
 ```
 
-## 3. Group pages {#3-group-pages}
+The operation is `set-attr`, `insert`, `remove` or `move`. Targets are given as an element id or a child path such as `/1/3`. Structural edits preserve the file's formatting and keep references intact.
 
-To create a section in the sidebar, give the entry a list of children instead of a single file:
+> [!NOTE]
+> `edit-map` writes unless you pass `--dry-run`, which is the opposite of the refactoring commands. Those print a plan and do nothing until you pass `--apply`.
 
-```yaml
-- Guides:
-    - Configuration: guides/configuration.md
-    - Deployment: guides/deployment.md
+## Before you rename or move anything {#before-you-rename-or-move-anything}
+
+Ask what depends on it first:
+
+```bash
+bin/dogsbay-xml where-used topics/installing-audacity.dita
 ```
 
-The folder structure under `content/` doesn't have to match the nav — but it usually does, because it makes URLs predictable.
+The report covers references from maps, conrefs, links and images, including references that reach the file indirectly through a key.
+
+Then let the editor do the rename, so the references follow:
+
+```bash
+bin/dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita
+bin/dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita --apply
+```
+
+The first command shows what would change. The second does it.
+
+> [!WARNING]
+> Renaming a topic in a file manager leaves every reference to it pointing at a file that is no longer there. `check-links` finds those afterwards, but renaming through the editor avoids creating them.
+
+## Splitting a topic that grew {#splitting-a-topic-that-grew}
+
+A topic that has become several topics can be split at its sections, with the map updated to include the new files:
+
+```bash
+bin/dogsbay-xml split-topic topics/editing-techniques.dita --apply
+```
+
+## Checking the result {#checking-the-result}
+
+```bash
+bin/dogsbay-xml project-health .
+```
+
+A clean report means references resolve, keys are defined and used, no topic is orphaned, and every file validates against its grammar.
+
+---
+
+# The command line
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md
+
+---
+title: The command line
+description: What bin/dogsbay-xml can do, grouped by what you are trying to find out or change.
+type: reference
+---
+
+# The command line {#the-command-line}
+
+`bin/dogsbay-xml` runs the same operations as the editor's menus. Most commands work on files and need nothing running. A few drive an editor that is already open, and those need the integration server.
+
+Run `bin/dogsbay-xml --help` for the full list, and `bin/dogsbay-xml <command> --help` for one command's options.
+
+> [!IMPORTANT]
+> The refactoring commands print a plan and change nothing until you add `--apply`. The structural editors, `edit-map` and `edit-reltable`, work the other way round: they write unless you pass `--dry-run`.
+
+## Reading a document {#reading-a-document}
+
+| Command | What it does |
+| --- | --- |
+| `validate` | Validate against XSD, DTD or RelaxNG, resolving catalogs. DITA files fall back to the bundled DITA grammars. |
+| `parse` | Print the root element, namespace and encoding. |
+| `info` | Report encoding, grammar, root element and size. |
+| `query` | Run an XPath expression over a file or a glob. |
+| `transform` | Apply an XSLT stylesheet. |
+| `format` | Pretty-print using the project's house style. |
+| `reflow` | Reflow prose to one sentence per line, leaving verbatim blocks alone. |
+| `preview` | Render the styled DITA preview to HTML. |
+
+## Asking about the project {#asking-about-the-project}
+
+These are the ones that answer questions a single file cannot.
+
+| Command | What it answers |
+| --- | --- |
+| `where-used` | What references this file? |
+| `keys` | What keys does this root map define, and what do they resolve to? |
+| `check-links` | Which references point at something missing? |
+| `conref-audit` | Which reuse references name an element id that no longer exists? |
+| `health` | Broken references, undefined and unused keys, orphan topics. |
+| `project-health` | All of that, plus grammar validation and open proposals. |
+
+`check-links`, `health` and `project-health` exit with a non-zero status when they find something, so they work as a pipeline gate.
+
+```bash
+bin/dogsbay-xml project-health .
+```
+
+## Validating a set {#validating-a-set}
+
+| Command | What it does |
+| --- | --- |
+| `validate-project` | Validate every file in a scope: a map's publication set, a glob, or a folder. |
+| `validate-deliverables` | Validate each deliverable, with its own map and conditions. |
+| `validate-ot` | Run DITA-OT preprocessing per deliverable, which catches key and conref resolution failures that static validation cannot. Requires DITA-OT. |
+| `schematron` | Apply a Schematron schema to one document. |
+| `schematron-project` | Apply one across a scope. |
+| `validate-conditions` | Report profiling values that the subject scheme does not sanction. |
+
+## Metadata {#metadata}
+
+| Command | What it does |
+| --- | --- |
+| `metadata-audit` | Report where required metadata is missing or wrong. |
+| `metadata-set` | Set, fill, append or remove fields in bulk, preserving the rest of the prolog. |
+| `metadata-export-schematron` | Compile the metadata policy to ISO Schematron, so the same rules run anywhere. |
+
+## Surveying DITA features {#surveying-dita-features}
+
+Each of these reports on one DITA mechanism across the project: `reltable-audit`, `list-branches`, `list-subjects`, `keyword-audit`, `index-audit`, `glossary-audit`, `conref-push-audit`, `chunk-audit` and `specialization-info`.
+
+## Changing files {#changing-files}
+
+Reference-safe edits. All are dry-run first.
+
+| Command | What it does |
+| --- | --- |
+| `rename-file` | Rename a file and every reference to it. |
+| `rename-key` | Rename a key and every use of it. |
+| `rename-element-id` | Rename an element id, updating conrefs that point at it. |
+| `rename-profile-value` | Rename a profiling value, such as a platform or audience. |
+| `delete-file` | Delete safely, reporting inbound references first. |
+| `retarget` | Point every reference from one file at another. |
+| `keyify` | Convert direct references to key references, adding the key definitions. |
+| `inline-key` | The reverse: turn a key reference back into a direct one. |
+| `extract-conref` | Move an element into a reuse topic and leave a conref behind. |
+| `inline-conref` | Replace a conref with a copy of the content it pulls in. |
+| `create-keydef` | Add a text key definition. |
+| `merge-keydefs` | Remove duplicate key definitions that are shadowed anyway. |
+| `split-topic` | Split a topic at its sections, adding the new topics to the map. |
+
+Structural editing of maps and relationship tables preserves formatting and keeps references intact: `edit-map` and `edit-reltable`. Both take an operation as their second argument, and both write unless you pass `--dry-run`.
+
+## Publishing {#publishing}
+
+| Command | What it does |
+| --- | --- |
+| `build` | Build one deliverable or all of them with DITA-OT, with the transform type, conditions and parameters the project defines. |
+
+## Driving a running editor {#driving-a-running-editor}
+
+These need the integration server, which you turn on in **File > Preferences > Server**.
+
+| Command | What it does |
+| --- | --- |
+| `open`, `close`, `list`, `save` | Manage open documents. |
+| `selection`, `goto-line`, `cursor`, `select-element`, `wrap` | Move around and edit at the cursor. |
+| `author` | Drive the Author view: `outline`, `switch`, `insert`, `set-text`, `issues`. |
+| `screenshot` | Capture the editor window. |
+| `status` | Report whether the editor is reachable, and print MCP configuration for AI assistants. |
+
+## Agents and review {#agents-and-review}
+
+| Command | What it does |
+| --- | --- |
+| `review` | List, accept, reject or comment on agent proposals in a document. |
+| `sessions` | List the agent sessions connected to the editor. |
+| `agents` | List Agent Client Protocol agents and whether this machine can run them. |
+| `audit-log` | Show what agents changed in this project, newest first. |
+
+## Projects {#projects}
+
+`project create`, `project open`, `project list` and `project info` manage projects from the command line.

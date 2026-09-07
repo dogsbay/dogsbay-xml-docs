@@ -1,0 +1,5 @@
+# DogsBay XML — Authoring DITA
+
+## Authoring DITA
+
+- [Topics and maps](https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps.md): Write topics in the source or Author view, assemble them into maps, and edit map structure without breaking references.

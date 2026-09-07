@@ -1,0 +1,5 @@
+# DogsBay XML — Reference
+
+## Reference
+
+- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What bin/dogsbay-xml can do, grouped by what you are trying to find out or change.

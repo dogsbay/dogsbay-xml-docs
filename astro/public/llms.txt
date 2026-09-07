@@ -4,5 +4,24 @@
 
 ## Documentation
 
-- [Home](https://dogsbay.ai/dogsbay-xml-docs.md): Edit content/index.md to get started.
-- [Getting started](https://dogsbay.ai/dogsbay-xml-docs/getting-started.md): Quick orientation for new contributors.
+- [Home](https://dogsbay.ai/dogsbay-xml-docs.md): An XML and DITA editor with an AI agent that works on your content model and shows you every change before it lands.
+
+## Start here
+
+- [What DogsBay XML is](https://dogsbay.ai/dogsbay-xml-docs/start-here/what-it-is.md): What the editor does, who it is for, and the three ideas that shape it.
+- [Installing](https://dogsbay.ai/dogsbay-xml-docs/start-here/install.md): Install DogsBay XML from a packaged installer, or build it from source.
+- [Tutorial: fixing a DITA guide](https://dogsbay.ai/dogsbay-xml-docs/start-here/tutorial.md): Open a real DITA project that has problems in it, find them with the project tools, and fix some of them with the AI agent.
+
+## Working with the agent
+
+- [The agent, and what it may touch](https://dogsbay.ai/dogsbay-xml-docs/agent/overview.md): How the built-in agent and hosted agents differ, which tools they get, and the limits that apply before any change reaches a file.
+- [Reviewing an agent's changes](https://dogsbay.ai/dogsbay-xml-docs/agent/proposals.md): Agent edits to DITA files arrive as tracked changes. Accept them, reject them, or comment on them.
+- [Using Claude Code, Codex or Gemini](https://dogsbay.ai/dogsbay-xml-docs/agent/hosted-agents.md): Run an agent you already have inside the editor, and lend it the editor's DITA tools.
+
+## Authoring DITA
+
+- [Topics and maps](https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps.md): Write topics in the source or Author view, assemble them into maps, and edit map structure without breaking references.
+
+## Reference
+
+- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What bin/dogsbay-xml can do, grouped by what you are trying to find out or change.

@@ -1,0 +1,7 @@
+# DogsBay XML — Working with the agent
+
+## Working with the agent
+
+- [The agent, and what it may touch](https://dogsbay.ai/dogsbay-xml-docs/agent/overview.md): How the built-in agent and hosted agents differ, which tools they get, and the limits that apply before any change reaches a file.
+- [Reviewing an agent's changes](https://dogsbay.ai/dogsbay-xml-docs/agent/proposals.md): Agent edits to DITA files arrive as tracked changes. Accept them, reject them, or comment on them.
+- [Using Claude Code, Codex or Gemini](https://dogsbay.ai/dogsbay-xml-docs/agent/hosted-agents.md): Run an agent you already have inside the editor, and lend it the editor's DITA tools.
