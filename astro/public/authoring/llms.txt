@@ -3,3 +3,6 @@
 ## Authoring DITA
 
 - [Topics and maps](https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps.md): Write topics in the source or Author view, assemble them into maps, and edit map structure without breaking references.
+- [Keys and reuse](https://dogsbay.ai/dogsbay-xml-docs/authoring/keys-and-reuse.md): Resolve keys across a map, convert direct references to keys, and move shared content into reuse topics.
+- [Conditional content](https://dogsbay.ai/dogsbay-xml-docs/authoring/conditional-content.md): Profile content with conditions, filter it with DITAVAL, and keep the values under control with a subject scheme.
+- [Metadata](https://dogsbay.ai/dogsbay-xml-docs/authoring/metadata.md): Define which metadata topics must carry, audit the project against it, and fill in what is missing.

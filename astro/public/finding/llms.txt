@@ -1,0 +1,6 @@
+# DogsBay XML — Finding and changing
+
+## Finding and changing
+
+- [Validating a project](https://dogsbay.ai/dogsbay-xml-docs/finding/validation.md): Check one document or a whole set against its grammar, business rules and references, and use the same checks as a build gate.
+- [Refactoring](https://dogsbay.ai/dogsbay-xml-docs/finding/refactoring.md): Rename, move, split and restructure content without breaking the references that point at it.

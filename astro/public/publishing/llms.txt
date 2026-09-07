@@ -1,0 +1,5 @@
+# DogsBay XML — Publishing
+
+## Publishing
+
+- [Previewing and publishing](https://dogsbay.ai/dogsbay-xml-docs/publishing/publishing.md): See a styled preview while you write, then build deliverables with DITA-OT.

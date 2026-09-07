@@ -10,10 +10,31 @@
     <loc>https://dogsbay.ai/dogsbay-xml-docs/agent/proposals/</loc>
   </url>
   <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/conditional-content/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/keys-and-reuse/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/metadata/</loc>
+  </url>
+  <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps/</loc>
   </url>
   <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/automation/mcp/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/finding/refactoring/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/finding/validation/</loc>
+  </url>
+  <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/publishing/publishing/</loc>
   </url>
   <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/reference/cli/</loc>

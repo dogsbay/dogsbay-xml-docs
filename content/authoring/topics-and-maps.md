@@ -59,11 +59,16 @@ the file's formatting and keep references intact.
 Ask what depends on it first:
 
 ```bash
-bin/dogsbay-xml where-used topics/installing-audacity.dita
+bin/dogsbay-xml where-used topics/installing-audacity.dita --root .
 ```
 
-The report covers references from maps, conrefs, links and images, including
-references that reach the file indirectly through a key.
+The report covers references from maps, conrefs, links and images. Add
+`--map` to include references that reach the file indirectly through a key:
+
+```bash
+bin/dogsbay-xml where-used topics/installing-audacity.dita \
+  --root . --map audacity-guide.ditamap
+```
 
 Then let the editor do the rename, so the references follow:
 

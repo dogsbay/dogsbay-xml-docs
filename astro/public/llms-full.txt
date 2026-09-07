@@ -567,10 +567,15 @@ The operation is `set-attr`, `insert`, `remove` or `move`. Targets are given as 
 Ask what depends on it first:
 
 ```bash
-bin/dogsbay-xml where-used topics/installing-audacity.dita
+bin/dogsbay-xml where-used topics/installing-audacity.dita --root .
 ```
 
-The report covers references from maps, conrefs, links and images, including references that reach the file indirectly through a key.
+The report covers references from maps, conrefs, links and images. Add `--map` to include references that reach the file indirectly through a key:
+
+```bash
+bin/dogsbay-xml where-used topics/installing-audacity.dita \
+  --root . --map audacity-guide.ditamap
+```
 
 Then let the editor do the rename, so the references follow:
 
@@ -599,6 +604,700 @@ bin/dogsbay-xml project-health .
 ```
 
 A clean report means references resolve, keys are defined and used, no topic is orphaned, and every file validates against its grammar.
+
+---
+
+# Keys and reuse
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/keys-and-reuse.md
+
+---
+title: Keys and reuse
+description: Resolve keys across a map, convert direct references to keys, and move shared content into reuse topics.
+type: how-to
+---
+
+# Keys and reuse {#keys-and-reuse}
+
+DITA has two mechanisms for not repeating yourself: keys, which give a name to a target so the reference does not carry a path, and conrefs, which pull content from one topic into another. Both create relationships the editor can show you and change safely.
+
+## Seeing the key space {#seeing-the-key-space}
+
+A map's key space is every key its topics can use, including keys defined in the maps it includes.
+
+```bash
+bin/dogsbay-xml keys audacity-guide.ditamap
+```
+
+To ask what one key resolves to:
+
+```bash
+bin/dogsbay-xml keys audacity-guide.ditamap --resolve product-name
+```
+
+Two things change what a key resolves to, and both are options here.
+
+**Conditions.** A DITAVAL can exclude a key definition, so the same key resolves differently in different builds:
+
+```bash
+bin/dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval
+```
+
+**Key scopes.** DITA 1.3 lets a map declare a scope, so a key can mean different things in different branches of the same map:
+
+```bash
+bin/dogsbay-xml keys audacity-guide.ditamap --resolve intro --scope podcaster
+```
+
+> [!TIP]
+> A key that resolves in the editor but not in a build is usually a conditions or scope difference, not a broken key. Resolve it with the same DITAVAL the build uses before looking anywhere else.
+
+## Converting direct references to keys {#converting-direct-references-to-keys}
+
+A file referenced by path in twenty topics is twenty edits when it moves. The `keyify` command converts all of them to key references and adds the key definition to a map you choose.
+
+```bash
+bin/dogsbay-xml keyify topics/installing-audacity.dita installing \
+  --root . --map keydefs-product.ditamap
+```
+
+That prints the plan. Add `--apply` to make the change.
+
+The reverse, when a key is not earning its indirection:
+
+```bash
+bin/dogsbay-xml inline-key installing --root . --map audacity-guide.ditamap --apply
+```
+
+The map is needed because it is what resolves the key to the path that replaces it.
+
+## Moving shared content into a reuse topic {#moving-shared-content-into-a-reuse-topic}
+
+When the same note, step or paragraph appears in several topics, move it once into a reuse topic and conref it everywhere else.
+
+```bash
+bin/dogsbay-xml extract-conref topics/installing-audacity.dita note-backup \
+  --to shared/common-notes.dita
+```
+
+The element is moved into the reuse topic, which is created if it does not exist, and a conref stub is left in its place. Add `--apply` to run it.
+
+To undo that relationship, replacing conrefs with a copy of the content:
+
+```bash
+bin/dogsbay-xml inline-conref shared/common-notes.dita note-backup --root . --apply
+```
+
+Use `--file` to inline only the instances in one topic rather than all of them.
+
+## Checking that reuse still resolves {#checking-that-reuse-still-resolves}
+
+Two audits answer different questions.
+
+```bash
+bin/dogsbay-xml check-links .
+bin/dogsbay-xml conref-audit .
+```
+
+`check-links` reports references whose target file is missing, and keys used but never defined. `conref-audit` is narrower and catches the failure that is easy to create by accident: the target file exists, but the element id the conref names is no longer in it.
+
+An element id disappears when someone renames it or deletes the element it was on, which is why renaming ids is a command rather than an edit:
+
+```bash
+bin/dogsbay-xml rename-element-id shared/common-notes.dita note-backup backup-note --apply
+```
+
+## Tidying key definitions {#tidying-key-definitions}
+
+When maps are merged or copied, the same key often ends up defined more than once. Only the first definition wins, so the rest are noise:
+
+```bash
+bin/dogsbay-xml merge-keydefs audacity-guide.ditamap --apply
+```
+
+## Related {#related}
+
+:::cards
+- **[Topics and maps](./topics-and-maps){icon="file-text"}**
+  Assembling topics, and renaming without breaking references.
+
+- **[Conditional content](./conditional-content){icon="filter"}**
+  Conditions, branch filtering and controlled values.
+:::
+
+---
+
+# Conditional content
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/conditional-content.md
+
+---
+title: Conditional content
+description: Profile content with conditions, filter it with DITAVAL, and keep the values under control with a subject scheme.
+type: how-to
+---
+
+# Conditional content {#conditional-content}
+
+Conditional content is one source producing several outputs: a Windows guide and a macOS guide from the same topics, or a beginner version and an expert version. You mark content with profiling attributes, and a DITAVAL file decides what each build includes.
+
+The mechanism is simple. What goes wrong is that the values drift.
+
+## Marking content {#marking-content}
+
+Profiling attributes such as `platform`, `audience` and `product` go on any element. The editor knows which values are in use in the project, so you are choosing from what exists rather than typing a new one by accident.
+
+## Filtering a build {#filtering-a-build}
+
+A DITAVAL file lists which values to include and exclude. The sample project keeps them in `filters/`:
+
+```
+filters/platform-macos.ditaval
+filters/platform-windows.ditaval
+filters/mac-beginner.ditaval
+```
+
+A DITAVAL affects more than the text that survives. It also conditions the key space, so a key can resolve to different targets in different builds:
+
+```bash
+bin/dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval
+```
+
+## Branch filtering {#branch-filtering}
+
+DITA 1.3 lets a map apply a DITAVAL to one branch, with `ditavalref`, so the same topics appear more than once in one map under different conditions. That is how one map produces a Windows chapter and a macOS chapter.
+
+To see the variants a map produces:
+
+```bash
+bin/dogsbay-xml list-branches audacity-guide.ditamap
+```
+
+Branch filtering is resolved by DITA-OT at build time. The editor shows you the variants a map declares; it does not itself produce a filtered build.
+
+## The problem with uncontrolled values {#the-problem-with-uncontrolled-values}
+
+Nothing in DITA stops you writing `platform="macos"` in one topic and `platform="mac"` in another. Both are valid XML and both validate against the grammar.
+
+The build then silently drops the topic that used the value your DITAVAL does not mention. Nothing errors. The output is simply missing a step, and nobody notices until a reader does.
+
+## Controlling values with a subject scheme {#controlling-values-with-a-subject-scheme}
+
+A subject scheme map declares which values an attribute may take. It turns a typo from an invisible content loss into something you can find.
+
+To see what a scheme allows:
+
+```bash
+bin/dogsbay-xml list-subjects keydefs-glossary.ditamap
+```
+
+To find content that breaks it:
+
+```bash
+bin/dogsbay-xml validate-conditions . --map audacity-guide.ditamap
+```
+
+That scans the map's publication set and reports every profiling value the scheme does not sanction. It exits with a non-zero status when it finds any, so it works as a pipeline gate.
+
+Use `--scope` to narrow it to one map, a glob, or the whole project root.
+
+## Renaming a value everywhere {#renaming-a-value-everywhere}
+
+When a value does need to change, change it as a refactoring rather than by search and replace, so every use moves together:
+
+```bash
+bin/dogsbay-xml rename-profile-value platform mac macos --root .
+bin/dogsbay-xml rename-profile-value platform mac macos --root . --apply
+```
+
+The first prints the plan; the second applies it.
+
+## A useful order {#a-useful-order}
+
+:::steps
+1. **Declare the vocabulary** Write the subject scheme first, so the values exist before content uses them.
+2. **Check what is already there** Run `validate-conditions` over the existing content and fix what it finds with `rename-profile-value`.
+3. **Add the check to your pipeline** It exits non-zero, so a build fails on a new typo rather than shipping without the content.
+:::
+
+## Related {#related}
+
+:::cards
+- **[Keys and reuse](./keys-and-reuse){icon="key"}**
+  Why the same key resolves differently under different conditions.
+
+- **[Publishing](/dogsbay-xml-docs/publishing/publishing){icon="package"}**
+  Deliverables, each with its own map and DITAVAL.
+:::
+
+---
+
+# Metadata
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/metadata.md
+
+---
+title: Metadata
+description: Define which metadata topics must carry, audit the project against it, and fill in what is missing.
+type: how-to
+---
+
+# Metadata {#metadata}
+
+Metadata in a documentation set is only useful if it is there consistently. A policy says which fields topics must carry; the editor audits against it and fills in what is missing without disturbing the rest of the prolog.
+
+## Where the policy lives {#where-the-policy-lives}
+
+The required-metadata policy is part of the project configuration, in `.dogsbay/config.xml`. Because it is a file in the project, it is shared with everyone who clones it and changes with the content.
+
+You can point at a different policy for one run with `--policy`.
+
+## Auditing {#auditing}
+
+```bash
+bin/dogsbay-xml metadata-audit . --map audacity-guide.ditamap
+```
+
+That reports where required fields are missing or hold a value the policy does not allow. It exits with a non-zero status on any error-level violation, so it works as a pipeline gate.
+
+Use `--scope` to audit something other than a map's publication set: a glob, or the whole project root.
+
+## Filling in what is missing {#filling-in-what-is-missing}
+
+`metadata-set` applies changes in bulk, and preserves the fields it is not asked to touch.
+
+```bash
+bin/dogsbay-xml metadata-set . --map audacity-guide.ditamap \
+  --fill audience=user --dry-run
+```
+
+The four operations differ in a way worth getting right:
+
+| Option | Effect |
+| --- | --- |
+| `--fill` | Set the field only where it is absent. Existing values are left alone. |
+| `--set` | Overwrite the field everywhere in scope. |
+| `--append` | Add a value to a list field, keeping what is there. |
+| `--remove` | Remove a field, or one value from a list field. |
+
+Repeat an option to change several fields in one pass.
+
+> [!IMPORTANT]
+> `metadata-set` writes unless you pass `--dry-run`. That is the opposite of the refactoring commands, which do nothing until you pass `--apply`. Check with `--dry-run` first on a scope you have not touched before.
+
+## Enforcing the policy outside the editor {#enforcing-the-policy-outside-the-editor}
+
+The same policy can be compiled to ISO Schematron, so a build system that has no DogsBay XML can still check it:
+
+```bash
+bin/dogsbay-xml metadata-export-schematron . --output metadata-policy.sch
+```
+
+Run the result anywhere Schematron runs, including here:
+
+```bash
+bin/dogsbay-xml schematron-project . metadata-policy.sch
+```
+
+## A useful order {#a-useful-order}
+
+:::steps
+1. **Audit before you change anything** `metadata-audit` tells you the size of the problem.
+2. **Fill the gaps** `metadata-set --fill` for fields with an obvious default, checked with `--dry-run` first.
+3. **Fix the rest by hand** What is left usually needs a human, which is the point of separating fill from set.
+4. **Gate it** Add `metadata-audit` to the pipeline so the gap does not reopen.
+:::
+
+## Related {#related}
+
+:::cards
+- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
+  Grammar, Schematron and project-wide checks.
+
+- **[Conditional content](./conditional-content){icon="filter"}**
+  Controlled values for profiling attributes.
+:::
+
+---
+
+# Validating a project
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/finding/validation.md
+
+---
+title: Validating a project
+description: Check one document or a whole set against its grammar, business rules and references, and use the same checks as a build gate.
+type: how-to
+---
+
+# Validating a project {#validating-a-project}
+
+Validation in DogsBay XML answers three separate questions, and it is worth keeping them apart because they fail for different reasons.
+
+**Is this well-formed and legal?** The document parses and matches its grammar, whether that is a DTD, an XML Schema or RelaxNG.
+
+**Does it follow our rules?** Business rules a grammar cannot express: every topic has a short description, no hardcoded product names, metadata is present. This is Schematron.
+
+**Does it hold together?** References resolve, keys are defined, no topic is orphaned. This is a property of the project, not of any file.
+
+## One document {#one-document}
+
+Grammar validation resolves catalogs, so a DITA topic validates against the grammar its DOCTYPE names. A DITA file with no explicit schema falls back to the bundled DITA grammars, which means it validates the same way in the editor and headless.
+
+```bash
+bin/dogsbay-xml validate topics/installing-audacity.dita
+```
+
+In the editor, problems appear in the margin as you type and in the error pane.
+
+## A whole set {#a-whole-set}
+
+```bash
+bin/dogsbay-xml validate-project . --map audacity-guide.ditamap
+```
+
+The scope decides what is checked. With `--map`, it is that map's publication set, which is what a build would include. With `--scope` you can point at a glob or the project root instead.
+
+It exits with a non-zero status when any file is invalid.
+
+## Business rules with Schematron {#business-rules-with-schematron}
+
+Schematron expresses the rules your house style cares about. The sample project ships one, `house-style.sch`, which requires a short description on every topic and forbids hardcoded product names in prose.
+
+```bash
+bin/dogsbay-xml schematron topics/installing-audacity.dita house-style.sch
+bin/dogsbay-xml schematron-project . house-style.sch
+```
+
+A rule that fails here fails the same way in a pipeline, because it is the same engine.
+
+## The whole picture {#the-whole-picture}
+
+`project-health` runs the reference and key analysis, grammar validation and the conref element-id audit together, and reports open agent proposals:
+
+```bash
+bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+```
+
+A clean result is the publish-ready gate. Adding `--map` enables key analysis and scopes validation to the publication set, which is usually what you want: without it, files no map includes are validated too, and orphans are reported rather than skipped.
+
+## What static validation cannot catch {#what-static-validation-cannot-catch}
+
+A key reference can be well-formed, legal and still fail to resolve at build time, because resolution depends on the map, the conditions and the scopes. The only way to be sure is to run the resolution:
+
+```bash
+bin/dogsbay-xml validate-ot .
+```
+
+That runs DITA-OT preprocessing per deliverable and reports what it cannot resolve. It needs DITA-OT, and it is slower than everything above, which is why it is a separate command rather than part of `project-health`.
+
+## Using these as a gate {#using-these-as-a-gate}
+
+Each of these exits non-zero when it finds something, so a pipeline can be a short list:
+
+```bash
+bin/dogsbay-xml validate-project . --map audacity-guide.ditamap
+bin/dogsbay-xml schematron-project . house-style.sch
+bin/dogsbay-xml metadata-audit . --map audacity-guide.ditamap
+bin/dogsbay-xml validate-conditions . --map audacity-guide.ditamap
+bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+```
+
+Run the cheap checks first. `validate-ot` belongs at the end, or on a schedule, rather than on every commit.
+
+## Related {#related}
+
+:::cards
+- **[Refactoring](./refactoring){icon="wand"}**
+  Fixing what validation finds, without breaking references.
+
+- **[Metadata](/dogsbay-xml-docs/authoring/metadata){icon="tag"}**
+  Auditing against the metadata policy.
+:::
+
+---
+
+# Refactoring
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/finding/refactoring.md
+
+---
+title: Refactoring
+description: Rename, move, split and restructure content without breaking the references that point at it.
+type: how-to
+---
+
+# Refactoring {#refactoring}
+
+A documentation set is a graph. Renaming a file, a key or an element id changes something other files point at, and the editor's refactorings exist so that the pointers move with the thing they point at.
+
+## The rule that makes them safe {#the-rule-that-makes-them-safe}
+
+Every refactoring prints a plan and changes nothing. You read the plan, then run the same command again with `--apply`.
+
+```bash
+bin/dogsbay-xml rename-key product-name product --root .
+bin/dogsbay-xml rename-key product-name product --root . --apply
+```
+
+In the editor the same plan appears as a table you review before it runs.
+
+> [!NOTE]
+> Two commands work the other way round. `edit-map` and `edit-reltable` write unless you pass `--dry-run`, and so does `metadata-set`. They are editors rather than refactorings.
+
+## Before you change anything {#before-you-change-anything}
+
+Ask what depends on it:
+
+```bash
+bin/dogsbay-xml where-used topics/installing-audacity.dita \
+  --root . --map audacity-guide.ditamap
+```
+
+With `--map`, the report includes references that reach the file indirectly through a key, which are the ones a search would miss.
+
+## What each refactoring is for {#what-each-refactoring-is-for}
+
+**Moving and renaming**
+
+| Command | Use it when |
+| --- | --- |
+| `rename-file` | A file's name or location is wrong. |
+| `rename-key` | A key's name is wrong, or you are aligning a naming scheme. |
+| `rename-element-id` | An element id is wrong and conrefs point at it. |
+| `rename-profile-value` | A condition value changes, such as `mac` becoming `macos`. |
+| `delete-file` | A file should go. It reports inbound references first, so you find out before rather than after. |
+| `retarget` | Two files should become one: point every reference from one at the other. |
+
+**Changing how content is referenced**
+
+| Command | Use it when |
+| --- | --- |
+| `keyify` | A file is referenced by path in many places and should be a key. |
+| `inline-key` | A key is not earning its indirection. |
+| `extract-conref` | The same content is repeated and should be reused from one place. |
+| `inline-conref` | Reused content should become a local copy again. |
+| `create-keydef` | You want a text key, such as a product name, defined once. |
+| `merge-keydefs` | A map's closure defines the same key more than once and only the first can win. |
+
+**Restructuring**
+
+| Command | Use it when |
+| --- | --- |
+| `split-topic` | A topic has grown into several. Each top-level section becomes a topic, and the map is updated to include them. |
+
+## A worked example {#a-worked-example}
+
+Turning a hardcoded product name into a key, which is one of the problems planted in the sample project:
+
+:::steps
+1. **Define the key** The key name and the text it resolves to are the two arguments; the map that receives the definition is an option.
+
+   ```bash
+   bin/dogsbay-xml create-keydef product-name Audacity \
+     --map keydefs-product.ditamap --apply
+   ```
+2. **Replace the hardcoded text as well** `--replace-in` rewrites whole-word occurrences of the text under a root into key references, which is the part that would otherwise be a hundred manual edits.
+
+   ```bash
+   bin/dogsbay-xml create-keydef product-name Audacity \
+     --map keydefs-product.ditamap --replace-in topics
+   ```
+3. **Apply it** Run the same command with `--apply` once the plan looks right.
+4. **Check the result**
+
+   ```bash
+   bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+   ```
+:::
+
+## When a refactoring refuses {#when-a-refactoring-refuses}
+
+A refactoring that would create a broken reference reports the problem instead of doing it. That is the intended behaviour: the plan is the point, and a plan that cannot be carried out safely is worth seeing before it runs rather than finding in the output later.
+
+## Related {#related}
+
+:::cards
+- **[Validating a project](./validation){icon="check"}**
+  Finding what needs fixing, and confirming it afterwards.
+
+- **[Keys and reuse](/dogsbay-xml-docs/authoring/keys-and-reuse){icon="key"}**
+  The mechanisms these refactorings move between.
+:::
+
+---
+
+# Previewing and publishing
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/publishing/publishing.md
+
+---
+title: Previewing and publishing
+description: See a styled preview while you write, then build deliverables with DITA-OT.
+type: how-to
+---
+
+# Previewing and publishing {#previewing-and-publishing}
+
+There are two different things here. A preview is immediate and approximate, for checking as you write. A build is the real output, produced by DITA-OT from a deliverable's map, conditions and parameters.
+
+## Previewing while you write {#previewing-while-you-write}
+
+Select **View > Preview in Tab**, or **View > Preview in Split** to keep the source beside it. The preview refreshes as you edit.
+
+The preview is not a plain rendering of the file you have open. It resolves conrefs, so reused content appears where it is pulled in, and it resolves key references when it knows which map provides the context.
+
+From the command line:
+
+```bash
+bin/dogsbay-xml preview topics/installing-audacity.dita \
+  --map audacity-guide.ditamap --output preview.html
+```
+
+Two options change what you see:
+
+| Option | Effect |
+| --- | --- |
+| `--ditaval` | Apply a filter, so you preview one audience or platform. |
+| `--show-changes` | Render open agent proposals as insertions, deletions and comments, instead of the document as it would read with everything accepted. |
+
+Without `--output` the HTML goes to standard output.
+
+## Deliverables {#deliverables}
+
+A deliverable is one output: a map, a transform type, a DITAVAL, parameters and an output directory. A project usually has several, such as an HTML guide for each platform and a PDF for print.
+
+Deliverables come from a DITA project file, which is a standard rather than something this editor invented, so the same definitions work with DITA-OT directly.
+
+When a project has no project file, the default root map is used, which is enough to get a build out of a set that has not been formalised yet.
+
+## Building {#building}
+
+```bash
+bin/dogsbay-xml build .
+bin/dogsbay-xml build . html-guide
+```
+
+The first builds every deliverable; the second builds one by name. The command exits with a non-zero status when any build reports errors, so it works as a pipeline step.
+
+Two options are worth knowing:
+
+| Option | Effect |
+| --- | --- |
+| `--dita-ot` | Use a different DITA-OT than the one the project configures. |
+| `--output` | Put the output somewhere else, each deliverable under its own subdirectory. |
+
+Building requires DITA-OT. The sample project is configured with one already.
+
+## Checking before you publish {#checking-before-you-publish}
+
+A build that succeeds can still be missing content, because a key that fails to resolve does not always stop the build.
+
+```bash
+bin/dogsbay-xml validate-deliverables .
+bin/dogsbay-xml validate-ot .
+```
+
+`validate-deliverables` validates each deliverable with its own map and conditions. `validate-ot` goes further and runs DITA-OT preprocessing, which is the only way to catch a key or conref that resolves in one build and not in another.
+
+Before either, the cheaper check:
+
+```bash
+bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+```
+
+## Related {#related}
+
+:::cards
+- **[Conditional content](/dogsbay-xml-docs/authoring/conditional-content){icon="filter"}**
+  What each deliverable's DITAVAL includes and excludes.
+
+- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
+  The checks worth running before a build.
+:::
+
+---
+
+# Connecting an AI assistant
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md
+
+---
+title: Connecting an AI assistant
+description: Expose the editor's DITA operations to Claude Code, Claude Desktop or Cursor over MCP.
+type: how-to
+---
+
+# Connecting an AI assistant {#connecting-an-ai-assistant}
+
+The editor can offer its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.
+
+This is different from the agents inside the editor. Here the assistant is somewhere else, in a terminal or a desktop app, and the editor is the tool provider.
+
+## Turn on the server {#turn-on-the-server}
+
+The integration server is off by default.
+
+:::steps
+1. **Open the preferences** Select **File > Preferences**.
+2. **Enable the server** Go to the **Server** page and turn it on.
+3. **Confirm it is listening**
+
+   ```bash
+   bin/dogsbay-xml status
+   ```
+:::
+
+The server binds to localhost and requires a token, which is written to a discovery file in your home directory so local clients can find it.
+
+## Connect a client {#connect-a-client}
+
+The editor prints the configuration for you:
+
+```bash
+bin/dogsbay-xml status --mcp-config
+```
+
+For Claude Code, it can print the command that registers it:
+
+```bash
+bin/dogsbay-xml status --mcp-install
+```
+
+Paste the configuration into the client's MCP settings, or run the command.
+
+## What the assistant can do {#what-the-assistant-can-do}
+
+The tools cover the same ground as the command line, grouped roughly as:
+
+- **Reading and validating** documents, including Schematron and project-wide validation.
+- **Asking about the project**: where a file is used, what a key resolves to, which references are broken, overall health.
+- **Refactoring**: renaming files, keys and ids, converting between direct references and keys, extracting and inlining reuse, splitting topics.
+- **Editing maps and relationship tables** structurally.
+- **Driving the editor**: opening documents, moving the cursor, selecting elements, reading the outline.
+- **Reviewing**: listing proposals, commenting, reading the audit log.
+
+Every call is attributed to a session, so the audit log records which assistant did what.
+
+## If the token changes {#if-the-token-changes}
+
+Regenerating the token invalidates any client configured with the old one:
+
+```bash
+bin/dogsbay-xml status --reset-token
+```
+
+The editor must be restarted afterwards, and clients need the new configuration.
+
+## Related {#related}
+
+:::cards
+- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon="shield"}**
+  Tiers, the write gate and the audit log, which apply here too.
+
+- **[The command line](/dogsbay-xml-docs/reference/cli){icon="terminal"}**
+  The same operations, without a client.
+:::
 
 ---
 

@@ -43,6 +43,49 @@
       {
         "label": "Topics and maps",
         "href": "/dogsbay-xml-docs/authoring/topics-and-maps"
+      },
+      {
+        "label": "Keys and reuse",
+        "href": "/dogsbay-xml-docs/authoring/keys-and-reuse"
+      },
+      {
+        "label": "Conditional content",
+        "href": "/dogsbay-xml-docs/authoring/conditional-content"
+      },
+      {
+        "label": "Metadata",
+        "href": "/dogsbay-xml-docs/authoring/metadata"
+      }
+    ]
+  },
+  {
+    "label": "Finding and changing",
+    "children": [
+      {
+        "label": "Validating a project",
+        "href": "/dogsbay-xml-docs/finding/validation"
+      },
+      {
+        "label": "Refactoring",
+        "href": "/dogsbay-xml-docs/finding/refactoring"
+      }
+    ]
+  },
+  {
+    "label": "Publishing",
+    "children": [
+      {
+        "label": "Previewing and publishing",
+        "href": "/dogsbay-xml-docs/publishing/publishing"
+      }
+    ]
+  },
+  {
+    "label": "Automation",
+    "children": [
+      {
+        "label": "Connecting an AI assistant",
+        "href": "/dogsbay-xml-docs/automation/mcp"
       }
     ]
   },
