@@ -25,7 +25,7 @@ the current document supports.
 | Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/getting-started/tutorial-manual). |
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
-| Preferences | Editor settings, including the **Server** page that turns on the [integration server](/automation/mcp). |
+| Preferences | Editor settings. The **Server** page turns on the [integration server](/automation/mcp) and holds the agent defaults, including how long [session transcripts](/agent/overview#session-transcripts) are kept. |
 | Import Framework | Add support for a non-DITA vocabulary. |
 | Manage Frameworks | Review and remove imported frameworks. |
 | Close, Close All | Close the document, or all of them. |

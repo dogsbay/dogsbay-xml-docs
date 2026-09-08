@@ -101,6 +101,11 @@ Per-tab actions, from the tab's context menu: Rename session, Export
 transcript, Copy transcript, and Close session. The add button lists agents
 this machine can run, with Refresh agent registry and an install action.
 
+The built-in agent's tab has a **Sessions** button, which lists every past
+conversation with its date and name: resume one, start a new one, or delete
+one. Right-click or double-click the tab to rename the conversation. See
+[session transcripts](/agent/overview#session-transcripts).
+
 See [the agent](/agent/overview).
 
 ### Proposals

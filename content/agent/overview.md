@@ -98,6 +98,21 @@ To read it, select **Project > Agent activity**, or run:
 dogsbay-xml audit-log
 ```
 
+### Session transcripts
+
+The audit log records what the agent did. The transcript records the conversation it did it in, and the two answer different questions: the log says which command touched which file, the transcript says what you asked for and what it said back.
+
+Each conversation with the built-in agent is a file in `~/.xagent/sessions`, outside the project, so nothing reaches the team repository.
+
+Select **Sessions** in the AI Agent panel, or type `/sessions`, to see them: every session with its date and name, and buttons to resume one, start a new one, or delete one. The conversation in progress cannot be deleted — the agent is still writing to it.
+
+A session is named after the first thing you asked it, so the list reads as a list of questions. To give one a name of your own, right-click or double-click the tab and select **Rename session**, or type `/rename Audacity cleanup`. A blank name restores the automatic one. The name is stored in the transcript, so it survives a restart, shows in the picker, and names the file when you export the conversation.
+
+Transcripts are kept until you remove them. To have the editor clear out old ones, set an age in **File > Preferences > Server > Agent sessions**: transcripts last written longer ago than that are deleted when the editor starts. The default is to keep everything.
+
+> [!NOTE]
+> This is the built-in agent's history. A hosted agent keeps its own, and `dogsbay-xml sessions` is a different thing again: the sessions currently connected to a running editor, not the transcripts on disk.
+
 ## What each kind of agent needs
 
 | | Built-in agent | Hosted agent |
