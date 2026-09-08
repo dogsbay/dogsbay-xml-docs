@@ -93,6 +93,10 @@
     "label": "Reference",
     "children": [
       {
+        "label": "Menu reference",
+        "href": "/dogsbay-xml-docs/reference/menus"
+      },
+      {
         "label": "The command line",
         "href": "/dogsbay-xml-docs/reference/cli"
       }

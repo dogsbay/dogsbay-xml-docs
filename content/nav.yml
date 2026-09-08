@@ -27,4 +27,5 @@
 - Automation:
     - Connecting an AI assistant: automation/mcp.md
 - Reference:
+    - Menu reference: reference/menus.md
     - The command line: reference/cli.md

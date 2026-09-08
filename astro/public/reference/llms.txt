@@ -2,4 +2,5 @@
 
 ## Reference
 
+- [Menu reference](https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md): Every menu in the editor, in order, with what each command does and where it is documented in full.
 - [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What bin/dogsbay-xml can do, grouped by what you are trying to find out or change.
