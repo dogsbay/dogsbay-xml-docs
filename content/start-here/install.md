@@ -30,13 +30,18 @@ Each installer bundles its own Java runtime, so no separate JDK is required.
 
 ## Building from source
 
-Building requires Java 25.
+You need a JDK. You do not need to install Gradle: the `gradlew` script in the
+repository downloads the version the build expects, and the build downloads
+the JDK 25 toolchain it compiles against if your JDK is a different version.
 
 ```bash
 git clone https://github.com/dogsbay/dogsbay-xml
 cd dogsbay-xml
 ./gradlew run
 ```
+
+The first run takes noticeably longer than later ones, because it is
+fetching Gradle, possibly a JDK, and the project's dependencies.
 
 Other tasks:
 
