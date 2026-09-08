@@ -1,6 +1,7 @@
 {
   "siteName": "DogsBay XML",
   "repoUrl": "https://github.com/dogsbay/dogsbay-xml",
+  "favicon": "/dogsbay-xml-docs/favicon.svg",
   "siteUrl": "https://dogsbay.ai/dogsbay-xml-docs",
   "description": "The XML and DITA editor with an AI agent that understands your content model.",
   "poweredBy": true
