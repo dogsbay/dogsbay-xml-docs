@@ -57,18 +57,35 @@ Other tasks:
 The installers put a `dogsbay-xml` executable beside the editor, so the command
 line needs nothing else installed — not a JDK, and not the editor running.
 
-| Platform | Where it is |
-|---|---|
-| Linux (`.deb`, `.rpm`) | `/opt/dogsbay-xml/dogsbay-xml` |
-| macOS | `/Applications/DogsBay-XML.app/Contents/MacOS/dogsbay-xml` |
-| Windows | `dogsbay-xml.exe` in the installation folder |
+Add its directory to your `PATH` to run it by name:
 
-Add that directory to your `PATH` to run it by name:
+:::tabs
+Linux
+:   ```bash
+    export PATH="/opt/dogsbay-xml/bin:$PATH"
+    dogsbay-xml --version
+    ```
 
-```bash
-export PATH="/opt/dogsbay-xml/bin:$PATH"
-dogsbay-xml --version
-```
+    Add the `export` line to `~/.bashrc` or `~/.zshrc` to keep it.
+
+macOS
+:   ```bash
+    export PATH="/Applications/DogsBay-XML.app/Contents/MacOS:$PATH"
+    dogsbay-xml --version
+    ```
+
+    Add the `export` line to `~/.zshrc` to keep it.
+
+Windows
+:   ```powershell
+    $env:Path += ";C:\Program Files\DogsBay-XML"
+    dogsbay-xml --version
+    ```
+
+    That lasts for the session. To keep it, add the folder under
+    **Settings > System > About > Advanced system settings >
+    Environment Variables**.
+:::
 
 ### On a machine with no installer
 
