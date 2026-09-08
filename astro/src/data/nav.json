@@ -105,5 +105,14 @@
         "href": "/dogsbay-xml-docs/reference/cli"
       }
     ]
+  },
+  {
+    "label": "For developers",
+    "children": [
+      {
+        "label": "Building from source",
+        "href": "/dogsbay-xml-docs/developers/build-from-source"
+      }
+    ]
   }
 ]

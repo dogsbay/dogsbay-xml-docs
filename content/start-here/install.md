@@ -1,6 +1,6 @@
 ---
 title: Installing
-description: Install DogsBay XML from a packaged installer, or build it from source.
+description: Install DogsBay XML, put its command line on your PATH, and turn on the integration server.
 type: how-to
 ---
 
@@ -27,30 +27,6 @@ Each installer bundles its own Java runtime, so no separate JDK is required.
    The Welcome tab opens. From there you can open the sample project, which is
    where the [tutorial](./tutorial) starts.
 :::
-
-## Building from source
-
-You need a JDK. You do not need to install Gradle: the `gradlew` script in the
-repository downloads the version the build expects, and the build downloads
-the JDK 25 toolchain it compiles against if your JDK is a different version.
-
-```bash
-git clone https://github.com/dogsbay/dogsbay-xml
-cd dogsbay-xml
-./gradlew run
-```
-
-The first run takes noticeably longer than later ones, because it is
-fetching Gradle, possibly a JDK, and the project's dependencies.
-
-Other tasks:
-
-| Task | Result |
-|---|---|
-| `./gradlew run` | Start the editor |
-| `./gradlew test` | Run the test suite |
-| `./gradlew shadowJar` | Build a self-contained JAR |
-| `./gradlew jpackage` | Build a native installer for the current platform |
 
 ## The command line
 
@@ -87,30 +63,12 @@ Windows
     Environment Variables**.
 :::
 
-### On a machine with no installer
-
-For a build server or a container, download the `-all.jar` from the
-[releases page](https://github.com/dogsbay/dogsbay-xml/releases) and run it
-with any JDK 25:
-
-```bash
-java -cp dogsbay-xml-all.jar com.dogsbay.dogsbayaieditor.cli.DogsBayCli \
-  project-health .
-```
-
-### From a source checkout
-
-The `bin/dogsbay-xml` script in the repository runs the CLI out of a build
-tree, so it needs the classes compiled and the libraries copied into `lib/`:
-
-```bash
-./gradlew syncLib classes
-bin/dogsbay-xml --help
-```
-
 Some commands work entirely on files and need nothing else. Commands that
 drive a running editor, such as `open` or `screenshot`, also need the
-integration server.
+integration server, below.
+
+Building the editor yourself, or running the command line where no installer
+can go, is on [building from source](/developers/build-from-source).
 
 ## Turning on the integration server
 

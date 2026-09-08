@@ -109,7 +109,7 @@ URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/install.md
 
 ---
 title: Installing
-description: Install DogsBay XML from a packaged installer, or build it from source.
+description: Install DogsBay XML, put its command line on your PATH, and turn on the integration server.
 type: how-to
 ---
 
@@ -126,27 +126,6 @@ Each installer bundles its own Java runtime, so no separate JDK is required.
 2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to Applications. On Windows, run the installer.
 3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial) starts.
 :::
-
-## Building from source {#building-from-source}
-
-You need a JDK. You do not need to install Gradle: the `gradlew` script in the repository downloads the version the build expects, and the build downloads the JDK 25 toolchain it compiles against if your JDK is a different version.
-
-```bash
-git clone https://github.com/dogsbay/dogsbay-xml
-cd dogsbay-xml
-./gradlew run
-```
-
-The first run takes noticeably longer than later ones, because it is fetching Gradle, possibly a JDK, and the project's dependencies.
-
-Other tasks:
-
-| Task | Result |
-| --- | --- |
-| `./gradlew run` | Start the editor |
-| `./gradlew test` | Run the test suite |
-| `./gradlew shadowJar` | Build a self-contained JAR |
-| `./gradlew jpackage` | Build a native installer for the current platform |
 
 ## The command line {#the-command-line}
 
@@ -180,25 +159,9 @@ Windows
     That lasts for the session. To keep it, add the folder under **Settings > System > About > Advanced system settings > Environment Variables**.
 :::
 
-### On a machine with no installer {#on-a-machine-with-no-installer}
+Some commands work entirely on files and need nothing else. Commands that drive a running editor, such as `open` or `screenshot`, also need the integration server, below.
 
-For a build server or a container, download the `-all.jar` from the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and run it with any JDK 25:
-
-```bash
-java -cp dogsbay-xml-all.jar com.dogsbay.dogsbayaieditor.cli.DogsBayCli \
-  project-health .
-```
-
-### From a source checkout {#from-a-source-checkout}
-
-The `bin/dogsbay-xml` script in the repository runs the CLI out of a build tree, so it needs the classes compiled and the libraries copied into `lib/`:
-
-```bash
-./gradlew syncLib classes
-bin/dogsbay-xml --help
-```
-
-Some commands work entirely on files and need nothing else. Commands that drive a running editor, such as `open` or `screenshot`, also need the integration server.
+Building the editor yourself, or running the command line where no installer can go, is on [building from source](/dogsbay-xml-docs/developers/build-from-source).
 
 ## Turning on the integration server {#turning-on-the-integration-server}
 
@@ -1780,3 +1743,79 @@ These need the integration server, which you turn on in **File > Preferences > S
 ## Projects {#projects}
 
 `project create`, `project open`, `project list` and `project info` manage projects from the command line.
+
+---
+
+# Building from source
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/developers/build-from-source.md
+
+---
+title: Building from source
+description: Build the editor with Gradle, and run the command line from a checkout or from the uber-jar on a machine with no installer.
+type: how-to
+---
+
+# Building from source {#building-from-source}
+
+You need this page only if you are working on the editor itself, or running it somewhere an installer cannot go — a build server, a container, a CI job. If you just want to use DogsBay XML, [install a package](/dogsbay-xml-docs/start-here/install).
+
+## Building {#building}
+
+You need a JDK. You do not need to install Gradle: the `gradlew` script in the repository downloads the version the build expects, and the build downloads the JDK 25 toolchain it compiles against if your JDK is a different version.
+
+```bash
+git clone https://github.com/dogsbay/dogsbay-xml
+cd dogsbay-xml
+./gradlew run
+```
+
+The first run takes noticeably longer than later ones, because it is fetching Gradle, possibly a JDK, and the project's dependencies.
+
+| Task | Result |
+| --- | --- |
+| `./gradlew run` | Start the editor |
+| `./gradlew test` | Run the test suite |
+| `./gradlew shadowJar` | Build the uber-jar |
+| `./gradlew jpackage` | Build a native installer for the current platform |
+
+## Running the command line from a checkout {#running-the-command-line-from-a-checkout}
+
+The `bin/dogsbay-xml` script runs the CLI out of the build tree, so it needs the classes compiled and the libraries copied into `lib/`:
+
+```bash
+./gradlew syncLib classes
+bin/dogsbay-xml --help
+```
+
+Both are needed. `syncLib` alone copies the dependencies but compiles nothing, and the script runs from `build/classes`.
+
+## Running on a machine with no installer {#running-on-a-machine-with-no-installer}
+
+Each release attaches an uber-jar, which carries the editor and every dependency in one file and needs only a JDK 25 on the machine. This is the route for CI runners and containers, where an installer and a desktop are beside the point.
+
+Download `dogsbay-editor-<version>-all.jar` from the [releases page](https://github.com/dogsbay/dogsbay-xml/releases), then:
+
+```bash
+java -cp dogsbay-editor-4.0.0-beta.1-all.jar \
+  com.dogsbay.dogsbayaieditor.cli.DogsBayCli project-health .
+```
+
+The jar starts the editor under `java -jar`, so naming the CLI class is what selects the command line instead. A shell alias keeps it readable:
+
+```bash
+alias dogsbay-xml='java -cp /opt/dogsbay-editor-all.jar com.dogsbay.dogsbayaieditor.cli.DogsBayCli'
+dogsbay-xml validate-deliverables .
+```
+
+Everything in [the command line reference](/dogsbay-xml-docs/reference/cli) works this way, except the commands that drive a running editor.
+
+## Related {#related}
+
+:::cards
+- **[Installing](/dogsbay-xml-docs/start-here/install){icon="download"}**
+  The packaged installers, and the command line that comes with them.
+
+- **[The command line](/dogsbay-xml-docs/reference/cli){icon="terminal"}**
+  Every command, grouped by what you are trying to do.
+:::

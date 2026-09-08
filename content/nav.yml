@@ -30,3 +30,5 @@
     - Menu reference: reference/menus.md
     - Panel reference: reference/panels.md
     - The command line: reference/cli.md
+- For developers:
+    - Building from source: developers/build-from-source.md
