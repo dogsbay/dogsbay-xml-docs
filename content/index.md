@@ -15,7 +15,7 @@ is that this one calls the editor's own DITA operations, and its edits arrive
 as proposals that you accept or reject.
 
 :::cards
-- **[Start here](/start-here/install)** {icon="rocket"}
+- **[Start here](/getting-started/install)** {icon="rocket"}
   Install the editor, open the sample project, and fix a real DITA guide with
   the agent.
 

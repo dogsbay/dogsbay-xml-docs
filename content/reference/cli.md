@@ -7,7 +7,7 @@ type: reference
 # The command line
 
 `dogsbay-xml` runs the same operations as the editor's menus. It is installed
-with the editor; see [the command line](/start-here/install#the-command-line)
+with the editor; see [the command line](/getting-started/install#the-command-line)
 for where it is and how to run it on a machine with no installer.
 
 Most commands work on files and need nothing running. A few drive an editor

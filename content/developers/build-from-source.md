@@ -8,7 +8,7 @@ type: how-to
 
 You need this page only if you are working on the editor itself, or running it
 somewhere an installer cannot go — a build server, a container, a CI job. If
-you just want to use DogsBay XML, [install a package](/start-here/install).
+you just want to use DogsBay XML, [install a package](/getting-started/install).
 
 ## Building
 
@@ -74,7 +74,7 @@ except the commands that drive a running editor.
 ## Related
 
 :::cards
-- **[Installing](/start-here/install)** {icon="download"}
+- **[Installing](/getting-started/install)** {icon="download"}
   The packaged installers, and the command line that comes with them.
 
 - **[The command line](/reference/cli)** {icon="terminal"}

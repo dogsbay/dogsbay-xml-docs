@@ -19,7 +19,7 @@ DogsBay XML is a desktop editor for DITA and other XML. It validates against you
 It also has an AI agent. The difference from an agent added to a text editor is that this one calls the editor's own DITA operations, and its edits arrive as proposals that you accept or reject.
 
 :::cards
-- **[Start here](/dogsbay-xml-docs/start-here/install){icon="rocket"}**
+- **[Start here](/dogsbay-xml-docs/getting-started/install){icon="rocket"}**
   Install the editor, open the sample project, and fix a real DITA guide with the agent.
 
 - **[Working with the agent](/dogsbay-xml-docs/agent/overview){icon="sparkles"}**
@@ -47,7 +47,7 @@ It also has an AI agent. The difference from an agent added to a text editor is 
 
 # What DogsBay XML is
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/what-it-is.md
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/what-it-is.md
 
 ---
 title: What DogsBay XML is
@@ -105,7 +105,7 @@ It is not a general-purpose text editor, and it is not a CMS. It edits files on 
 
 # Installing
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/install.md
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/install.md
 
 ---
 title: Installing
@@ -180,7 +180,7 @@ The integration server is what AI assistants and the live-editor commands connec
 
 # Tutorial: fixing a DITA guide
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/start-here/tutorial.md
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial.md
 
 ---
 title: "Tutorial: fixing a DITA guide"
@@ -1331,7 +1331,7 @@ Some menus change with the document. Preview entries are enabled only for a docu
 | New Project | Create a project. |
 | Open File | Open a document. |
 | Open Project Folder | Open a folder as the project. |
-| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/start-here/tutorial). |
+| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial). |
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Preferences | Editor settings, including the **Server** page that turns on the [integration server](/dogsbay-xml-docs/automation/mcp). |
@@ -1627,7 +1627,7 @@ type: reference
 
 # The command line {#the-command-line}
 
-`dogsbay-xml` runs the same operations as the editor's menus. It is installed with the editor; see [the command line](/dogsbay-xml-docs/start-here/install#the-command-line) for where it is and how to run it on a machine with no installer.
+`dogsbay-xml` runs the same operations as the editor's menus. It is installed with the editor; see [the command line](/dogsbay-xml-docs/getting-started/install#the-command-line) for where it is and how to run it on a machine with no installer.
 
 Most commands work on files and need nothing running. A few drive an editor that is already open, and those need the integration server.
 
@@ -1758,7 +1758,7 @@ type: how-to
 
 # Building from source {#building-from-source}
 
-You need this page only if you are working on the editor itself, or running it somewhere an installer cannot go — a build server, a container, a CI job. If you just want to use DogsBay XML, [install a package](/dogsbay-xml-docs/start-here/install).
+You need this page only if you are working on the editor itself, or running it somewhere an installer cannot go — a build server, a container, a CI job. If you just want to use DogsBay XML, [install a package](/dogsbay-xml-docs/getting-started/install).
 
 ## Building {#building}
 
@@ -1813,7 +1813,7 @@ Everything in [the command line reference](/dogsbay-xml-docs/reference/cli) work
 ## Related {#related}
 
 :::cards
-- **[Installing](/dogsbay-xml-docs/start-here/install){icon="download"}**
+- **[Installing](/dogsbay-xml-docs/getting-started/install){icon="download"}**
   The packaged installers, and the command line that comes with them.
 
 - **[The command line](/dogsbay-xml-docs/reference/cli){icon="terminal"}**

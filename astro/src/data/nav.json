@@ -4,19 +4,19 @@
     "href": "/dogsbay-xml-docs"
   },
   {
-    "label": "Start here",
+    "label": "Getting started",
     "children": [
       {
         "label": "What DogsBay XML is",
-        "href": "/dogsbay-xml-docs/start-here/what-it-is"
+        "href": "/dogsbay-xml-docs/getting-started/what-it-is"
       },
       {
         "label": "Installing",
-        "href": "/dogsbay-xml-docs/start-here/install"
+        "href": "/dogsbay-xml-docs/getting-started/install"
       },
       {
         "label": "Tutorial: fixing a DITA guide",
-        "href": "/dogsbay-xml-docs/start-here/tutorial"
+        "href": "/dogsbay-xml-docs/getting-started/tutorial"
       }
     ]
   },

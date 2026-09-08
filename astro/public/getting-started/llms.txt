@@ -1,0 +1,7 @@
+# DogsBay XML — Getting started
+
+## Getting started
+
+- [What DogsBay XML is](https://dogsbay.ai/dogsbay-xml-docs/getting-started/what-it-is.md): What the editor does, who it is for, and the three ideas that shape it.
+- [Installing](https://dogsbay.ai/dogsbay-xml-docs/getting-started/install.md): Install DogsBay XML, put its command line on your PATH, and turn on the integration server.
+- [Tutorial: fixing a DITA guide](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial.md): Open a real DITA project that has problems in it, find them with the project tools, and fix some of them with the AI agent.

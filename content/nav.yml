@@ -6,10 +6,10 @@
 # as a mapping separator and the build fails.
 
 - Home: index.md
-- Start here:
-    - What DogsBay XML is: start-here/what-it-is.md
-    - Installing: start-here/install.md
-    - "Tutorial: fixing a DITA guide": start-here/tutorial.md
+- Getting started:
+    - What DogsBay XML is: getting-started/what-it-is.md
+    - Installing: getting-started/install.md
+    - "Tutorial: fixing a DITA guide": getting-started/tutorial.md
 - Working with the agent:
     - The agent, and what it may touch: agent/overview.md
     - Reviewing an agent's changes: agent/proposals.md

@@ -34,6 +34,15 @@
     <loc>https://dogsbay.ai/dogsbay-xml-docs/finding/validation/</loc>
   </url>
   <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/getting-started/install/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/getting-started/what-it-is/</loc>
+  </url>
+  <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/</loc>
   </url>
   <url>
@@ -47,14 +56,5 @@
   </url>
   <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/reference/panels/</loc>
-  </url>
-  <url>
-    <loc>https://dogsbay.ai/dogsbay-xml-docs/start-here/install/</loc>
-  </url>
-  <url>
-    <loc>https://dogsbay.ai/dogsbay-xml-docs/start-here/tutorial/</loc>
-  </url>
-  <url>
-    <loc>https://dogsbay.ai/dogsbay-xml-docs/start-here/what-it-is/</loc>
   </url>
 </urlset>
