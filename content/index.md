@@ -6,13 +6,24 @@ type: explanation
 
 # DogsBay XML
 
-DogsBay XML is a desktop editor for DITA and other XML. It validates against
-your grammar as you type, resolves keys and reuse across the whole project,
-and refactors without breaking references.
+DogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.
 
-It also has an AI agent. The difference from an agent added to a text editor
-is that this one calls the editor's own DITA operations, and its edits arrive
-as proposals that you accept or reject.
+It has 3 separate interfaces that run the exact same commands across one core engine:
+
+-   MCP server for AI assistants
+-   CLI for automation
+-   UI with menus and panels for humans
+
+While there is a built-in agent with its own commands, you can also bring-your-own-agent like Claude Code, Codex or OpenCode so you don't have to learn a new harness to be productive.
+
+Edits an agent makes to a DITA file are tracked as changes that you accept or reject. Refactorings are implemented as dry runs, requiring an explicit instruction before they are applied.
+
+> [!NOTE]
+> The integration server that AI assistants and the live-editor commands
+> connect to is turned off by default. Turn it on in **File > Preferences >
+> Server** when you need it. The built-in agent does not require it.
+
+While the editor is primarily for XML, it also supports authoring and previewing in Markdown and AsciiDoc.
 
 :::cards
 - **[Start here](/getting-started/install)** {icon="rocket"}
@@ -29,25 +40,3 @@ as proposals that you accept or reject.
 - **[Reference](/reference/cli)** {icon="book"}
   Commands, tools and configuration.
 :::
-
-## What it is built around
-
-**One engine, three interfaces.** The editor's menus, the `dogsbay-xml`
-command line, and the MCP server that AI assistants connect to are not
-separate implementations. They run the same commands. A rule that fails
-validation while you type fails the same way in a pipeline.
-
-**Changes are reviewable before they land.** Refactorings report what they
-would do and change nothing until you pass `--apply`. Edits an agent makes to
-a DITA file arrive as tracked changes that you accept or reject, marked with
-the identity that proposed them.
-
-**The project, not the file.** Keys, conrefs, maps and relationship tables
-describe how files relate to each other, so the operations that matter work
-across all of them: find every reference to a topic, rename a key everywhere,
-or check that a build's conditions use values your subject scheme allows.
-
-> [!NOTE]
-> The integration server that AI assistants and the live-editor commands
-> connect to is turned off by default. Turn it on in **File > Preferences >
-> Server** when you need it. The built-in agent does not require it.

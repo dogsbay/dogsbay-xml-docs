@@ -25,7 +25,7 @@ Each installer bundles its own Java runtime, so no separate JDK is required.
 
 3. **Start the editor**
    The Welcome tab opens. From there you can open the sample project, which is
-   where the [tutorial](./tutorial) starts.
+   where the [tutorial](./tutorial-manual) starts.
 :::
 
 ## The command line

@@ -22,7 +22,7 @@ the current document supports.
 | New Project | Create a project. |
 | Open File | Open a document. |
 | Open Project Folder | Open a folder as the project. |
-| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/getting-started/tutorial). |
+| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/getting-started/tutorial-manual). |
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Preferences | Editor settings, including the **Server** page that turns on the [integration server](/automation/mcp). |

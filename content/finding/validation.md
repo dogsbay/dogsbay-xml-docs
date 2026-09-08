@@ -61,17 +61,43 @@ same engine.
 
 ## The whole picture
 
-`project-health` runs the reference and key analysis, grammar validation and
-the conref element-id audit together, and reports open agent proposals:
+`project-health` runs the reference and key analysis, grammar validation, the conref element-id audit and the required-metadata policy together, and reports open agent proposals:
 
 ```bash
-dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch
 ```
 
-A clean result is the publish-ready gate. Adding `--map` enables key analysis
-and scopes validation to the publication set, which is usually what you want:
-without it, files no map includes are validated too, and orphans are reported
-rather than skipped.
+A clean result is the publish-ready gate. Adding `--map` enables key analysis and scopes validation to the publication set, which is usually what you want: without it, files no map includes are validated too, and orphans are reported rather than skipped.
+
+`--schematron` adds the project's house rules to the same run, and to the same verdict. Without it the gate cannot see them: a rule like "every topic needs a shortdesc" is not something a DTD can express, so it lives in a Schematron schema and is only applied when you name one.
+
+### Reading the result
+
+Every finding is printed, and the run ends with the counts:
+
+```
+Summary
+  Broken references             1
+  Broken element ids            1
+  House rules                  30  in 15 of 36 files
+    Every topic needs a shortdesc (a one- or two-sentence descrip…   14
+    Use uicontrol for UI labels (and drop decorative bold); do no…    7
+    Do not hardcode the product name "Audacity" in prose; use a k…    5
+  Metadata policy              49  in 21 of 29 files (28 error(s), 21 warning(s))
+    recommended <author> is missing                                  21
+    missing required <keyword>                                       21
+  Invalid files                 3  of 36
+```
+
+The summary is last because that is where a terminal leaves you. House rules and the metadata policy are broken down by rule, most frequent first, which is what turns thirty lines into "fourteen missing shortdescs, seven bold labels, five hardcoded product names" — one afternoon's work, not thirty separate problems.
+
+`--summary` prints that block and nothing else, for when you want the shape rather than the list:
+
+```bash
+dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch --summary
+```
+
+A healthy project prints one line either way.
 
 ## What static validation cannot catch
 
@@ -94,14 +120,11 @@ short list:
 
 ```bash
 dogsbay-xml validate-project . --map audacity-guide.ditamap
-dogsbay-xml schematron-project . house-style.sch
-dogsbay-xml metadata-audit . --map audacity-guide.ditamap
 dogsbay-xml validate-conditions . --map audacity-guide.ditamap
-dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch
 ```
 
-Run the cheap checks first. `validate-ot` belongs at the end, or on a
-schedule, rather than on every commit.
+`project-health` covers what `schematron-project` and `metadata-audit` report, so a pipeline needs those two separately only when you want them to fail on their own. Run the cheap checks first. `validate-ot` belongs at the end, or on a schedule, rather than on every commit.
 
 ## Related
 

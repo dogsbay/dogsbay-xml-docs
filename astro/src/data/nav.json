@@ -7,16 +7,20 @@
     "label": "Getting started",
     "children": [
       {
-        "label": "What DogsBay XML is",
-        "href": "/dogsbay-xml-docs/getting-started/what-it-is"
+        "label": "DogsBay XML overview",
+        "href": "/dogsbay-xml-docs/getting-started/dogsbay-xml-overview"
       },
       {
         "label": "Installing",
         "href": "/dogsbay-xml-docs/getting-started/install"
       },
       {
-        "label": "Tutorial: fixing a DITA guide",
-        "href": "/dogsbay-xml-docs/getting-started/tutorial"
+        "label": "Tutorial: Fixing a DITA project by hand",
+        "href": "/dogsbay-xml-docs/getting-started/tutorial-manual"
+      },
+      {
+        "label": "Tutorial: Using an agent to fix a DITA project",
+        "href": "/dogsbay-xml-docs/getting-started/tutorial-agentic"
       }
     ]
   },

@@ -45,14 +45,16 @@ These are the ones that answer questions a single file cannot.
 | `check-links` | Which references point at something missing? |
 | `conref-audit` | Which reuse references name an element id that no longer exists? |
 | `health` | Broken references, undefined and unused keys, orphan topics. |
-| `project-health` | All of that, plus grammar validation and open proposals. |
+| `project-health` | All of that, plus grammar validation, the metadata policy and open proposals. With `--schematron`, the project's house rules too. |
 
 `check-links`, `health` and `project-health` exit with a non-zero status when
 they find something, so they work as a pipeline gate.
 
 ```bash
-dogsbay-xml project-health .
+dogsbay-xml project-health . --schematron house-style.sch
 ```
+
+`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone. See [validating a project](/finding/validation#reading-the-result).
 
 ## Validating a set
 

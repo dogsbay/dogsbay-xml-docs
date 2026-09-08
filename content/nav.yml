@@ -7,9 +7,10 @@
 
 - Home: index.md
 - Getting started:
-    - What DogsBay XML is: getting-started/what-it-is.md
+    - DogsBay XML overview: getting-started/dogsbay-xml-overview.md
     - Installing: getting-started/install.md
-    - "Tutorial: fixing a DITA guide": getting-started/tutorial.md
+    - "Tutorial: Fixing a DITA project by hand": getting-started/tutorial-manual.md
+    - "Tutorial: Using an agent to fix a DITA project": getting-started/tutorial-agentic.md
 - Working with the agent:
     - The agent, and what it may touch: agent/overview.md
     - Reviewing an agent's changes: agent/proposals.md

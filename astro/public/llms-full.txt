@@ -14,9 +14,22 @@ type: explanation
 
 # DogsBay XML {#dogsbay-xml}
 
-DogsBay XML is a desktop editor for DITA and other XML. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.
+DogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.
 
-It also has an AI agent. The difference from an agent added to a text editor is that this one calls the editor's own DITA operations, and its edits arrive as proposals that you accept or reject.
+It has 3 separate interfaces that run the exact same commands across one core engine:
+
+- MCP server for AI assistants
+- CLI for automation
+- UI with menus and panels for humans
+
+While there is a built-in agent with its own commands, you can also bring-your-own-agent like Claude Code, Codex or OpenCode so you don't have to learn a new harness to be productive.
+
+Edits an agent makes to a DITA file are tracked as changes that you accept or reject. Refactorings are implemented as dry runs, requiring an explicit instruction before they are applied.
+
+> [!NOTE]
+> The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in **File > Preferences > Server** when you need it. The built-in agent does not require it.
+
+While the editor is primarily for XML, it also supports authoring and previewing in Markdown and AsciiDoc.
 
 :::cards
 - **[Start here](/dogsbay-xml-docs/getting-started/install){icon="rocket"}**
@@ -32,64 +45,51 @@ It also has an AI agent. The difference from an agent added to a text editor is 
   Commands, tools and configuration.
 :::
 
-## What it is built around {#what-it-is-built-around}
-
-**One engine, three interfaces.** The editor's menus, the `dogsbay-xml` command line, and the MCP server that AI assistants connect to are not separate implementations. They run the same commands. A rule that fails validation while you type fails the same way in a pipeline.
-
-**Changes are reviewable before they land.** Refactorings report what they would do and change nothing until you pass `--apply`. Edits an agent makes to a DITA file arrive as tracked changes that you accept or reject, marked with the identity that proposed them.
-
-**The project, not the file.** Keys, conrefs, maps and relationship tables describe how files relate to each other, so the operations that matter work across all of them: find every reference to a topic, rename a key everywhere, or check that a build's conditions use values your subject scheme allows.
-
-> [!NOTE]
-> The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in **File > Preferences > Server** when you need it. The built-in agent does not require it.
-
 ---
 
-# What DogsBay XML is
+# DogsBay XML overview
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/what-it-is.md
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/dogsbay-xml-overview.md
 
 ---
-title: What DogsBay XML is
+title: DogsBay XML overview
 description: What the editor does, who it is for, and the three ideas that shape it.
 type: explanation
 ---
 
-# What DogsBay XML is {#what-dogsbay-xml-is}
+# DogsBay XML overview {#dogsbay-xml-overview}
 
-DogsBay XML is a desktop editor for DITA and other XML, aimed at people who maintain a documentation set rather than a single file.
+DogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed at writers who maintain complex documentation sets.
 
-It validates against your grammar as you type, resolves keys and reuse across the project, refactors without breaking references, publishes through DITA-OT, and runs an AI agent that works on the same model the editor does.
+- Validates against your grammar as you type
+- Resolves keys and reuse across the project
+- Refactors without breaking references
+- Publishes through DITA-OT
+- Runs an AI agent that exposes all the features of the editor.
 
 ## Who it is for {#who-it-is-for}
 
-A technical writer working in DITA, in a set large enough that the relationships between files matter: keys that resolve differently in different maps, topics reused by conref in three places, conditions that decide what a build contains.
+A technical writer working in DITA or another docset large enough that the relationships between files matter:
 
-If your set is a handful of files, most of this is unnecessary. The features earn their place when a rename can break something you cannot see from the file you are editing.
+- Keys that resolve differently in different maps
+- Topics reused by conref in three places
+- Conditionals that decide what a build contains
 
-## Three ideas {#three-ideas}
+## One engine, three interfaces {#one-engine-three-interfaces}
 
-### One engine, three interfaces {#one-engine-three-interfaces}
+The editor's UI menus, the `dogsbay-xml` command line, and the MCP server that AI assistants connect to all run the exact same commands.
 
-The editor's menus, the `dogsbay-xml` command line and the MCP server that AI assistants connect to are not separate implementations of the same ideas. They run the same commands.
+## Nothing changes until you say so {#nothing-changes-until-you-say-so}
 
-The consequence is worth stating plainly: a check that passes in the editor passes the same way in a pipeline, because it is the same check. There is no second implementation to drift.
+Refactorings are implemented as a dry run by default and just report what they would do. You pass `--apply` when you are happy with the plan. In the editor the same plan appears as a table you review before you execute it.
 
-### Nothing changes until you say so {#nothing-changes-until-you-say-so}
+The same principle governs the agent. Its edits to DITA files arrive as tracked changes attributed to it, and you accept or reject the changes.
 
-Refactorings report what they would do and change nothing. You pass `--apply` when the plan is right. In the editor the same plan appears as a table you review before it runs.
+## The project is the unit {#the-project-is-the-unit}
 
-The same principle governs the agent. Its edits to DITA files arrive as tracked changes attributed to it, and you accept or reject them.
+Keys, conrefs, maps and relationship tables describe how files relate. So the operations that matter work across all of them at once. Every reference to a topic, every use of a key, every condition value that the subject scheme disallows, every topic no map includes.
 
-### The project is the unit {#the-project-is-the-unit}
-
-Keys, conrefs, maps and relationship tables describe how files relate. So the operations that matter work across all of them at once: every reference to a topic, every use of a key, every condition value that no subject scheme allows, every topic no map includes.
-
-That is also why the agent is useful here. It is not editing text in a file; it is calling operations that already understand the project.
-
-## What it is not {#what-it-is-not}
-
-It is not a general-purpose text editor, and it is not a CMS. It edits files on disk, in a folder you control, under whatever version control you already use.
+That is also why the agent is useful here. It is not simply editing text in a file - it is calling operations that already understand the project.
 
 ## Where to start {#where-to-start}
 
@@ -97,8 +97,11 @@ It is not a general-purpose text editor, and it is not a CMS. It edits files on 
 - **[Installing](./install){icon="download"}**
   Packages for Linux, macOS and Windows, or build from source.
 
-- **[Tutorial: fixing a DITA guide](./tutorial){icon="rocket"}**
-  Thirty minutes with a real, deliberately broken project.
+- **[Tutorial: fixing a DITA project by hand](./tutorial-manual){icon="rocket"}**
+  Thirty minutes to find the issues in a real, deliberately broken project and fix one yourself.
+
+- **[Tutorial: using an agent to fix a DITA project](./tutorial-agentic){icon="sparkles"}**
+  The same project, with the agent doing the repetitive part.
 :::
 
 ---
@@ -124,7 +127,7 @@ Each installer bundles its own Java runtime, so no separate JDK is required.
 :::steps
 1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.
 2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to Applications. On Windows, run the installer.
-3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial) starts.
+3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial-manual) starts.
 :::
 
 ## The command line {#the-command-line}
@@ -178,45 +181,52 @@ The integration server is what AI assistants and the live-editor commands connec
 
 ---
 
-# Tutorial: fixing a DITA guide
+# Tutorial: Fixing a DITA project by hand
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial.md
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md
 
 ---
-title: "Tutorial: fixing a DITA guide"
-description: Open a real DITA project that has problems in it, find them with the project tools, and fix some of them with the AI agent.
+title: "Tutorial: Fixing a DITA project by hand"
+description: Open a real DITA project that has problems in it, find them with the project tools, and fix one of them by hand.
 type: tutorial
 ---
 
-# Tutorial: fixing a DITA guide {#tutorial-fixing-a-dita-guide}
+# Tutorial: Fixing a DITA project by hand {#tutorial-fixing-a-dita-project-by-hand}
 
-In this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it with the AI agent.
+In this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it by hand.
 
-The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that no subject scheme allows.
+The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.
 
-**Time:** about 30 minutes. **You need:** DogsBay XML installed. See [Installing](./install). An API key for the agent section is useful but not required until then.
+**Time:** about 30 minutes. **You need:** DogsBay XML installed. See [Installing](./install). Nothing else: no agent, and no sign-in.
 
 ## Step 1: Open the sample project {#step-1-open-the-sample-project}
 
 :::steps
 1. **Select File > Open Sample Project** The editor asks where to put it.
 2. **Choose a location** The sample is copied into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.
-3. **Wait for the project to open** The Map Explorer loads `audacity-guide.ditamap`, and publishing is configured, without you setting anything up.
+3. **Wait for the project to open** The Topic Map explorer loads `audacity-guide.ditamap`, and publishing is configured, without you setting anything up.
 :::
 
 You now have your own copy to break further and repair.
 
 ## Step 2: See what is wrong {#step-2-see-what-is-wrong}
 
-Rather than opening files to look for problems, ask the project.
-
-Run the health check from the command line:
+Rather than opening individual files to look for problems, you can run the project health check from the command line:
 
 ```bash
-dogsbay-xml project-health .
+dogsbay-xml project-health . --schematron house-style.sch
 ```
 
-The report covers three kinds of problem at once: references that point at something missing, keys that are used but never defined or defined but never used, topics that no map includes, and files that fail validation against their grammar.
+The report covers specific kinds of problems:
+
+- References that point at something missing
+- Keys that are used but never defined, or defined and never used
+- Topics that aren't included in any map
+- Files that fail validation against their grammar
+- Required metadata the project's policy says a topic must carry
+- House rules from `house-style.sch`, such as every topic needing a `shortdesc`
+
+The last one needs the `--schematron` option. A rule like "every topic needs a shortdesc" cannot be expressed in a DTD, so it lives in a Schematron schema, and the health check only applies one when you name it.
 
 Read the output before you change anything. The point of this step is that the answer is a property of the project, not of the file you happen to have open.
 
@@ -236,19 +246,74 @@ Pick a topic that has no short description.
 
 Now switch back with **View > Document Views > Editor** and confirm the element is where you expect. The two views are the same document, and your place in it is carried across.
 
-## Step 4: Let the agent do the rest {#step-4-let-the-agent-do-the-rest}
+## What you learned {#what-you-learned}
+
+- The sample project is a copy, so you can experiment freely.
+- Problems are found at project level, not file by file.
+- The Author view and the source view are two views of one document, and your place in it is carried across.
+
+## Where to go next {#where-to-go-next}
+
+:::cards
+- **[Tutorial: Using an agent to fix a DITA project](./tutorial-agentic){icon="sparkles"}**
+  The same project, with the agent doing the repetitive part.
+
+- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
+  The checks behind the health report you ran.
+:::
+
+---
+
+# Tutorial: Using an agent to fix a DITA project
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-agentic.md
+
+---
+title: "Tutorial: Using an agent to fix a DITA project"
+description: Open a real DITA project that has problems in it, find them with the project tools, and fix them with the AI agent.
+type: tutorial
+---
+
+# Tutorial: Using an agent to fix a DITA project {#tutorial-using-an-agent-to-fix-a-dita-project}
+
+In this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it with the AI agent.
+
+The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.
+
+**Time:** about 30 minutes. **You need:** DogsBay XML installed. See [Installing](./install). A subscription or API key for the agent section is useful but not required until then.
+
+## Step 1: Open the sample project {#step-1-open-the-sample-project}
+
+:::steps
+1. **Select File > Open Sample Project** The editor asks where to put it.
+2. **Choose a location** The sample is copied into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.
+3. **Wait for the project to open** The Topic Map explorer loads `audacity-guide.ditamap`, and publishing is configured, without you setting anything up.
+:::
+
+You now have your own copy to break further and repair.
+
+## Step 2: Open the agent {#step-2-open-the-agent}
+
+:::steps
+1. **Open the AI Agent panel** It is on the right-hand sidebar. The first tab is the built-in agent, which runs as you and needs no integration server.
+2. **Choose a provider and sign in** Use the provider bar at the top of the panel. The key is stored in your operating system keychain, not in the project.
+:::
+
+If you would rather drive Claude Code, Codex or Gemini from the panel instead, see [using a hosted agent](/dogsbay-xml-docs/agent/hosted-agents). A hosted session opens at tier T1 and needs the integration server; the built-in agent needs neither.
+
+## Step 3: Ask it to find and fix the problems {#step-3-ask-it-to-find-and-fix-the-problems}
 
 Fixing thirty topics by hand is the wrong tool. This is what the agent is for.
 
 :::steps
-1. **Open the AI Agent panel** It is on the right-hand sidebar.
-2. **Choose a provider and sign in** Use the provider bar at the top of the panel. The key is stored in your operating system keychain, not in the project.
-3. **Ask for the change** Type: `Add a short description to every topic that has none. Keep them to one sentence and lead with what the topic is for.`
+1. **Ask for the survey first** Something like: *Run a project health check on this project, applying house-style.sch, and summarise what is wrong, grouped by kind.* The agent calls the same `project-health` operation the command line does, so the answer is the project's, not a guess from reading a few files. Naming the schema matters: the missing shortdescs are a house rule, and the check only applies one when it is given.
+2. **Pick one kind of problem** *Add a one-sentence shortdesc to every topic that has none.* Naming one kind at a time keeps the review in the next step manageable.
+3. **Watch the panel while it works** Each operation it calls is listed as it runs, so you can see it is calling the editor's DITA commands rather than rewriting files as text.
 :::
 
 The agent works across the project rather than opening each file in turn, because it has the editor's project operations available to it.
 
-## Step 5: Review what it proposes {#step-5-review-what-it-proposes}
+## Step 4: Review what it proposes {#step-4-review-what-it-proposes}
 
 The agent's edits do not overwrite your files. They arrive as tracked changes.
 
@@ -260,10 +325,10 @@ The agent's edits do not overwrite your files. They arrive as tracked changes.
 
 This is the part worth slowing down for. The agent proposes; you decide.
 
-## Step 6: Check the project again {#step-6-check-the-project-again}
+## Step 5: Check the project again {#step-5-check-the-project-again}
 
 ```bash
-dogsbay-xml project-health .
+dogsbay-xml project-health . --schematron house-style.sch
 ```
 
 Fewer problems should remain. What is left is the more interesting work: the hardcoded product name that should be a key, the conditions that are not in the subject scheme, and the topic that is too long and should be split.
@@ -272,8 +337,8 @@ Fewer problems should remain. What is left is the more interesting work: the har
 
 - The sample project is a copy, so you can experiment freely.
 - Problems are found at project level, not file by file.
-- The Author view and the source view are two views of one document.
-- The agent works across a project, and its changes are reviewable before they land.
+- The agent calls the editor's own DITA operations rather than editing text.
+- Its changes are reviewable before they land: it proposes, you decide.
 
 ## Where to go next {#where-to-go-next}
 
@@ -979,13 +1044,43 @@ A rule that fails here fails the same way in a pipeline, because it is the same 
 
 ## The whole picture {#the-whole-picture}
 
-`project-health` runs the reference and key analysis, grammar validation and the conref element-id audit together, and reports open agent proposals:
+`project-health` runs the reference and key analysis, grammar validation, the conref element-id audit and the required-metadata policy together, and reports open agent proposals:
 
 ```bash
-dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch
 ```
 
 A clean result is the publish-ready gate. Adding `--map` enables key analysis and scopes validation to the publication set, which is usually what you want: without it, files no map includes are validated too, and orphans are reported rather than skipped.
+
+`--schematron` adds the project's house rules to the same run, and to the same verdict. Without it the gate cannot see them: a rule like "every topic needs a shortdesc" is not something a DTD can express, so it lives in a Schematron schema and is only applied when you name one.
+
+### Reading the result {#reading-the-result}
+
+Every finding is printed, and the run ends with the counts:
+
+```
+Summary
+  Broken references             1
+  Broken element ids            1
+  House rules                  30  in 15 of 36 files
+    Every topic needs a shortdesc (a one- or two-sentence descrip…   14
+    Use uicontrol for UI labels (and drop decorative bold); do no…    7
+    Do not hardcode the product name "Audacity" in prose; use a k…    5
+  Metadata policy              49  in 21 of 29 files (28 error(s), 21 warning(s))
+    recommended <author> is missing                                  21
+    missing required <keyword>                                       21
+  Invalid files                 3  of 36
+```
+
+The summary is last because that is where a terminal leaves you. House rules and the metadata policy are broken down by rule, most frequent first, which is what turns thirty lines into "fourteen missing shortdescs, seven bold labels, five hardcoded product names" — one afternoon's work, not thirty separate problems.
+
+`--summary` prints that block and nothing else, for when you want the shape rather than the list:
+
+```bash
+dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch --summary
+```
+
+A healthy project prints one line either way.
 
 ## What static validation cannot catch {#what-static-validation-cannot-catch}
 
@@ -1003,13 +1098,11 @@ Each of these exits non-zero when it finds something, so a pipeline can be a sho
 
 ```bash
 dogsbay-xml validate-project . --map audacity-guide.ditamap
-dogsbay-xml schematron-project . house-style.sch
-dogsbay-xml metadata-audit . --map audacity-guide.ditamap
 dogsbay-xml validate-conditions . --map audacity-guide.ditamap
-dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch
 ```
 
-Run the cheap checks first. `validate-ot` belongs at the end, or on a schedule, rather than on every commit.
+`project-health` covers what `schematron-project` and `metadata-audit` report, so a pipeline needs those two separately only when you want them to fail on their own. Run the cheap checks first. `validate-ot` belongs at the end, or on a schedule, rather than on every commit.
 
 ## Related {#related}
 
@@ -1331,7 +1424,7 @@ Some menus change with the document. Preview entries are enabled only for a docu
 | New Project | Create a project. |
 | Open File | Open a document. |
 | Open Project Folder | Open a folder as the project. |
-| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial). |
+| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Preferences | Editor settings, including the **Server** page that turns on the [integration server](/dogsbay-xml-docs/automation/mcp). |
@@ -1660,13 +1753,15 @@ These are the ones that answer questions a single file cannot.
 | `check-links` | Which references point at something missing? |
 | `conref-audit` | Which reuse references name an element id that no longer exists? |
 | `health` | Broken references, undefined and unused keys, orphan topics. |
-| `project-health` | All of that, plus grammar validation and open proposals. |
+| `project-health` | All of that, plus grammar validation, the metadata policy and open proposals. With `--schematron`, the project's house rules too. |
 
 `check-links`, `health` and `project-health` exit with a non-zero status when they find something, so they work as a pipeline gate.
 
 ```bash
-dogsbay-xml project-health .
+dogsbay-xml project-health . --schematron house-style.sch
 ```
+
+`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone. See [validating a project](/dogsbay-xml-docs/finding/validation#reading-the-result).
 
 ## Validating a set {#validating-a-set}
 
