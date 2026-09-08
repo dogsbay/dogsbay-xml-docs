@@ -97,6 +97,10 @@
         "href": "/dogsbay-xml-docs/reference/menus"
       },
       {
+        "label": "Panel reference",
+        "href": "/dogsbay-xml-docs/reference/panels"
+      },
+      {
         "label": "The command line",
         "href": "/dogsbay-xml-docs/reference/cli"
       }
