@@ -59,10 +59,6 @@ tables. Comes from the DITA plugin.
 Buttons: Open DITA Map, Refresh Map, Collapse All, and Publish DITA Map,
 which builds through DITA-OT.
 
-> [!NOTE]
-> This panel is called **Topic Maps**. Older documentation calls it the Map
-> Explorer or the DITA Explorer; those names are gone.
-
 ### XPath Query
 
 Run an XPath expression across files and list the matches. Takes the same
