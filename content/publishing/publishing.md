@@ -22,7 +22,7 @@ references when it knows which map provides the context.
 From the command line:
 
 ```bash
-bin/dogsbay-xml preview topics/installing-audacity.dita \
+dogsbay-xml preview topics/installing-audacity.dita \
   --map audacity-guide.ditamap --output preview.html
 ```
 
@@ -51,8 +51,8 @@ enough to get a build out of a set that has not been formalised yet.
 ## Building
 
 ```bash
-bin/dogsbay-xml build .
-bin/dogsbay-xml build . html-guide
+dogsbay-xml build .
+dogsbay-xml build . html-guide
 ```
 
 The first builds every deliverable; the second builds one by name. The command
@@ -74,8 +74,8 @@ A build that succeeds can still be missing content, because a key that fails
 to resolve does not always stop the build.
 
 ```bash
-bin/dogsbay-xml validate-deliverables .
-bin/dogsbay-xml validate-ot .
+dogsbay-xml validate-deliverables .
+dogsbay-xml validate-ot .
 ```
 
 `validate-deliverables` validates each deliverable with its own map and
@@ -86,7 +86,7 @@ another.
 Before either, the cheaper check:
 
 ```bash
-bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap
 ```
 
 ## Related

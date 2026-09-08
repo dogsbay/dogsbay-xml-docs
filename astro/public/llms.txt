@@ -42,4 +42,4 @@
 
 - [Menu reference](https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md): Every menu in the editor, in order, with what each command does and where it is documented in full.
 - [Panel reference](https://dogsbay.ai/dogsbay-xml-docs/reference/panels.md): Every panel in the sidebars and the bottom bar, what it shows, and what you can do in it.
-- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What bin/dogsbay-xml can do, grouped by what you are trying to find out or change.
+- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What dogsbay-xml can do, grouped by what you are trying to find out or change.

@@ -1,17 +1,20 @@
 ---
 title: The command line
-description: What bin/dogsbay-xml can do, grouped by what you are trying to find out or change.
+description: What dogsbay-xml can do, grouped by what you are trying to find out or change.
 type: reference
 ---
 
 # The command line
 
-`bin/dogsbay-xml` runs the same operations as the editor's menus. Most
-commands work on files and need nothing running. A few drive an editor that is
-already open, and those need the integration server.
+`dogsbay-xml` runs the same operations as the editor's menus. It is installed
+with the editor; see [the command line](/start-here/install#the-command-line)
+for where it is and how to run it on a machine with no installer.
 
-Run `bin/dogsbay-xml --help` for the full list, and
-`bin/dogsbay-xml <command> --help` for one command's options.
+Most commands work on files and need nothing running. A few drive an editor
+that is already open, and those need the integration server.
+
+Run `dogsbay-xml --help` for the full list, and
+`dogsbay-xml <command> --help` for one command's options.
 
 > [!IMPORTANT]
 > The refactoring commands print a plan and change nothing until you add
@@ -48,7 +51,7 @@ These are the ones that answer questions a single file cannot.
 they find something, so they work as a pipeline gate.
 
 ```bash
-bin/dogsbay-xml project-health .
+dogsbay-xml project-health .
 ```
 
 ## Validating a set

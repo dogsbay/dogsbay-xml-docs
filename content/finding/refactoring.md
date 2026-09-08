@@ -16,8 +16,8 @@ Every refactoring prints a plan and changes nothing. You read the plan, then
 run the same command again with `--apply`.
 
 ```bash
-bin/dogsbay-xml rename-key product-name product --root .
-bin/dogsbay-xml rename-key product-name product --root . --apply
+dogsbay-xml rename-key product-name product --root .
+dogsbay-xml rename-key product-name product --root . --apply
 ```
 
 In the editor the same plan appears as a table you review before it runs.
@@ -32,7 +32,7 @@ In the editor the same plan appears as a table you review before it runs.
 Ask what depends on it:
 
 ```bash
-bin/dogsbay-xml where-used topics/installing-audacity.dita \
+dogsbay-xml where-used topics/installing-audacity.dita \
   --root . --map audacity-guide.ditamap
 ```
 
@@ -79,7 +79,7 @@ planted in the sample project:
    The key name and the text it resolves to are the two arguments; the map
    that receives the definition is an option.
    ```bash
-   bin/dogsbay-xml create-keydef product-name Audacity \
+   dogsbay-xml create-keydef product-name Audacity \
      --map keydefs-product.ditamap --apply
    ```
 
@@ -88,7 +88,7 @@ planted in the sample project:
    into key references, which is the part that would otherwise be a hundred
    manual edits.
    ```bash
-   bin/dogsbay-xml create-keydef product-name Audacity \
+   dogsbay-xml create-keydef product-name Audacity \
      --map keydefs-product.ditamap --replace-in topics
    ```
 
@@ -97,7 +97,7 @@ planted in the sample project:
 
 4. **Check the result**
    ```bash
-   bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+   dogsbay-xml project-health . --map audacity-guide.ditamap
    ```
 :::
 

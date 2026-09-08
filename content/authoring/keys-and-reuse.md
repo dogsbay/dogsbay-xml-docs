@@ -17,13 +17,13 @@ A map's key space is every key its topics can use, including keys defined in
 the maps it includes.
 
 ```bash
-bin/dogsbay-xml keys audacity-guide.ditamap
+dogsbay-xml keys audacity-guide.ditamap
 ```
 
 To ask what one key resolves to:
 
 ```bash
-bin/dogsbay-xml keys audacity-guide.ditamap --resolve product-name
+dogsbay-xml keys audacity-guide.ditamap --resolve product-name
 ```
 
 Two things change what a key resolves to, and both are options here.
@@ -32,14 +32,14 @@ Two things change what a key resolves to, and both are options here.
 resolves differently in different builds:
 
 ```bash
-bin/dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval
+dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval
 ```
 
 **Key scopes.** DITA 1.3 lets a map declare a scope, so a key can mean
 different things in different branches of the same map:
 
 ```bash
-bin/dogsbay-xml keys audacity-guide.ditamap --resolve intro --scope podcaster
+dogsbay-xml keys audacity-guide.ditamap --resolve intro --scope podcaster
 ```
 
 > [!TIP]
@@ -54,7 +54,7 @@ A file referenced by path in twenty topics is twenty edits when it moves. The
 definition to a map you choose.
 
 ```bash
-bin/dogsbay-xml keyify topics/installing-audacity.dita installing \
+dogsbay-xml keyify topics/installing-audacity.dita installing \
   --root . --map keydefs-product.ditamap
 ```
 
@@ -63,7 +63,7 @@ That prints the plan. Add `--apply` to make the change.
 The reverse, when a key is not earning its indirection:
 
 ```bash
-bin/dogsbay-xml inline-key installing --root . --map audacity-guide.ditamap --apply
+dogsbay-xml inline-key installing --root . --map audacity-guide.ditamap --apply
 ```
 
 The map is needed because it is what resolves the key to the path that
@@ -75,7 +75,7 @@ When the same note, step or paragraph appears in several topics, move it once
 into a reuse topic and conref it everywhere else.
 
 ```bash
-bin/dogsbay-xml extract-conref topics/installing-audacity.dita note-backup \
+dogsbay-xml extract-conref topics/installing-audacity.dita note-backup \
   --to shared/common-notes.dita
 ```
 
@@ -85,7 +85,7 @@ exist, and a conref stub is left in its place. Add `--apply` to run it.
 To undo that relationship, replacing conrefs with a copy of the content:
 
 ```bash
-bin/dogsbay-xml inline-conref shared/common-notes.dita note-backup --root . --apply
+dogsbay-xml inline-conref shared/common-notes.dita note-backup --root . --apply
 ```
 
 Use `--file` to inline only the instances in one topic rather than all of
@@ -96,8 +96,8 @@ them.
 Two audits answer different questions.
 
 ```bash
-bin/dogsbay-xml check-links .
-bin/dogsbay-xml conref-audit .
+dogsbay-xml check-links .
+dogsbay-xml conref-audit .
 ```
 
 `check-links` reports references whose target file is missing, and keys used
@@ -109,7 +109,7 @@ An element id disappears when someone renames it or deletes the element it was
 on, which is why renaming ids is a command rather than an edit:
 
 ```bash
-bin/dogsbay-xml rename-element-id shared/common-notes.dita note-backup backup-note --apply
+dogsbay-xml rename-element-id shared/common-notes.dita note-backup backup-note --apply
 ```
 
 ## Tidying key definitions
@@ -118,7 +118,7 @@ When maps are merged or copied, the same key often ends up defined more than
 once. Only the first definition wins, so the rest are noise:
 
 ```bash
-bin/dogsbay-xml merge-keydefs audacity-guide.ditamap --apply
+dogsbay-xml merge-keydefs audacity-guide.ditamap --apply
 ```
 
 ## Related

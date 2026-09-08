@@ -95,7 +95,7 @@ repository.
 To read it, select **Project > Agent activity**, or run:
 
 ```bash
-bin/dogsbay-xml audit-log
+dogsbay-xml audit-log
 ```
 
 ## What each kind of agent needs

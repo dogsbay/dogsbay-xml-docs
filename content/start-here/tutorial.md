@@ -44,7 +44,7 @@ Rather than opening files to look for problems, ask the project.
 Run the health check from the command line:
 
 ```bash
-bin/dogsbay-xml project-health .
+dogsbay-xml project-health .
 ```
 
 The report covers three kinds of problem at once: references that point at
@@ -127,7 +127,7 @@ This is the part worth slowing down for. The agent proposes; you decide.
 ## Step 6: Check the project again
 
 ```bash
-bin/dogsbay-xml project-health .
+dogsbay-xml project-health .
 ```
 
 Fewer problems should remain. What is left is the more interesting work: the

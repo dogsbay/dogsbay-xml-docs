@@ -86,8 +86,8 @@ Every command from a hosted agent is recorded in the project's audit log, with
 the session that ran it. Select **Project > Agent activity**, or:
 
 ```bash
-bin/dogsbay-xml audit-log
-bin/dogsbay-xml sessions
+dogsbay-xml audit-log
+dogsbay-xml sessions
 ```
 
 ## Related

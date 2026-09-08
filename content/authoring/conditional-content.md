@@ -34,7 +34,7 @@ A DITAVAL affects more than the text that survives. It also conditions the key
 space, so a key can resolve to different targets in different builds:
 
 ```bash
-bin/dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval
+dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval
 ```
 
 ## Branch filtering
@@ -46,7 +46,7 @@ is how one map produces a Windows chapter and a macOS chapter.
 To see the variants a map produces:
 
 ```bash
-bin/dogsbay-xml list-branches audacity-guide.ditamap
+dogsbay-xml list-branches audacity-guide.ditamap
 ```
 
 Branch filtering is resolved by DITA-OT at build time. The editor shows you
@@ -70,13 +70,13 @@ typo from an invisible content loss into something you can find.
 To see what a scheme allows:
 
 ```bash
-bin/dogsbay-xml list-subjects keydefs-glossary.ditamap
+dogsbay-xml list-subjects keydefs-glossary.ditamap
 ```
 
 To find content that breaks it:
 
 ```bash
-bin/dogsbay-xml validate-conditions . --map audacity-guide.ditamap
+dogsbay-xml validate-conditions . --map audacity-guide.ditamap
 ```
 
 That scans the map's publication set and reports every profiling value the
@@ -91,8 +91,8 @@ When a value does need to change, change it as a refactoring rather than by
 search and replace, so every use moves together:
 
 ```bash
-bin/dogsbay-xml rename-profile-value platform mac macos --root .
-bin/dogsbay-xml rename-profile-value platform mac macos --root . --apply
+dogsbay-xml rename-profile-value platform mac macos --root .
+dogsbay-xml rename-profile-value platform mac macos --root . --apply
 ```
 
 The first prints the plan; the second applies it.

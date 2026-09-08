@@ -52,13 +52,42 @@ Other tasks:
 | `./gradlew shadowJar` | Build a self-contained JAR |
 | `./gradlew jpackage` | Build a native installer for the current platform |
 
-## Enabling the command line
+## The command line
 
-The `bin/dogsbay-xml` command needs its libraries copied into place once
-before first use:
+The installers put a `dogsbay-xml` executable beside the editor, so the command
+line needs nothing else installed — not a JDK, and not the editor running.
+
+| Platform | Where it is |
+|---|---|
+| Linux (`.deb`, `.rpm`) | `/opt/dogsbay-xml/dogsbay-xml` |
+| macOS | `/Applications/DogsBay-XML.app/Contents/MacOS/dogsbay-xml` |
+| Windows | `dogsbay-xml.exe` in the installation folder |
+
+Add that directory to your `PATH` to run it by name:
 
 ```bash
-./gradlew syncLib
+export PATH="/opt/dogsbay-xml/bin:$PATH"
+dogsbay-xml --version
+```
+
+### On a machine with no installer
+
+For a build server or a container, download the `-all.jar` from the
+[releases page](https://github.com/dogsbay/dogsbay-xml/releases) and run it
+with any JDK 25:
+
+```bash
+java -cp dogsbay-xml-all.jar com.dogsbay.dogsbayaieditor.cli.DogsBayCli \
+  project-health .
+```
+
+### From a source checkout
+
+The `bin/dogsbay-xml` script in the repository runs the CLI out of a build
+tree, so it needs the classes compiled and the libraries copied into `lib/`:
+
+```bash
+./gradlew syncLib classes
 bin/dogsbay-xml --help
 ```
 
@@ -79,7 +108,7 @@ connect to. It is off until you turn it on.
    Go to the **Server** page and enable the server.
 
 3. **Check that it is listening**
-   Run `bin/dogsbay-xml status`.
+   Run `dogsbay-xml status`.
 :::
 
 > [!NOTE]

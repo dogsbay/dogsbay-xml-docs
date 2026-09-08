@@ -41,7 +41,7 @@ To change the structure, edit the map in the panel, or use `edit-map` from the
 command line for a change you want to script or repeat:
 
 ```bash
-bin/dogsbay-xml edit-map audacity-guide.ditamap insert \
+dogsbay-xml edit-map audacity-guide.ditamap insert \
   --parent / --href topics/new-topic.dita --navtitle "New topic"
 ```
 
@@ -59,22 +59,22 @@ the file's formatting and keep references intact.
 Ask what depends on it first:
 
 ```bash
-bin/dogsbay-xml where-used topics/installing-audacity.dita --root .
+dogsbay-xml where-used topics/installing-audacity.dita --root .
 ```
 
 The report covers references from maps, conrefs, links and images. Add
 `--map` to include references that reach the file indirectly through a key:
 
 ```bash
-bin/dogsbay-xml where-used topics/installing-audacity.dita \
+dogsbay-xml where-used topics/installing-audacity.dita \
   --root . --map audacity-guide.ditamap
 ```
 
 Then let the editor do the rename, so the references follow:
 
 ```bash
-bin/dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita
-bin/dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita --apply
+dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita
+dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita --apply
 ```
 
 The first command shows what would change. The second does it.
@@ -90,13 +90,13 @@ A topic that has become several topics can be split at its sections, with the
 map updated to include the new files:
 
 ```bash
-bin/dogsbay-xml split-topic topics/editing-techniques.dita --apply
+dogsbay-xml split-topic topics/editing-techniques.dita --apply
 ```
 
 ## Checking the result
 
 ```bash
-bin/dogsbay-xml project-health .
+dogsbay-xml project-health .
 ```
 
 A clean report means references resolve, keys are defined and used, no topic

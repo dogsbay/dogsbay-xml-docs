@@ -27,7 +27,7 @@ the bundled DITA grammars, which means it validates the same way in the editor
 and headless.
 
 ```bash
-bin/dogsbay-xml validate topics/installing-audacity.dita
+dogsbay-xml validate topics/installing-audacity.dita
 ```
 
 In the editor, problems appear in the margin as you type and in the error
@@ -36,7 +36,7 @@ pane.
 ## A whole set
 
 ```bash
-bin/dogsbay-xml validate-project . --map audacity-guide.ditamap
+dogsbay-xml validate-project . --map audacity-guide.ditamap
 ```
 
 The scope decides what is checked. With `--map`, it is that map's publication
@@ -52,8 +52,8 @@ project ships one, `house-style.sch`, which requires a short description on
 every topic and forbids hardcoded product names in prose.
 
 ```bash
-bin/dogsbay-xml schematron topics/installing-audacity.dita house-style.sch
-bin/dogsbay-xml schematron-project . house-style.sch
+dogsbay-xml schematron topics/installing-audacity.dita house-style.sch
+dogsbay-xml schematron-project . house-style.sch
 ```
 
 A rule that fails here fails the same way in a pipeline, because it is the
@@ -65,7 +65,7 @@ same engine.
 the conref element-id audit together, and reports open agent proposals:
 
 ```bash
-bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap
 ```
 
 A clean result is the publish-ready gate. Adding `--map` enables key analysis
@@ -80,7 +80,7 @@ time, because resolution depends on the map, the conditions and the scopes.
 The only way to be sure is to run the resolution:
 
 ```bash
-bin/dogsbay-xml validate-ot .
+dogsbay-xml validate-ot .
 ```
 
 That runs DITA-OT preprocessing per deliverable and reports what it cannot
@@ -93,11 +93,11 @@ Each of these exits non-zero when it finds something, so a pipeline can be a
 short list:
 
 ```bash
-bin/dogsbay-xml validate-project . --map audacity-guide.ditamap
-bin/dogsbay-xml schematron-project . house-style.sch
-bin/dogsbay-xml metadata-audit . --map audacity-guide.ditamap
-bin/dogsbay-xml validate-conditions . --map audacity-guide.ditamap
-bin/dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml validate-project . --map audacity-guide.ditamap
+dogsbay-xml schematron-project . house-style.sch
+dogsbay-xml metadata-audit . --map audacity-guide.ditamap
+dogsbay-xml validate-conditions . --map audacity-guide.ditamap
+dogsbay-xml project-health . --map audacity-guide.ditamap
 ```
 
 Run the cheap checks first. `validate-ot` belongs at the end, or on a

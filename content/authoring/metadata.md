@@ -21,7 +21,7 @@ You can point at a different policy for one run with `--policy`.
 ## Auditing
 
 ```bash
-bin/dogsbay-xml metadata-audit . --map audacity-guide.ditamap
+dogsbay-xml metadata-audit . --map audacity-guide.ditamap
 ```
 
 That reports where required fields are missing or hold a value the policy does
@@ -37,7 +37,7 @@ or the whole project root.
 asked to touch.
 
 ```bash
-bin/dogsbay-xml metadata-set . --map audacity-guide.ditamap \
+dogsbay-xml metadata-set . --map audacity-guide.ditamap \
   --fill audience=user --dry-run
 ```
 
@@ -63,13 +63,13 @@ The same policy can be compiled to ISO Schematron, so a build system that has
 no DogsBay XML can still check it:
 
 ```bash
-bin/dogsbay-xml metadata-export-schematron . --output metadata-policy.sch
+dogsbay-xml metadata-export-schematron . --output metadata-policy.sch
 ```
 
 Run the result anywhere Schematron runs, including here:
 
 ```bash
-bin/dogsbay-xml schematron-project . metadata-policy.sch
+dogsbay-xml schematron-project . metadata-policy.sch
 ```
 
 ## A useful order

@@ -47,12 +47,12 @@ The same operations are available headless, which is useful when reviewing a
 batch or scripting a gate in a pipeline:
 
 ```bash
-bin/dogsbay-xml review list topic.dita
-bin/dogsbay-xml review accept topic.dita insert@1234
-bin/dogsbay-xml review reject topic.dita delete@5678
-bin/dogsbay-xml review accept topic.dita --all
-bin/dogsbay-xml review accept topic.dita --all --author ai:claude-acp
-bin/dogsbay-xml review comment topic.dita "Check this term" --after "normalize"
+dogsbay-xml review list topic.dita
+dogsbay-xml review accept topic.dita insert@1234
+dogsbay-xml review reject topic.dita delete@5678
+dogsbay-xml review accept topic.dita --all
+dogsbay-xml review accept topic.dita --all --author ai:claude-acp
+dogsbay-xml review comment topic.dita "Check this term" --after "normalize"
 ```
 
 The proposal id comes from `review list`. `--all` acts on every change and

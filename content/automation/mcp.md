@@ -28,7 +28,7 @@ The integration server is off by default.
 
 3. **Confirm it is listening**
    ```bash
-   bin/dogsbay-xml status
+   dogsbay-xml status
    ```
 :::
 
@@ -40,13 +40,13 @@ discovery file in your home directory so local clients can find it.
 The editor prints the configuration for you:
 
 ```bash
-bin/dogsbay-xml status --mcp-config
+dogsbay-xml status --mcp-config
 ```
 
 For Claude Code, it can print the command that registers it:
 
 ```bash
-bin/dogsbay-xml status --mcp-install
+dogsbay-xml status --mcp-install
 ```
 
 Paste the configuration into the client's MCP settings, or run the command.
@@ -74,7 +74,7 @@ assistant did what.
 Regenerating the token invalidates any client configured with the old one:
 
 ```bash
-bin/dogsbay-xml status --reset-token
+dogsbay-xml status --reset-token
 ```
 
 The editor must be restarted afterwards, and clients need the new
