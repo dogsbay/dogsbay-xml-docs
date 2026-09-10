@@ -13,6 +13,7 @@
     - "Tutorial: Using an agent to fix a DITA project": getting-started/tutorial-agentic.md
 - Working with the agent:
     - The agent, and what it may touch: agent/overview.md
+    - Which agent to use: agent/choosing.md
     - Reviewing an agent's changes: agent/proposals.md
     - Using Claude Code, Codex or Gemini: agent/hosted-agents.md
 - Authoring DITA:

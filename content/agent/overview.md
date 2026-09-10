@@ -13,10 +13,9 @@ The **built-in agent** runs inside the editor. You choose a provider,
 DogsBay XML holds the conversation, and the agent calls the editor's own
 operations directly.
 
-A **hosted agent** is a separate program that you already use, such as Claude
-Code, Codex or Gemini CLI. The editor starts it, talks to it over the Agent
-Client Protocol, and lends it the editor's DITA tools. It keeps its own
-sign-in and its own model.
+A **hosted agent** is a separate program that you already use, such as Claude Code, Codex, Gemini CLI, OpenCode or Goose. The editor starts it, talks to it over the Agent Client Protocol, and lends it the editor's DITA tools. It keeps its own sign-in and its own model, so your subscription to it applies.
+
+[Which agent to use](./choosing) compares the two; this page is about what either of them may touch.
 
 Both appear in the **AI Agent** panel on the right. The built-in agent is the
 first tab; each hosted agent you start gets a tab of its own.
@@ -117,10 +116,21 @@ Transcripts are kept until you remove them. To have the editor clear out old one
 
 | | Built-in agent | Hosted agent |
 |---|---|---|
-| Sign-in | An API key, or a ChatGPT sign-in for Codex | Its own, as you already use it |
+| Sign-in | An API key, or a ChatGPT sign-in | Its own, as you already use it |
 | Where the key is stored | Your operating system keychain | The agent's own configuration |
 | Integration server | Not required | Required, for the editor's tools |
 | Tier | Runs as you | You choose, T1 by default |
 
-The integration server is off until you turn it on in **File > Preferences >
-Server**.
+The integration server is off until you turn it on in **File > Preferences > Server**.
+
+Subscriptions work on both sides, but not the same ones. The built-in agent can sign in to ChatGPT, which is the one subscription it understands; for Anthropic and Google it wants an API key. A hosted agent signs itself in however it already does, so a Claude Code or Codex subscription reaches the editor through the agent rather than through us. Where an agent offers both, the editor prefers the browser sign-in over an API key, and only passes a key you have saved if you ask it to.
+
+## Related
+
+:::cards
+- **[Which agent to use](./choosing)** {icon="scale"}
+  What each kind is good for, and when to run both.
+
+- **[Using Claude Code, Codex or Gemini](./hosted-agents)** {icon="terminal"}
+  Starting a hosted agent, and what it needs.
+:::

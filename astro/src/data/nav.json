@@ -32,6 +32,10 @@
         "href": "/dogsbay-xml-docs/agent/overview"
       },
       {
+        "label": "Which agent to use",
+        "href": "/dogsbay-xml-docs/agent/choosing"
+      },
+      {
         "label": "Reviewing an agent's changes",
         "href": "/dogsbay-xml-docs/agent/proposals"
       },

@@ -10,8 +10,9 @@ The editor can run an agent you already use as a separate program, and lend it
 the editor's DITA operations. The agent keeps its own sign-in and its own
 model; the editor supplies the tools and the limits.
 
-This works with any agent that speaks the Agent Client Protocol. Claude Code,
-Codex and Gemini CLI are the ones most people have.
+This works with any agent that speaks the Agent Client Protocol. Claude Code, Codex and Gemini CLI are the ones most people have; OpenCode and Goose also speak it, and either can be pointed at a local model.
+
+If you are deciding between this and the agent that ships with the editor, see [which agent to use](./choosing).
 
 ## Before you start
 
@@ -93,6 +94,9 @@ dogsbay-xml sessions
 ## Related
 
 :::cards
+- **[Which agent to use](./choosing)** {icon="scale"}
+  This or the built-in agent, and when to run both.
+
 - **[The agent, and what it may touch](./overview)** {icon="shield"}
   Tiers, the write gate and the audit log in full.
 

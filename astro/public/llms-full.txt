@@ -35,8 +35,8 @@ While the editor is primarily for XML, it also supports authoring and previewing
 - **[Start here](/dogsbay-xml-docs/getting-started/install){icon="rocket"}**
   Install the editor, open the sample project, and fix a real DITA guide with the agent.
 
-- **[Working with the agent](/dogsbay-xml-docs/agent/overview){icon="sparkles"}**
-  Built-in and hosted agents, what each one is allowed to touch, and how their changes are reviewed.
+- **[Working with the agent](/dogsbay-xml-docs/agent/choosing){icon="sparkles"}**
+  The built-in agent or one you already use, what each is allowed to touch, and how their changes are reviewed.
 
 - **[Authoring DITA](/dogsbay-xml-docs/authoring/topics-and-maps){icon="file-text"}**
   Topics, maps, keys, reuse and conditional content.
@@ -368,7 +368,9 @@ DogsBay XML can run two kinds of AI agent, and the difference matters more than 
 
 The **built-in agent** runs inside the editor. You choose a provider, DogsBay XML holds the conversation, and the agent calls the editor's own operations directly.
 
-A **hosted agent** is a separate program that you already use, such as Claude Code, Codex or Gemini CLI. The editor starts it, talks to it over the Agent Client Protocol, and lends it the editor's DITA tools. It keeps its own sign-in and its own model.
+A **hosted agent** is a separate program that you already use, such as Claude Code, Codex, Gemini CLI, OpenCode or Goose. The editor starts it, talks to it over the Agent Client Protocol, and lends it the editor's DITA tools. It keeps its own sign-in and its own model, so your subscription to it applies.
+
+[Which agent to use](./choosing) compares the two; this page is about what either of them may touch.
 
 Both appear in the **AI Agent** panel on the right. The built-in agent is the first tab; each hosted agent you start gets a tab of its own.
 
@@ -442,12 +444,67 @@ Transcripts are kept until you remove them. To have the editor clear out old one
 
 |  | Built-in agent | Hosted agent |
 | --- | --- | --- |
-| Sign-in | An API key, or a ChatGPT sign-in for Codex | Its own, as you already use it |
+| Sign-in | An API key, or a ChatGPT sign-in | Its own, as you already use it |
 | Where the key is stored | Your operating system keychain | The agent's own configuration |
 | Integration server | Not required | Required, for the editor's tools |
 | Tier | Runs as you | You choose, T1 by default |
 
 The integration server is off until you turn it on in **File > Preferences > Server**.
+
+Subscriptions work on both sides, but not the same ones. The built-in agent can sign in to ChatGPT, which is the one subscription it understands; for Anthropic and Google it wants an API key. A hosted agent signs itself in however it already does, so a Claude Code or Codex subscription reaches the editor through the agent rather than through us. Where an agent offers both, the editor prefers the browser sign-in over an API key, and only passes a key you have saved if you ask it to.
+
+## Related {#related}
+
+:::cards
+- **[Which agent to use](./choosing){icon="scale"}**
+  What each kind is good for, and when to run both.
+
+- **[Using Claude Code, Codex or Gemini](./hosted-agents){icon="terminal"}**
+  Starting a hosted agent, and what it needs.
+:::
+
+---
+
+# Which agent to use
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/agent/choosing.md
+
+---
+title: Which agent to use
+description: What the built-in agent is good at, what a hosted agent is good at, and why running both is a reasonable answer.
+type: explanation
+---
+
+# Which agent to use {#which-agent-to-use}
+
+DogsBay XML runs two kinds of agent, and they are good at different things. The built-in agent knows your project; a hosted agent is the one you already use. Neither is a lesser version of the other.
+
+Use the **built-in agent** when you want an agent that is already set up and already knows where you are.
+
+- **Nothing else to install or enable.** It runs inside the editor, so there is no integration server to turn on and no other program to install. A hosted agent needs both.
+- **It knows the document you are looking at.** Every turn carries the active file, its type and grammar, the active deliverable and its root map, and the documents you have open. A hosted agent has to spend tool calls discovering that, and often does not, which is the difference between "add a shortdesc to this topic" working immediately and being asked which topic you mean.
+- **It is wired into the editor.** Drag a file onto the chat to attach it, open documents reload when a turn changes them on disk, and `/revert` undoes the file changes of the last turn from a checkpoint taken before it ran.
+- **You choose the model per conversation.** `/provider` and `/model` switch between Anthropic, OpenAI, Gemini, ChatGPT and Ollama without leaving the panel.
+- **It can run entirely on your machine.** With Ollama as the provider, nothing leaves the machine — which is sometimes the only acceptable answer for a documentation set under NDA.
+
+Use a **hosted agent** when the agent itself is the reason.
+
+- **You already use it, and already pay for it.** Claude Code, Codex and Gemini CLI bring their own sign-in, so your existing subscription applies.
+- **You want that agent's harness**: its planning, its own file tools, its way of working through a large refactor.
+- **You want a ceiling on it.** A hosted session starts at T1 and you decide what to lend it, where the built-in agent runs with your own authority. See [capability tier](./overview#capability-tier), and note the caveat there: an agent with its own file tools is Tier 3 by construction, and the tier limits only what the editor lends it.
+- **Local is possible here too**, if the agent supports it: OpenCode takes an OpenAI-compatible provider pointed at Ollama, LM Studio or llama.cpp, and Goose has Ollama as a provider of its own. That is the agent's own configuration, not something the editor sets.
+
+The two are not exclusive. The built-in agent is the first tab and a hosted agent gets its own, so a common arrangement is the built-in agent for the DITA work — where knowing the map, the keys and the deliverable is what makes the answer right — and a hosted agent alongside it for the work that is really about code.
+
+## Related {#related}
+
+:::cards
+- **[The agent, and what it may touch](./overview){icon="shield"}**
+  Tiers, the write gate and the audit log, which apply to both.
+
+- **[Using Claude Code, Codex or Gemini](./hosted-agents){icon="terminal"}**
+  Starting a hosted agent, signing it in, and what it needs.
+:::
 
 ---
 
@@ -537,7 +594,9 @@ type: how-to
 
 The editor can run an agent you already use as a separate program, and lend it the editor's DITA operations. The agent keeps its own sign-in and its own model; the editor supplies the tools and the limits.
 
-This works with any agent that speaks the Agent Client Protocol. Claude Code, Codex and Gemini CLI are the ones most people have.
+This works with any agent that speaks the Agent Client Protocol. Claude Code, Codex and Gemini CLI are the ones most people have; OpenCode and Goose also speak it, and either can be pointed at a local model.
+
+If you are deciding between this and the agent that ships with the editor, see [which agent to use](./choosing).
 
 ## Before you start {#before-you-start}
 
@@ -595,6 +654,9 @@ dogsbay-xml sessions
 ## Related {#related}
 
 :::cards
+- **[Which agent to use](./choosing){icon="scale"}**
+  This or the built-in agent, and when to run both.
+
 - **[The agent, and what it may touch](./overview){icon="shield"}**
   Tiers, the write gate and the audit log in full.
 

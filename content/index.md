@@ -30,9 +30,8 @@ While the editor is primarily for XML, it also supports authoring and previewing
   Install the editor, open the sample project, and fix a real DITA guide with
   the agent.
 
-- **[Working with the agent](/agent/overview)** {icon="sparkles"}
-  Built-in and hosted agents, what each one is allowed to touch, and how their
-  changes are reviewed.
+- **[Working with the agent](/agent/choosing)** {icon="sparkles"}
+  The built-in agent or one you already use, what each is allowed to touch, and how their changes are reviewed.
 
 - **[Authoring DITA](/authoring/topics-and-maps)** {icon="file-text"}
   Topics, maps, keys, reuse and conditional content.
