@@ -15,7 +15,7 @@
     - The agent, and what it may touch: agent/overview.md
     - Which agent to use: agent/choosing.md
     - Reviewing an agent's changes: agent/proposals.md
-    - Using Claude Code, Codex or Gemini: agent/hosted-agents.md
+    - Using Claude Code, Codex, or Gemini: agent/hosted-agents.md
 - Authoring DITA:
     - Topics and maps: authoring/topics-and-maps.md
     - Keys and reuse: authoring/keys-and-reuse.md
@@ -31,6 +31,8 @@
 - Reference:
     - Menu reference: reference/menus.md
     - Panel reference: reference/panels.md
+    - Settings reference: reference/settings.md
+    - Keyboard shortcuts: reference/shortcuts.md
     - The command line: reference/cli.md
 - For developers:
     - Building from source: developers/build-from-source.md
