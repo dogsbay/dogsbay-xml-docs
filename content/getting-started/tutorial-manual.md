@@ -1,17 +1,17 @@
 ---
 title: "Tutorial: Fixing a DITA project by hand"
-description: Open a real DITA project that has problems in it, find them with the project tools, and fix one of them by hand.
+description: Open a DITA project with deliberate errors, find them with the project tools, and fix one by hand.
 type: tutorial
 ---
 
 # Tutorial: Fixing a DITA project by hand
 
-In this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it by hand.
+In this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix one by hand.
 
 The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.
 
 **Time:** about 30 minutes.
-**You need:** DogsBay XML installed. See [Installing](./install). Nothing else: no agent, and no sign-in.
+**You need:** DogsBay XML. See [Installing](./install). You do not need an agent or a sign-in.
 
 ## Step 1: Open the sample project
 
@@ -20,14 +20,14 @@ The project is a DITA user guide for the Audacity audio editor. It ships with th
    The editor asks where to put it.
 
 2. **Choose a location**
-   The sample is copied into a new `audacity-demo` folder inside the location
+   The editor copies the sample into a new `audacity-demo` folder inside the location
    you choose. It never uses the folder you chose as the project itself, and
    it never overwrites anything: if `audacity-demo` exists, the copy becomes
    `audacity-demo-2`.
 
 3. **Wait for the project to open**
-   The Topic Map explorer loads `audacity-guide.ditamap`, and publishing is
-   configured, without you setting anything up.
+   The Topic Maps panel loads `audacity-guide.ditamap`. The sample already
+   includes its publishing configuration.
 :::
 
 You now have your own copy to break further and repair.
@@ -44,16 +44,15 @@ The report covers specific kinds of problems:
 
 -   References that point at something missing
 -   Keys that are used but never defined, or defined and never used
--   Topics that aren't included in any map
+-   Topics that are not included in any map
 -   Files that fail validation against their grammar
 -   Required metadata the project's policy says a topic must carry
 -   House rules from `house-style.sch`, such as every topic needing a `shortdesc`
 
-The last one needs the `--schematron` option. A rule like "every topic needs a shortdesc" cannot be expressed in a DTD, so it lives in a Schematron schema, and the health check only applies one when you name it.
+The last check needs the `--schematron` option. A DTD cannot express a rule such as "every topic needs a shortdesc," so the rule lives in a Schematron schema. The health check applies the schema only when you name it.
 
-Read the output before you change anything. The point of this step is that
-the answer is a property of the project, not of the file you happen to have
-open.
+Read the output before you change anything. The results describe the project,
+not only the file that you have open.
 
 > [!TIP]
 > `check-links` and `health` are narrower and faster if you only want one
@@ -72,7 +71,7 @@ Pick a topic that has no short description.
    menu bar. The topic is shown as blocks rather than as tags.
 
 3. **Add a short description**
-   Put the cursor after the title and use the insert menu to add a
+   Place the cursor after the title and use the insert menu to add a
    `shortdesc`, then write one sentence that says what the topic is for.
 
 4. **Save**
@@ -80,16 +79,16 @@ Pick a topic that has no short description.
    intact.
 :::
 
-Now switch back with **View > Document Views > Editor** and confirm the
-element is where you expect. The two views are the same document, and your
-place in it is carried across.
+Switch back with **View > Document Views > Editor**, and confirm that the
+element is where you expect. Both views show the same document and retain your
+position when you switch between them.
 
 
 ## What you learned
 
 - The sample project is a copy, so you can experiment freely.
-- Problems are found at project level, not file by file.
-- The Author view and the source view are two views of one document, and your place in it is carried across.
+- Project-level checks find problems across files.
+- The Author and Editor views show the same document and retain your position when you switch views.
 
 ## Where to go next
 

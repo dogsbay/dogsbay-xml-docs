@@ -33,7 +33,7 @@ const _navForPagination = filterNavByAxis(nav as any[], {
 });
 const { prev, next } = getPagination(currentPath, _navForPagination);
 const title = "Menu reference";
-const description = "Every menu in the editor, in order, with what each command does and where it is documented in full." || undefined;
+const description = "Find every editor menu and learn what each command does." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
 const nofollow = false;
@@ -46,7 +46,7 @@ const pageCategory = ["reference"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Menu reference {#menu-reference}\n\nEvery command the menu bar offers, in the order it appears. Items marked **DITA** come from the DITA plugin and appear only when that plugin is enabled.\n\nSome menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.\n\n## File {#file}\n\n| Item | What it does |\n| --- | --- |\n| New File | Create a document. |\n| New Project | Create a project. |\n| Open File | Open a document. |\n| Open Project Folder | Open a folder as the project. |\n| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |\n| Open Recent | Recently opened files and projects, in two groups. |\n| Save, Save As, Save All | Write the document, under a new name, or every modified document. |\n| Preferences | Editor settings. The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept. |\n| Import Framework | Add support for a non-DITA vocabulary. |\n| Manage Frameworks | Review and remove imported frameworks. |\n| Close, Close All | Close the document, or all of them. |\n| Exit | Leave the editor. |\n\n## Edit {#edit}\n\n| Item | What it does |\n| --- | --- |\n| Undo, Redo | Step back and forward. Shared between the source and Author views of a document. |\n| Cut, Copy, Paste | The usual clipboard operations. |\n| Find, Replace | Search within the current document. |\n| Find in Files, Replace in Files | Search across the project. |\n\n## View {#view}\n\n| Item | What it does |\n| --- | --- |\n| Preview in Tab | Open the styled preview in its own tab. See [previewing](/dogsbay-xml-docs/publishing/publishing). |\n| Preview in Split | Open it beside the source. |\n| Document Views | Switch this document between Editor, Author and the split views. |\n| Appearance | Full screen, which toolbars are shown, and the three sidebar toggles. |\n| Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronise splits on XPath. |\n| Editor Properties | Margins, tag completion, smart indentation, error highlighting and soft wrapping. |\n| Viewer Properties | What the tree view shows: namespaces, attributes, comments, content, processing instructions, and whether mixed content is inlined. |\n| Select document | Jump to an open document. |\n\n### Appearance {#appearance}\n\nFull Screen; the Standard, Editor and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel and Toggle Secondary Sidebar.\n\n### Editor Properties {#editor-properties}\n\nShow Annotation Margin, line number margin, folding margin and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.\n\n## XML {#xml}\n\nCommands that work on markup rather than on text.\n\n| Item | What it does |\n| --- | --- |\n| Check Well-Formedness | Parse the document and report syntax errors. |\n| Validate | Validate against the document's grammar. See [validating](/dogsbay-xml-docs/finding/validation). |\n| Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |\n| Split Element | Split the element at the cursor into two. |\n| Insert Special Character | Insert a character by name. |\n| Convert Entities to Characters, Convert Characters to Entities | Move between the two forms. |\n| Strip Tags | Remove markup from the selection, keeping the text. |\n| Tag, Repeat last Tag | Wrap the selection in an element, or repeat the last one used. |\n| Rename Element | Rename the element at the cursor, and its end tag. |\n| Expand Empty Element | Turn a self-closing element into a start and end tag. |\n| Comment, CDATA | Wrap the selection as a comment or a CDATA section. |\n| Unlock | Remove protection from a region. |\n| Format | Pretty-print to the project's house style. |\n| Reflow Sentences | One sentence per line, leaving verbatim blocks alone. |\n| Goto Start Tag, Goto End Tag | Move between the two ends of an element. |\n| Goto Previous, Goto Next Attribute Value | Move between attribute values. |\n| Strip Text | Remove text content from selected nodes. |\n| Change Case | Capitalise, decapitalise, uppercase or lowercase element and attribute names. |\n| Namespaces | Move declarations to the root or to where first used, rename a prefix, remove unused declarations. |\n| Nodes | Add, remove, rename, convert or sort nodes, set their value, or add them to a namespace. |\n\n## Project {#project}\n\n| Item | What it does |\n| --- | --- |\n| Manage Projects | Add, edit and remove projects. |\n| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. |\n| Validate | Project-wide validation, described below. |\n| Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |\n| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |\n| Manage Deliverables **DITA** | Edit the project's deliverables. |\n| Edit Structure **DITA** | Structural map editing. |\n| Edit Relationship Tables **DITA** | Edit reltables. |\n| Metadata: Audit, Normalize, Edit Policy, Export Policy as Schematron **DITA** | See [metadata](/dogsbay-xml-docs/authoring/metadata). |\n| Format Project, Reflow Project | Apply the house style across the project. |\n\n### Project > Validate {#project-validate}\n\nEvery project-wide check lives in one submenu rather than being spread across the menu bar.\n\n| Item | What it does |\n| --- | --- |\n| Project | Validate every file in scope against its grammar. |\n| Project with Schematron | Apply a Schematron schema across the project. |\n| Document with Schematron | Apply one to the current document. |\n| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |\n| With DITA-OT — Current Map, All Deliverables **DITA** | Deep validation by running DITA-OT preprocessing. |\n\n## Types {#types}\n\nGrammar management: Create Type, Set Type, Type Properties and Manage Types.\n\n## Transform {#transform}\n\nXSLT, XQuery and XSL-FO, run as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.\n\n## Refactor {#refactor}\n\nEvery command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).\n\n| Item | Command-line equivalent |\n| --- | --- |\n| Rename/Move File with References | `rename-file` |\n| Retarget References | `retarget` |\n| Rename Key | `rename-key` |\n| Split Topic by Sections | `split-topic` |\n| Extract Element to Conref | `extract-conref` |\n| Create Key from Selected Text | `create-keydef` |\n| Rename Element Id | `rename-element-id` |\n| Merge Duplicate Keydefs | `merge-keydefs` |\n| Rename Profiling Value | `rename-profile-value` |\n| Project Health Report | `project-health` |\n\n## Utilities {#utilities}\n\n| Item | What it does |\n| --- | --- |\n| XML Diff and Merge | Compare two documents structurally. |\n| Start Browser | Open the document in your system browser. |\n| Resolve XIncludes | Replace XInclude references with the content they pull in. |\n| Save As Template, Manage Templates | Reuse a document as a starting point. |\n| Insert Fragment | Insert a saved markup fragment. |\n| Toggle Bookmark, Select Bookmark | Mark a place and return to it. |\n\n## Help {#help}\n\nDocumentation, which opens this site; Welcome, which reopens the welcome tab; and About.\n\n## Beyond the menu bar {#beyond-the-menu-bar}\n\nNot everything is in a menu.\n\n**The view buttons** in the menu bar switch the current document between the Editor and Author views, and are the fastest way to move between them.\n\n**The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used and Bookmarks on the left; Outline, AI Agent, Proposals, Properties, Navigator, Helper and Metadata on the right. The three toggles in **View > Appearance** show and hide them.\n\n**The bottom panel** holds output, validation errors, the Inspector and the Terminal.\n\n**The status bar** shows the project, the git branch with a switcher, and the active deliverable.\n\n**Right-click** in the editor for clipboard and markup commands, and on a selection for **Send selection to AI Agent**.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Menu reference {#menu-reference}\n\nThis reference lists every menu bar command in the order that it appears. Items marked **DITA** come from the DITA plugin and appear only when that plugin is enabled.\n\nSome menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.\n\n## File {#file}\n\n| Item | What it does |\n| --- | --- |\n| New File | Create a document. |\n| New Project | Create a project. |\n| Open File | Open a document. |\n| Open Project Folder | Open a folder as the project. |\n| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |\n| Open Recent | Recently opened files and projects, in two groups. |\n| Save, Save As, Save All | Write the document, under a new name, or every modified document. |\n| Settings | Editor settings, on eight pages. See the [settings reference](/dogsbay-xml-docs/reference/settings). The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/dogsbay-xml-docs/reference/shortcuts). |\n| Import Framework | Add support for a non-DITA vocabulary. |\n| Manage Frameworks | Review and remove imported frameworks. |\n| Close, Close All | Close the document, or all of them. |\n| Exit | Leave the editor. |\n\n## Edit {#edit}\n\n| Item | What it does |\n| --- | --- |\n| Undo, Redo | Step back and forward. Shared between the source and Author views of a document. |\n| Cut, Copy, Paste | Cut, copy, or paste content. |\n| Find, Replace | Search within the current document. |\n| Find in Files, Replace in Files | Search across the project. |\n\n## View {#view}\n\n| Item | What it does |\n| --- | --- |\n| Preview in Tab | Open the styled preview in its own tab. See [previewing](/dogsbay-xml-docs/publishing/publishing). |\n| Preview in Split | Open it beside the source. |\n| Document Views | Switch this document between Editor, Author, and the split views. |\n| Appearance | Full screen, which toolbars are shown, and the three sidebar toggles. |\n| Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronize splits on XPath. |\n| Editor Properties | Margins, tag completion, smart indentation, error highlighting, and soft wrapping. |\n| Viewer Properties | What the tree view shows: namespaces, attributes, comments, content, processing instructions, and whether mixed content is inlined. |\n| Select document | Jump to an open document. |\n\n### Appearance {#appearance}\n\nFull Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.\n\n### Editor Properties {#editor-properties}\n\nShow Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.\n\n## XML {#xml}\n\nCommands that work on markup rather than on text.\n\n| Item | What it does |\n| --- | --- |\n| Check Well-Formedness | Parse the document and report syntax errors. |\n| Validate | Validate against the document's grammar. See [validating](/dogsbay-xml-docs/finding/validation). |\n| Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |\n| Split Element | Split the element at the cursor into two. |\n| Insert Special Character | Insert a character by name. |\n| Convert Entities to Characters, Convert Characters to Entities | Move between the two forms. |\n| Strip Tags | Remove markup from the selection, keeping the text. |\n| Tag, Repeat last Tag | Wrap the selection in an element, or repeat the last one used. |\n| Rename Element | Rename the element at the cursor, and its end tag. |\n| Expand Empty Element | Turn a self-closing element into a start and end tag. |\n| Comment, CDATA | Wrap the selection as a comment or a CDATA section. |\n| Unlock | Remove protection from a region. |\n| Format | Pretty-print to the project's house style. |\n| Reflow Sentences | One sentence per line, leaving verbatim blocks alone. |\n| Goto Start Tag, Goto End Tag | Move between the two ends of an element. |\n| Goto Previous, Goto Next Attribute Value | Move between attribute values. |\n| Strip Text | Remove text content from selected nodes. |\n| Change Case | Capitalize, decapitalize, uppercase, or lowercase element and attribute names. |\n| Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |\n| Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |\n\n## Project {#project}\n\n| Item | What it does |\n| --- | --- |\n| Manage Projects | Add, edit, and remove projects. |\n| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. |\n| Validate | Run project-wide validation. See [Validating a project](/dogsbay-xml-docs/finding/validation). |\n| Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |\n| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |\n| Manage Deliverables **DITA** | Edit the project's deliverables. |\n| Edit Structure **DITA** | Structural map editing. |\n| Edit Relationship Tables **DITA** | Edit reltables. |\n| Metadata: Audit, Normalize, Edit Policy, Export Policy as Schematron **DITA** | See [metadata](/dogsbay-xml-docs/authoring/metadata). |\n| Format Project, Reflow Project | Apply the house style across the project. |\n\n### Project > Validate {#project-validate}\n\nEvery project-wide check lives in one submenu rather than being spread across the menu bar.\n\n| Item | What it does |\n| --- | --- |\n| Project | Validate every file in scope against its grammar. |\n| Project with Schematron | Apply a Schematron schema across the project. |\n| Document with Schematron | Apply one to the current document. |\n| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |\n| With DITA-OT — Current Map, All Deliverables **DITA** | Run deep validation with DITA-OT preprocessing. |\n\n## Types {#types}\n\nGrammar management includes Create Type, Set Type, Type Properties, and Manage Types.\n\n## Transform {#transform}\n\nRun XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.\n\n## Refactor {#refactor}\n\nEvery command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).\n\n| Item | Command-line equivalent |\n| --- | --- |\n| Rename/Move File with References | `rename-file` |\n| Retarget References | `retarget` |\n| Rename Key | `rename-key` |\n| Split Topic by Sections | `split-topic` |\n| Extract Element to Conref | `extract-conref` |\n| Create Key from Selected Text | `create-keydef` |\n| Rename Element Id | `rename-element-id` |\n| Merge Duplicate Keydefs | `merge-keydefs` |\n| Rename Profiling Value | `rename-profile-value` |\n| Project Health Report | `project-health` |\n\n## Utilities {#utilities}\n\n| Item | What it does |\n| --- | --- |\n| XML Diff and Merge | Compare two documents structurally. |\n| Start Browser | Open the document in your system browser. |\n| Resolve XIncludes | Replace XInclude references with the content they pull in. |\n| Save As Template, Manage Templates | Use a document as a template for new documents. |\n| Insert Fragment | Insert a saved markup fragment. |\n| Toggle Bookmark, Select Bookmark | Mark a place and return to it. |\n\n## Help {#help}\n\n**Documentation** opens this site, **Welcome** reopens the welcome tab, and **About** shows information about the editor.\n\n## Beyond the menu bar {#beyond-the-menu-bar}\n\nNot everything is in a menu.\n\n**The view buttons** in the menu bar switch the current document between the Editor and Author views.\n\n**The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used, and Bookmarks on the left; AI Agent, Proposals, Outline, Properties, Navigator, Helper, and Metadata on the right. The three toggles in **View > Appearance** show and hide them.\n\n**The bottom panel** holds output, validation errors, the Inspector, and the Terminal.\n\n**The status bar** shows the project, the Git branch, and the active deliverable. Select the branch to switch to another, create one, merge one into the branch you are on, or delete one.\n\n**Right-click** in the editor to access clipboard and markup commands. Right-click a selection to access **Send selection to AI Agent**.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -100,7 +100,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <MarkdownContentStack>
     <article class="docs-prose">
       <h1 id="menu-reference" class="group scroll-mt-20">Menu reference<a href="#menu-reference" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
-      <p>Every command the menu bar offers, in the order it appears. Items marked <strong>DITA</strong> come from the DITA plugin and appear only when that plugin is enabled.</p>
+      <p>This reference lists every menu bar command in the order that it appears. Items marked <strong>DITA</strong> come from the DITA plugin and appear only when that plugin is enabled.</p>
       <p>Some menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.</p>
       <h2 id="file" class="group scroll-mt-20">File<a href="#file" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <Table class="my-4">
@@ -140,8 +140,8 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <TableCell>Write the document, under a new name, or every modified document.</TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Preferences</TableCell>
-      <TableCell>Editor settings. The <strong>Server</strong> page turns on the <a href="/dogsbay-xml-docs/automation/mcp">integration server</a> and holds the agent defaults, including how long <a href="/dogsbay-xml-docs/agent/overview#session-transcripts">session transcripts</a> are kept.</TableCell>
+      <TableCell>Settings</TableCell>
+      <TableCell>Editor settings, on eight pages. See the <a href="/dogsbay-xml-docs/reference/settings">settings reference</a>. The <strong>Server</strong> page turns on the <a href="/dogsbay-xml-docs/automation/mcp">integration server</a> and holds the agent defaults, including how long <a href="/dogsbay-xml-docs/agent/overview#session-transcripts">session transcripts</a> are kept; <strong>Bindings</strong> is where you change a <a href="/dogsbay-xml-docs/reference/shortcuts">keyboard shortcut</a>.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Import Framework</TableCell>
@@ -176,7 +176,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>Cut, Copy, Paste</TableCell>
-      <TableCell>The usual clipboard operations.</TableCell>
+      <TableCell>Cut, copy, or paste content.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Find, Replace</TableCell>
@@ -207,7 +207,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>Document Views</TableCell>
-      <TableCell>Switch this document between Editor, Author and the split views.</TableCell>
+      <TableCell>Switch this document between Editor, Author, and the split views.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Appearance</TableCell>
@@ -215,11 +215,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>Editor Layout</TableCell>
-      <TableCell>Split the tab area horizontally or vertically, unsplit it, and synchronise splits on XPath.</TableCell>
+      <TableCell>Split the tab area horizontally or vertically, unsplit it, and synchronize splits on XPath.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Editor Properties</TableCell>
-      <TableCell>Margins, tag completion, smart indentation, error highlighting and soft wrapping.</TableCell>
+      <TableCell>Margins, tag completion, smart indentation, error highlighting, and soft wrapping.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Viewer Properties</TableCell>
@@ -232,9 +232,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <h3 id="appearance" class="group scroll-mt-20">Appearance<a href="#appearance" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
-      <p>Full Screen; the Standard, Editor and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel and Toggle Secondary Sidebar.</p>
+      <p>Full Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.</p>
       <h3 id="editor-properties" class="group scroll-mt-20">Editor Properties<a href="#editor-properties" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
-      <p>Show Annotation Margin, line number margin, folding margin and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.</p>
+      <p>Show Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.</p>
       <h2 id="xml" class="group scroll-mt-20">XML<a href="#xml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <p>Commands that work on markup rather than on text.</p>
       <Table class="my-4">
@@ -315,15 +315,15 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>Change Case</TableCell>
-      <TableCell>Capitalise, decapitalise, uppercase or lowercase element and attribute names.</TableCell>
+      <TableCell>Capitalize, decapitalize, uppercase, or lowercase element and attribute names.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Namespaces</TableCell>
-      <TableCell>Move declarations to the root or to where first used, rename a prefix, remove unused declarations.</TableCell>
+      <TableCell>Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Nodes</TableCell>
-      <TableCell>Add, remove, rename, convert or sort nodes, set their value, or add them to a namespace.</TableCell>
+      <TableCell>Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace.</TableCell>
       </TableRow>
       </TableBody>
       </Table>
@@ -338,7 +338,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <TableBody>
       <TableRow>
       <TableCell>Manage Projects</TableCell>
-      <TableCell>Add, edit and remove projects.</TableCell>
+      <TableCell>Add, edit, and remove projects.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Save Project Settings</TableCell>
@@ -346,7 +346,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>Validate</TableCell>
-      <TableCell>Project-wide validation, described below.</TableCell>
+      <TableCell>Run project-wide validation. See <a href="/dogsbay-xml-docs/finding/validation">Validating a project</a>.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Agent activity</TableCell>
@@ -406,14 +406,14 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>With DITA-OT — Current Map, All Deliverables <strong>DITA</strong></TableCell>
-      <TableCell>Deep validation by running DITA-OT preprocessing.</TableCell>
+      <TableCell>Run deep validation with DITA-OT preprocessing.</TableCell>
       </TableRow>
       </TableBody>
       </Table>
       <h2 id="types" class="group scroll-mt-20">Types<a href="#types" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>Grammar management: Create Type, Set Type, Type Properties and Manage Types.</p>
+      <p>Grammar management includes Create Type, Set Type, Type Properties, and Manage Types.</p>
       <h2 id="transform" class="group scroll-mt-20">Transform<a href="#transform" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>XSLT, XQuery and XSL-FO, run as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.</p>
+      <p>Run XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.</p>
       <h2 id="refactor" class="group scroll-mt-20">Refactor<a href="#refactor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <p>Every command here reports a plan you review before it runs. The same operations are available from the <a href="./cli">command line</a>, and are described in <a href="/dogsbay-xml-docs/finding/refactoring">refactoring</a>.</p>
       <Table class="my-4">
@@ -489,7 +489,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       <TableRow>
       <TableCell>Save As Template, Manage Templates</TableCell>
-      <TableCell>Reuse a document as a starting point.</TableCell>
+      <TableCell>Use a document as a template for new documents.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Insert Fragment</TableCell>
@@ -502,14 +502,14 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <h2 id="help" class="group scroll-mt-20">Help<a href="#help" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>Documentation, which opens this site; Welcome, which reopens the welcome tab; and About.</p>
+      <p><strong>Documentation</strong> opens this site, <strong>Welcome</strong> reopens the welcome tab, and <strong>About</strong> shows information about the editor.</p>
       <h2 id="beyond-the-menu-bar" class="group scroll-mt-20">Beyond the menu bar<a href="#beyond-the-menu-bar" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <p>Not everything is in a menu.</p>
-      <p><strong>The view buttons</strong> in the menu bar switch the current document between the Editor and Author views, and are the fastest way to move between them.</p>
-      <p><strong>The sidebars</strong> hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used and Bookmarks on the left; Outline, AI Agent, Proposals, Properties, Navigator, Helper and Metadata on the right. The three toggles in <strong>View &gt; Appearance</strong> show and hide them.</p>
-      <p><strong>The bottom panel</strong> holds output, validation errors, the Inspector and the Terminal.</p>
-      <p><strong>The status bar</strong> shows the project, the git branch with a switcher, and the active deliverable.</p>
-      <p><strong>Right-click</strong> in the editor for clipboard and markup commands, and on a selection for <strong>Send selection to AI Agent</strong>.</p>
+      <p><strong>The view buttons</strong> in the menu bar switch the current document between the Editor and Author views.</p>
+      <p><strong>The sidebars</strong> hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used, and Bookmarks on the left; AI Agent, Proposals, Outline, Properties, Navigator, Helper, and Metadata on the right. The three toggles in <strong>View &gt; Appearance</strong> show and hide them.</p>
+      <p><strong>The bottom panel</strong> holds output, validation errors, the Inspector, and the Terminal.</p>
+      <p><strong>The status bar</strong> shows the project, the Git branch, and the active deliverable. Select the branch to switch to another, create one, merge one into the branch you are on, or delete one.</p>
+      <p><strong>Right-click</strong> in the editor to access clipboard and markup commands. Right-click a selection to access <strong>Send selection to AI Agent</strong>.</p>
     </article>
   </MarkdownContentStack>
 </DocsLayout>

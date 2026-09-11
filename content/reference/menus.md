@@ -1,12 +1,12 @@
 ---
 title: Menu reference
-description: Every menu in the editor, in order, with what each command does and where it is documented in full.
+description: Find every editor menu and learn what each command does.
 type: reference
 ---
 
 # Menu reference
 
-Every command the menu bar offers, in the order it appears. Items marked
+This reference lists every menu bar command in the order that it appears. Items marked
 **DITA** come from the DITA plugin and appear only when that plugin is
 enabled.
 
@@ -25,7 +25,7 @@ the current document supports.
 | Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/getting-started/tutorial-manual). |
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
-| Preferences | Editor settings. The **Server** page turns on the [integration server](/automation/mcp) and holds the agent defaults, including how long [session transcripts](/agent/overview#session-transcripts) are kept. |
+| Settings | Editor settings, on eight pages. See the [settings reference](/reference/settings). The **Server** page turns on the [integration server](/automation/mcp) and holds the agent defaults, including how long [session transcripts](/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/reference/shortcuts). |
 | Import Framework | Add support for a non-DITA vocabulary. |
 | Manage Frameworks | Review and remove imported frameworks. |
 | Close, Close All | Close the document, or all of them. |
@@ -36,7 +36,7 @@ the current document supports.
 | Item | What it does |
 |---|---|
 | Undo, Redo | Step back and forward. Shared between the source and Author views of a document. |
-| Cut, Copy, Paste | The usual clipboard operations. |
+| Cut, Copy, Paste | Cut, copy, or paste content. |
 | Find, Replace | Search within the current document. |
 | Find in Files, Replace in Files | Search across the project. |
 
@@ -46,21 +46,21 @@ the current document supports.
 |---|---|
 | Preview in Tab | Open the styled preview in its own tab. See [previewing](/publishing/publishing). |
 | Preview in Split | Open it beside the source. |
-| Document Views | Switch this document between Editor, Author and the split views. |
+| Document Views | Switch this document between Editor, Author, and the split views. |
 | Appearance | Full screen, which toolbars are shown, and the three sidebar toggles. |
-| Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronise splits on XPath. |
-| Editor Properties | Margins, tag completion, smart indentation, error highlighting and soft wrapping. |
+| Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronize splits on XPath. |
+| Editor Properties | Margins, tag completion, smart indentation, error highlighting, and soft wrapping. |
 | Viewer Properties | What the tree view shows: namespaces, attributes, comments, content, processing instructions, and whether mixed content is inlined. |
 | Select document | Jump to an open document. |
 
 ### Appearance
 
-Full Screen; the Standard, Editor and Fragment toolbars; and Toggle Primary
-Sidebar, Toggle Bottom Panel and Toggle Secondary Sidebar.
+Full Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary
+Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.
 
 ### Editor Properties
 
-Show Annotation Margin, line number margin, folding margin and overview
+Show Annotation Margin, line number margin, folding margin, and overview
 margin; tag completion and end-tag completion; smart indentation; error
 highlighting; and soft wrapping.
 
@@ -87,17 +87,17 @@ Commands that work on markup rather than on text.
 | Goto Start Tag, Goto End Tag | Move between the two ends of an element. |
 | Goto Previous, Goto Next Attribute Value | Move between attribute values. |
 | Strip Text | Remove text content from selected nodes. |
-| Change Case | Capitalise, decapitalise, uppercase or lowercase element and attribute names. |
-| Namespaces | Move declarations to the root or to where first used, rename a prefix, remove unused declarations. |
-| Nodes | Add, remove, rename, convert or sort nodes, set their value, or add them to a namespace. |
+| Change Case | Capitalize, decapitalize, uppercase, or lowercase element and attribute names. |
+| Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |
+| Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |
 
 ## Project
 
 | Item | What it does |
 |---|---|
-| Manage Projects | Add, edit and remove projects. |
+| Manage Projects | Add, edit, and remove projects. |
 | Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. |
-| Validate | Project-wide validation, described below. |
+| Validate | Run project-wide validation. See [Validating a project](/finding/validation). |
 | Agent activity | The audit log of what agents changed. See [the agent](/agent/overview). |
 | Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/publishing/publishing). |
 | Manage Deliverables **DITA** | Edit the project's deliverables. |
@@ -117,15 +117,15 @@ the menu bar.
 | Project with Schematron | Apply a Schematron schema across the project. |
 | Document with Schematron | Apply one to the current document. |
 | Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/authoring/conditional-content). |
-| With DITA-OT — Current Map, All Deliverables **DITA** | Deep validation by running DITA-OT preprocessing. |
+| With DITA-OT — Current Map, All Deliverables **DITA** | Run deep validation with DITA-OT preprocessing. |
 
 ## Types
 
-Grammar management: Create Type, Set Type, Type Properties and Manage Types.
+Grammar management includes Create Type, Set Type, Type Properties, and Manage Types.
 
 ## Transform
 
-XSLT, XQuery and XSL-FO, run as reusable scenarios: Execute Simple XSLT,
+Run XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT,
 Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and
 Execute Previous.
 
@@ -155,32 +155,28 @@ operations are available from the [command line](./cli), and are described in
 | XML Diff and Merge | Compare two documents structurally. |
 | Start Browser | Open the document in your system browser. |
 | Resolve XIncludes | Replace XInclude references with the content they pull in. |
-| Save As Template, Manage Templates | Reuse a document as a starting point. |
+| Save As Template, Manage Templates | Use a document as a template for new documents. |
 | Insert Fragment | Insert a saved markup fragment. |
 | Toggle Bookmark, Select Bookmark | Mark a place and return to it. |
 
 ## Help
 
-Documentation, which opens this site; Welcome, which reopens the welcome tab;
-and About.
+**Documentation** opens this site, **Welcome** reopens the welcome tab, and
+**About** shows information about the editor.
 
 ## Beyond the menu bar
 
 Not everything is in a menu.
 
 **The view buttons** in the menu bar switch the current document between the
-Editor and Author views, and are the fastest way to move between them.
+Editor and Author views.
 
-**The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath
-Query, Where Used and Bookmarks on the left; Outline, AI Agent, Proposals,
-Properties, Navigator, Helper and Metadata on the right. The three toggles in
-**View > Appearance** show and hide them.
+**The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used, and Bookmarks on the left; AI Agent, Proposals, Outline, Properties, Navigator, Helper, and Metadata on the right. The three toggles in **View > Appearance** show and hide them.
 
-**The bottom panel** holds output, validation errors, the Inspector and the
+**The bottom panel** holds output, validation errors, the Inspector, and the
 Terminal.
 
-**The status bar** shows the project, the git branch with a switcher, and the
-active deliverable.
+**The status bar** shows the project, the Git branch, and the active deliverable. Select the branch to switch to another, create one, merge one into the branch you are on, or delete one.
 
-**Right-click** in the editor for clipboard and markup commands, and on a
-selection for **Send selection to AI Agent**.
+**Right-click** in the editor to access clipboard and markup commands. Right-click
+a selection to access **Send selection to AI Agent**.

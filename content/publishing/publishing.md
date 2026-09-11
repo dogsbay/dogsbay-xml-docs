@@ -6,9 +6,9 @@ type: how-to
 
 # Previewing and publishing
 
-There are two different things here. A preview is immediate and approximate,
-for checking as you write. A build is the real output, produced by DITA-OT
-from a deliverable's map, conditions and parameters.
+A preview is immediate and approximate, so you can check your work as you
+write. A build is the final output that DITA-OT creates from a
+deliverable's map, conditions, and parameters.
 
 ## Previewing while you write
 
@@ -31,13 +31,13 @@ Two options change what you see:
 | Option | Effect |
 |---|---|
 | `--ditaval` | Apply a filter, so you preview one audience or platform. |
-| `--show-changes` | Render open agent proposals as insertions, deletions and comments, instead of the document as it would read with everything accepted. |
+| `--show-changes` | Render open agent proposals as insertions, deletions, and comments instead of the document as it would read with everything accepted. |
 
 Without `--output` the HTML goes to standard output.
 
 ## Deliverables
 
-A deliverable is one output: a map, a transform type, a DITAVAL, parameters
+A deliverable defines one output: a map, a transform type, a DITAVAL, parameters,
 and an output directory. A project usually has several, such as an HTML guide
 for each platform and a PDF for print.
 
@@ -45,8 +45,8 @@ Deliverables come from a DITA project file, which is a standard rather than
 something this editor invented, so the same definitions work with DITA-OT
 directly.
 
-When a project has no project file, the default root map is used, which is
-enough to get a build out of a set that has not been formalised yet.
+When a project has no project file, DogsBay XML uses the default root map. You
+can therefore build a documentation set that is not yet formalized.
 
 ## Building
 
@@ -56,7 +56,7 @@ dogsbay-xml build . html-guide
 ```
 
 The first builds every deliverable; the second builds one by name. The command
-exits with a non-zero status when any build reports errors, so it works as a
+exits with a nonzero status when any build reports errors, so it works as a
 pipeline step.
 
 Two options are worth knowing:

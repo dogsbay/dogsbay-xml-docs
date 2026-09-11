@@ -2,4 +2,4 @@
 
 ## Automation
 
-- [Connecting an AI assistant](https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md): Expose the editor's DITA operations to Claude Code, Claude Desktop or Cursor over MCP.
+- [Connecting an AI assistant](https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md): Provide the editor's DITA operations to Claude Code, Claude Desktop, or Cursor over MCP.

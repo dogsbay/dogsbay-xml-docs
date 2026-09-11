@@ -1,14 +1,15 @@
 ---
 title: Metadata
-description: Define which metadata topics must carry, audit the project against it, and fill in what is missing.
+description: Define required topic metadata, audit the project, and fill in missing fields.
 type: how-to
 ---
 
 # Metadata
 
-Metadata in a documentation set is only useful if it is there consistently. A
-policy says which fields topics must carry; the editor audits against it and
-fills in what is missing without disturbing the rest of the prolog.
+Metadata in a documentation set is useful only when it is consistent. A policy
+defines the fields that topics must contain. The editor audits the content
+against the policy and fills in missing fields without changing the rest of
+the prolog.
 
 ## Where the policy lives
 
@@ -24,16 +25,16 @@ You can point at a different policy for one run with `--policy`.
 dogsbay-xml metadata-audit . --map audacity-guide.ditamap
 ```
 
-That reports where required fields are missing or hold a value the policy does
-not allow. It exits with a non-zero status on any error-level violation, so it
-works as a pipeline gate.
+The command reports where required fields are missing or contain a value that
+the policy does not allow. It exits with a nonzero status on any error-level
+violation, so it works as a pipeline gate.
 
-Use `--scope` to audit something other than a map's publication set: a glob,
-or the whole project root.
+Use `--scope` to audit something other than a map's publication set, such as a
+glob or the project root.
 
 ## Filling in what is missing
 
-`metadata-set` applies changes in bulk, and preserves the fields it is not
+`metadata-set` applies changes in bulk and preserves the fields it is not
 asked to touch.
 
 ```bash
@@ -79,7 +80,7 @@ dogsbay-xml schematron-project . metadata-policy.sch
    `metadata-audit` tells you the size of the problem.
 
 2. **Fill the gaps**
-   `metadata-set --fill` for fields with an obvious default, checked with
+   Use `metadata-set --fill` for fields with a standard default. Check with
    `--dry-run` first.
 
 3. **Fix the rest by hand**
@@ -94,7 +95,7 @@ dogsbay-xml schematron-project . metadata-policy.sch
 
 :::cards
 - **[Validating a project](/finding/validation)** {icon="check"}
-  Grammar, Schematron and project-wide checks.
+  Grammar, Schematron, and project-wide checks.
 
 - **[Conditional content](./conditional-content)** {icon="filter"}
   Controlled values for profiling attributes.

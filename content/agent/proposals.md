@@ -1,14 +1,14 @@
 ---
 title: Reviewing an agent's changes
-description: Agent edits to DITA files arrive as tracked changes. Accept them, reject them, or comment on them.
+description: Review agent edits to DITA files as tracked changes, and accept, reject, or comment on them.
 type: how-to
 ---
 
 # Reviewing an agent's changes
 
-When an agent edits a DITA file, the change is not written over your content.
-It is recorded as a tracked change, attributed to the agent that proposed it,
-and left for you to decide on.
+When an agent edits a DITA file, it does not overwrite your content. The
+editor records the edit as a tracked change, attributes it to the agent that
+proposed it, and waits for your decision.
 
 Your own edits are never marked this way.
 
@@ -16,13 +16,12 @@ Your own edits are never marked this way.
 
 :::steps
 1. **Open the Proposals panel**
-   It is on the right-hand sidebar. Each entry shows what kind of change it
+   Open **Proposals** in the right sidebar. Each entry shows the kind of change
    is and who proposed it.
 
 2. **Select a proposal**
    The editor moves to the affected part of the document and highlights the
-   change in place, so you see it in context rather than as a diff out of
-   context.
+   change in place so that you can review it in context.
 
 3. **Decide**
    Select **Accept** to keep the change or **Reject** to discard it. Use
@@ -55,7 +54,7 @@ dogsbay-xml review accept topic.dita --all --author ai:claude-acp
 dogsbay-xml review comment topic.dita "Check this term" --after "normalize"
 ```
 
-The proposal id comes from `review list`. `--all` acts on every change and
+The proposal ID comes from `review list`. `--all` acts on every change and
 leaves comments alone. `--author` narrows it to one agent, which matters when
 two have worked on the same file. A comment is placed either after the first
 occurrence of some text, with `--after`, or as the first child of an element,
@@ -72,10 +71,9 @@ ordinary DITA, with no trace of the review in what you publish.
 
 ## Publishing while proposals are open
 
-Deleted spans stay in the file until you accept the deletion, so they would
-otherwise still publish. They carry a property that DITAVAL can filter on,
-which lets a build exclude proposed deletions without you having to resolve
-every proposal first.
+Deleted spans remain in the file until you accept the deletion. A property on
+each span enables DITAVAL to filter it. A build can therefore exclude proposed
+deletions before you resolve every proposal.
 
 ## Two protections worth knowing
 
@@ -83,9 +81,9 @@ every proposal first.
 would delete someone else's open proposal is refused, and the agent is told
 why.
 
-**A change too large to mark is not silently forced through.** If the edit
-cannot be expressed as tracked changes, it falls back to a plain write only
-when nobody else has open proposals in that file.
+**The editor does not silently apply a change that is too large to mark.** If
+the editor cannot express the edit as tracked changes, it uses a plain write
+only when no one else has open proposals in that file.
 
 ## Turning proposals off
 

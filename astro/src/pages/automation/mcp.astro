@@ -35,7 +35,7 @@ const _navForPagination = filterNavByAxis(nav as any[], {
 });
 const { prev, next } = getPagination(currentPath, _navForPagination);
 const title = "Connecting an AI assistant";
-const description = "Expose the editor's DITA operations to Claude Code, Claude Desktop or Cursor over MCP." || undefined;
+const description = "Provide the editor's DITA operations to Claude Code, Claude Desktop, or Cursor over MCP." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
 const nofollow = false;
@@ -48,7 +48,7 @@ const pageCategory = ["automation"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Connecting an AI assistant {#connecting-an-ai-assistant}\n\nThe editor can offer its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.\n\nThis is different from the agents inside the editor. Here the assistant is somewhere else, in a terminal or a desktop app, and the editor is the tool provider.\n\n## Turn on the server {#turn-on-the-server}\n\nThe integration server is off by default.\n\n:::steps\n1. **Open the preferences** Select **File > Preferences**.\n2. **Enable the server** Go to the **Server** page and turn it on.\n3. **Confirm it is listening**\n\n   ```bash\n   dogsbay-xml status\n   ```\n:::\n\nThe server binds to localhost and requires a token, which is written to a discovery file in your home directory so local clients can find it.\n\n## Connect a client {#connect-a-client}\n\nThe editor prints the configuration for you:\n\n```bash\ndogsbay-xml status --mcp-config\n```\n\nFor Claude Code, it can print the command that registers it:\n\n```bash\ndogsbay-xml status --mcp-install\n```\n\nPaste the configuration into the client's MCP settings, or run the command.\n\n## What the assistant can do {#what-the-assistant-can-do}\n\nThe tools cover the same ground as the command line, grouped roughly as:\n\n- **Reading and validating** documents, including Schematron and project-wide validation.\n- **Asking about the project**: where a file is used, what a key resolves to, which references are broken, overall health.\n- **Refactoring**: renaming files, keys and ids, converting between direct references and keys, extracting and inlining reuse, splitting topics.\n- **Editing maps and relationship tables** structurally.\n- **Driving the editor**: opening documents, moving the cursor, selecting elements, reading the outline.\n- **Reviewing**: listing proposals, commenting, reading the audit log.\n\nEvery call is attributed to a session, so the audit log records which assistant did what.\n\n## If the token changes {#if-the-token-changes}\n\nRegenerating the token invalidates any client configured with the old one:\n\n```bash\ndogsbay-xml status --reset-token\n```\n\nThe editor must be restarted afterwards, and clients need the new configuration.\n\n## Related {#related}\n\n:::cards\n- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon=\"shield\"}**\n  Tiers, the write gate and the audit log, which apply here too.\n\n- **[The command line](/dogsbay-xml-docs/reference/cli){icon=\"terminal\"}**\n  The same operations, without a client.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Connecting an AI assistant {#connecting-an-ai-assistant}\n\nThe editor can provide its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.\n\nThis setup differs from using an agent inside the editor. The assistant runs in a terminal or desktop application, and the editor provides the tools.\n\n## Turn on the server {#turn-on-the-server}\n\nThe integration server is off by default.\n\n:::steps\n1. **Open the settings** Select **File > Settings**.\n2. **Enable the server** Select **Server**, and then enable the server.\n3. **Confirm it is listening**\n\n   ```bash\n   dogsbay-xml status\n   ```\n:::\n\nThe server binds to localhost and requires a token, which is written to a discovery file in your home directory so local clients can find it.\n\n## Connect a client {#connect-a-client}\n\nThe editor prints the configuration for you:\n\n```bash\ndogsbay-xml status --mcp-config\n```\n\nFor Claude Code, it can print the command that registers it:\n\n```bash\ndogsbay-xml status --mcp-install\n```\n\nPaste the configuration into the client's MCP settings, or run the command.\n\n## What the assistant can do {#what-the-assistant-can-do}\n\nThe tools support the same operations as the command line:\n\n- **Read and validate** documents, including Schematron and project-wide validation\n- **Inspect the project** to find where a file is used, what a key resolves to, which references are broken, and the project's overall health\n- **Refactor** by renaming files, keys, and IDs; converting between direct references and keys; extracting and inlining reuse; and splitting topics\n- **Edit** the structure of maps and relationship tables\n- **Control the editor** by opening documents, moving the cursor, selecting elements, and reading the outline\n- **Review** proposals, add comments, and read the audit log\n\nEvery call is attributed to a session, so the audit log records which assistant did what.\n\n## If the token changes {#if-the-token-changes}\n\nRegenerating the token invalidates any client configured with the old one:\n\n```bash\ndogsbay-xml status --reset-token\n```\n\nRestart the editor, and give clients the new configuration.\n\n## Related {#related}\n\n:::cards\n- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon=\"shield\"}**\n  Tiers, the write gate, and the audit log, which also apply here.\n\n- **[The command line](/dogsbay-xml-docs/reference/cli){icon=\"terminal\"}**\n  The same operations, without a client.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -102,16 +102,16 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <MarkdownContentStack>
     <article class="docs-prose">
       <h1 id="connecting-an-ai-assistant" class="group scroll-mt-20">Connecting an AI assistant<a href="#connecting-an-ai-assistant" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
-      <p>The editor can offer its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.</p>
-      <p>This is different from the agents inside the editor. Here the assistant is somewhere else, in a terminal or a desktop app, and the editor is the tool provider.</p>
+      <p>The editor can provide its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.</p>
+      <p>This setup differs from using an agent inside the editor. The assistant runs in a terminal or desktop application, and the editor provides the tools.</p>
       <h2 id="turn-on-the-server" class="group scroll-mt-20">Turn on the server<a href="#turn-on-the-server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <p>The integration server is off by default.</p>
       <Steps>
       <Step>
-      <strong>Open the preferences</strong> Select <strong>File &gt; Preferences</strong>.
+      <strong>Open the settings</strong> Select <strong>File &gt; Settings</strong>.
       </Step>
       <Step>
-      <strong>Enable the server</strong> Go to the <strong>Server</strong> page and turn it on.
+      <strong>Enable the server</strong> Select <strong>Server</strong>, and then enable the server.
       </Step>
       <Step>
       <strong>Confirm it is listening</strong>
@@ -126,20 +126,20 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <CodeBlock code={"dogsbay-xml status --mcp-install"} lang="bash" />
       <p>Paste the configuration into the client's MCP settings, or run the command.</p>
       <h2 id="what-the-assistant-can-do" class="group scroll-mt-20">What the assistant can do<a href="#what-the-assistant-can-do" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>The tools cover the same ground as the command line, grouped roughly as:</p>
+      <p>The tools support the same operations as the command line:</p>
       <ul>
-      <li><strong>Reading and validating</strong> documents, including Schematron and project-wide validation.</li>
-      <li><strong>Asking about the project</strong>: where a file is used, what a key resolves to, which references are broken, overall health.</li>
-      <li><strong>Refactoring</strong>: renaming files, keys and ids, converting between direct references and keys, extracting and inlining reuse, splitting topics.</li>
-      <li><strong>Editing maps and relationship tables</strong> structurally.</li>
-      <li><strong>Driving the editor</strong>: opening documents, moving the cursor, selecting elements, reading the outline.</li>
-      <li><strong>Reviewing</strong>: listing proposals, commenting, reading the audit log.</li>
+      <li><strong>Read and validate</strong> documents, including Schematron and project-wide validation</li>
+      <li><strong>Inspect the project</strong> to find where a file is used, what a key resolves to, which references are broken, and the project's overall health</li>
+      <li><strong>Refactor</strong> by renaming files, keys, and IDs; converting between direct references and keys; extracting and inlining reuse; and splitting topics</li>
+      <li><strong>Edit</strong> the structure of maps and relationship tables</li>
+      <li><strong>Control the editor</strong> by opening documents, moving the cursor, selecting elements, and reading the outline</li>
+      <li><strong>Review</strong> proposals, add comments, and read the audit log</li>
       </ul>
       <p>Every call is attributed to a session, so the audit log records which assistant did what.</p>
       <h2 id="if-the-token-changes" class="group scroll-mt-20">If the token changes<a href="#if-the-token-changes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <p>Regenerating the token invalidates any client configured with the old one:</p>
       <CodeBlock code={"dogsbay-xml status --reset-token"} lang="bash" />
-      <p>The editor must be restarted afterwards, and clients need the new configuration.</p>
+      <p>Restart the editor, and give clients the new configuration.</p>
       <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
@@ -147,7 +147,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="/dogsbay-xml-docs/agent/overview" class="[text-decoration:none] text-foreground">
       <Icon name="shield" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">The agent, and what it may touch</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Tiers, the write gate and the audit log, which apply here too.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Tiers, the write gate, and the audit log, which also apply here.</p>
       </a>
       </CardContent>
       </Card>

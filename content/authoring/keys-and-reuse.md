@@ -49,8 +49,8 @@ dogsbay-xml keys audacity-guide.ditamap --resolve intro --scope podcaster
 
 ## Converting direct references to keys
 
-A file referenced by path in twenty topics is twenty edits when it moves. The
-`keyify` command converts all of them to key references and adds the key
+A file that many topics reference by path requires an edit to every reference
+when it moves. The `keyify` command converts them to key references and adds the key
 definition to a map you choose.
 
 ```bash
@@ -66,12 +66,11 @@ The reverse, when a key is not earning its indirection:
 dogsbay-xml inline-key installing --root . --map audacity-guide.ditamap --apply
 ```
 
-The map is needed because it is what resolves the key to the path that
-replaces it.
+The command needs the map to resolve the key to its replacement path.
 
 ## Moving shared content into a reuse topic
 
-When the same note, step or paragraph appears in several topics, move it once
+When the same note, step, or paragraph appears in several topics, move it once
 into a reuse topic and conref it everywhere else.
 
 ```bash
@@ -79,8 +78,9 @@ dogsbay-xml extract-conref topics/installing-audacity.dita note-backup \
   --to shared/common-notes.dita
 ```
 
-The element is moved into the reuse topic, which is created if it does not
-exist, and a conref stub is left in its place. Add `--apply` to run it.
+The command moves the element into the reuse topic, creates the topic if
+needed, and leaves a conref stub in the element's original location. Add
+`--apply` to run the command.
 
 To undo that relationship, replacing conrefs with a copy of the content:
 
@@ -100,13 +100,13 @@ dogsbay-xml check-links .
 dogsbay-xml conref-audit .
 ```
 
-`check-links` reports references whose target file is missing, and keys used
-but never defined. `conref-audit` is narrower and catches the failure that is
-easy to create by accident: the target file exists, but the element id the
-conref names is no longer in it.
+`check-links` reports references whose target file is missing and keys that
+are used but never defined. `conref-audit` detects a narrower problem: the
+target file exists, but it no longer contains the element ID that the conref
+names.
 
-An element id disappears when someone renames it or deletes the element it was
-on, which is why renaming ids is a command rather than an edit:
+An element ID disappears when someone renames it or deletes its element. Use
+a command to rename IDs so that references remain intact:
 
 ```bash
 dogsbay-xml rename-element-id shared/common-notes.dita note-backup backup-note --apply
@@ -125,8 +125,8 @@ dogsbay-xml merge-keydefs audacity-guide.ditamap --apply
 
 :::cards
 - **[Topics and maps](./topics-and-maps)** {icon="file-text"}
-  Assembling topics, and renaming without breaking references.
+  Assemble topics and rename them without breaking references.
 
 - **[Conditional content](./conditional-content)** {icon="filter"}
-  Conditions, branch filtering and controlled values.
+  Conditions, branch filtering, and controlled values.
 :::

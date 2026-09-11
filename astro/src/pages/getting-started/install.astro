@@ -21,12 +21,18 @@ import AlertTitle from "@ui/alert/AlertTitle.astro";
 import CodeBlock from "@ui/code-block/CodeBlock.astro";
 import Step from "@ui/steps/Step.astro";
 import Steps from "@ui/steps/Steps.astro";
+import Table from "@ui/table/Table.astro";
+import TableBody from "@ui/table/TableBody.astro";
+import TableCell from "@ui/table/TableCell.astro";
+import TableHead from "@ui/table/TableHead.astro";
+import TableHeader from "@ui/table/TableHeader.astro";
+import TableRow from "@ui/table/TableRow.astro";
 import Tabs from "@ui/tabs/Tabs.astro";
 import TabsContent from "@ui/tabs/TabsContent.astro";
 import TabsList from "@ui/tabs/TabsList.astro";
 import TabsTrigger from "@ui/tabs/TabsTrigger.astro";
 
-const headings = [{"depth":1,"slug":"installing","text":"Installing"},{"depth":2,"slug":"installing-from-a-package","text":"Installing from a package"},{"depth":2,"slug":"the-command-line","text":"The command line"},{"depth":2,"slug":"turning-on-the-integration-server","text":"Turning on the integration server"}];
+const headings = [{"depth":1,"slug":"installing","text":"Installing"},{"depth":2,"slug":"installing-from-a-package","text":"Installing from a package"},{"depth":2,"slug":"the-command-line","text":"The command line"},{"depth":2,"slug":"uninstalling","text":"Uninstalling"},{"depth":3,"slug":"removing-your-data-as-well","text":"Removing your data as well"},{"depth":3,"slug":"where-your-sign-ins-are-kept","text":"Where your sign-ins are kept"},{"depth":3,"slug":"what-each-directory-holds","text":"What each directory holds"},{"depth":3,"slug":"starting-fresh-without-uninstalling","text":"Starting fresh without uninstalling"},{"depth":2,"slug":"turning-on-the-integration-server","text":"Turning on the integration server"}];
 const nav = navData;
 const currentPath = "/dogsbay-xml-docs/getting-started/install";
 const _navForPagination = filterNavByAxis(nav as any[], {
@@ -50,7 +56,7 @@ const pageCategory = ["getting-started"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Installing {#installing}\n\nDogsBay XML runs on Linux, macOS and Windows.\n\n## Installing from a package {#installing-from-a-package}\n\nEach installer bundles its own Java runtime, so no separate JDK is required.\n\n:::steps\n1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.\n2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to Applications. On Windows, run the installer.\n3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial-manual) starts.\n:::\n\n## The command line {#the-command-line}\n\nThe installers put a `dogsbay-xml` executable beside the editor, so the command line needs nothing else installed — not a JDK, and not the editor running.\n\nAdd its directory to your `PATH` to run it by name:\n\n:::tabs\nLinux\n:   ```bash\n    export PATH=\"/opt/dogsbay-xml/bin:$PATH\"\n    dogsbay-xml --version\n    ```\n\n    Add the `export` line to `~/.bashrc` or `~/.zshrc` to keep it.\n\nmacOS\n:   ```bash\n    export PATH=\"/Applications/DogsBay-XML.app/Contents/MacOS:$PATH\"\n    dogsbay-xml --version\n    ```\n\n    Add the `export` line to `~/.zshrc` to keep it.\n\nWindows\n:   ```powershell\n    $env:Path += \";C:\\Program Files\\DogsBay-XML\"\n    dogsbay-xml --version\n    ```\n\n    That lasts for the session. To keep it, add the folder under **Settings > System > About > Advanced system settings > Environment Variables**.\n:::\n\nSome commands work entirely on files and need nothing else. Commands that drive a running editor, such as `open` or `screenshot`, also need the integration server, below.\n\nBuilding the editor yourself, or running the command line where no installer can go, is on [building from source](/dogsbay-xml-docs/developers/build-from-source).\n\n## Turning on the integration server {#turning-on-the-integration-server}\n\nThe integration server is what AI assistants and the live-editor commands connect to. It is off until you turn it on.\n\n:::steps\n1. **Open the preferences** Select **File > Preferences**.\n2. **Turn the server on** Go to the **Server** page and enable the server.\n3. **Check that it is listening** Run `dogsbay-xml status`.\n:::\n\n> [!NOTE]\n> The built-in AI agent does not need the integration server. It calls the editor's operations directly, inside the same process.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/install.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Installing {#installing}\n\nDogsBay XML runs on Linux, macOS, and Windows.\n\n## Installing from a package {#installing-from-a-package}\n\nEach installer bundles its own Java runtime, so no separate JDK is required.\n\n:::steps\n1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.\n2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to the Applications folder. On Windows, run the installer.\n3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial-manual) starts.\n:::\n\n## The command line {#the-command-line}\n\nThe installers put a `dogsbay-xml` executable beside the editor, so the command line requires neither a JDK nor a running editor.\n\nAdd its directory to your `PATH` to run it by name:\n\n:::tabs\nLinux\n:   ```bash\n    export PATH=\"/opt/dogsbay-xml/bin:$PATH\"\n    dogsbay-xml --version\n    ```\n\n    Add the `export` line to `~/.bashrc` or `~/.zshrc` to keep it.\n\nmacOS\n:   ```bash\n    export PATH=\"/Applications/DogsBay-XML.app/Contents/MacOS:$PATH\"\n    dogsbay-xml --version\n    ```\n\n    Add the `export` line to `~/.zshrc` to keep it.\n\nWindows\n:   ```powershell\n    $env:Path += \";C:\\Program Files\\DogsBay-XML\"\n    dogsbay-xml --version\n    ```\n\n    That lasts for the session. To keep it, add the folder under **Settings > System > About > Advanced system settings > Environment Variables**.\n:::\n\nSome commands work entirely on files and need nothing else. Commands that control a running editor, such as `open` or `screenshot`, also need the integration server.\n\nTo build the editor or run the command line where you cannot use an installer, see [Building from source](/dogsbay-xml-docs/developers/build-from-source).\n\n## Uninstalling {#uninstalling}\n\nRemoving the application leaves your settings and the agent's history in place, so that reinstalling puts you back where you were.\n\n:::tabs\nLinux\n:   ```bash\n    sudo apt remove dogsbay-xml       # or: sudo dnf remove dogsbay-xml\n    ```\n\nmacOS\n:   ```bash\n    rm -rf /Applications/DogsBay-XML.app\n    ```\n\nWindows\n:   Remove **DogsBay XML** in **Settings > Apps > Installed apps**.\n:::\n\n### Removing your data as well {#removing-your-data-as-well}\n\n> [!WARNING]\n> `~/.xagent/sessions` holds every conversation you have had with the agent. Deleting it cannot be undone and no reinstall brings those transcripts back. If you want to keep any of them, export them first with `/export` in the agent panel, or copy the directory somewhere else.\n\nDeleting `~/.dogsbay` also discards the integration server's access token, so any AI assistant you had configured needs the new one.\n\n:::tabs\nLinux\n:   ```bash\n    rm -rf ~/.dogsbay ~/.cache/dogsbay ~/.xagent\n    ```\n\nmacOS\n:   ```bash\n    rm -rf ~/.dogsbay ~/Library/Caches/dogsbay ~/.xagent\n    ```\n\nWindows\n:   ```powershell\n    Remove-Item -Recurse \"$HOME\\.dogsbay\", \"$HOME\\.xagent\", \"$env:LOCALAPPDATA\\dogsbay\"\n    ```\n:::\n\n### Where your sign-ins are kept {#where-your-sign-ins-are-kept}\n\nThe agent stores your ChatGPT sign-in and any API keys in one of two places, and which one depends on the machine.\n\n**The operating system's credential store**, when there is one. This is the usual case, and it survives removing the application, so deleting the directories above does not sign you out.\n\n**Files under `~/.xagent`**, when no credential store is available. This happens on a machine with no keyring running, and on some headless and remote sessions. The ChatGPT sign-in goes to `~/.xagent/auth.json`, and an API key you asked the editor to remember goes to `~/.xagent/settings.json` **in plain text**. The agent tells you which it used at the time it saves a key.\n\nThe quickest way to clear a credential is from inside the editor: open the AI Agent panel, select the gear, and use **Forget all sign-ins**. The same dialog tells you what is stored for the selected provider, and **Forget key** (or **Sign out** for ChatGPT) removes just that one. Your sessions are not touched.\n\nThose buttons cover both places, so you do not need to know which one your machine used.\n\nTo clear the credential store directly, without the editor:\n\n:::tabs\nLinux\n:   ```bash\n    secret-tool search --all service dogsbay-agent    # see what is stored\n    secret-tool clear service dogsbay-agent account oauth-tokens\n    secret-tool clear service dogsbay-agent account anthropic\n    secret-tool clear service dogsbay-agent account openai\n    secret-tool clear service dogsbay-agent account gemini\n    ```\n\n    The Passwords and Keys application (Seahorse) shows the same entries if you prefer to look before you delete.\n\nmacOS\n:   ```bash\n    security delete-generic-password -s dogsbay-agent\n    ```\n\n    Run it once per stored item; it removes one each time and reports when none are left.\n\nWindows\n:   Open **Credential Manager**, select **Windows Credentials**, and remove the entries beginning with `dogsbay-agent`.\n:::\n\n> [!NOTE]\n> This is why the agent can still answer after what looks like a clean install: the settings are gone, but the sign-in is not.\n\n### What each directory holds {#what-each-directory-holds}\n\n| Directory | What is in it |\n| --- | --- |\n| `~/.dogsbay` | Your settings, in `settings.xml`, plus the bundled DITA grammars, imported frameworks, and the integration server's token. |\n| `~/.cache/dogsbay` | The snapshot of which agents are available to run as [hosted agents](/dogsbay-xml-docs/agent/hosted-agents). The editor rebuilds it, so you can delete it at any time. |\n| `~/.xagent` | The built-in agent: your provider and model choice in `settings.json`, every conversation transcript in `sessions/`, and, on a machine with no credential store, your sign-in in `auth.json` and a remembered API key in `settings.json`. |\n\nProjects keep their own state, which you can remove per project:\n\n| Directory | What is in it |\n| --- | --- |\n| `<project>/.dogsbay` | Project settings, the agent audit log, and hosted agent session names. |\n| `<project>/.xagent` | The agent's undo checkpoints for the last turn. |\n\n### Starting fresh without uninstalling {#starting-fresh-without-uninstalling}\n\nTo see what a new reader sees, keep the application and delete the settings:\n\n```bash\nrm -rf ~/.dogsbay ~/.cache/dogsbay\n```\n\nThe editor writes a new `~/.dogsbay/settings.xml` on the next start, and re-extracts the grammars it needs. Leave `~/.xagent` alone to keep your sign-in and your conversations.\n\n## Turning on the integration server {#turning-on-the-integration-server}\n\nAI assistants and live-editor commands connect to the integration server. The server is off until you turn it on.\n\n:::steps\n1. **Open the settings** Select **File > Settings**.\n2. **Turn the server on** Select **Server**, and then enable the server.\n3. **Check that it is listening** Run `dogsbay-xml status`.\n:::\n\n> [!NOTE]\n> The built-in AI agent does not need the integration server. It calls the editor's operations directly, inside the same process.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/install.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -104,7 +110,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <MarkdownContentStack>
     <article class="docs-prose">
       <h1 id="installing" class="group scroll-mt-20">Installing<a href="#installing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
-      <p>DogsBay XML runs on Linux, macOS and Windows.</p>
+      <p>DogsBay XML runs on Linux, macOS, and Windows.</p>
       <h2 id="installing-from-a-package" class="group scroll-mt-20">Installing from a package<a href="#installing-from-a-package" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <p>Each installer bundles its own Java runtime, so no separate JDK is required.</p>
       <Steps>
@@ -112,14 +118,14 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <strong>Download the installer for your platform</strong> Go to the <a href="https://github.com/dogsbay/dogsbay-xml/releases">releases page</a> and download the <code>.deb</code> or <code>.rpm</code> package for Linux, the <code>.dmg</code> for macOS, or the Windows installer.
       </Step>
       <Step>
-      <strong>Install it the usual way for your platform</strong> On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to Applications. On Windows, run the installer.
+      <strong>Install it the usual way for your platform</strong> On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to the Applications folder. On Windows, run the installer.
       </Step>
       <Step>
       <strong>Start the editor</strong> The Welcome tab opens. From there you can open the sample project, which is where the <a href="./tutorial-manual">tutorial</a> starts.
       </Step>
       </Steps>
       <h2 id="the-command-line" class="group scroll-mt-20">The command line<a href="#the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>The installers put a <code>dogsbay-xml</code> executable beside the editor, so the command line needs nothing else installed — not a JDK, and not the editor running.</p>
+      <p>The installers put a <code>dogsbay-xml</code> executable beside the editor, so the command line requires neither a JDK nor a running editor.</p>
       <p>Add its directory to your <code>PATH</code> to run it by name:</p>
       <Tabs defaultValue="Linux" class="my-4">
         <TabsList>
@@ -140,16 +146,135 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>That lasts for the session. To keep it, add the folder under <strong>Settings &gt; System &gt; About &gt; Advanced system settings &gt; Environment Variables</strong>.</p>
         </TabsContent>
       </Tabs>
-      <p>Some commands work entirely on files and need nothing else. Commands that drive a running editor, such as <code>open</code> or <code>screenshot</code>, also need the integration server, below.</p>
-      <p>Building the editor yourself, or running the command line where no installer can go, is on <a href="/dogsbay-xml-docs/developers/build-from-source">building from source</a>.</p>
+      <p>Some commands work entirely on files and need nothing else. Commands that control a running editor, such as <code>open</code> or <code>screenshot</code>, also need the integration server.</p>
+      <p>To build the editor or run the command line where you cannot use an installer, see <a href="/dogsbay-xml-docs/developers/build-from-source">Building from source</a>.</p>
+      <h2 id="uninstalling" class="group scroll-mt-20">Uninstalling<a href="#uninstalling" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <p>Removing the application leaves your settings and the agent's history in place, so that reinstalling puts you back where you were.</p>
+      <Tabs defaultValue="Linux" class="my-4">
+        <TabsList>
+          <TabsTrigger value="Linux">Linux</TabsTrigger>
+          <TabsTrigger value="macOS">macOS</TabsTrigger>
+          <TabsTrigger value="Windows">Windows</TabsTrigger>
+        </TabsList>
+        <TabsContent value="Linux">
+          <CodeBlock code={"sudo apt remove dogsbay-xml       # or: sudo dnf remove dogsbay-xml"} lang="bash" />
+        </TabsContent>
+        <TabsContent value="macOS">
+          <CodeBlock code={"rm -rf /Applications/DogsBay-XML.app"} lang="bash" />
+        </TabsContent>
+        <TabsContent value="Windows">
+          <p>Remove <strong>DogsBay XML</strong> in <strong>Settings &gt; Apps &gt; Installed apps</strong>.</p>
+        </TabsContent>
+      </Tabs>
+      <h3 id="removing-your-data-as-well" class="group scroll-mt-20">Removing your data as well<a href="#removing-your-data-as-well" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <Alert variant="warning" class="my-4">
+        <AlertTitle>Warning</AlertTitle>
+        <AlertDescription>
+          <p><code>~/.xagent/sessions</code> holds every conversation you have had with the agent. Deleting it cannot be undone and no reinstall brings those transcripts back. If you want to keep any of them, export them first with <code>/export</code> in the agent panel, or copy the directory somewhere else.</p>
+        </AlertDescription>
+      </Alert>
+      <p>Deleting <code>~/.dogsbay</code> also discards the integration server's access token, so any AI assistant you had configured needs the new one.</p>
+      <Tabs defaultValue="Linux" class="my-4">
+        <TabsList>
+          <TabsTrigger value="Linux">Linux</TabsTrigger>
+          <TabsTrigger value="macOS">macOS</TabsTrigger>
+          <TabsTrigger value="Windows">Windows</TabsTrigger>
+        </TabsList>
+        <TabsContent value="Linux">
+          <CodeBlock code={"rm -rf ~/.dogsbay ~/.cache/dogsbay ~/.xagent"} lang="bash" />
+        </TabsContent>
+        <TabsContent value="macOS">
+          <CodeBlock code={"rm -rf ~/.dogsbay ~/Library/Caches/dogsbay ~/.xagent"} lang="bash" />
+        </TabsContent>
+        <TabsContent value="Windows">
+          <CodeBlock code={"Remove-Item -Recurse \"$HOME\\.dogsbay\", \"$HOME\\.xagent\", \"$env:LOCALAPPDATA\\dogsbay\""} lang="powershell" />
+        </TabsContent>
+      </Tabs>
+      <h3 id="where-your-sign-ins-are-kept" class="group scroll-mt-20">Where your sign-ins are kept<a href="#where-your-sign-ins-are-kept" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <p>The agent stores your ChatGPT sign-in and any API keys in one of two places, and which one depends on the machine.</p>
+      <p><strong>The operating system's credential store</strong>, when there is one. This is the usual case, and it survives removing the application, so deleting the directories above does not sign you out.</p>
+      <p><strong>Files under </strong><code>~/.xagent</code>, when no credential store is available. This happens on a machine with no keyring running, and on some headless and remote sessions. The ChatGPT sign-in goes to <code>~/.xagent/auth.json</code>, and an API key you asked the editor to remember goes to <code>~/.xagent/settings.json</code> <strong>in plain text</strong>. The agent tells you which it used at the time it saves a key.</p>
+      <p>The quickest way to clear a credential is from inside the editor: open the AI Agent panel, select the gear, and use <strong>Forget all sign-ins</strong>. The same dialog tells you what is stored for the selected provider, and <strong>Forget key</strong> (or <strong>Sign out</strong> for ChatGPT) removes just that one. Your sessions are not touched.</p>
+      <p>Those buttons cover both places, so you do not need to know which one your machine used.</p>
+      <p>To clear the credential store directly, without the editor:</p>
+      <Tabs defaultValue="Linux" class="my-4">
+        <TabsList>
+          <TabsTrigger value="Linux">Linux</TabsTrigger>
+          <TabsTrigger value="macOS">macOS</TabsTrigger>
+          <TabsTrigger value="Windows">Windows</TabsTrigger>
+        </TabsList>
+        <TabsContent value="Linux">
+          <CodeBlock code={"secret-tool search --all service dogsbay-agent    # see what is stored\nsecret-tool clear service dogsbay-agent account oauth-tokens\nsecret-tool clear service dogsbay-agent account anthropic\nsecret-tool clear service dogsbay-agent account openai\nsecret-tool clear service dogsbay-agent account gemini"} lang="bash" />
+          <p>The Passwords and Keys application (Seahorse) shows the same entries if you prefer to look before you delete.</p>
+        </TabsContent>
+        <TabsContent value="macOS">
+          <CodeBlock code={"security delete-generic-password -s dogsbay-agent"} lang="bash" />
+          <p>Run it once per stored item; it removes one each time and reports when none are left.</p>
+        </TabsContent>
+        <TabsContent value="Windows">
+          <p>Open <strong>Credential Manager</strong>, select <strong>Windows Credentials</strong>, and remove the entries beginning with <code>dogsbay-agent</code>.</p>
+        </TabsContent>
+      </Tabs>
+      <Alert variant="note" class="my-4">
+        <AlertTitle>Note</AlertTitle>
+        <AlertDescription>
+          <p>This is why the agent can still answer after what looks like a clean install: the settings are gone, but the sign-in is not.</p>
+        </AlertDescription>
+      </Alert>
+      <h3 id="what-each-directory-holds" class="group scroll-mt-20">What each directory holds<a href="#what-each-directory-holds" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <Table class="my-4">
+      <TableHeader>
+      <TableRow>
+      <TableHead>Directory</TableHead>
+      <TableHead>What is in it</TableHead>
+      </TableRow>
+      </TableHeader>
+      <TableBody>
+      <TableRow>
+      <TableCell><code>~/.dogsbay</code></TableCell>
+      <TableCell>Your settings, in <code>settings.xml</code>, plus the bundled DITA grammars, imported frameworks, and the integration server's token.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell><code>~/.cache/dogsbay</code></TableCell>
+      <TableCell>The snapshot of which agents are available to run as <a href="/dogsbay-xml-docs/agent/hosted-agents">hosted agents</a>. The editor rebuilds it, so you can delete it at any time.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell><code>~/.xagent</code></TableCell>
+      <TableCell>The built-in agent: your provider and model choice in <code>settings.json</code>, every conversation transcript in <code>sessions/</code>, and, on a machine with no credential store, your sign-in in <code>auth.json</code> and a remembered API key in <code>settings.json</code>.</TableCell>
+      </TableRow>
+      </TableBody>
+      </Table>
+      <p>Projects keep their own state, which you can remove per project:</p>
+      <Table class="my-4">
+      <TableHeader>
+      <TableRow>
+      <TableHead>Directory</TableHead>
+      <TableHead>What is in it</TableHead>
+      </TableRow>
+      </TableHeader>
+      <TableBody>
+      <TableRow>
+      <TableCell><code>&lt;project&gt;/.dogsbay</code></TableCell>
+      <TableCell>Project settings, the agent audit log, and hosted agent session names.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell><code>&lt;project&gt;/.xagent</code></TableCell>
+      <TableCell>The agent's undo checkpoints for the last turn.</TableCell>
+      </TableRow>
+      </TableBody>
+      </Table>
+      <h3 id="starting-fresh-without-uninstalling" class="group scroll-mt-20">Starting fresh without uninstalling<a href="#starting-fresh-without-uninstalling" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <p>To see what a new reader sees, keep the application and delete the settings:</p>
+      <CodeBlock code={"rm -rf ~/.dogsbay ~/.cache/dogsbay"} lang="bash" />
+      <p>The editor writes a new <code>~/.dogsbay/settings.xml</code> on the next start, and re-extracts the grammars it needs. Leave <code>~/.xagent</code> alone to keep your sign-in and your conversations.</p>
       <h2 id="turning-on-the-integration-server" class="group scroll-mt-20">Turning on the integration server<a href="#turning-on-the-integration-server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>The integration server is what AI assistants and the live-editor commands connect to. It is off until you turn it on.</p>
+      <p>AI assistants and live-editor commands connect to the integration server. The server is off until you turn it on.</p>
       <Steps>
       <Step>
-      <strong>Open the preferences</strong> Select <strong>File &gt; Preferences</strong>.
+      <strong>Open the settings</strong> Select <strong>File &gt; Settings</strong>.
       </Step>
       <Step>
-      <strong>Turn the server on</strong> Go to the <strong>Server</strong> page and enable the server.
+      <strong>Turn the server on</strong> Select <strong>Server</strong>, and then enable the server.
       </Step>
       <Step>
       <strong>Check that it is listening</strong> Run <code>dogsbay-xml status</code>.

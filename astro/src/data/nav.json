@@ -40,7 +40,7 @@
         "href": "/dogsbay-xml-docs/agent/proposals"
       },
       {
-        "label": "Using Claude Code, Codex or Gemini",
+        "label": "Using Claude Code, Codex, or Gemini",
         "href": "/dogsbay-xml-docs/agent/hosted-agents"
       }
     ]
@@ -107,6 +107,14 @@
       {
         "label": "Panel reference",
         "href": "/dogsbay-xml-docs/reference/panels"
+      },
+      {
+        "label": "Settings reference",
+        "href": "/dogsbay-xml-docs/reference/settings"
+      },
+      {
+        "label": "Keyboard shortcuts",
+        "href": "/dogsbay-xml-docs/reference/shortcuts"
       },
       {
         "label": "The command line",

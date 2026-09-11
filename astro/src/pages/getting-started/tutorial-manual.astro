@@ -38,7 +38,7 @@ const _navForPagination = filterNavByAxis(nav as any[], {
 });
 const { prev, next } = getPagination(currentPath, _navForPagination);
 const title = "Tutorial: Fixing a DITA project by hand";
-const description = "Open a real DITA project that has problems in it, find them with the project tools, and fix one of them by hand." || undefined;
+const description = "Open a DITA project with deliberate errors, find them with the project tools, and fix one by hand." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
 const nofollow = false;
@@ -51,7 +51,7 @@ const pageCategory = ["getting-started"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Tutorial: Fixing a DITA project by hand {#tutorial-fixing-a-dita-project-by-hand}\n\nIn this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it by hand.\n\nThe project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.\n\n**Time:** about 30 minutes. **You need:** DogsBay XML installed. See [Installing](./install). Nothing else: no agent, and no sign-in.\n\n## Step 1: Open the sample project {#step-1-open-the-sample-project}\n\n:::steps\n1. **Select File > Open Sample Project** The editor asks where to put it.\n2. **Choose a location** The sample is copied into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.\n3. **Wait for the project to open** The Topic Map explorer loads `audacity-guide.ditamap`, and publishing is configured, without you setting anything up.\n:::\n\nYou now have your own copy to break further and repair.\n\n## Step 2: See what is wrong {#step-2-see-what-is-wrong}\n\nRather than opening individual files to look for problems, you can run the project health check from the command line:\n\n```bash\ndogsbay-xml project-health . --schematron house-style.sch\n```\n\nThe report covers specific kinds of problems:\n\n- References that point at something missing\n- Keys that are used but never defined, or defined and never used\n- Topics that aren't included in any map\n- Files that fail validation against their grammar\n- Required metadata the project's policy says a topic must carry\n- House rules from `house-style.sch`, such as every topic needing a `shortdesc`\n\nThe last one needs the `--schematron` option. A rule like \"every topic needs a shortdesc\" cannot be expressed in a DTD, so it lives in a Schematron schema, and the health check only applies one when you name it.\n\nRead the output before you change anything. The point of this step is that the answer is a property of the project, not of the file you happen to have open.\n\n> [!TIP]\n> `check-links` and `health` are narrower and faster if you only want one part of that picture.\n\n## Step 3: Fix one problem by hand {#step-3-fix-one-problem-by-hand}\n\nPick a topic that has no short description.\n\n:::steps\n1. **Open the topic** Select it in the Explorer.\n2. **Switch to the Author view** Select **View > Document Views > Author**, or use the view buttons in the menu bar. The topic is shown as blocks rather than as tags.\n3. **Add a short description** Put the cursor after the title and use the insert menu to add a `shortdesc`, then write one sentence that says what the topic is for.\n4. **Save** Select **File > Save**. The XML is written back with your formatting intact.\n:::\n\nNow switch back with **View > Document Views > Editor** and confirm the element is where you expect. The two views are the same document, and your place in it is carried across.\n\n## What you learned {#what-you-learned}\n\n- The sample project is a copy, so you can experiment freely.\n- Problems are found at project level, not file by file.\n- The Author view and the source view are two views of one document, and your place in it is carried across.\n\n## Where to go next {#where-to-go-next}\n\n:::cards\n- **[Tutorial: Using an agent to fix a DITA project](./tutorial-agentic){icon=\"sparkles\"}**\n  The same project, with the agent doing the repetitive part.\n\n- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon=\"check\"}**\n  The checks behind the health report you ran.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Tutorial: Fixing a DITA project by hand {#tutorial-fixing-a-dita-project-by-hand}\n\nIn this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix one by hand.\n\nThe project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.\n\n**Time:** about 30 minutes. **You need:** DogsBay XML. See [Installing](./install). You do not need an agent or a sign-in.\n\n## Step 1: Open the sample project {#step-1-open-the-sample-project}\n\n:::steps\n1. **Select File > Open Sample Project** The editor asks where to put it.\n2. **Choose a location** The editor copies the sample into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.\n3. **Wait for the project to open** The Topic Maps panel loads `audacity-guide.ditamap`. The sample already includes its publishing configuration.\n:::\n\nYou now have your own copy to break further and repair.\n\n## Step 2: See what is wrong {#step-2-see-what-is-wrong}\n\nRather than opening individual files to look for problems, you can run the project health check from the command line:\n\n```bash\ndogsbay-xml project-health . --schematron house-style.sch\n```\n\nThe report covers specific kinds of problems:\n\n- References that point at something missing\n- Keys that are used but never defined, or defined and never used\n- Topics that are not included in any map\n- Files that fail validation against their grammar\n- Required metadata the project's policy says a topic must carry\n- House rules from `house-style.sch`, such as every topic needing a `shortdesc`\n\nThe last check needs the `--schematron` option. A DTD cannot express a rule such as \"every topic needs a shortdesc,\" so the rule lives in a Schematron schema. The health check applies the schema only when you name it.\n\nRead the output before you change anything. The results describe the project, not only the file that you have open.\n\n> [!TIP]\n> `check-links` and `health` are narrower and faster if you only want one part of that picture.\n\n## Step 3: Fix one problem by hand {#step-3-fix-one-problem-by-hand}\n\nPick a topic that has no short description.\n\n:::steps\n1. **Open the topic** Select it in the Explorer.\n2. **Switch to the Author view** Select **View > Document Views > Author**, or use the view buttons in the menu bar. The topic is shown as blocks rather than as tags.\n3. **Add a short description** Place the cursor after the title and use the insert menu to add a `shortdesc`, then write one sentence that says what the topic is for.\n4. **Save** Select **File > Save**. The XML is written back with your formatting intact.\n:::\n\nSwitch back with **View > Document Views > Editor**, and confirm that the element is where you expect. Both views show the same document and retain your position when you switch between them.\n\n## What you learned {#what-you-learned}\n\n- The sample project is a copy, so you can experiment freely.\n- Project-level checks find problems across files.\n- The Author and Editor views show the same document and retain your position when you switch views.\n\n## Where to go next {#where-to-go-next}\n\n:::cards\n- **[Tutorial: Using an agent to fix a DITA project](./tutorial-agentic){icon=\"sparkles\"}**\n  The same project, with the agent doing the repetitive part.\n\n- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon=\"check\"}**\n  The checks behind the health report you ran.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -105,19 +105,19 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <MarkdownContentStack>
     <article class="docs-prose">
       <h1 id="tutorial-fixing-a-dita-project-by-hand" class="group scroll-mt-20">Tutorial: Fixing a DITA project by hand<a href="#tutorial-fixing-a-dita-project-by-hand" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
-      <p>In this tutorial you inherit a documentation set that does not build cleanly, find out what is wrong with it, and fix part of it by hand.</p>
+      <p>In this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix one by hand.</p>
       <p>The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.</p>
-      <p><strong>Time:</strong> about 30 minutes. <strong>You need:</strong> DogsBay XML installed. See <a href="./install">Installing</a>. Nothing else: no agent, and no sign-in.</p>
+      <p><strong>Time:</strong> about 30 minutes. <strong>You need:</strong> DogsBay XML. See <a href="./install">Installing</a>. You do not need an agent or a sign-in.</p>
       <h2 id="step-1-open-the-sample-project" class="group scroll-mt-20">Step 1: Open the sample project<a href="#step-1-open-the-sample-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <Steps>
       <Step>
       <strong>Select File &gt; Open Sample Project</strong> The editor asks where to put it.
       </Step>
       <Step>
-      <strong>Choose a location</strong> The sample is copied into a new <code>audacity-demo</code> folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if <code>audacity-demo</code> exists, the copy becomes <code>audacity-demo-2</code>.
+      <strong>Choose a location</strong> The editor copies the sample into a new <code>audacity-demo</code> folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if <code>audacity-demo</code> exists, the copy becomes <code>audacity-demo-2</code>.
       </Step>
       <Step>
-      <strong>Wait for the project to open</strong> The Topic Map explorer loads <code>audacity-guide.ditamap</code>, and publishing is configured, without you setting anything up.
+      <strong>Wait for the project to open</strong> The Topic Maps panel loads <code>audacity-guide.ditamap</code>. The sample already includes its publishing configuration.
       </Step>
       </Steps>
       <p>You now have your own copy to break further and repair.</p>
@@ -128,13 +128,13 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <ul>
       <li>References that point at something missing</li>
       <li>Keys that are used but never defined, or defined and never used</li>
-      <li>Topics that aren't included in any map</li>
+      <li>Topics that are not included in any map</li>
       <li>Files that fail validation against their grammar</li>
       <li>Required metadata the project's policy says a topic must carry</li>
       <li>House rules from <code>house-style.sch</code>, such as every topic needing a <code>shortdesc</code></li>
       </ul>
-      <p>The last one needs the <code>--schematron</code> option. A rule like "every topic needs a shortdesc" cannot be expressed in a DTD, so it lives in a Schematron schema, and the health check only applies one when you name it.</p>
-      <p>Read the output before you change anything. The point of this step is that the answer is a property of the project, not of the file you happen to have open.</p>
+      <p>The last check needs the <code>--schematron</code> option. A DTD cannot express a rule such as "every topic needs a shortdesc," so the rule lives in a Schematron schema. The health check applies the schema only when you name it.</p>
+      <p>Read the output before you change anything. The results describe the project, not only the file that you have open.</p>
       <Alert variant="tip" class="my-4">
         <AlertTitle>Tip</AlertTitle>
         <AlertDescription>
@@ -151,18 +151,18 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <strong>Switch to the Author view</strong> Select <strong>View &gt; Document Views &gt; Author</strong>, or use the view buttons in the menu bar. The topic is shown as blocks rather than as tags.
       </Step>
       <Step>
-      <strong>Add a short description</strong> Put the cursor after the title and use the insert menu to add a <code>shortdesc</code>, then write one sentence that says what the topic is for.
+      <strong>Add a short description</strong> Place the cursor after the title and use the insert menu to add a <code>shortdesc</code>, then write one sentence that says what the topic is for.
       </Step>
       <Step>
       <strong>Save</strong> Select <strong>File &gt; Save</strong>. The XML is written back with your formatting intact.
       </Step>
       </Steps>
-      <p>Now switch back with <strong>View &gt; Document Views &gt; Editor</strong> and confirm the element is where you expect. The two views are the same document, and your place in it is carried across.</p>
+      <p>Switch back with <strong>View &gt; Document Views &gt; Editor</strong>, and confirm that the element is where you expect. Both views show the same document and retain your position when you switch between them.</p>
       <h2 id="what-you-learned" class="group scroll-mt-20">What you learned<a href="#what-you-learned" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <ul>
       <li>The sample project is a copy, so you can experiment freely.</li>
-      <li>Problems are found at project level, not file by file.</li>
-      <li>The Author view and the source view are two views of one document, and your place in it is carried across.</li>
+      <li>Project-level checks find problems across files.</li>
+      <li>The Author and Editor views show the same document and retain your position when you switch views.</li>
       </ul>
       <h2 id="where-to-go-next" class="group scroll-mt-20">Where to go next<a href="#where-to-go-next" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>

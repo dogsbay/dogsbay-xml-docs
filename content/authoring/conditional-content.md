@@ -6,12 +6,12 @@ type: how-to
 
 # Conditional content
 
-Conditional content is one source producing several outputs: a Windows guide
-and a macOS guide from the same topics, or a beginner version and an expert
-version. You mark content with profiling attributes, and a DITAVAL file
+Conditional content enables one source to produce several outputs, such as a
+Windows guide and a macOS guide from the same topics, or beginner and expert
+versions. You mark content with profiling attributes, and a DITAVAL file
 decides what each build includes.
 
-The mechanism is simple. What goes wrong is that the values drift.
+The challenge is keeping the values consistent.
 
 ## Marking content
 
@@ -54,13 +54,13 @@ the variants a map declares; it does not itself produce a filtered build.
 
 ## The problem with uncontrolled values
 
-Nothing in DITA stops you writing `platform="macos"` in one topic and
+Nothing in DITA stops you from writing `platform="macos"` in one topic and
 `platform="mac"` in another. Both are valid XML and both validate against the
 grammar.
 
-The build then silently drops the topic that used the value your DITAVAL does
-not mention. Nothing errors. The output is simply missing a step, and nobody
-notices until a reader does.
+The build then silently drops the topic that uses the value your DITAVAL does
+not mention. The build reports no error, but the output is missing a step. A
+reader might be the first person to notice.
 
 ## Controlling values with a subject scheme
 
@@ -79,11 +79,11 @@ To find content that breaks it:
 dogsbay-xml validate-conditions . --map audacity-guide.ditamap
 ```
 
-That scans the map's publication set and reports every profiling value the
-scheme does not sanction. It exits with a non-zero status when it finds any,
+The command scans the map's publication set and reports every profiling value
+that the scheme does not allow. It exits with a nonzero status when it finds any,
 so it works as a pipeline gate.
 
-Use `--scope` to narrow it to one map, a glob, or the whole project root.
+Use `--scope` to limit the scan to one map, a glob, or the project root.
 
 ## Renaming a value everywhere
 
@@ -109,7 +109,7 @@ The first prints the plan; the second applies it.
    with `rename-profile-value`.
 
 3. **Add the check to your pipeline**
-   It exits non-zero, so a build fails on a new typo rather than shipping
+   It exits with a nonzero status, so a build fails on a new typo rather than shipping
    without the content.
 :::
 

@@ -1,6 +1,6 @@
 ---
 title: The agent, and what it may touch
-description: How the built-in agent and hosted agents differ, which tools they get, and the limits that apply before any change reaches a file.
+description: Compare built-in and hosted agents, learn which tools they receive, and understand the limits on changes to files.
 type: explanation
 ---
 
@@ -13,7 +13,7 @@ The **built-in agent** runs inside the editor. You choose a provider,
 DogsBay XML holds the conversation, and the agent calls the editor's own
 operations directly.
 
-A **hosted agent** is a separate program that you already use, such as Claude Code, Codex, Gemini CLI, OpenCode or Goose. The editor starts it, talks to it over the Agent Client Protocol, and lends it the editor's DITA tools. It keeps its own sign-in and its own model, so your subscription to it applies.
+A **hosted agent** is a separate program that you already use, such as Claude Code, Codex, Gemini CLI, OpenCode, or Goose. The editor starts it, communicates with it over the Agent Client Protocol, and gives it access to the editor's DITA tools. The agent keeps its own sign-in and model, so your subscription applies.
 
 [Which agent to use](./choosing) compares the two; this page is about what either of them may touch.
 
@@ -23,10 +23,10 @@ first tab; each hosted agent you start gets a tab of its own.
 ## Why the agent understands DITA
 
 Whichever kind you use, the agent does not get a text editor and a folder of
-files. It gets the operations the editor itself runs: validate this document
-against its grammar, list the keys in this map's key space, find everything
-that references this topic, rename a key across the project, audit the
-project's health.
+files. It receives the operations that the editor runs. For example, it can
+validate a document against its grammar, list the keys in a map's key space,
+find everything that references a topic, rename a key across the project, and
+audit the project's health.
 
 Two consequences follow. The agent can act on a whole project without opening
 every file, and a change it makes goes through the same code as the equivalent
@@ -61,35 +61,35 @@ so it is visible while you work.
 Every change from an agent session passes one checkpoint, which applies three
 tests.
 
-**Containment.** A hosted or external agent can only write inside the open
-project. Symbolic links are resolved first, so a link out of the project does
+**Containment.** A hosted or external agent can write only inside the open
+project. The editor resolves symbolic links first, so a link out of the project does
 not become a way around it.
 
-**Conflict.** An agent may only write a document it has read during this
-session, and only while that document still holds what the agent read. If the
+**Conflict.** To write a document, an agent must first read it during the
+current session. The agent can write only while the document still contains what it read. If the
 file changed underneath it, the write is refused and the agent is told to read
-again. The current content comes back with the refusal, so it can.
+again. The refusal includes the current content so that the agent can read it.
 
-**Lease.** One agent session may hold a document at a time. Leases expire, so
+**Lease.** Only one agent session can hold a document at a time. Leases expire, so
 an agent that crashes does not hold a file forever. You are never leased and
 never refused.
 
 ### Proposals
 
-When an agent edits a DITA file, the change is recorded as a tracked change
-rather than applied silently. You accept or reject it in the **Proposals**
+When an agent edits a DITA file, the editor records the edit as a tracked change
+instead of applying it silently. You accept or reject it in the **Proposals**
 panel. See [Reviewing an agent's changes](./proposals).
 
 ## What is recorded
 
-Agent commands are appended to an audit log in the project, at
+The editor appends agent commands to an audit log in the project at
 `.dogsbay/agent-audit/commands.jsonl`. Each line records the time, the
 session, its identity, the command, the files, whether it was a dry run, and
 the outcome.
 
-Your own commands are not recorded. Tokens are never written to it. The log
-is excluded from version control on creation, so it does not reach the team
-repository.
+The log does not record your commands or tokens. When the editor creates the
+log, it excludes the file from version control so that the log does not reach
+the team repository.
 
 To read it, select **Project > Agent activity**, or run:
 
@@ -99,31 +99,35 @@ dogsbay-xml audit-log
 
 ### Session transcripts
 
-The audit log records what the agent did. The transcript records the conversation it did it in, and the two answer different questions: the log says which command touched which file, the transcript says what you asked for and what it said back.
+The audit log records what the agent did, and the transcript records the conversation. The log identifies the command that touched each file. The transcript contains your requests and the agent's responses.
 
 Each conversation with the built-in agent is a file in `~/.xagent/sessions`, outside the project, so nothing reaches the team repository.
 
-Select **Sessions** in the AI Agent panel, or type `/sessions`, to see them: every session with its date and name, and buttons to resume one, start a new one, or delete one. The conversation in progress cannot be deleted — the agent is still writing to it.
+Select **Sessions** in the AI Agent panel, or type `/sessions`, to see every session with its date and name. You can resume a session, start a new one, or delete one. You cannot delete the conversation in progress because the agent is still writing to it.
 
-A session is named after the first thing you asked it, so the list reads as a list of questions. To give one a name of your own, right-click or double-click the tab and select **Rename session**, or type `/rename Audacity cleanup`. A blank name restores the automatic one. The name is stored in the transcript, so it survives a restart, shows in the picker, and names the file when you export the conversation.
+The first request in a session provides its default name, so the list reads as a list of questions. To choose a name, right-click or double-click the tab and select **Rename session**, or type `/rename Audacity cleanup`. A blank name restores the default. The editor stores the name in the transcript, so it persists after a restart, appears in the picker, and names the file when you export the conversation.
 
-Transcripts are kept until you remove them. To have the editor clear out old ones, set an age in **File > Preferences > Server > Agent sessions**: transcripts last written longer ago than that are deleted when the editor starts. The default is to keep everything.
+The editor keeps transcripts until you remove them. To remove old transcripts automatically, set an age in **File > Settings > Server > Agent sessions**. When the editor starts, it deletes transcripts that have not changed within that period. By default, the editor keeps all transcripts.
 
 > [!NOTE]
-> This is the built-in agent's history. A hosted agent keeps its own, and `dogsbay-xml sessions` is a different thing again: the sessions currently connected to a running editor, not the transcripts on disk.
+> This history belongs to the built-in agent. A hosted agent keeps its own history. The `dogsbay-xml sessions` command lists sessions that are connected to a running editor, not transcripts on disk.
 
 ## What each kind of agent needs
 
 | | Built-in agent | Hosted agent |
 |---|---|---|
 | Sign-in | An API key, or a ChatGPT sign-in | Its own, as you already use it |
-| Where the key is stored | Your operating system keychain | The agent's own configuration |
+| Where the key is stored | Your operating system keychain, or a file when the machine has none. See [where your sign-ins are kept](/getting-started/install#where-your-sign-ins-are-kept) | The agent's own configuration |
 | Integration server | Not required | Required, for the editor's tools |
 | Tier | Runs as you | You choose, T1 by default |
 
-The integration server is off until you turn it on in **File > Preferences > Server**.
+The integration server is off until you turn it on in **File > Settings > Server**.
 
-Subscriptions work on both sides, but not the same ones. The built-in agent can sign in to ChatGPT, which is the one subscription it understands; for Anthropic and Google it wants an API key. A hosted agent signs itself in however it already does, so a Claude Code or Codex subscription reaches the editor through the agent rather than through us. Where an agent offers both, the editor prefers the browser sign-in over an API key, and only passes a key you have saved if you ask it to.
+Subscriptions work on both sides, but not the same ones. The built-in agent can sign in to ChatGPT, which is the one subscription it supports. For Anthropic and Google, it requires an API key. A hosted agent uses its own sign-in, so a Claude Code or Codex subscription reaches the editor through the agent rather than through DogsBay XML. When an agent offers both methods, the editor prefers browser sign-in over an API key. It passes a saved key only when you request it.
+
+### Seeing and removing what is stored
+
+The gear in the AI Agent panel opens the provider settings, which say what is stored for the provider you have selected: a key, a ChatGPT sign-in, or nothing. The key box is always blank, so this line is the only way to tell. **Forget key** removes that provider's key, **Sign out** ends the ChatGPT sign-in, and **Forget all sign-ins** clears every one of them at once. None of them touch your sessions. The transcripts stay where they are, and you sign in again to carry on.
 
 ## Related
 
@@ -131,6 +135,6 @@ Subscriptions work on both sides, but not the same ones. The built-in agent can 
 - **[Which agent to use](./choosing)** {icon="scale"}
   What each kind is good for, and when to run both.
 
-- **[Using Claude Code, Codex or Gemini](./hosted-agents)** {icon="terminal"}
-  Starting a hosted agent, and what it needs.
+- **[Using Claude Code, Codex, or Gemini](./hosted-agents)** {icon="terminal"}
+  Start a hosted agent and learn what it needs.
 :::

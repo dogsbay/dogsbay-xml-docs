@@ -2,6 +2,8 @@
 
 ## Reference
 
-- [Menu reference](https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md): Every menu in the editor, in order, with what each command does and where it is documented in full.
-- [Panel reference](https://dogsbay.ai/dogsbay-xml-docs/reference/panels.md): Every panel in the sidebars and the bottom bar, what it shows, and what you can do in it.
-- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What dogsbay-xml can do, grouped by what you are trying to find out or change.
+- [Menu reference](https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md): Find every editor menu and learn what each command does.
+- [Panel reference](https://dogsbay.ai/dogsbay-xml-docs/reference/panels.md): Find every panel in the sidebars and bottom bar, and learn what you can do in each panel.
+- [Settings reference](https://dogsbay.ai/dogsbay-xml-docs/reference/settings.md): Every page in File > Settings, and what each one controls.
+- [Keyboard shortcuts](https://dogsbay.ai/dogsbay-xml-docs/reference/shortcuts.md): The default key for every command that has one, and how to change it.
+- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): Find the dogsbay-xml command for the information or change that you need.
