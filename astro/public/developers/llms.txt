@@ -2,4 +2,4 @@
 
 ## For developers
 
-- [Building from source](https://dogsbay.ai/dogsbay-xml-docs/developers/build-from-source.md): Build the editor with Gradle, and run the command line from a checkout or from the uber-jar on a machine with no installer.
+- [Building from source](https://dogsbay.ai/dogsbay-xml-docs/developers/build-from-source.md): Build the editor with Gradle and run the command line from a checkout or an all-in-one JAR file.

@@ -48,7 +48,7 @@ const pageCategory = null;
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# DogsBay XML {#dogsbay-xml}\n\nDogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.\n\nIt has 3 separate interfaces that run the exact same commands across one core engine:\n\n- MCP server for AI assistants\n- CLI for automation\n- UI with menus and panels for humans\n\nWhile there is a built-in agent with its own commands, you can also bring-your-own-agent like Claude Code, Codex or OpenCode so you don't have to learn a new harness to be productive.\n\nEdits an agent makes to a DITA file are tracked as changes that you accept or reject. Refactorings are implemented as dry runs, requiring an explicit instruction before they are applied.\n\n> [!NOTE]\n> The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in **File > Preferences > Server** when you need it. The built-in agent does not require it.\n\nWhile the editor is primarily for XML, it also supports authoring and previewing in Markdown and AsciiDoc.\n\n:::cards\n- **[Start here](/dogsbay-xml-docs/getting-started/install){icon=\"rocket\"}**\n  Install the editor, open the sample project, and fix a real DITA guide with the agent.\n\n- **[Working with the agent](/dogsbay-xml-docs/agent/choosing){icon=\"sparkles\"}**\n  The built-in agent or one you already use, what each is allowed to touch, and how their changes are reviewed.\n\n- **[Authoring DITA](/dogsbay-xml-docs/authoring/topics-and-maps){icon=\"file-text\"}**\n  Topics, maps, keys, reuse and conditional content.\n\n- **[Reference](/dogsbay-xml-docs/reference/cli){icon=\"book\"}**\n  Commands, tools and configuration.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/index.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# DogsBay XML {#dogsbay-xml}\n\nDogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.\n\nIt has three interfaces that run the same commands through one core engine:\n\n- MCP server for AI assistants\n- CLI for automation\n- UI with menus and panels\n\nYou can use the built-in agent or bring an agent that you already use, such as Claude Code, Codex, or OpenCode. You do not have to learn a new agent interface to be productive.\n\nThe editor tracks an agent's edits to a DITA file as changes that you accept or reject. Refactoring commands run as dry runs and require an explicit instruction before they apply changes.\n\n> [!NOTE]\n> The integration server that AI assistants and the live-editor commands use is off by default. Turn it on in **File > Settings > Server** when you need it. The built-in agent does not require it.\n\nWhile the editor is primarily for XML, it also supports authoring and previewing in Markdown and AsciiDoc.\n\n:::cards\n- **[Start here](/dogsbay-xml-docs/getting-started/install){icon=\"rocket\"}**\n  Install the editor, open the sample project, and fix a real DITA guide with the agent.\n\n- **[Working with the agent](/dogsbay-xml-docs/agent/choosing){icon=\"sparkles\"}**\n  Compare the built-in agent with agents you already use, learn what each can touch, and review their changes.\n\n- **[Authoring DITA](/dogsbay-xml-docs/authoring/topics-and-maps){icon=\"file-text\"}**\n  Topics, maps, keys, reuse, and conditional content.\n\n- **[Reference](/dogsbay-xml-docs/reference/cli){icon=\"book\"}**\n  Commands, tools, and configuration.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/index.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -103,18 +103,18 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
     <article class="docs-prose">
       <h1 id="dogsbay-xml" class="group scroll-mt-20">DogsBay XML<a href="#dogsbay-xml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
       <p>DogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.</p>
-      <p>It has 3 separate interfaces that run the exact same commands across one core engine:</p>
+      <p>It has three interfaces that run the same commands through one core engine:</p>
       <ul>
       <li>MCP server for AI assistants</li>
       <li>CLI for automation</li>
-      <li>UI with menus and panels for humans</li>
+      <li>UI with menus and panels</li>
       </ul>
-      <p>While there is a built-in agent with its own commands, you can also bring-your-own-agent like Claude Code, Codex or OpenCode so you don't have to learn a new harness to be productive.</p>
-      <p>Edits an agent makes to a DITA file are tracked as changes that you accept or reject. Refactorings are implemented as dry runs, requiring an explicit instruction before they are applied.</p>
+      <p>You can use the built-in agent or bring an agent that you already use, such as Claude Code, Codex, or OpenCode. You do not have to learn a new agent interface to be productive.</p>
+      <p>The editor tracks an agent's edits to a DITA file as changes that you accept or reject. Refactoring commands run as dry runs and require an explicit instruction before they apply changes.</p>
       <Alert variant="note" class="my-4">
         <AlertTitle>Note</AlertTitle>
         <AlertDescription>
-          <p>The integration server that AI assistants and the live-editor commands connect to is turned off by default. Turn it on in <strong>File &gt; Preferences &gt; Server</strong> when you need it. The built-in agent does not require it.</p>
+          <p>The integration server that AI assistants and the live-editor commands use is off by default. Turn it on in <strong>File &gt; Settings &gt; Server</strong> when you need it. The built-in agent does not require it.</p>
         </AlertDescription>
       </Alert>
       <p>While the editor is primarily for XML, it also supports authoring and previewing in Markdown and AsciiDoc.</p>
@@ -133,7 +133,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="/dogsbay-xml-docs/agent/choosing" class="[text-decoration:none] text-foreground">
       <Icon name="sparkles" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">Working with the agent</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">The built-in agent or one you already use, what each is allowed to touch, and how their changes are reviewed.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Compare the built-in agent with agents you already use, learn what each can touch, and review their changes.</p>
       </a>
       </CardContent>
       </Card>
@@ -142,7 +142,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="/dogsbay-xml-docs/authoring/topics-and-maps" class="[text-decoration:none] text-foreground">
       <Icon name="file-text" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">Authoring DITA</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Topics, maps, keys, reuse and conditional content.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Topics, maps, keys, reuse, and conditional content.</p>
       </a>
       </CardContent>
       </Card>
@@ -151,7 +151,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="/dogsbay-xml-docs/reference/cli" class="[text-decoration:none] text-foreground">
       <Icon name="book" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">Reference</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Commands, tools and configuration.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Commands, tools, and configuration.</p>
       </a>
       </CardContent>
       </Card>

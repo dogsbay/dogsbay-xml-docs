@@ -10,27 +10,27 @@
 
 - [DogsBay XML overview](https://dogsbay.ai/dogsbay-xml-docs/getting-started/dogsbay-xml-overview.md): What the editor does, who it is for, and the three ideas that shape it.
 - [Installing](https://dogsbay.ai/dogsbay-xml-docs/getting-started/install.md): Install DogsBay XML, put its command line on your PATH, and turn on the integration server.
-- [Tutorial: Fixing a DITA project by hand](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md): Open a real DITA project that has problems in it, find them with the project tools, and fix one of them by hand.
-- [Tutorial: Using an agent to fix a DITA project](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-agentic.md): Open a real DITA project that has problems in it, find them with the project tools, and fix them with the AI agent.
+- [Tutorial: Fixing a DITA project by hand](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md): Open a DITA project with deliberate errors, find them with the project tools, and fix one by hand.
+- [Tutorial: Using an agent to fix a DITA project](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-agentic.md): Open a DITA project with deliberate errors, find them with the project tools, and fix them with the AI agent.
 
 ## Working with the agent
 
-- [The agent, and what it may touch](https://dogsbay.ai/dogsbay-xml-docs/agent/overview.md): How the built-in agent and hosted agents differ, which tools they get, and the limits that apply before any change reaches a file.
-- [Which agent to use](https://dogsbay.ai/dogsbay-xml-docs/agent/choosing.md): What the built-in agent is good at, what a hosted agent is good at, and why running both is a reasonable answer.
-- [Reviewing an agent's changes](https://dogsbay.ai/dogsbay-xml-docs/agent/proposals.md): Agent edits to DITA files arrive as tracked changes. Accept them, reject them, or comment on them.
-- [Using Claude Code, Codex or Gemini](https://dogsbay.ai/dogsbay-xml-docs/agent/hosted-agents.md): Run an agent you already have inside the editor, and lend it the editor's DITA tools.
+- [The agent, and what it may touch](https://dogsbay.ai/dogsbay-xml-docs/agent/overview.md): Compare built-in and hosted agents, learn which tools they receive, and understand the limits on changes to files.
+- [Which agent to use](https://dogsbay.ai/dogsbay-xml-docs/agent/choosing.md): Compare the built-in and hosted agents and learn when to run both.
+- [Reviewing an agent's changes](https://dogsbay.ai/dogsbay-xml-docs/agent/proposals.md): Review agent edits to DITA files as tracked changes, and accept, reject, or comment on them.
+- [Using Claude Code, Codex, or Gemini](https://dogsbay.ai/dogsbay-xml-docs/agent/hosted-agents.md): Run an agent you already use inside the editor and give it access to the editor's DITA tools.
 
 ## Authoring DITA
 
 - [Topics and maps](https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps.md): Write topics in the source or Author view, assemble them into maps, and edit map structure without breaking references.
 - [Keys and reuse](https://dogsbay.ai/dogsbay-xml-docs/authoring/keys-and-reuse.md): Resolve keys across a map, convert direct references to keys, and move shared content into reuse topics.
 - [Conditional content](https://dogsbay.ai/dogsbay-xml-docs/authoring/conditional-content.md): Profile content with conditions, filter it with DITAVAL, and keep the values under control with a subject scheme.
-- [Metadata](https://dogsbay.ai/dogsbay-xml-docs/authoring/metadata.md): Define which metadata topics must carry, audit the project against it, and fill in what is missing.
+- [Metadata](https://dogsbay.ai/dogsbay-xml-docs/authoring/metadata.md): Define required topic metadata, audit the project, and fill in missing fields.
 
 ## Finding and changing
 
-- [Validating a project](https://dogsbay.ai/dogsbay-xml-docs/finding/validation.md): Check one document or a whole set against its grammar, business rules and references, and use the same checks as a build gate.
-- [Refactoring](https://dogsbay.ai/dogsbay-xml-docs/finding/refactoring.md): Rename, move, split and restructure content without breaking the references that point at it.
+- [Validating a project](https://dogsbay.ai/dogsbay-xml-docs/finding/validation.md): Check a document or documentation set against its grammar, business rules, and references. Use the checks as a build gate.
+- [Refactoring](https://dogsbay.ai/dogsbay-xml-docs/finding/refactoring.md): Rename, move, split, and restructure content without breaking its references.
 
 ## Publishing
 
@@ -38,14 +38,16 @@
 
 ## Automation
 
-- [Connecting an AI assistant](https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md): Expose the editor's DITA operations to Claude Code, Claude Desktop or Cursor over MCP.
+- [Connecting an AI assistant](https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md): Provide the editor's DITA operations to Claude Code, Claude Desktop, or Cursor over MCP.
 
 ## Reference
 
-- [Menu reference](https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md): Every menu in the editor, in order, with what each command does and where it is documented in full.
-- [Panel reference](https://dogsbay.ai/dogsbay-xml-docs/reference/panels.md): Every panel in the sidebars and the bottom bar, what it shows, and what you can do in it.
-- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): What dogsbay-xml can do, grouped by what you are trying to find out or change.
+- [Menu reference](https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md): Find every editor menu and learn what each command does.
+- [Panel reference](https://dogsbay.ai/dogsbay-xml-docs/reference/panels.md): Find every panel in the sidebars and bottom bar, and learn what you can do in each panel.
+- [Settings reference](https://dogsbay.ai/dogsbay-xml-docs/reference/settings.md): Every page in File > Settings, and what each one controls.
+- [Keyboard shortcuts](https://dogsbay.ai/dogsbay-xml-docs/reference/shortcuts.md): The default key for every command that has one, and how to change it.
+- [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): Find the dogsbay-xml command for the information or change that you need.
 
 ## For developers
 
-- [Building from source](https://dogsbay.ai/dogsbay-xml-docs/developers/build-from-source.md): Build the editor with Gradle, and run the command line from a checkout or from the uber-jar on a machine with no installer.
+- [Building from source](https://dogsbay.ai/dogsbay-xml-docs/developers/build-from-source.md): Build the editor with Gradle and run the command line from a checkout or an all-in-one JAR file.

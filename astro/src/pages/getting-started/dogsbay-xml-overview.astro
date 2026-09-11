@@ -21,7 +21,7 @@ import Grid from "@ui/grid/Grid.astro";
 import GridItem from "@ui/grid/GridItem.astro";
 import Icon from "@ui/icon/Icon.astro";
 
-const headings = [{"depth":1,"slug":"dogsbay-xml-overview","text":"DogsBay XML overview"},{"depth":2,"slug":"who-it-is-for","text":"Who it is for"},{"depth":2,"slug":"one-engine-three-interfaces","text":"One engine, three interfaces"},{"depth":2,"slug":"nothing-changes-until-you-say-so","text":"Nothing changes until you say so"},{"depth":2,"slug":"the-project-is-the-unit","text":"The project is the unit"},{"depth":2,"slug":"where-to-start","text":"Where to start"}];
+const headings = [{"depth":1,"slug":"dogsbay-xml-overview","text":"DogsBay XML overview"},{"depth":2,"slug":"who-it-is-for","text":"Who it is for"},{"depth":2,"slug":"one-engine-three-interfaces","text":"One engine, three interfaces"},{"depth":2,"slug":"the-project-is-the-unit","text":"The project is the unit"},{"depth":2,"slug":"nothing-changes-until-you-say-so","text":"Nothing changes until you say so"},{"depth":2,"slug":"where-to-start","text":"Where to start"}];
 const nav = navData;
 const currentPath = "/dogsbay-xml-docs/getting-started/dogsbay-xml-overview";
 const _navForPagination = filterNavByAxis(nav as any[], {
@@ -45,7 +45,7 @@ const pageCategory = ["getting-started"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# DogsBay XML overview {#dogsbay-xml-overview}\n\nDogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed at writers who maintain complex documentation sets.\n\n- Validates against your grammar as you type\n- Resolves keys and reuse across the project\n- Refactors without breaking references\n- Publishes through DITA-OT\n- Runs an AI agent that exposes all the features of the editor.\n\n## Who it is for {#who-it-is-for}\n\nA technical writer working in DITA or another docset large enough that the relationships between files matter:\n\n- Keys that resolve differently in different maps\n- Topics reused by conref in three places\n- Conditionals that decide what a build contains\n\n## One engine, three interfaces {#one-engine-three-interfaces}\n\nThe editor's UI menus, the `dogsbay-xml` command line, and the MCP server that AI assistants connect to all run the exact same commands.\n\n## Nothing changes until you say so {#nothing-changes-until-you-say-so}\n\nRefactorings are implemented as a dry run by default and just report what they would do. You pass `--apply` when you are happy with the plan. In the editor the same plan appears as a table you review before you execute it.\n\nThe same principle governs the agent. Its edits to DITA files arrive as tracked changes attributed to it, and you accept or reject the changes.\n\n## The project is the unit {#the-project-is-the-unit}\n\nKeys, conrefs, maps and relationship tables describe how files relate. So the operations that matter work across all of them at once. Every reference to a topic, every use of a key, every condition value that the subject scheme disallows, every topic no map includes.\n\nThat is also why the agent is useful here. It is not simply editing text in a file - it is calling operations that already understand the project.\n\n## Where to start {#where-to-start}\n\n:::cards\n- **[Installing](./install){icon=\"download\"}**\n  Packages for Linux, macOS and Windows, or build from source.\n\n- **[Tutorial: fixing a DITA project by hand](./tutorial-manual){icon=\"rocket\"}**\n  Thirty minutes to find the issues in a real, deliberately broken project and fix one yourself.\n\n- **[Tutorial: using an agent to fix a DITA project](./tutorial-agentic){icon=\"sparkles\"}**\n  The same project, with the agent doing the repetitive part.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/dogsbay-xml-overview.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# DogsBay XML overview {#dogsbay-xml-overview}\n\nDogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed at writers who maintain complex documentation sets. The editor:\n\n- Validates against your grammar as you type\n- Resolves keys and reuse across the project\n- Refactors without breaking references\n- Publishes through DITA-OT\n- Runs AI agents that can use all the editor's features\n\n## Who it is for {#who-it-is-for}\n\nDogsBay XML is for technical writers who work in DITA or another documentation set where relationships between files matter. For example:\n\n- Keys that resolve differently in different maps\n- Topics reused by conref in three places\n- Conditionals that decide what a build contains\n\n## One engine, three interfaces {#one-engine-three-interfaces}\n\nThe editor's UI menus, the command line, and the MCP server for agents all run the exact same commands.\n\n## The project is the unit {#the-project-is-the-unit}\n\nKeys, conrefs, maps, and relationship tables describe how files relate. The operations that matter therefore work across all of them at once. They can find every reference to a topic, every use of a key, every condition value that the subject scheme disallows, and every topic that no map includes.\n\nThat project awareness also makes the agent useful. Instead of editing a file as plain text, the agent calls operations that already understand the project.\n\n## Nothing changes until you say so {#nothing-changes-until-you-say-so}\n\nThe modifications that an agent makes to DITA files arrive as tracked changes attributed to it, and you accept or reject the changes.\n\nRefactoring commands run as dry runs by default and report what they would do. Pass `--apply` when you are satisfied with the plan. In the editor, review the same plan in a table before you run it.\n\n## Where to start {#where-to-start}\n\n:::cards\n- **[Installing](./install){icon=\"download\"}**\n  Install packages for Linux, macOS, and Windows, or build from source.\n\n- **[Tutorial: fixing a DITA project by hand](./tutorial-manual){icon=\"rocket\"}**\n  Thirty minutes to find the issues in a real, deliberately broken project and fix one yourself.\n\n- **[Tutorial: using an agent to fix a DITA project](./tutorial-agentic){icon=\"sparkles\"}**\n  The same project, with the agent doing the repetitive part.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/dogsbay-xml-overview.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -99,29 +99,29 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <MarkdownContentStack>
     <article class="docs-prose">
       <h1 id="dogsbay-xml-overview" class="group scroll-mt-20">DogsBay XML overview<a href="#dogsbay-xml-overview" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
-      <p>DogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed at writers who maintain complex documentation sets.</p>
+      <p>DogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed at writers who maintain complex documentation sets. The editor:</p>
       <ul>
       <li>Validates against your grammar as you type</li>
       <li>Resolves keys and reuse across the project</li>
       <li>Refactors without breaking references</li>
       <li>Publishes through DITA-OT</li>
-      <li>Runs an AI agent that exposes all the features of the editor.</li>
+      <li>Runs AI agents that can use all the editor's features</li>
       </ul>
       <h2 id="who-it-is-for" class="group scroll-mt-20">Who it is for<a href="#who-it-is-for" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>A technical writer working in DITA or another docset large enough that the relationships between files matter:</p>
+      <p>DogsBay XML is for technical writers who work in DITA or another documentation set where relationships between files matter. For example:</p>
       <ul>
       <li>Keys that resolve differently in different maps</li>
       <li>Topics reused by conref in three places</li>
       <li>Conditionals that decide what a build contains</li>
       </ul>
       <h2 id="one-engine-three-interfaces" class="group scroll-mt-20">One engine, three interfaces<a href="#one-engine-three-interfaces" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>The editor's UI menus, the <code>dogsbay-xml</code> command line, and the MCP server that AI assistants connect to all run the exact same commands.</p>
-      <h2 id="nothing-changes-until-you-say-so" class="group scroll-mt-20">Nothing changes until you say so<a href="#nothing-changes-until-you-say-so" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>Refactorings are implemented as a dry run by default and just report what they would do. You pass <code>--apply</code> when you are happy with the plan. In the editor the same plan appears as a table you review before you execute it.</p>
-      <p>The same principle governs the agent. Its edits to DITA files arrive as tracked changes attributed to it, and you accept or reject the changes.</p>
+      <p>The editor's UI menus, the command line, and the MCP server for agents all run the exact same commands.</p>
       <h2 id="the-project-is-the-unit" class="group scroll-mt-20">The project is the unit<a href="#the-project-is-the-unit" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <p>Keys, conrefs, maps and relationship tables describe how files relate. So the operations that matter work across all of them at once. Every reference to a topic, every use of a key, every condition value that the subject scheme disallows, every topic no map includes.</p>
-      <p>That is also why the agent is useful here. It is not simply editing text in a file - it is calling operations that already understand the project.</p>
+      <p>Keys, conrefs, maps, and relationship tables describe how files relate. The operations that matter therefore work across all of them at once. They can find every reference to a topic, every use of a key, every condition value that the subject scheme disallows, and every topic that no map includes.</p>
+      <p>That project awareness also makes the agent useful. Instead of editing a file as plain text, the agent calls operations that already understand the project.</p>
+      <h2 id="nothing-changes-until-you-say-so" class="group scroll-mt-20">Nothing changes until you say so<a href="#nothing-changes-until-you-say-so" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <p>The modifications that an agent makes to DITA files arrive as tracked changes attributed to it, and you accept or reject the changes.</p>
+      <p>Refactoring commands run as dry runs by default and report what they would do. Pass <code>--apply</code> when you are satisfied with the plan. In the editor, review the same plan in a table before you run it.</p>
       <h2 id="where-to-start" class="group scroll-mt-20">Where to start<a href="#where-to-start" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
@@ -129,7 +129,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="./install" class="[text-decoration:none] text-foreground">
       <Icon name="download" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">Installing</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Packages for Linux, macOS and Windows, or build from source.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Install packages for Linux, macOS, and Windows, or build from source.</p>
       </a>
       </CardContent>
       </Card>
