@@ -10,6 +10,10 @@
   },
 
   "routes": [
+    // Both patterns, as the blog has: "/dogsbay-xml-docs/*" does not match the
+    // bare "/dogsbay-xml-docs", which would fall through to the apex worker and
+    // 404 — and that path is the documentation's home page.
+    { "pattern": "dogsbay.ai/dogsbay-xml-docs", "zone_name": "dogsbay.ai" },
     { "pattern": "dogsbay.ai/dogsbay-xml-docs/*", "zone_name": "dogsbay.ai" }
   ]
 }
