@@ -1,14 +1,14 @@
 ---
 title: The command line
-description: What dogsbay-xml can do, grouped by what you are trying to find out or change.
+description: Find the dogsbay-xml command for the information or change that you need.
 type: reference
 ---
 
 # The command line
 
-`dogsbay-xml` runs the same operations as the editor's menus. It is installed
-with the editor; see [the command line](/getting-started/install#the-command-line)
-for where it is and how to run it on a machine with no installer.
+`dogsbay-xml` runs the same operations as the editor's menus. The editor
+installation includes the command. See [The command line](/getting-started/install#the-command-line)
+to find it or to run it on a machine where you cannot use an installer.
 
 Most commands work on files and need nothing running. A few drive an editor
 that is already open, and those need the integration server.
@@ -25,8 +25,8 @@ Run `dogsbay-xml --help` for the full list, and
 
 | Command | What it does |
 |---|---|
-| `validate` | Validate against XSD, DTD or RelaxNG, resolving catalogs. DITA files fall back to the bundled DITA grammars. |
-| `parse` | Print the root element, namespace and encoding. |
+| `validate` | Validate against XSD, DTD, or RELAX NG, resolving catalogs. DITA files fall back to the bundled DITA grammars. |
+| `parse` | Print the root element, namespace, and encoding. |
 | `info` | Report encoding, grammar, root element and size. |
 | `query` | Run an XPath expression over a file or a glob. |
 | `transform` | Apply an XSLT stylesheet. |
@@ -36,19 +36,19 @@ Run `dogsbay-xml --help` for the full list, and
 
 ## Asking about the project
 
-These are the ones that answer questions a single file cannot.
+These commands answer questions about more than one file.
 
 | Command | What it answers |
 |---|---|
 | `where-used` | What references this file? |
 | `keys` | What keys does this root map define, and what do they resolve to? |
 | `check-links` | Which references point at something missing? |
-| `conref-audit` | Which reuse references name an element id that no longer exists? |
-| `health` | Broken references, undefined and unused keys, orphan topics. |
-| `project-health` | All of that, plus grammar validation, the metadata policy and open proposals. With `--schematron`, the project's house rules too. |
+| `conref-audit` | Which reuse references name an element ID that no longer exists? |
+| `health` | Broken references, undefined and unused keys, and orphaned topics. |
+| `project-health` | Report broken references, key problems, orphaned topics, grammar validation, metadata policy violations, and open proposals. With `--schematron`, also report the project's house rules. |
 
-`check-links`, `health` and `project-health` exit with a non-zero status when
-they find something, so they work as a pipeline gate.
+`check-links`, `health`, and `project-health` exit with a nonzero status when
+they find a problem, so they work as pipeline gates.
 
 ```bash
 dogsbay-xml project-health . --schematron house-style.sch
@@ -65,21 +65,21 @@ dogsbay-xml project-health . --schematron house-style.sch
 | `validate-ot` | Run DITA-OT preprocessing per deliverable, which catches key and conref resolution failures that static validation cannot. Requires DITA-OT. |
 | `schematron` | Apply a Schematron schema to one document. |
 | `schematron-project` | Apply one across a scope. |
-| `validate-conditions` | Report profiling values that the subject scheme does not sanction. |
+| `validate-conditions` | Report profiling values that the subject scheme does not allow. |
 
 ## Metadata
 
 | Command | What it does |
 |---|---|
 | `metadata-audit` | Report where required metadata is missing or wrong. |
-| `metadata-set` | Set, fill, append or remove fields in bulk, preserving the rest of the prolog. |
+| `metadata-set` | Set, fill, append, or remove fields in bulk, preserving the rest of the prolog. |
 | `metadata-export-schematron` | Compile the metadata policy to ISO Schematron, so the same rules run anywhere. |
 
 ## Surveying DITA features
 
 Each of these reports on one DITA mechanism across the project:
 `reltable-audit`, `list-branches`, `list-subjects`, `keyword-audit`,
-`index-audit`, `glossary-audit`, `conref-push-audit`, `chunk-audit` and
+`index-audit`, `glossary-audit`, `conref-push-audit`, `chunk-audit`, and
 `specialization-info`.
 
 ## Changing files
@@ -90,7 +90,7 @@ Reference-safe edits. All are dry-run first.
 |---|---|
 | `rename-file` | Rename a file and every reference to it. |
 | `rename-key` | Rename a key and every use of it. |
-| `rename-element-id` | Rename an element id, updating conrefs that point at it. |
+| `rename-element-id` | Rename an element ID, updating conrefs that point at it. |
 | `rename-profile-value` | Rename a profiling value, such as a platform or audience. |
 | `delete-file` | Delete safely, reporting inbound references first. |
 | `retarget` | Point every reference from one file at another. |
@@ -111,11 +111,11 @@ operation as their second argument, and both write unless you pass
 
 | Command | What it does |
 |---|---|
-| `build` | Build one deliverable or all of them with DITA-OT, with the transform type, conditions and parameters the project defines. |
+| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. |
 
 ## Driving a running editor
 
-These need the integration server, which you turn on in **File > Preferences >
+These need the integration server, which you turn on in **File > Settings >
 Server**.
 
 | Command | What it does |
@@ -130,12 +130,12 @@ Server**.
 
 | Command | What it does |
 |---|---|
-| `review` | List, accept, reject or comment on agent proposals in a document. |
+| `review` | List, accept, reject, or comment on agent proposals in a document. |
 | `sessions` | List the agent sessions connected to the editor. |
 | `agents` | List Agent Client Protocol agents and whether this machine can run them. |
 | `audit-log` | Show what agents changed in this project, newest first. |
 
 ## Projects
 
-`project create`, `project open`, `project list` and `project info` manage
+`project create`, `project open`, `project list`, and `project info` manage
 projects from the command line.

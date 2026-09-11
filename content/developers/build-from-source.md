@@ -1,14 +1,14 @@
 ---
 title: Building from source
-description: Build the editor with Gradle, and run the command line from a checkout or from the uber-jar on a machine with no installer.
+description: Build the editor with Gradle and run the command line from a checkout or an all-in-one JAR file.
 type: how-to
 ---
 
 # Building from source
 
-You need this page only if you are working on the editor itself, or running it
-somewhere an installer cannot go — a build server, a container, a CI job. If
-you just want to use DogsBay XML, [install a package](/getting-started/install).
+Use these instructions if you are working on the editor or running it where
+you cannot use an installer, such as a build server, container, or CI job. To
+use DogsBay XML without building it, [install a package](/getting-started/install).
 
 ## Building
 
@@ -29,7 +29,7 @@ Gradle, possibly a JDK, and the project's dependencies.
 |---|---|
 | `./gradlew run` | Start the editor |
 | `./gradlew test` | Run the test suite |
-| `./gradlew shadowJar` | Build the uber-jar |
+| `./gradlew shadowJar` | Build the all-in-one JAR file |
 | `./gradlew jpackage` | Build a native installer for the current platform |
 
 ## Running the command line from a checkout
@@ -47,10 +47,9 @@ and the script runs from `build/classes`.
 
 ## Running on a machine with no installer
 
-Each release attaches an uber-jar, which carries the editor and every
-dependency in one file and needs only a JDK 25 on the machine. This is the
-route for CI runners and containers, where an installer and a desktop are
-beside the point.
+Each release includes an all-in-one JAR file that contains the editor and its
+dependencies. The file requires only JDK 25 on the machine, so it is suitable
+for CI runners and containers that do not use an installer or desktop.
 
 Download `dogsbay-editor-<version>-all.jar` from the
 [releases page](https://github.com/dogsbay/dogsbay-xml/releases), then:
@@ -60,16 +59,16 @@ java -cp dogsbay-editor-4.0.0-beta.1-all.jar \
   com.dogsbay.dogsbayaieditor.cli.DogsBayCli project-health .
 ```
 
-The jar starts the editor under `java -jar`, so naming the CLI class is what
-selects the command line instead. A shell alias keeps it readable:
+The JAR file starts the editor when you use `java -jar`. Name the CLI class to
+run the command line instead. A shell alias shortens the command:
 
 ```bash
 alias dogsbay-xml='java -cp /opt/dogsbay-editor-all.jar com.dogsbay.dogsbayaieditor.cli.DogsBayCli'
 dogsbay-xml validate-deliverables .
 ```
 
-Everything in [the command line reference](/reference/cli) works this way,
-except the commands that drive a running editor.
+All commands in [the command line reference](/reference/cli) work this way,
+except commands that control a running editor.
 
 ## Related
 

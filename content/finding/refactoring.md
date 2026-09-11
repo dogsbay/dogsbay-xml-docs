@@ -1,14 +1,14 @@
 ---
 title: Refactoring
-description: Rename, move, split and restructure content without breaking the references that point at it.
+description: Rename, move, split, and restructure content without breaking its references.
 type: how-to
 ---
 
 # Refactoring
 
-A documentation set is a graph. Renaming a file, a key or an element id
-changes something other files point at, and the editor's refactorings exist so
-that the pointers move with the thing they point at.
+Files in a documentation set depend on one another. When you rename a file,
+key, or element ID, references in other files must change too. The editor's
+refactoring commands update those references.
 
 ## The rule that makes them safe
 
@@ -41,18 +41,18 @@ through a key, which are the ones a search would miss.
 
 ## What each refactoring is for
 
-**Moving and renaming**
+### Moving and renaming
 
 | Command | Use it when |
 |---|---|
 | `rename-file` | A file's name or location is wrong. |
 | `rename-key` | A key's name is wrong, or you are aligning a naming scheme. |
-| `rename-element-id` | An element id is wrong and conrefs point at it. |
+| `rename-element-id` | An element ID is wrong and conrefs point at it. |
 | `rename-profile-value` | A condition value changes, such as `mac` becoming `macos`. |
 | `delete-file` | A file should go. It reports inbound references first, so you find out before rather than after. |
 | `retarget` | Two files should become one: point every reference from one at the other. |
 
-**Changing how content is referenced**
+### Changing how content is referenced
 
 | Command | Use it when |
 |---|---|
@@ -63,7 +63,7 @@ through a key, which are the ones a search would miss.
 | `create-keydef` | You want a text key, such as a product name, defined once. |
 | `merge-keydefs` | A map's closure defines the same key more than once and only the first can win. |
 
-**Restructuring**
+### Restructuring
 
 | Command | Use it when |
 |---|---|
@@ -71,8 +71,8 @@ through a key, which are the ones a search would miss.
 
 ## A worked example
 
-Turning a hardcoded product name into a key, which is one of the problems
-planted in the sample project:
+This example turns a hardcoded product name into a key. It fixes one of the
+problems in the sample project.
 
 :::steps
 1. **Define the key**
@@ -103,16 +103,15 @@ planted in the sample project:
 
 ## When a refactoring refuses
 
-A refactoring that would create a broken reference reports the problem instead
-of doing it. That is the intended behaviour: the plan is the point, and a plan
-that cannot be carried out safely is worth seeing before it runs rather than
-finding in the output later.
+If a refactoring would create a broken reference, it reports the problem
+instead of making the change. Review the plan to find unsafe changes before
+they affect the output.
 
 ## Related
 
 :::cards
 - **[Validating a project](./validation)** {icon="check"}
-  Finding what needs fixing, and confirming it afterwards.
+  Find what needs fixing, and confirm the result.
 
 - **[Keys and reuse](/authoring/keys-and-reuse)** {icon="key"}
   The mechanisms these refactorings move between.

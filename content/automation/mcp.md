@@ -1,30 +1,29 @@
 ---
 title: Connecting an AI assistant
-description: Expose the editor's DITA operations to Claude Code, Claude Desktop or Cursor over MCP.
+description: Provide the editor's DITA operations to Claude Code, Claude Desktop, or Cursor over MCP.
 type: how-to
 ---
 
 # Connecting an AI assistant
 
-The editor can offer its operations to an AI assistant over the Model Context
+The editor can provide its operations to an AI assistant over the Model Context
 Protocol. The assistant then works on your project through the same commands
 the editor and the command line use, rather than by reading and rewriting
 files as text.
 
-This is different from the agents inside the editor. Here the assistant is
-somewhere else, in a terminal or a desktop app, and the editor is the tool
-provider.
+This setup differs from using an agent inside the editor. The assistant runs
+in a terminal or desktop application, and the editor provides the tools.
 
 ## Turn on the server
 
 The integration server is off by default.
 
 :::steps
-1. **Open the preferences**
-   Select **File > Preferences**.
+1. **Open the settings**
+   Select **File > Settings**.
 
 2. **Enable the server**
-   Go to the **Server** page and turn it on.
+   Select **Server**, and then enable the server.
 
 3. **Confirm it is listening**
    ```bash
@@ -53,18 +52,18 @@ Paste the configuration into the client's MCP settings, or run the command.
 
 ## What the assistant can do
 
-The tools cover the same ground as the command line, grouped roughly as:
+The tools support the same operations as the command line:
 
-- **Reading and validating** documents, including Schematron and project-wide
-  validation.
-- **Asking about the project**: where a file is used, what a key resolves to,
-  which references are broken, overall health.
-- **Refactoring**: renaming files, keys and ids, converting between direct
-  references and keys, extracting and inlining reuse, splitting topics.
-- **Editing maps and relationship tables** structurally.
-- **Driving the editor**: opening documents, moving the cursor, selecting
-  elements, reading the outline.
-- **Reviewing**: listing proposals, commenting, reading the audit log.
+- **Read and validate** documents, including Schematron and project-wide
+  validation
+- **Inspect the project** to find where a file is used, what a key resolves to,
+  which references are broken, and the project's overall health
+- **Refactor** by renaming files, keys, and IDs; converting between direct
+  references and keys; extracting and inlining reuse; and splitting topics
+- **Edit** the structure of maps and relationship tables
+- **Control the editor** by opening documents, moving the cursor, selecting
+  elements, and reading the outline
+- **Review** proposals, add comments, and read the audit log
 
 Every call is attributed to a session, so the audit log records which
 assistant did what.
@@ -77,14 +76,13 @@ Regenerating the token invalidates any client configured with the old one:
 dogsbay-xml status --reset-token
 ```
 
-The editor must be restarted afterwards, and clients need the new
-configuration.
+Restart the editor, and give clients the new configuration.
 
 ## Related
 
 :::cards
 - **[The agent, and what it may touch](/agent/overview)** {icon="shield"}
-  Tiers, the write gate and the audit log, which apply here too.
+  Tiers, the write gate, and the audit log, which also apply here.
 
 - **[The command line](/reference/cli)** {icon="terminal"}
   The same operations, without a client.

@@ -1,18 +1,18 @@
 ---
 title: "Tutorial: Using an agent to fix a DITA project"
-description: Open a real DITA project that has problems in it, find them with the project tools, and fix them with the AI agent.
+description: Open a DITA project with deliberate errors, find them with the project tools, and fix them with the AI agent.
 type: tutorial
 ---
 
 # Tutorial: Using an agent to fix a DITA project
 
-In this tutorial you inherit a documentation set that does not build cleanly,
-find out what is wrong with it, and fix part of it with the AI agent.
+In this tutorial, you inherit a documentation set that does not build cleanly,
+find its problems, and fix some of them with the AI agent.
 
 The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.
 
 **Time:** about 30 minutes.
-**You need:** DogsBay XML installed. See [Installing](./install). A subscription or API key for the agent section is useful but not required until then.
+**You need:** DogsBay XML. See [Installing](./install). You need a subscription or API key only when you reach the agent section.
 
 ## Step 1: Open the sample project
 
@@ -21,14 +21,14 @@ The project is a DITA user guide for the Audacity audio editor. It ships with th
    The editor asks where to put it.
 
 2. **Choose a location**
-   The sample is copied into a new `audacity-demo` folder inside the location
+   The editor copies the sample into a new `audacity-demo` folder inside the location
    you choose. It never uses the folder you chose as the project itself, and
    it never overwrites anything: if `audacity-demo` exists, the copy becomes
    `audacity-demo-2`.
 
 3. **Wait for the project to open**
-   The Topic Map explorer loads `audacity-guide.ditamap`, and publishing is
-   configured, without you setting anything up.
+   The Topic Maps panel loads `audacity-guide.ditamap`. The sample already
+   includes its publishing configuration.
 :::
 
 You now have your own copy to break further and repair.
@@ -37,27 +37,29 @@ You now have your own copy to break further and repair.
 
 :::steps
 1. **Open the AI Agent panel**
-   It is on the right-hand sidebar. The first tab is the built-in agent, which runs as you and needs no integration server.
+   Open **AI Agent** at the top of the right sidebar. The first tab is the built-in agent,
+   which runs with your authority and does not need the integration server.
 
 2. **Choose a provider and sign in**
    Use the provider bar at the top of the panel. The key is stored in your operating system keychain, not in the project.
 :::
 
-If you would rather drive Claude Code, Codex or Gemini from the panel instead, see [using a hosted agent](/agent/hosted-agents). A hosted session opens at tier T1 and needs the integration server; the built-in agent needs neither.
+If you prefer to control Claude Code, Codex, or Gemini from the panel, see [Using a hosted agent](/agent/hosted-agents). A hosted session opens at tier T1 and needs the integration server; the built-in agent needs neither.
 
 ## Step 3: Ask it to find and fix the problems
 
-Fixing thirty topics by hand is the wrong tool. This is what the agent is for.
+An agent can handle repetitive updates across many topics.
 
 :::steps
 1. **Ask for the survey first**
-   Something like: *Run a project health check on this project, applying house-style.sch, and summarise what is wrong, grouped by kind.* The agent calls the same `project-health` operation the command line does, so the answer is the project's, not a guess from reading a few files. Naming the schema matters: the missing shortdescs are a house rule, and the check only applies one when it is given.
+   For example: *Run a project health check on this project, apply house-style.sch, and summarize the problems by kind.* The agent calls the same `project-health` operation as the command line, so the results cover the project instead of a few files. Name the schema because missing short descriptions are a house rule, and the check applies a schema only when you provide one.
 
 2. **Pick one kind of problem**
    *Add a one-sentence shortdesc to every topic that has none.* Naming one kind at a time keeps the review in the next step manageable.
 
 3. **Watch the panel while it works**
-   Each operation it calls is listed as it runs, so you can see it is calling the editor's DITA commands rather than rewriting files as text.
+   The panel lists each operation as it runs. You can verify that the agent is
+   calling the editor's DITA commands instead of rewriting files as text.
 :::
 
 The agent works across the project rather than opening each file in turn, because it has the editor's project operations available to it.
@@ -68,7 +70,7 @@ The agent's edits do not overwrite your files. They arrive as tracked changes.
 
 :::steps
 1. **Open the Proposals panel**
-   Each proposed change is listed with the identity that made it.
+   The panel lists each proposed change with the identity that made it.
 
 2. **Select one**
    The editor jumps to the affected part of the document and shows the change
@@ -94,9 +96,9 @@ the subject scheme, and the topic that is too long and should be split.
 ## What you learned
 
 - The sample project is a copy, so you can experiment freely.
-- Problems are found at project level, not file by file.
+- Project-level checks find problems across files.
 - The agent calls the editor's own DITA operations rather than editing text.
-- Its changes are reviewable before they land: it proposes, you decide.
+- You review the agent's proposed changes and decide whether to accept them.
 
 ## Where to go next
 
