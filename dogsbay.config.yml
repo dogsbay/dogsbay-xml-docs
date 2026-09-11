@@ -25,7 +25,7 @@ agent:
     # reserved in an appropriate manner" for the TDM exception not to apply.
     # ai-train: no alone is a preference; this preamble is what makes it a
     # reservation. Safe to emit only because Cloudflare's managed robots.txt is
-    # disabled on this zone, as it is for the blog — with both on, the served
+    # disabled on this zone, as it is for the blog. With both on, the served
     # file carries two User-agent groups and two conflicting Content-Signal
     # lines.
     preamble: true

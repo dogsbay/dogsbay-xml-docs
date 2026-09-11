@@ -25,3 +25,13 @@ astro/.astro/
 #
 # AT RELEASE, reverse this: pin exact versions and commit the lockfile.
 astro/pnpm-lock.yaml
+
+# Working material, not for publication: planning notes and agent scratch.
+# Tracked history for plans/ is left in place; only future changes are hidden.
+plans/
+.claude/
+CLAUDE.md
+*.local
+*.local.*
+.env
+.env.*
