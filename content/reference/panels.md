@@ -48,6 +48,8 @@ Available actions include Stage All, Commit, Commit All, Commit Staged, Amend La
 
 **Merge Branch** brings another local branch into the one you are on. This is the step after an agent has finished work on a branch and you have reviewed it. It refuses to start if the working tree has uncommitted changes, since a merge rewrites the files it brings in. A merge that ends in conflicts leaves the markers in the files and names them, for you to resolve, stage and commit; `git merge --abort` in the Terminal puts things back.
 
+Right-click a file in the Changes list for **Open**, **Stage**, **Unstage** and **Discard Changes**. From the keyboard, select the file and press Shift+F10 or the Menu key.
+
 **Discard Changes** puts a tracked file back to its last commit. A new file has no commit to go back to, so discarding it deletes it. The menu says **Delete New File** when that is all it would do, and the confirmation lists what is reverted and what is removed under separate headings. Conflicted files and staged deletions are left alone. A conflicted file holds a merge in progress, and a staged deletion is a tracked file whose removal you have staged, so its content is still in the last commit and the deletion is undone by unstaging rather than by discarding.
 
 **Delete Branch** removes a local branch. When its commits are already in the branch you are on, it says so and deletes cleanly. When they are not, it says that instead and asks again, because deleting then loses that work.
