@@ -94,6 +94,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -101,25 +102,25 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="conditional-content" class="group scroll-mt-20">Conditional content<a href="#conditional-content" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="conditional-content" class="group scroll-mt-20">Conditional content<a href="#conditional-content" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>Conditional content enables one source to produce several outputs, such as a Windows guide and a macOS guide from the same topics, or beginner and expert versions. You mark content with profiling attributes, and a DITAVAL file decides what each build includes.</p>
       <p>The challenge is keeping the values consistent.</p>
-      <h2 id="marking-content" class="group scroll-mt-20">Marking content<a href="#marking-content" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="marking-content" class="group scroll-mt-20">Marking content<a href="#marking-content" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Profiling attributes such as <code>platform</code>, <code>audience</code> and <code>product</code> go on any element. The editor knows which values are in use in the project, so you are choosing from what exists rather than typing a new one by accident.</p>
-      <h2 id="filtering-a-build" class="group scroll-mt-20">Filtering a build<a href="#filtering-a-build" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="filtering-a-build" class="group scroll-mt-20">Filtering a build<a href="#filtering-a-build" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A DITAVAL file lists which values to include and exclude. The sample project keeps them in <code>filters/</code>:</p>
       <CodeBlock code={"filters/platform-macos.ditaval\nfilters/platform-windows.ditaval\nfilters/mac-beginner.ditaval"} lang="plaintext" />
       <p>A DITAVAL affects more than the text that survives. It also conditions the key space, so a key can resolve to different targets in different builds:</p>
       <CodeBlock code={"dogsbay-xml keys audacity-guide.ditamap --ditaval filters/platform-macos.ditaval"} lang="bash" />
-      <h2 id="branch-filtering" class="group scroll-mt-20">Branch filtering<a href="#branch-filtering" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="branch-filtering" class="group scroll-mt-20">Branch filtering<a href="#branch-filtering" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>DITA 1.3 lets a map apply a DITAVAL to one branch, with <code>ditavalref</code>, so the same topics appear more than once in one map under different conditions. That is how one map produces a Windows chapter and a macOS chapter.</p>
       <p>To see the variants a map produces:</p>
       <CodeBlock code={"dogsbay-xml list-branches audacity-guide.ditamap"} lang="bash" />
       <p>Branch filtering is resolved by DITA-OT at build time. The editor shows you the variants a map declares; it does not itself produce a filtered build.</p>
-      <h2 id="the-problem-with-uncontrolled-values" class="group scroll-mt-20">The problem with uncontrolled values<a href="#the-problem-with-uncontrolled-values" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="the-problem-with-uncontrolled-values" class="group scroll-mt-20">The problem with uncontrolled values<a href="#the-problem-with-uncontrolled-values" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Nothing in DITA stops you from writing <code>platform="macos"</code> in one topic and <code>platform="mac"</code> in another. Both are valid XML and both validate against the grammar.</p>
       <p>The build then silently drops the topic that uses the value your DITAVAL does not mention. The build reports no error, but the output is missing a step. A reader might be the first person to notice.</p>
-      <h2 id="controlling-values-with-a-subject-scheme" class="group scroll-mt-20">Controlling values with a subject scheme<a href="#controlling-values-with-a-subject-scheme" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="controlling-values-with-a-subject-scheme" class="group scroll-mt-20">Controlling values with a subject scheme<a href="#controlling-values-with-a-subject-scheme" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A subject scheme map declares which values an attribute may take. It turns a typo from an invisible content loss into something you can find.</p>
       <p>To see what a scheme allows:</p>
       <CodeBlock code={"dogsbay-xml list-subjects keydefs-glossary.ditamap"} lang="bash" />
@@ -127,11 +128,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <CodeBlock code={"dogsbay-xml validate-conditions . --map audacity-guide.ditamap"} lang="bash" />
       <p>The command scans the map's publication set and reports every profiling value that the scheme does not allow. It exits with a nonzero status when it finds any, so it works as a pipeline gate.</p>
       <p>Use <code>--scope</code> to limit the scan to one map, a glob, or the project root.</p>
-      <h2 id="renaming-a-value-everywhere" class="group scroll-mt-20">Renaming a value everywhere<a href="#renaming-a-value-everywhere" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="renaming-a-value-everywhere" class="group scroll-mt-20">Renaming a value everywhere<a href="#renaming-a-value-everywhere" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>When a value does need to change, change it as a refactoring rather than by search and replace, so every use moves together:</p>
       <CodeBlock code={"dogsbay-xml rename-profile-value platform mac macos --root .\ndogsbay-xml rename-profile-value platform mac macos --root . --apply"} lang="bash" />
       <p>The first prints the plan; the second applies it.</p>
-      <h2 id="a-useful-order" class="group scroll-mt-20">A useful order<a href="#a-useful-order" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="a-useful-order" class="group scroll-mt-20">A useful order<a href="#a-useful-order" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Steps>
       <Step>
       <strong>Declare the vocabulary</strong> Write the subject scheme first, so the values exist before content uses them.
@@ -143,7 +144,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <strong>Add the check to your pipeline</strong> It exits with a nonzero status, so a build fails on a new typo rather than shipping without the content.
       </Step>
       </Steps>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

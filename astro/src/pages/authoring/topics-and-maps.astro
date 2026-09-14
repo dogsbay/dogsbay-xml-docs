@@ -90,6 +90,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -97,16 +98,16 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="topics-and-maps" class="group scroll-mt-20">Topics and maps<a href="#topics-and-maps" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="topics-and-maps" class="group scroll-mt-20">Topics and maps<a href="#topics-and-maps" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>A DITA project is topics plus the maps that assemble them. The editor gives you two ways to write a topic and two ways to change a map.</p>
-      <h2 id="writing-a-topic" class="group scroll-mt-20">Writing a topic<a href="#writing-a-topic" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="writing-a-topic" class="group scroll-mt-20">Writing a topic<a href="#writing-a-topic" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Each open document offers more than one view of the same file. Switch between them with <strong>View &gt; Document Views</strong>.</p>
       <p><strong>Editor</strong> shows the XML source. The document's declared grammar controls completion, and the view provides folding and validation errors in the margin.</p>
       <p><strong>Author</strong> shows the topic as blocks rather than tags: titles, paragraphs, notes, lists, tables, and figures, with the structure visible at the edge. The insert menu offers only what the content model allows at the cursor, so a topic that has its title is not offered a second one.</p>
       <p>Both views edit the same document. Switching carries your place across, and undo is shared, so a change made in one view can be undone in the other.</p>
       <p>The Author view preserves markup that it does not visualize, such as conditional attributes or unusual elements.</p>
       <p><strong>Author split</strong> shows source and blocks side by side, which is useful while you are learning what a block corresponds to.</p>
-      <h2 id="assembling-a-map" class="group scroll-mt-20">Assembling a map<a href="#assembling-a-map" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="assembling-a-map" class="group scroll-mt-20">Assembling a map<a href="#assembling-a-map" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The <strong>Topic Maps</strong> panel in the left sidebar shows the map as a tree. Open a map to see its topic references, nested maps and relationship tables.</p>
       <p>To change the structure, edit the map in the panel, or use <code>edit-map</code> from the command line for a change you want to script or repeat:</p>
       <CodeBlock code={"dogsbay-xml edit-map audacity-guide.ditamap insert \\\n  --parent / --href topics/new-topic.dita --navtitle \"New topic\""} lang="bash" />
@@ -117,7 +118,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p><code>edit-map</code> writes unless you pass <code>--dry-run</code>, which is the opposite of the refactoring commands. Those print a plan and do nothing until you pass <code>--apply</code>.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="before-you-rename-or-move-anything" class="group scroll-mt-20">Before you rename or move anything<a href="#before-you-rename-or-move-anything" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="before-you-rename-or-move-anything" class="group scroll-mt-20">Before you rename or move anything<a href="#before-you-rename-or-move-anything" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Ask what depends on it first:</p>
       <CodeBlock code={"dogsbay-xml where-used topics/installing-audacity.dita --root ."} lang="bash" />
       <p>The report covers references from maps, conrefs, links, and images. Add <code>--map</code> to include references that reach the file indirectly through a key:</p>
@@ -131,10 +132,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>Renaming a topic in a file manager leaves every reference to it pointing to a file that is no longer there. <code>check-links</code> finds those broken references after the fact, but renaming through the editor avoids creating them.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="splitting-a-topic-that-grew" class="group scroll-mt-20">Splitting a topic that grew<a href="#splitting-a-topic-that-grew" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="splitting-a-topic-that-grew" class="group scroll-mt-20">Splitting a topic that grew<a href="#splitting-a-topic-that-grew" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>You can split a topic at its sections and update the map to include the new files:</p>
       <CodeBlock code={"dogsbay-xml split-topic topics/editing-techniques.dita --apply"} lang="bash" />
-      <h2 id="checking-the-result" class="group scroll-mt-20">Checking the result<a href="#checking-the-result" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="checking-the-result" class="group scroll-mt-20">Checking the result<a href="#checking-the-result" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <CodeBlock code={"dogsbay-xml project-health ."} lang="bash" />
       <p>A clean report means references resolve, keys are defined and used, no topic is orphaned, and every file validates against its grammar.</p>
     </article>

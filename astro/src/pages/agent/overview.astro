@@ -101,6 +101,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -108,18 +109,18 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="the-agent-and-what-it-may-touch" class="group scroll-mt-20">The agent, and what it may touch<a href="#the-agent-and-what-it-may-touch" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="the-agent-and-what-it-may-touch" class="group scroll-mt-20">The agent, and what it may touch<a href="#the-agent-and-what-it-may-touch" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>DogsBay XML can run two kinds of AI agent, and the difference matters more than it first appears.</p>
       <p>The <strong>built-in agent</strong> runs inside the editor. You choose a provider, DogsBay XML holds the conversation, and the agent calls the editor's own operations directly.</p>
       <p>A <strong>hosted agent</strong> is a separate program that you already use, such as Claude Code, Codex, Gemini CLI, OpenCode, or Goose. The editor starts it, communicates with it over the Agent Client Protocol, and gives it access to the editor's DITA tools. The agent keeps its own sign-in and model, so your subscription applies.</p>
       <p><a href="./choosing">Which agent to use</a> compares the two; this page is about what either of them may touch.</p>
       <p>Both appear in the <strong>AI Agent</strong> panel on the right. The built-in agent is the first tab; each hosted agent you start gets a tab of its own.</p>
-      <h2 id="why-the-agent-understands-dita" class="group scroll-mt-20">Why the agent understands DITA<a href="#why-the-agent-understands-dita" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="why-the-agent-understands-dita" class="group scroll-mt-20">Why the agent understands DITA<a href="#why-the-agent-understands-dita" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Whichever kind you use, the agent does not get a text editor and a folder of files. It receives the operations that the editor runs. For example, it can validate a document against its grammar, list the keys in a map's key space, find everything that references a topic, rename a key across the project, and audit the project's health.</p>
       <p>Two consequences follow. The agent can act on a whole project without opening every file, and a change it makes goes through the same code as the equivalent menu command, so it obeys the same rules.</p>
-      <h2 id="what-limits-an-agent" class="group scroll-mt-20">What limits an agent<a href="#what-limits-an-agent" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-limits-an-agent" class="group scroll-mt-20">What limits an agent<a href="#what-limits-an-agent" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Three mechanisms apply, in this order.</p>
-      <h3 id="capability-tier" class="group scroll-mt-20">Capability tier<a href="#capability-tier" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="capability-tier" class="group scroll-mt-20">Capability tier<a href="#capability-tier" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>You choose a tier when a hosted agent session opens. The agent never chooses it.</p>
       <Table class="my-4">
       <TableHeader>
@@ -150,19 +151,19 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>Some agents read and write the disk themselves, through their own tools, regardless of what the editor offers. Where that is true the session is Tier 3 by construction and the badge says so. The tier limits what the editor lends the agent; it cannot limit what the agent already has.</p>
         </AlertDescription>
       </Alert>
-      <h3 id="the-write-gate" class="group scroll-mt-20">The write gate<a href="#the-write-gate" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="the-write-gate" class="group scroll-mt-20">The write gate<a href="#the-write-gate" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Every change from an agent session passes one checkpoint, which applies three tests.</p>
       <p><strong>Containment.</strong> A hosted or external agent can write only inside the open project. The editor resolves symbolic links first, so a link out of the project does not become a way around it.</p>
       <p><strong>Conflict.</strong> To write a document, an agent must first read it during the current session. The agent can write only while the document still contains what it read. If the file changed underneath it, the write is refused and the agent is told to read again. The refusal includes the current content so that the agent can read it.</p>
       <p><strong>Lease.</strong> Only one agent session can hold a document at a time. Leases expire, so an agent that crashes does not hold a file forever. You are never leased and never refused.</p>
-      <h3 id="proposals" class="group scroll-mt-20">Proposals<a href="#proposals" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="proposals" class="group scroll-mt-20">Proposals<a href="#proposals" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>When an agent edits a DITA file, the editor records the edit as a tracked change instead of applying it silently. You accept or reject it in the <strong>Proposals</strong> panel. See <a href="./proposals">Reviewing an agent's changes</a>.</p>
-      <h2 id="what-is-recorded" class="group scroll-mt-20">What is recorded<a href="#what-is-recorded" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-is-recorded" class="group scroll-mt-20">What is recorded<a href="#what-is-recorded" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The editor appends agent commands to an audit log in the project at <code>.dogsbay/agent-audit/commands.jsonl</code>. Each line records the time, the session, its identity, the command, the files, whether it was a dry run, and the outcome.</p>
       <p>The log does not record your commands or tokens. When the editor creates the log, it excludes the file from version control so that the log does not reach the team repository.</p>
       <p>To read it, select <strong>Project &gt; Agent activity</strong>, or run:</p>
       <CodeBlock code={"dogsbay-xml audit-log"} lang="bash" />
-      <h3 id="session-transcripts" class="group scroll-mt-20">Session transcripts<a href="#session-transcripts" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="session-transcripts" class="group scroll-mt-20">Session transcripts<a href="#session-transcripts" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The audit log records what the agent did, and the transcript records the conversation. The log identifies the command that touched each file. The transcript contains your requests and the agent's responses.</p>
       <p>Each conversation with the built-in agent is a file in <code>~/.xagent/sessions</code>, outside the project, so nothing reaches the team repository.</p>
       <p>Select <strong>Sessions</strong> in the AI Agent panel, or type <code>/sessions</code>, to see every session with its date and name. You can resume a session, start a new one, or delete one. You cannot delete the conversation in progress because the agent is still writing to it.</p>
@@ -174,7 +175,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>This history belongs to the built-in agent. A hosted agent keeps its own history. The <code>dogsbay-xml sessions</code> command lists sessions that are connected to a running editor, not transcripts on disk.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="what-each-kind-of-agent-needs" class="group scroll-mt-20">What each kind of agent needs<a href="#what-each-kind-of-agent-needs" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-each-kind-of-agent-needs" class="group scroll-mt-20">What each kind of agent needs<a href="#what-each-kind-of-agent-needs" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -208,9 +209,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Table>
       <p>The integration server is off until you turn it on in <strong>File &gt; Settings &gt; Server</strong>.</p>
       <p>Subscriptions work on both sides, but not the same ones. The built-in agent can sign in to ChatGPT, which is the one subscription it supports. For Anthropic and Google, it requires an API key. A hosted agent uses its own sign-in, so a Claude Code or Codex subscription reaches the editor through the agent rather than through DogsBay XML. When an agent offers both methods, the editor prefers browser sign-in over an API key. It passes a saved key only when you request it.</p>
-      <h3 id="seeing-and-removing-what-is-stored" class="group scroll-mt-20">Seeing and removing what is stored<a href="#seeing-and-removing-what-is-stored" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="seeing-and-removing-what-is-stored" class="group scroll-mt-20">Seeing and removing what is stored<a href="#seeing-and-removing-what-is-stored" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The gear in the AI Agent panel opens the provider settings, which say what is stored for the provider you have selected: a key, a ChatGPT sign-in, or nothing. The key box is always blank, so this line is the only way to tell. <strong>Forget key</strong> removes that provider's key, <strong>Sign out</strong> ends the ChatGPT sign-in, and <strong>Forget all sign-ins</strong> clears every one of them at once. None of them touch your sessions. The transcripts stay where they are, and you sign in again to carry on.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

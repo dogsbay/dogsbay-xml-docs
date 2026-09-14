@@ -102,6 +102,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -109,9 +110,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="installing" class="group scroll-mt-20">Installing<a href="#installing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="installing" class="group scroll-mt-20">Installing<a href="#installing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>DogsBay XML runs on Linux, macOS, and Windows.</p>
-      <h2 id="installing-from-a-package" class="group scroll-mt-20">Installing from a package<a href="#installing-from-a-package" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="installing-from-a-package" class="group scroll-mt-20">Installing from a package<a href="#installing-from-a-package" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Each installer bundles its own Java runtime, so no separate JDK is required.</p>
       <Steps>
       <Step>
@@ -124,7 +125,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <strong>Start the editor</strong> The Welcome tab opens. From there you can open the sample project, which is where the <a href="./tutorial-manual">tutorial</a> starts.
       </Step>
       </Steps>
-      <h2 id="the-command-line" class="group scroll-mt-20">The command line<a href="#the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="the-command-line" class="group scroll-mt-20">The command line<a href="#the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The installers put a <code>dogsbay-xml</code> executable beside the editor, so the command line requires neither a JDK nor a running editor.</p>
       <p>Add its directory to your <code>PATH</code> to run it by name:</p>
       <Tabs defaultValue="Linux" class="my-4">
@@ -148,7 +149,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Tabs>
       <p>Some commands work entirely on files and need nothing else. Commands that control a running editor, such as <code>open</code> or <code>screenshot</code>, also need the integration server.</p>
       <p>To build the editor or run the command line where you cannot use an installer, see <a href="/dogsbay-xml-docs/developers/build-from-source">Building from source</a>.</p>
-      <h2 id="uninstalling" class="group scroll-mt-20">Uninstalling<a href="#uninstalling" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="uninstalling" class="group scroll-mt-20">Uninstalling<a href="#uninstalling" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Removing the application leaves your settings and the agent's history in place, so that reinstalling puts you back where you were.</p>
       <Tabs defaultValue="Linux" class="my-4">
         <TabsList>
@@ -166,7 +167,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>Remove <strong>DogsBay XML</strong> in <strong>Settings &gt; Apps &gt; Installed apps</strong>.</p>
         </TabsContent>
       </Tabs>
-      <h3 id="removing-your-data-as-well" class="group scroll-mt-20">Removing your data as well<a href="#removing-your-data-as-well" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="removing-your-data-as-well" class="group scroll-mt-20">Removing your data as well<a href="#removing-your-data-as-well" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <Alert variant="warning" class="my-4">
         <AlertTitle>Warning</AlertTitle>
         <AlertDescription>
@@ -190,7 +191,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <CodeBlock code={"Remove-Item -Recurse \"$HOME\\.dogsbay\", \"$HOME\\.xagent\", \"$env:LOCALAPPDATA\\dogsbay\""} lang="powershell" />
         </TabsContent>
       </Tabs>
-      <h3 id="where-your-sign-ins-are-kept" class="group scroll-mt-20">Where your sign-ins are kept<a href="#where-your-sign-ins-are-kept" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="where-your-sign-ins-are-kept" class="group scroll-mt-20">Where your sign-ins are kept<a href="#where-your-sign-ins-are-kept" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The agent stores your ChatGPT sign-in and any API keys in one of two places, and which one depends on the machine.</p>
       <p><strong>The operating system's credential store</strong>, when there is one. This is the usual case, and it survives removing the application, so deleting the directories above does not sign you out.</p>
       <p><strong>Files under </strong><code>~/.xagent</code>, when no credential store is available. This happens on a machine with no keyring running, and on some headless and remote sessions. The ChatGPT sign-in goes to <code>~/.xagent/auth.json</code>, and an API key you asked the editor to remember goes to <code>~/.xagent/settings.json</code> <strong>in plain text</strong>. The agent tells you which it used at the time it saves a key.</p>
@@ -221,7 +222,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>This is why the agent can still answer after what looks like a clean install: the settings are gone, but the sign-in is not.</p>
         </AlertDescription>
       </Alert>
-      <h3 id="what-each-directory-holds" class="group scroll-mt-20">What each directory holds<a href="#what-each-directory-holds" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="what-each-directory-holds" class="group scroll-mt-20">What each directory holds<a href="#what-each-directory-holds" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -263,11 +264,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h3 id="starting-fresh-without-uninstalling" class="group scroll-mt-20">Starting fresh without uninstalling<a href="#starting-fresh-without-uninstalling" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="starting-fresh-without-uninstalling" class="group scroll-mt-20">Starting fresh without uninstalling<a href="#starting-fresh-without-uninstalling" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>To see what a new reader sees, keep the application and delete the settings:</p>
       <CodeBlock code={"rm -rf ~/.dogsbay ~/.cache/dogsbay"} lang="bash" />
       <p>The editor writes a new <code>~/.dogsbay/settings.xml</code> on the next start, and re-extracts the grammars it needs. Leave <code>~/.xagent</code> alone to keep your sign-in and your conversations.</p>
-      <h2 id="turning-on-the-integration-server" class="group scroll-mt-20">Turning on the integration server<a href="#turning-on-the-integration-server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="turning-on-the-integration-server" class="group scroll-mt-20">Turning on the integration server<a href="#turning-on-the-integration-server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>AI assistants and live-editor commands connect to the integration server. The server is off until you turn it on.</p>
       <Steps>
       <Step>

@@ -97,6 +97,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -104,14 +105,14 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="panel-reference" class="group scroll-mt-20">Panel reference<a href="#panel-reference" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="panel-reference" class="group scroll-mt-20">Panel reference<a href="#panel-reference" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>The editor has two sidebars and a bottom bar. Use <strong>View &gt; Appearance</strong> to show or hide them with Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.</p>
       <p>Most panels come from plugins. You can turn off each plugin individually in <strong>File &gt; Settings &gt; Plugins</strong>. When you disable a panel's plugin, the panel does not appear at all.</p>
-      <h2 id="left-sidebar" class="group scroll-mt-20">Left sidebar<a href="#left-sidebar" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <h3 id="explorer" class="group scroll-mt-20">Explorer<a href="#explorer" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h2 id="left-sidebar" class="group scroll-mt-20">Left sidebar<a href="#left-sidebar" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <h3 id="explorer" class="group scroll-mt-20">Explorer<a href="#explorer" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The file tree for the open folder. Always present; it is not a plugin.</p>
       <p>Open, rename, move, and delete files, and drag a file onto an agent's chat box to attach it.</p>
-      <h3 id="search" class="group scroll-mt-20">Search<a href="#search" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="search" class="group scroll-mt-20">Search<a href="#search" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Find and replace across the project.</p>
       <Table class="my-4">
       <TableHeader>
@@ -148,7 +149,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Filters take comma-separated globs, such as <code>*.xml,*.java</code> to include, or <code>target/**,*.class</code> to exclude.</p>
-      <h3 id="git" class="group scroll-mt-20">Git<a href="#git" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="git" class="group scroll-mt-20">Git<a href="#git" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Version control for the project. The panel lists changed files and stages them individually or together.</p>
       <p>Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.</p>
       <p><strong>Merge Branch</strong> brings another local branch into the one you are on. This is the step after an agent has finished work on a branch and you have reviewed it. It refuses to start if the working tree has uncommitted changes, since a merge rewrites the files it brings in. A merge that ends in conflicts leaves the markers in the files and names them, for you to resolve, stage and commit; <code>git merge --abort</code> in the Terminal puts things back.</p>
@@ -156,12 +157,12 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <p><strong>Discard Changes</strong> puts a tracked file back to its last commit. A new file has no commit to go back to, so discarding it deletes it. The menu says <strong>Delete New File</strong> when that is all it would do, and the confirmation lists what is reverted and what is removed under separate headings. Conflicted files and staged deletions are left alone. A conflicted file holds a merge in progress, and a staged deletion is a tracked file whose removal you have staged, so its content is still in the last commit and the deletion is undone by unstaging rather than by discarding.</p>
       <p><strong>Delete Branch</strong> removes a local branch. When its commits are already in the branch you are on, it says so and deletes cleanly. When they are not, it says that instead and asks again, because deleting then loses that work.</p>
       <p>Authentication uses your system Git configuration, so a repository you can already push to from a terminal works here.</p>
-      <h3 id="topic-maps" class="group scroll-mt-20">Topic Maps<a href="#topic-maps" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="topic-maps" class="group scroll-mt-20">Topic Maps<a href="#topic-maps" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The panel shows the DITA map as a tree of topic references, nested maps, and relationship tables. The DITA plugin provides this panel.</p>
       <p>Use Open DITA Map, Refresh Map, Collapse All, and Publish DITA Map. Publish DITA Map builds through DITA-OT.</p>
-      <h3 id="xpath-query" class="group scroll-mt-20">XPath Query<a href="#xpath-query" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="xpath-query" class="group scroll-mt-20">XPath Query<a href="#xpath-query" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Run an XPath expression across files and list the matches. The panel uses the same comma-separated glob filters as Search, with Stop and Clear for long runs.</p>
-      <h3 id="where-used" class="group scroll-mt-20">Where Used<a href="#where-used" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="where-used" class="group scroll-mt-20">Where Used<a href="#where-used" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Find what depends on a file or key before you rename it.</p>
       <Table class="my-4">
       <TableHeader>
@@ -186,36 +187,36 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>The index covers references from maps, conrefs, links, and images. With a root map configured it also finds references that reach a file indirectly through a key, which a text search cannot.</p>
-      <h3 id="bookmarks" class="group scroll-mt-20">Bookmarks<a href="#bookmarks" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="bookmarks" class="group scroll-mt-20">Bookmarks<a href="#bookmarks" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Places you marked, with Delete Bookmark to remove them. Mark and unmark from <strong>Utilities &gt; Toggle Bookmark</strong>.</p>
-      <h2 id="right-sidebar" class="group scroll-mt-20">Right sidebar<a href="#right-sidebar" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="right-sidebar" class="group scroll-mt-20">Right sidebar<a href="#right-sidebar" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The agent and its proposals are at the top, because that is where most work starts.</p>
-      <h3 id="ai-agent" class="group scroll-mt-20">AI Agent<a href="#ai-agent" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="ai-agent" class="group scroll-mt-20">AI Agent<a href="#ai-agent" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The agent panel, as tabs. The first is the built-in agent; each hosted agent you start gets its own, with its capability tier shown as a badge.</p>
       <p>The tab's context menu contains Rename session, Export transcript, Copy transcript, and Close session. The add button lists agents that this machine can run and provides Refresh agent registry and an install action.</p>
       <p>The built-in agent's tab has a <strong>Sessions</strong> button, which lists every past conversation with its date and name. You can resume a conversation, start a new one, or delete one. Right-click or double-click the tab to rename the conversation. See <a href="/dogsbay-xml-docs/agent/overview#session-transcripts">session transcripts</a>.</p>
       <p>See <a href="/dogsbay-xml-docs/agent/overview">the agent</a>.</p>
-      <h3 id="proposals" class="group scroll-mt-20">Proposals<a href="#proposals" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="proposals" class="group scroll-mt-20">Proposals<a href="#proposals" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Changes an agent has proposed, waiting for your decision: Accept, Reject, Accept all, Reject all, and Resolve for comments. Selecting one moves the editor to the affected part of the document.</p>
       <p>See <a href="/dogsbay-xml-docs/agent/proposals">reviewing an agent's changes</a>.</p>
-      <h3 id="outline" class="group scroll-mt-20">Outline<a href="#outline" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="outline" class="group scroll-mt-20">Outline<a href="#outline" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The panel shows the structure of the active document as a tree. Select an item to navigate to it. The structure follows the document type, so a Markdown file uses headings and an XML file uses elements.</p>
-      <h3 id="metadata" class="group scroll-mt-20">Metadata<a href="#metadata" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="metadata" class="group scroll-mt-20">Metadata<a href="#metadata" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The metadata on the current topic, with Refresh and Normalize to bring it in line with the project's policy. This panel comes from the DITA plugin. See <a href="/dogsbay-xml-docs/authoring/metadata">metadata</a>.</p>
-      <h3 id="properties-navigator-and-helper" class="group scroll-mt-20">Properties, Navigator, and Helper<a href="#properties-navigator-and-helper" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="properties-navigator-and-helper" class="group scroll-mt-20">Properties, Navigator, and Helper<a href="#properties-navigator-and-helper" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>These panels provide document properties, navigation aids, and context-sensitive help for the markup at the cursor.</p>
-      <h2 id="bottom-panel" class="group scroll-mt-20">Bottom panel<a href="#bottom-panel" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="bottom-panel" class="group scroll-mt-20">Bottom panel<a href="#bottom-panel" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The tabs are Errors, Project Validation, Terminal, and Inspector.</p>
-      <h3 id="errors" class="group scroll-mt-20">Errors<a href="#errors" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="errors" class="group scroll-mt-20">Errors<a href="#errors" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Validation results for the document in front. Selecting an entry jumps to the place it refers to.</p>
-      <h3 id="project-validation" class="group scroll-mt-20">Project Validation<a href="#project-validation" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="project-validation" class="group scroll-mt-20">Project Validation<a href="#project-validation" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Results from a project-wide run, such as <strong>Project &gt; Validate &gt; Project</strong>, and output from long-running operations including DITA-OT builds.</p>
-      <h3 id="inspector" class="group scroll-mt-20">Inspector<a href="#inspector" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="inspector" class="group scroll-mt-20">Inspector<a href="#inspector" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Two tabs. <strong>Link Checker</strong> reports references that do not resolve. <strong>Changes</strong> shows what has changed in the document, with a count in the tab label.</p>
-      <h3 id="terminal" class="group scroll-mt-20">Terminal<a href="#terminal" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="terminal" class="group scroll-mt-20">Terminal<a href="#terminal" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>A real terminal in the project folder, with as many tabs as you need. Kill Process stops what is running; the tab's close button ends the session.</p>
       <p>The first terminal opens in the project folder, or in the folder shown in the Explorer when no project is open.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

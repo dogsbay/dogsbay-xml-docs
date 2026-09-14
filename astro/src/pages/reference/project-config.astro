@@ -93,6 +93,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -100,9 +101,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="project-configuration" class="group scroll-mt-20">Project configuration<a href="#project-configuration" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="project-configuration" class="group scroll-mt-20">Project configuration<a href="#project-configuration" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>A project keeps its own configuration in a <code>.dogsbay</code> folder at the root of the project. The settings there travel with the content, so everyone who clones the project gets the same root map, framework, metadata policy and formatting. Settings that apply to every project, such as the editor theme and key bindings, are described in the <a href="/dogsbay-xml-docs/reference/settings">settings reference</a>.</p>
-      <h2 id="the-dogsbay-folder" class="group scroll-mt-20">The .dogsbay folder<a href="#the-dogsbay-folder" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="the-dogsbay-folder" class="group scroll-mt-20">The .dogsbay folder<a href="#the-dogsbay-folder" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -130,7 +131,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Every file is optional. A missing file, or one that is not well-formed XML, is treated as if it were empty, and the editor falls back to what it can detect.</p>
-      <h2 id="creating-the-configuration" class="group scroll-mt-20">Creating the configuration<a href="#creating-the-configuration" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="creating-the-configuration" class="group scroll-mt-20">Creating the configuration<a href="#creating-the-configuration" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>When you open a folder that has no <code>config.xml</code> and the editor recognizes it as a DITA project, it writes a <code>config.xml</code> with the project type, the root map it detected, and the framework it chose. Commit the file if the choices are right, or change them and save again.</p>
       <p>These actions write to <code>config.xml</code> and keep the parts they do not change:</p>
       <Table class="my-4">
@@ -156,7 +157,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Selecting a deliverable writes it to <code>local.xml</code>. You can also edit either file by hand. After editing by hand, open the project folder again so the editor picks up every change.</p>
-      <h2 id="configxml" class="group scroll-mt-20">config.xml<a href="#configxml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="configxml" class="group scroll-mt-20">config.xml<a href="#configxml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The root element is <code>dogsbay-project</code>. Each child element is optional.</p>
       <Table class="my-4">
       <TableHeader>
@@ -205,7 +206,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>The deliverables themselves are defined in the DITA-OT project file (<code>project.json</code>, <code>project.xml</code> or <code>project.yaml</code>), not in <code>config.xml</code>.</p>
-      <h3 id="metadata-policy" class="group scroll-mt-20">Metadata policy<a href="#metadata-policy" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="metadata-policy" class="group scroll-mt-20">Metadata policy<a href="#metadata-policy" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Each <code>rule</code> element in <code>metadata-policy</code> requires, recommends or forbids one metadata field. The <a href="/dogsbay-xml-docs/authoring/metadata">metadata audit</a> checks topics against these rules.</p>
       <Table class="my-4">
       <TableHeader>
@@ -251,7 +252,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Table>
       <p>For an allowed value that contains spaces, add a <code>value</code> child element for it instead of using <code>allowed-values</code>. You can use both together.</p>
       <p>The field names are <code>author</code>, <code>source</code>, <code>publisher</code>, <code>copyryear</code>, <code>copyrholder</code>, <code>created</code>, <code>created-golive</code>, <code>created-expiry</code>, <code>revised</code>, <code>revised-golive</code>, <code>revised-expiry</code>, <code>permissions</code>, <code>audience</code>, <code>audience-job</code>, <code>audience-experiencelevel</code>, <code>category</code>, <code>keyword</code>, <code>indexterm</code>, <code>prodname</code>, and <code>vrm-version</code>. A name with a suffix checks an attribute of the element: for example, <code>created</code> checks the <code>date</code> attribute of <code>&lt;created&gt;</code> and <code>created-golive</code> checks its <code>golive</code> attribute.</p>
-      <h3 id="format-style" class="group scroll-mt-20">Format style<a href="#format-style" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="format-style" class="group scroll-mt-20">Format style<a href="#format-style" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>The <code>format-style</code> attributes set the house style used by <strong>Format Document</strong>, by format on save, and by the <code>dogsbay-xml format</code> command. An attribute that is missing takes its default value.</p>
       <Table class="my-4">
       <TableHeader>
@@ -327,7 +328,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Table>
       <p>The contents of <code>codeblock</code>, <code>pre</code>, <code>lines</code> and <code>screen</code> elements are never reformatted. To protect other elements in the same way, add a <code>preserve-space</code> child element for each one, containing the element name.</p>
       <p>If a project has no <code>format-style</code>, the editor uses the style on the <a href="/dogsbay-xml-docs/reference/settings#format">Format</a> settings page.</p>
-      <h2 id="localxml" class="group scroll-mt-20">local.xml<a href="#localxml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="localxml" class="group scroll-mt-20">local.xml<a href="#localxml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The root element is <code>dogsbay-project-local</code>. The file is ignored by Git.</p>
       <Table class="my-4">
       <TableHeader>
@@ -350,18 +351,18 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="how-the-dita-ot-is-found" class="group scroll-mt-20">How the DITA-OT is found<a href="#how-the-dita-ot-is-found" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="how-the-dita-ot-is-found" class="group scroll-mt-20">How the DITA-OT is found<a href="#how-the-dita-ot-is-found" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The editor uses the first DITA-OT installation that it finds in this order:</p>
       <ol>
       <li>The <code>dita-ot-path</code> in <code>local.xml</code>.</li>
       <li>The installed framework whose name matches <code>framework</code> in <code>config.xml</code>.</li>
       <li>The first installed framework that has a DITA-OT path.</li>
       </ol>
-      <h2 id="example" class="group scroll-mt-20">Example<a href="#example" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="example" class="group scroll-mt-20">Example<a href="#example" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>This is the <code>config.xml</code> from the sample project:</p>
       <CodeBlock code={"<dogsbay-project>\n  <project-type>DITA</project-type>\n  <default-root-map>audacity-guide.ditamap</default-root-map>\n  <framework>DITA-OT 4.3.5</framework>\n  <default-deliverable file=\"project.json\" name=\"full\"/>\n  <metadata-policy>\n    <rule topic-type=\"task\" field=\"created\" presence=\"required\" pattern=\"\\d{4}-\\d\\d-\\d\\d\"/>\n    <rule field=\"author\" presence=\"recommended\"/>\n    <rule field=\"keyword\" presence=\"required\"/>\n  </metadata-policy>\n  <format-style indent=\"spaces\" size=\"2\" max-line-width=\"0\" preserve-mixed=\"true\" newline=\"lf\" final-newline=\"true\" preserve-text-breaks=\"true\" preserve-blank-lines=\"true\" text-continuation=\"block\" trim-whitespace=\"true\"/>\n</dogsbay-project>"} lang="xml" />
       <p>The policy requires every task to record a creation date in the form <code>2026-01-31</code>, requires a keyword in every topic, and recommends an author. Format on save is off because the file has no <code>format-on-save</code> element.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <ul>
       <li><a href="/dogsbay-xml-docs/reference/settings">Settings reference</a></li>
       <li><a href="/dogsbay-xml-docs/authoring/metadata">Metadata</a></li>

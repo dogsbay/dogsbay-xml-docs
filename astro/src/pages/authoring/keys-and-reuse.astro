@@ -95,6 +95,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -102,9 +103,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="keys-and-reuse" class="group scroll-mt-20">Keys and reuse<a href="#keys-and-reuse" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="keys-and-reuse" class="group scroll-mt-20">Keys and reuse<a href="#keys-and-reuse" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>DITA has two mechanisms for not repeating yourself: keys, which give a name to a target so the reference does not carry a path, and conrefs, which pull content from one topic into another. Both create relationships the editor can show you and change safely.</p>
-      <h2 id="seeing-the-key-space" class="group scroll-mt-20">Seeing the key space<a href="#seeing-the-key-space" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="seeing-the-key-space" class="group scroll-mt-20">Seeing the key space<a href="#seeing-the-key-space" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A map's key space is every key its topics can use, including keys defined in the maps it includes.</p>
       <CodeBlock code={"dogsbay-xml keys audacity-guide.ditamap"} lang="bash" />
       <p>To ask what one key resolves to:</p>
@@ -120,30 +121,30 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>A key that resolves in the editor but not in a build is usually a conditions or scope difference, not a broken key. Resolve it with the same DITAVAL the build uses before looking anywhere else.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="converting-direct-references-to-keys" class="group scroll-mt-20">Converting direct references to keys<a href="#converting-direct-references-to-keys" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="converting-direct-references-to-keys" class="group scroll-mt-20">Converting direct references to keys<a href="#converting-direct-references-to-keys" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A file that many topics reference by path requires an edit to every reference when it moves. The <code>keyify</code> command converts them to key references and adds the key definition to a map you choose.</p>
       <CodeBlock code={"dogsbay-xml keyify topics/installing-audacity.dita installing \\\n  --root . --map keydefs-product.ditamap"} lang="bash" />
       <p>That prints the plan. Add <code>--apply</code> to make the change.</p>
       <p>The reverse, when a key is not earning its indirection:</p>
       <CodeBlock code={"dogsbay-xml inline-key installing --root . --map audacity-guide.ditamap --apply"} lang="bash" />
       <p>The command needs the map to resolve the key to its replacement path.</p>
-      <h2 id="moving-shared-content-into-a-reuse-topic" class="group scroll-mt-20">Moving shared content into a reuse topic<a href="#moving-shared-content-into-a-reuse-topic" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="moving-shared-content-into-a-reuse-topic" class="group scroll-mt-20">Moving shared content into a reuse topic<a href="#moving-shared-content-into-a-reuse-topic" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>When the same note, step, or paragraph appears in several topics, move it once into a reuse topic and conref it everywhere else.</p>
       <CodeBlock code={"dogsbay-xml extract-conref topics/installing-audacity.dita note-backup \\\n  --to shared/common-notes.dita"} lang="bash" />
       <p>The command moves the element into the reuse topic, creates the topic if needed, and leaves a conref stub in the element's original location. Add <code>--apply</code> to run the command.</p>
       <p>To undo that relationship, replacing conrefs with a copy of the content:</p>
       <CodeBlock code={"dogsbay-xml inline-conref shared/common-notes.dita note-backup --root . --apply"} lang="bash" />
       <p>Use <code>--file</code> to inline only the instances in one topic rather than all of them.</p>
-      <h2 id="checking-that-reuse-still-resolves" class="group scroll-mt-20">Checking that reuse still resolves<a href="#checking-that-reuse-still-resolves" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="checking-that-reuse-still-resolves" class="group scroll-mt-20">Checking that reuse still resolves<a href="#checking-that-reuse-still-resolves" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Two audits answer different questions.</p>
       <CodeBlock code={"dogsbay-xml check-links .\ndogsbay-xml conref-audit ."} lang="bash" />
       <p><code>check-links</code> reports references whose target file is missing and keys that are used but never defined. <code>conref-audit</code> detects a narrower problem: the target file exists, but it no longer contains the element ID that the conref names.</p>
       <p>An element ID disappears when someone renames it or deletes its element. Use a command to rename IDs so that references remain intact:</p>
       <CodeBlock code={"dogsbay-xml rename-element-id shared/common-notes.dita note-backup backup-note --apply"} lang="bash" />
-      <h2 id="tidying-key-definitions" class="group scroll-mt-20">Tidying key definitions<a href="#tidying-key-definitions" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="tidying-key-definitions" class="group scroll-mt-20">Tidying key definitions<a href="#tidying-key-definitions" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>When maps are merged or copied, the same key often ends up defined more than once. Only the first definition wins, so the rest are noise:</p>
       <CodeBlock code={"dogsbay-xml merge-keydefs audacity-guide.ditamap --apply"} lang="bash" />
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

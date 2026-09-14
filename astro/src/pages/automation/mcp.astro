@@ -94,6 +94,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -101,10 +102,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="connecting-an-ai-assistant" class="group scroll-mt-20">Connecting an AI assistant<a href="#connecting-an-ai-assistant" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="connecting-an-ai-assistant" class="group scroll-mt-20">Connecting an AI assistant<a href="#connecting-an-ai-assistant" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>The editor can provide its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.</p>
       <p>This setup differs from using an agent inside the editor. The assistant runs in a terminal or desktop application, and the editor provides the tools.</p>
-      <h2 id="turn-on-the-server" class="group scroll-mt-20">Turn on the server<a href="#turn-on-the-server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="turn-on-the-server" class="group scroll-mt-20">Turn on the server<a href="#turn-on-the-server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The integration server is off by default.</p>
       <Steps>
       <Step>
@@ -119,13 +120,13 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>The server binds to localhost and requires a token, which is written to a discovery file in your home directory so local clients can find it.</p>
-      <h2 id="connect-a-client" class="group scroll-mt-20">Connect a client<a href="#connect-a-client" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="connect-a-client" class="group scroll-mt-20">Connect a client<a href="#connect-a-client" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The editor prints the configuration for you:</p>
       <CodeBlock code={"dogsbay-xml status --mcp-config"} lang="bash" />
       <p>For Claude Code, it can print the command that registers it:</p>
       <CodeBlock code={"dogsbay-xml status --mcp-install"} lang="bash" />
       <p>Paste the configuration into the client's MCP settings, or run the command.</p>
-      <h2 id="what-the-assistant-can-do" class="group scroll-mt-20">What the assistant can do<a href="#what-the-assistant-can-do" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-the-assistant-can-do" class="group scroll-mt-20">What the assistant can do<a href="#what-the-assistant-can-do" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The tools support the same operations as the command line:</p>
       <ul>
       <li><strong>Read and validate</strong> documents, including Schematron and project-wide validation</li>
@@ -136,11 +137,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <li><strong>Review</strong> proposals, add comments, and read the audit log</li>
       </ul>
       <p>Every call is attributed to a session, so the audit log records which assistant did what.</p>
-      <h2 id="if-the-token-changes" class="group scroll-mt-20">If the token changes<a href="#if-the-token-changes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="if-the-token-changes" class="group scroll-mt-20">If the token changes<a href="#if-the-token-changes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Regenerating the token invalidates any client configured with the old one:</p>
       <CodeBlock code={"dogsbay-xml status --reset-token"} lang="bash" />
       <p>Restart the editor, and give clients the new configuration.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

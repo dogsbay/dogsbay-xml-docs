@@ -92,6 +92,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -99,10 +100,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="settings-reference" class="group scroll-mt-20">Settings reference<a href="#settings-reference" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="settings-reference" class="group scroll-mt-20">Settings reference<a href="#settings-reference" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p><strong>File &gt; Settings</strong> opens the editor's settings. The pages are listed down the left; a change applies when you select <strong>OK</strong>, and <strong>Cancel</strong> discards everything you changed since the dialog opened.</p>
       <p>Settings are stored in <code>~/.dogsbay/settings.xml</code> and apply to every project. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own <code>.dogsbay/config.xml</code>, which you can commit and share; see <a href="/dogsbay-xml-docs/reference/project-config">Project configuration</a>. See <a href="#format">Format</a> below for how to write the current formatting into it.</p>
-      <h2 id="server" class="group scroll-mt-20">Server<a href="#server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="server" class="group scroll-mt-20">Server<a href="#server" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The integration server, and the defaults for agents.</p>
       <p><strong>Enable integration server (MCP / CLI / REST)</strong> lets external tools drive the editor over localhost: the MCP endpoint for AI assistants, the <code>dogsbay-xml</code> command line's editor commands, and the REST API. It is off until you turn it on. The in-app agent does not need it; a <a href="/dogsbay-xml-docs/agent/hosted-agents">hosted agent</a> does. When the server is running, the page shows the address it is on.</p>
       <Table class="my-4">
@@ -137,9 +138,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Table>
       <p><strong>Hosted agents</strong> sets what a new hosted agent session starts with. <strong>Default tier for a new agent</strong> is the preselected answer: T1 (commands only), T2 (read files) or T3 (read and write files). You are still asked each time a session starts. <strong>Agent edits to DITA documents land as proposals for review</strong> keeps an agent's changes as tracked <a href="/dogsbay-xml-docs/agent/proposals">proposals</a> rather than direct edits.</p>
       <p><strong>Agent sessions</strong> controls how long the built-in agent's transcripts are kept in <code>~/.xagent/sessions</code>: Forever, or 90, 60, 30, 14 or 7 days. Older ones are deleted when the editor starts.</p>
-      <h2 id="plugins" class="group scroll-mt-20">Plugins<a href="#plugins" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="plugins" class="group scroll-mt-20">Plugins<a href="#plugins" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Every plugin the editor has loaded, with its license, and a switch for each. Most panels come from a plugin, and turning one off removes its panel entirely. <strong>Open Plugins Folder</strong> opens the directory plugins are installed into.</p>
-      <h2 id="bindings" class="group scroll-mt-20">Bindings<a href="#bindings" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="bindings" class="group scroll-mt-20">Bindings<a href="#bindings" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Every command in the editor and the key it answers to. See the <a href="/dogsbay-xml-docs/reference/shortcuts">keyboard shortcut reference</a> for the defaults.</p>
       <p>Filter the list by typing in the box. With a command selected:</p>
       <Table class="my-4">
@@ -169,12 +170,12 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Only the commands you change are stored, so a default that improves in a later release reaches you. A key already taken by another command is reported when you choose it.</p>
-      <h2 id="text" class="group scroll-mt-20">Text<a href="#text" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="text" class="group scroll-mt-20">Text<a href="#text" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>How the editor draws text.</p>
       <p>Choose the <strong>font</strong> and <strong>size</strong> for the editor. Fonts marked ★ are bundled with the editor and look the same on every machine.</p>
       <p>The list below sets the <strong>color and style of each kind of markup</strong>: element names, attribute names and values, comments, CDATA, entity references, DTD declarations, DITA and AsciiDoc constructs, and the rest. Select a kind to change its color and whether it is bold or italic.</p>
       <p><strong>Antialiase Text</strong> smooths glyph edges. <strong>Convert to Spaces</strong> inserts spaces when you press Tab rather than a tab character.</p>
-      <h2 id="views" class="group scroll-mt-20">Views<a href="#views" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="views" class="group scroll-mt-20">Views<a href="#views" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>How documents open and behave.</p>
       <Table class="my-4">
       <TableHeader>
@@ -210,13 +211,13 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="xml" class="group scroll-mt-20">XML<a href="#xml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="xml" class="group scroll-mt-20">XML<a href="#xml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Parsing and catalogs.</p>
       <p>Three groups:</p>
       <p><strong>Non Validating Feature</strong> holds <strong>Load DTD Grammar</strong>, which loads the DTD even when the document is not being validated, so content completion knows the vocabulary.</p>
       <p><strong>Catalogs</strong> lists the OASIS catalog files used to resolve public identifiers and URIs. The DITA catalogs ship with the editor and are already here; <strong>Add …</strong> registers your own and <strong>Delete</strong> removes the selected one. <strong>Prefer Public Identifiers</strong> resolves by public identifier before system identifier.</p>
       <p><strong>Prefix Namespace Mappings</strong> is a table of the prefixes the editor uses for known namespaces, so generated markup and XPath expressions use the prefix you expect.</p>
-      <h2 id="format" class="group scroll-mt-20">Format<a href="#format" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="format" class="group scroll-mt-20">Format<a href="#format" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The house style used by <strong>Format Document</strong>, by format-on-save, and by the <code>dogsbay-xml format</code> command, so every route produces the same file.</p>
       <Table class="my-4">
       <TableHeader>
@@ -265,7 +266,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p><strong>Save to project (.dogsbay/config.xml)…</strong> writes the current style into the open project so everyone working on it formats identically.</p>
-      <h2 id="system" class="group scroll-mt-20">System<a href="#system" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="system" class="group scroll-mt-20">System<a href="#system" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The machine, rather than the editing.</p>
       <Table class="my-4">
       <TableHeader>

@@ -95,6 +95,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -102,10 +103,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="reviewing-an-agents-changes" class="group scroll-mt-20">Reviewing an agent's changes<a href="#reviewing-an-agents-changes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="reviewing-an-agents-changes" class="group scroll-mt-20">Reviewing an agent's changes<a href="#reviewing-an-agents-changes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>When an agent edits a DITA file, it does not overwrite your content. The editor records the edit as a tracked change, attributes it to the agent that proposed it, and waits for your decision.</p>
       <p>Your own edits are never marked this way.</p>
-      <h2 id="reviewing-in-the-proposals-panel" class="group scroll-mt-20">Reviewing in the Proposals panel<a href="#reviewing-in-the-proposals-panel" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="reviewing-in-the-proposals-panel" class="group scroll-mt-20">Reviewing in the Proposals panel<a href="#reviewing-in-the-proposals-panel" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Steps>
       <Step>
       <strong>Open the Proposals panel</strong> Open <strong>Proposals</strong> in the right sidebar. Each entry shows the kind of change is and who proposed it.
@@ -117,7 +118,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <strong>Decide</strong> Select <strong>Accept</strong> to keep the change or <strong>Reject</strong> to discard it. Use <strong>Accept all</strong> or <strong>Reject all</strong> to act on the whole set.
       </Step>
       </Steps>
-      <h2 id="kinds-of-proposal" class="group scroll-mt-20">Kinds of proposal<a href="#kinds-of-proposal" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="kinds-of-proposal" class="group scroll-mt-20">Kinds of proposal<a href="#kinds-of-proposal" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -145,19 +146,19 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>A comment is not an edit. Use <strong>Resolve</strong> to settle one without removing it from the document, which keeps the record of the discussion.</p>
-      <h2 id="reviewing-from-the-command-line" class="group scroll-mt-20">Reviewing from the command line<a href="#reviewing-from-the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="reviewing-from-the-command-line" class="group scroll-mt-20">Reviewing from the command line<a href="#reviewing-from-the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The same operations are available headless, which is useful when reviewing a batch or scripting a gate in a pipeline:</p>
       <CodeBlock code={"dogsbay-xml review list topic.dita\ndogsbay-xml review accept topic.dita insert@1234\ndogsbay-xml review reject topic.dita delete@5678\ndogsbay-xml review accept topic.dita --all\ndogsbay-xml review accept topic.dita --all --author ai:claude-acp\ndogsbay-xml review comment topic.dita \"Check this term\" --after \"normalize\""} lang="bash" />
       <p>The proposal ID comes from <code>review list</code>. <code>--all</code> acts on every change and leaves comments alone. <code>--author</code> narrows it to one agent, which matters when two have worked on the same file. A comment is placed either after the first occurrence of some text, with <code>--after</code>, or as the first child of an element, with <code>--in</code>.</p>
       <p><code>project-health</code> also reports open proposals, so a project with unreviewed agent changes does not look publish-ready.</p>
-      <h2 id="what-happens-to-a-rejected-change" class="group scroll-mt-20">What happens to a rejected change<a href="#what-happens-to-a-rejected-change" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-happens-to-a-rejected-change" class="group scroll-mt-20">What happens to a rejected change<a href="#what-happens-to-a-rejected-change" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Rejecting removes the proposed content and restores what was there. Accepting removes the markup and keeps the content. Either way the document is left as ordinary DITA, with no trace of the review in what you publish.</p>
-      <h2 id="publishing-while-proposals-are-open" class="group scroll-mt-20">Publishing while proposals are open<a href="#publishing-while-proposals-are-open" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="publishing-while-proposals-are-open" class="group scroll-mt-20">Publishing while proposals are open<a href="#publishing-while-proposals-are-open" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Deleted spans remain in the file until you accept the deletion. A property on each span enables DITAVAL to filter it. A build can therefore exclude proposed deletions before you resolve every proposal.</p>
-      <h2 id="two-protections-worth-knowing" class="group scroll-mt-20">Two protections worth knowing<a href="#two-protections-worth-knowing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="two-protections-worth-knowing" class="group scroll-mt-20">Two protections worth knowing<a href="#two-protections-worth-knowing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p><strong>An agent cannot quietly remove another author's proposal.</strong> A write that would delete someone else's open proposal is refused, and the agent is told why.</p>
       <p><strong>The editor does not silently apply a change that is too large to mark.</strong> If the editor cannot express the edit as tracked changes, it uses a plain write only when no one else has open proposals in that file.</p>
-      <h2 id="turning-proposals-off" class="group scroll-mt-20">Turning proposals off<a href="#turning-proposals-off" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="turning-proposals-off" class="group scroll-mt-20">Turning proposals off<a href="#turning-proposals-off" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Proposals are on by default. The setting is <code>review-agent-proposals</code> in the editor configuration. Turning it off means agent edits are written directly, with no review step, which is worth considering only for a project where an agent has no write access anyway.</p>
     </article>
   </MarkdownContentStack>

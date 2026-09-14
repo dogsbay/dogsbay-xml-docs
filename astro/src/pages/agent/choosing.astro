@@ -91,6 +91,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -98,7 +99,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="which-agent-to-use" class="group scroll-mt-20">Which agent to use<a href="#which-agent-to-use" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="which-agent-to-use" class="group scroll-mt-20">Which agent to use<a href="#which-agent-to-use" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>DogsBay XML runs two kinds of agent for different kinds of work. The built-in agent knows your project. A hosted agent is one that you already use. Neither is a lesser version of the other.</p>
       <p>Use the <strong>built-in agent</strong> when you want an agent that is already set up and already knows where you are.</p>
       <ul>
@@ -116,7 +117,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <li><strong>You can also use a local model.</strong> If the agent supports local models, configure it to use one. For example, OpenCode supports an OpenAI-compatible provider that points to Ollama, LM Studio, or llama.cpp, and Goose supports Ollama. Configure the model in the agent, not the editor.</li>
       </ul>
       <p>You can use both kinds of agent. For example, use the built-in agent for DITA work, where the map, keys, and deliverable provide essential context. Use a hosted agent alongside it for code-related work.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

@@ -92,6 +92,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -99,10 +100,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="keyboard-shortcuts" class="group scroll-mt-20">Keyboard shortcuts<a href="#keyboard-shortcuts" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="keyboard-shortcuts" class="group scroll-mt-20">Keyboard shortcuts<a href="#keyboard-shortcuts" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>These are the defaults. Every one of them can be changed in <strong>File &gt; Settings &gt; Bindings</strong>, which also lists the commands that have no key until you give them one.</p>
       <p><strong>Ctrl</strong> here means the platform's menu key: Control on Linux and Windows, Command on macOS.</p>
-      <h2 id="files" class="group scroll-mt-20">Files<a href="#files" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="files" class="group scroll-mt-20">Files<a href="#files" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -137,7 +138,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="views-and-panels" class="group scroll-mt-20">Views and panels<a href="#views-and-panels" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="views-and-panels" class="group scroll-mt-20">Views and panels<a href="#views-and-panels" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -184,7 +185,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="editing" class="group scroll-mt-20">Editing<a href="#editing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="editing" class="group scroll-mt-20">Editing<a href="#editing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -227,7 +228,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="finding-and-moving" class="group scroll-mt-20">Finding and moving<a href="#finding-and-moving" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="finding-and-moving" class="group scroll-mt-20">Finding and moving<a href="#finding-and-moving" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -274,7 +275,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="markup" class="group scroll-mt-20">Markup<a href="#markup" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="markup" class="group scroll-mt-20">Markup<a href="#markup" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -337,7 +338,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="changing-a-key" class="group scroll-mt-20">Changing a key<a href="#changing-a-key" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="changing-a-key" class="group scroll-mt-20">Changing a key<a href="#changing-a-key" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Select <strong>File &gt; Settings &gt; Bindings</strong>, find the command (typing in the filter box narrows the list) and select <strong>Change…</strong>. Press the combination you want. Escape on its own cancels; Escape with a modifier is a combination like any other, so Ctrl+Escape can be bound.</p>
       <p><strong>Bind nothing</strong> leaves a command with no key. <strong>Reset</strong> restores one command's default, <strong>Reset all</strong> restores every default.</p>
       <p>Only the keys you change are saved, so a command whose default improves in a later release follows the new one unless you have chosen something yourself. If you pick a key another command already uses, the editor says which.</p>

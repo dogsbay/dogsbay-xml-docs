@@ -96,6 +96,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -103,7 +104,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="the-command-line" class="group scroll-mt-20">The command line<a href="#the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="the-command-line" class="group scroll-mt-20">The command line<a href="#the-command-line" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p><code>dogsbay-xml</code> runs the same operations as the editor's menus. The editor installation includes the command. See <a href="/dogsbay-xml-docs/getting-started/install#the-command-line">The command line</a> to find it or to run it on a machine where you cannot use an installer.</p>
       <p>Most commands work on files and need nothing running. A few drive an editor that is already open, and those need the integration server.</p>
       <p>Run <code>dogsbay-xml --help</code> for the full list, and <code>dogsbay-xml &lt;command&gt; --help</code> for one command's options.</p>
@@ -113,7 +114,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>The refactoring commands print a plan and change nothing until you add <code>--apply</code>. The structural editors, <code>edit-map</code> and <code>edit-reltable</code>, work the other way round: they write unless you pass <code>--dry-run</code>.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="reading-a-document" class="group scroll-mt-20">Reading a document<a href="#reading-a-document" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="reading-a-document" class="group scroll-mt-20">Reading a document<a href="#reading-a-document" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -156,7 +157,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="asking-about-the-project" class="group scroll-mt-20">Asking about the project<a href="#asking-about-the-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="asking-about-the-project" class="group scroll-mt-20">Asking about the project<a href="#asking-about-the-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>These commands answer questions about more than one file.</p>
       <Table class="my-4">
       <TableHeader>
@@ -195,7 +196,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <p><code>check-links</code>, <code>health</code>, and <code>project-health</code> exit with a nonzero status when they find a problem, so they work as pipeline gates.</p>
       <CodeBlock code={"dogsbay-xml project-health . --schematron house-style.sch"} lang="bash" />
       <p><code>project-health</code> prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add <code>--summary</code> for the counts alone. See <a href="/dogsbay-xml-docs/finding/validation#reading-the-result">validating a project</a>.</p>
-      <h2 id="validating-a-set" class="group scroll-mt-20">Validating a set<a href="#validating-a-set" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="validating-a-set" class="group scroll-mt-20">Validating a set<a href="#validating-a-set" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -230,7 +231,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="metadata" class="group scroll-mt-20">Metadata<a href="#metadata" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="metadata" class="group scroll-mt-20">Metadata<a href="#metadata" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -253,9 +254,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="surveying-dita-features" class="group scroll-mt-20">Surveying DITA features<a href="#surveying-dita-features" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="surveying-dita-features" class="group scroll-mt-20">Surveying DITA features<a href="#surveying-dita-features" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Each of these reports on one DITA mechanism across the project: <code>reltable-audit</code>, <code>list-branches</code>, <code>list-subjects</code>, <code>keyword-audit</code>, <code>index-audit</code>, <code>glossary-audit</code>, <code>conref-push-audit</code>, <code>chunk-audit</code>, and <code>specialization-info</code>.</p>
-      <h2 id="changing-files" class="group scroll-mt-20">Changing files<a href="#changing-files" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="changing-files" class="group scroll-mt-20">Changing files<a href="#changing-files" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Reference-safe edits. All are dry-run first.</p>
       <Table class="my-4">
       <TableHeader>
@@ -320,7 +321,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Structural editing of maps and relationship tables preserves formatting and keeps references intact: <code>edit-map</code> and <code>edit-reltable</code>. Both take an operation as their second argument, and both write unless you pass <code>--dry-run</code>.</p>
-      <h2 id="publishing" class="group scroll-mt-20">Publishing<a href="#publishing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="publishing" class="group scroll-mt-20">Publishing<a href="#publishing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -335,7 +336,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="driving-a-running-editor" class="group scroll-mt-20">Driving a running editor<a href="#driving-a-running-editor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="driving-a-running-editor" class="group scroll-mt-20">Driving a running editor<a href="#driving-a-running-editor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>These need the integration server, which you turn on in <strong>File &gt; Settings &gt; Server</strong>.</p>
       <Table class="my-4">
       <TableHeader>
@@ -367,7 +368,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="agents-and-review" class="group scroll-mt-20">Agents and review<a href="#agents-and-review" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="agents-and-review" class="group scroll-mt-20">Agents and review<a href="#agents-and-review" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -394,7 +395,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="projects" class="group scroll-mt-20">Projects<a href="#projects" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="projects" class="group scroll-mt-20">Projects<a href="#projects" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p><code>project create</code>, <code>project open</code>, <code>project list</code>, and <code>project info</code> manage projects from the command line.</p>
     </article>
   </MarkdownContentStack>

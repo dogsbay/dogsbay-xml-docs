@@ -103,6 +103,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -110,9 +111,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="refactoring" class="group scroll-mt-20">Refactoring<a href="#refactoring" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="refactoring" class="group scroll-mt-20">Refactoring<a href="#refactoring" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>Files in a documentation set depend on one another. When you rename a file, key, or element ID, references in other files must change too. The editor's refactoring commands update those references.</p>
-      <h2 id="the-rule-that-makes-them-safe" class="group scroll-mt-20">The rule that makes them safe<a href="#the-rule-that-makes-them-safe" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="the-rule-that-makes-them-safe" class="group scroll-mt-20">The rule that makes them safe<a href="#the-rule-that-makes-them-safe" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Every refactoring prints a plan and changes nothing. You read the plan, then run the same command again with <code>--apply</code>.</p>
       <CodeBlock code={"dogsbay-xml rename-key product-name product --root .\ndogsbay-xml rename-key product-name product --root . --apply"} lang="bash" />
       <p>In the editor the same plan appears as a table you review before it runs.</p>
@@ -122,12 +123,12 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p>Two commands work the other way round. <code>edit-map</code> and <code>edit-reltable</code> write unless you pass <code>--dry-run</code>, and so does <code>metadata-set</code>. They are editors rather than refactorings.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="before-you-change-anything" class="group scroll-mt-20">Before you change anything<a href="#before-you-change-anything" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="before-you-change-anything" class="group scroll-mt-20">Before you change anything<a href="#before-you-change-anything" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Ask what depends on it:</p>
       <CodeBlock code={"dogsbay-xml where-used topics/installing-audacity.dita \\\n  --root . --map audacity-guide.ditamap"} lang="bash" />
       <p>With <code>--map</code>, the report includes references that reach the file indirectly through a key, which are the ones a search would miss.</p>
-      <h2 id="what-each-refactoring-is-for" class="group scroll-mt-20">What each refactoring is for<a href="#what-each-refactoring-is-for" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
-      <h3 id="moving-and-renaming" class="group scroll-mt-20">Moving and renaming<a href="#moving-and-renaming" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h2 id="what-each-refactoring-is-for" class="group scroll-mt-20">What each refactoring is for<a href="#what-each-refactoring-is-for" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <h3 id="moving-and-renaming" class="group scroll-mt-20">Moving and renaming<a href="#moving-and-renaming" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -162,7 +163,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h3 id="changing-how-content-is-referenced" class="group scroll-mt-20">Changing how content is referenced<a href="#changing-how-content-is-referenced" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="changing-how-content-is-referenced" class="group scroll-mt-20">Changing how content is referenced<a href="#changing-how-content-is-referenced" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -197,7 +198,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h3 id="restructuring" class="group scroll-mt-20">Restructuring<a href="#restructuring" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="restructuring" class="group scroll-mt-20">Restructuring<a href="#restructuring" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -212,7 +213,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="a-worked-example" class="group scroll-mt-20">A worked example<a href="#a-worked-example" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="a-worked-example" class="group scroll-mt-20">A worked example<a href="#a-worked-example" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>This example turns a hardcoded product name into a key. It fixes one of the problems in the sample project.</p>
       <Steps>
       <Step>
@@ -231,9 +232,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <CodeBlock code={"dogsbay-xml project-health . --map audacity-guide.ditamap"} lang="bash" />
       </Step>
       </Steps>
-      <h2 id="when-a-refactoring-refuses" class="group scroll-mt-20">When a refactoring refuses<a href="#when-a-refactoring-refuses" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="when-a-refactoring-refuses" class="group scroll-mt-20">When a refactoring refuses<a href="#when-a-refactoring-refuses" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>If a refactoring would create a broken reference, it reports the problem instead of making the change. Review the plan to find unsafe changes before they affect the output.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

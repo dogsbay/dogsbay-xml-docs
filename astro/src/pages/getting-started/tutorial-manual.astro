@@ -97,6 +97,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -104,11 +105,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="tutorial-fixing-a-dita-project-by-hand" class="group scroll-mt-20">Tutorial: Fixing a DITA project by hand<a href="#tutorial-fixing-a-dita-project-by-hand" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="tutorial-fixing-a-dita-project-by-hand" class="group scroll-mt-20">Tutorial: Fixing a DITA project by hand<a href="#tutorial-fixing-a-dita-project-by-hand" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>In this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix one by hand.</p>
       <p>The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.</p>
       <p><strong>Time:</strong> about 30 minutes. <strong>You need:</strong> DogsBay XML. See <a href="./install">Installing</a>. You do not need an agent or a sign-in.</p>
-      <h2 id="step-1-open-the-sample-project" class="group scroll-mt-20">Step 1: Open the sample project<a href="#step-1-open-the-sample-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-1-open-the-sample-project" class="group scroll-mt-20">Step 1: Open the sample project<a href="#step-1-open-the-sample-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Steps>
       <Step>
       <strong>Select File &gt; Open Sample Project</strong> The editor asks where to put it.
@@ -121,7 +122,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>You now have your own copy to break further and repair.</p>
-      <h2 id="step-2-see-what-is-wrong" class="group scroll-mt-20">Step 2: See what is wrong<a href="#step-2-see-what-is-wrong" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-2-see-what-is-wrong" class="group scroll-mt-20">Step 2: See what is wrong<a href="#step-2-see-what-is-wrong" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Rather than opening individual files to look for problems, you can run the project health check from the command line:</p>
       <CodeBlock code={"dogsbay-xml project-health . --schematron house-style.sch"} lang="bash" />
       <p>The report covers specific kinds of problems:</p>
@@ -141,7 +142,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p><code>check-links</code> and <code>health</code> are narrower and faster if you only want one part of that picture.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="step-3-fix-one-problem-by-hand" class="group scroll-mt-20">Step 3: Fix one problem by hand<a href="#step-3-fix-one-problem-by-hand" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-3-fix-one-problem-by-hand" class="group scroll-mt-20">Step 3: Fix one problem by hand<a href="#step-3-fix-one-problem-by-hand" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Pick a topic that has no short description.</p>
       <Steps>
       <Step>
@@ -158,13 +159,13 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>Switch back with <strong>View &gt; Document Views &gt; Editor</strong>, and confirm that the element is where you expect. Both views show the same document and retain your position when you switch between them.</p>
-      <h2 id="what-you-learned" class="group scroll-mt-20">What you learned<a href="#what-you-learned" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-you-learned" class="group scroll-mt-20">What you learned<a href="#what-you-learned" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <ul>
       <li>The sample project is a copy, so you can experiment freely.</li>
       <li>Project-level checks find problems across files.</li>
       <li>The Author and Editor views show the same document and retain your position when you switch views.</li>
       </ul>
-      <h2 id="where-to-go-next" class="group scroll-mt-20">Where to go next<a href="#where-to-go-next" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="where-to-go-next" class="group scroll-mt-20">Where to go next<a href="#where-to-go-next" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

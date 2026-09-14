@@ -98,6 +98,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -105,9 +106,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="previewing-and-publishing" class="group scroll-mt-20">Previewing and publishing<a href="#previewing-and-publishing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="previewing-and-publishing" class="group scroll-mt-20">Previewing and publishing<a href="#previewing-and-publishing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>A preview is immediate and approximate, so you can check your work as you write. A build is the final output that DITA-OT creates from a deliverable's map, conditions, and parameters.</p>
-      <h2 id="previewing-while-you-write" class="group scroll-mt-20">Previewing while you write<a href="#previewing-while-you-write" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="previewing-while-you-write" class="group scroll-mt-20">Previewing while you write<a href="#previewing-while-you-write" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Select <strong>View &gt; Preview in Tab</strong>, or <strong>View &gt; Preview in Split</strong> to keep the source beside it. The preview refreshes as you edit.</p>
       <p>The preview is not a plain rendering of the file you have open. It resolves conrefs, so reused content appears where it is pulled in, and it resolves key references when it knows which map provides the context.</p>
       <p>From the command line:</p>
@@ -132,11 +133,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Without <code>--output</code> the HTML goes to standard output.</p>
-      <h2 id="deliverables" class="group scroll-mt-20">Deliverables<a href="#deliverables" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="deliverables" class="group scroll-mt-20">Deliverables<a href="#deliverables" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A deliverable defines one output: a map, a transform type, a DITAVAL, parameters, and an output directory. A project usually has several, such as an HTML guide for each platform and a PDF for print.</p>
       <p>Deliverables come from a DITA project file, which is a standard rather than something this editor invented, so the same definitions work with DITA-OT directly.</p>
       <p>When a project has no project file, DogsBay XML uses the default root map. You can therefore build a documentation set that is not yet formalized.</p>
-      <h2 id="building" class="group scroll-mt-20">Building<a href="#building" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="building" class="group scroll-mt-20">Building<a href="#building" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <CodeBlock code={"dogsbay-xml build .\ndogsbay-xml build . html-guide"} lang="bash" />
       <p>The first builds every deliverable; the second builds one by name. The command exits with a nonzero status when any build reports errors, so it works as a pipeline step.</p>
       <p>Two options are worth knowing:</p>
@@ -159,13 +160,13 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableBody>
       </Table>
       <p>Building requires DITA-OT. The sample project is configured with one already.</p>
-      <h2 id="checking-before-you-publish" class="group scroll-mt-20">Checking before you publish<a href="#checking-before-you-publish" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="checking-before-you-publish" class="group scroll-mt-20">Checking before you publish<a href="#checking-before-you-publish" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A build that succeeds can still be missing content, because a key that fails to resolve does not always stop the build.</p>
       <CodeBlock code={"dogsbay-xml validate-deliverables .\ndogsbay-xml validate-ot ."} lang="bash" />
       <p><code>validate-deliverables</code> validates each deliverable with its own map and conditions. <code>validate-ot</code> goes further and runs DITA-OT preprocessing, which is the only way to catch a key or conref that resolves in one build and not in another.</p>
       <p>Before either, the cheaper check:</p>
       <CodeBlock code={"dogsbay-xml project-health . --map audacity-guide.ditamap"} lang="bash" />
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

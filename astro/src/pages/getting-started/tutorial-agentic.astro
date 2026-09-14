@@ -94,6 +94,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -101,11 +102,11 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="tutorial-using-an-agent-to-fix-a-dita-project" class="group scroll-mt-20">Tutorial: Using an agent to fix a DITA project<a href="#tutorial-using-an-agent-to-fix-a-dita-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="tutorial-using-an-agent-to-fix-a-dita-project" class="group scroll-mt-20">Tutorial: Using an agent to fix a DITA project<a href="#tutorial-using-an-agent-to-fix-a-dita-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>In this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix some of them with the AI agent.</p>
       <p>The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.</p>
       <p><strong>Time:</strong> about 30 minutes. <strong>You need:</strong> DogsBay XML. See <a href="./install">Installing</a>. You need a subscription or API key only when you reach the agent section.</p>
-      <h2 id="step-1-open-the-sample-project" class="group scroll-mt-20">Step 1: Open the sample project<a href="#step-1-open-the-sample-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-1-open-the-sample-project" class="group scroll-mt-20">Step 1: Open the sample project<a href="#step-1-open-the-sample-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Steps>
       <Step>
       <strong>Select File &gt; Open Sample Project</strong> The editor asks where to put it.
@@ -118,7 +119,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>You now have your own copy to break further and repair.</p>
-      <h2 id="step-2-open-the-agent" class="group scroll-mt-20">Step 2: Open the agent<a href="#step-2-open-the-agent" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-2-open-the-agent" class="group scroll-mt-20">Step 2: Open the agent<a href="#step-2-open-the-agent" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Steps>
       <Step>
       <strong>Open the AI Agent panel</strong> Open <strong>AI Agent</strong> at the top of the right sidebar. The first tab is the built-in agent, which runs with your authority and does not need the integration server.
@@ -128,7 +129,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>If you prefer to control Claude Code, Codex, or Gemini from the panel, see <a href="/dogsbay-xml-docs/agent/hosted-agents">Using a hosted agent</a>. A hosted session opens at tier T1 and needs the integration server; the built-in agent needs neither.</p>
-      <h2 id="step-3-ask-it-to-find-and-fix-the-problems" class="group scroll-mt-20">Step 3: Ask it to find and fix the problems<a href="#step-3-ask-it-to-find-and-fix-the-problems" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-3-ask-it-to-find-and-fix-the-problems" class="group scroll-mt-20">Step 3: Ask it to find and fix the problems<a href="#step-3-ask-it-to-find-and-fix-the-problems" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>An agent can handle repetitive updates across many topics.</p>
       <Steps>
       <Step>
@@ -142,7 +143,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>The agent works across the project rather than opening each file in turn, because it has the editor's project operations available to it.</p>
-      <h2 id="step-4-review-what-it-proposes" class="group scroll-mt-20">Step 4: Review what it proposes<a href="#step-4-review-what-it-proposes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-4-review-what-it-proposes" class="group scroll-mt-20">Step 4: Review what it proposes<a href="#step-4-review-what-it-proposes" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The agent's edits do not overwrite your files. They arrive as tracked changes.</p>
       <Steps>
       <Step>
@@ -156,17 +157,17 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </Step>
       </Steps>
       <p>This is the part worth slowing down for. The agent proposes; you decide.</p>
-      <h2 id="step-5-check-the-project-again" class="group scroll-mt-20">Step 5: Check the project again<a href="#step-5-check-the-project-again" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="step-5-check-the-project-again" class="group scroll-mt-20">Step 5: Check the project again<a href="#step-5-check-the-project-again" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <CodeBlock code={"dogsbay-xml project-health . --schematron house-style.sch"} lang="bash" />
       <p>Fewer problems should remain. What is left is the more interesting work: the hardcoded product name that should be a key, the conditions that are not in the subject scheme, and the topic that is too long and should be split.</p>
-      <h2 id="what-you-learned" class="group scroll-mt-20">What you learned<a href="#what-you-learned" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-you-learned" class="group scroll-mt-20">What you learned<a href="#what-you-learned" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <ul>
       <li>The sample project is a copy, so you can experiment freely.</li>
       <li>Project-level checks find problems across files.</li>
       <li>The agent calls the editor's own DITA operations rather than editing text.</li>
       <li>You review the agent's proposed changes and decide whether to accept them.</li>
       </ul>
-      <h2 id="where-to-go-next" class="group scroll-mt-20">Where to go next<a href="#where-to-go-next" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="where-to-go-next" class="group scroll-mt-20">Where to go next<a href="#where-to-go-next" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

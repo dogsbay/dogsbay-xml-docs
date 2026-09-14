@@ -103,6 +103,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -110,16 +111,16 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="metadata" class="group scroll-mt-20">Metadata<a href="#metadata" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="metadata" class="group scroll-mt-20">Metadata<a href="#metadata" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>Metadata in a documentation set is useful only when it is consistent. A policy defines the fields that topics must contain. The editor audits the content against the policy and fills in missing fields without changing the rest of the prolog.</p>
-      <h2 id="where-the-policy-lives" class="group scroll-mt-20">Where the policy lives<a href="#where-the-policy-lives" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="where-the-policy-lives" class="group scroll-mt-20">Where the policy lives<a href="#where-the-policy-lives" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The required-metadata policy is part of the project configuration, in <code>.dogsbay/config.xml</code>. Because it is a file in the project, it is shared with everyone who clones it and changes with the content. For the rule attributes and field names, see <a href="/dogsbay-xml-docs/reference/project-config#metadata-policy">Project configuration</a>.</p>
       <p>You can point at a different policy for one run with <code>--policy</code>.</p>
-      <h2 id="auditing" class="group scroll-mt-20">Auditing<a href="#auditing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="auditing" class="group scroll-mt-20">Auditing<a href="#auditing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <CodeBlock code={"dogsbay-xml metadata-audit . --map audacity-guide.ditamap"} lang="bash" />
       <p>The command reports where required fields are missing or contain a value that the policy does not allow. It exits with a nonzero status on any error-level violation, so it works as a pipeline gate.</p>
       <p>Use <code>--scope</code> to audit something other than a map's publication set, such as a glob or the project root.</p>
-      <h2 id="filling-in-what-is-missing" class="group scroll-mt-20">Filling in what is missing<a href="#filling-in-what-is-missing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="filling-in-what-is-missing" class="group scroll-mt-20">Filling in what is missing<a href="#filling-in-what-is-missing" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p><code>metadata-set</code> applies changes in bulk and preserves the fields it is not asked to touch.</p>
       <CodeBlock code={"dogsbay-xml metadata-set . --map audacity-guide.ditamap \\\n  --fill audience=user --dry-run"} lang="bash" />
       <p>The four operations differ in a way worth getting right:</p>
@@ -156,12 +157,12 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
           <p><code>metadata-set</code> writes unless you pass <code>--dry-run</code>. That is the opposite of the refactoring commands, which do nothing until you pass <code>--apply</code>. Check with <code>--dry-run</code> first on a scope you have not touched before.</p>
         </AlertDescription>
       </Alert>
-      <h2 id="enforcing-the-policy-outside-the-editor" class="group scroll-mt-20">Enforcing the policy outside the editor<a href="#enforcing-the-policy-outside-the-editor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="enforcing-the-policy-outside-the-editor" class="group scroll-mt-20">Enforcing the policy outside the editor<a href="#enforcing-the-policy-outside-the-editor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The same policy can be compiled to ISO Schematron, so a build system that has no DogsBay XML can still check it:</p>
       <CodeBlock code={"dogsbay-xml metadata-export-schematron . --output metadata-policy.sch"} lang="bash" />
       <p>Run the result anywhere Schematron runs, including here:</p>
       <CodeBlock code={"dogsbay-xml schematron-project . metadata-policy.sch"} lang="bash" />
-      <h2 id="a-useful-order" class="group scroll-mt-20">A useful order<a href="#a-useful-order" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="a-useful-order" class="group scroll-mt-20">A useful order<a href="#a-useful-order" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Steps>
       <Step>
       <strong>Audit before you change anything</strong> <code>metadata-audit</code> tells you the size of the problem.
@@ -176,7 +177,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <strong>Gate it</strong> Add <code>metadata-audit</code> to the pipeline so the gap does not reopen.
       </Step>
       </Steps>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

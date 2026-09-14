@@ -92,6 +92,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -99,44 +100,44 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="validating-a-project" class="group scroll-mt-20">Validating a project<a href="#validating-a-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="validating-a-project" class="group scroll-mt-20">Validating a project<a href="#validating-a-project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>Validation in DogsBay XML answers three separate questions, and it is worth keeping them apart because they fail for different reasons.</p>
       <p><strong>Is this well-formed and valid?</strong> The document parses and matches its grammar, whether that grammar is a DTD, an XML Schema, or RELAX NG.</p>
       <p><strong>Does it follow the project rules?</strong> Schematron checks business rules that a grammar cannot express. For example, every topic has a short description, product names are not hardcoded, and metadata is present.</p>
       <p><strong>Does the project hold together?</strong> References resolve, keys are defined, and every topic belongs to a map. These qualities apply to the project, not to an individual file.</p>
-      <h2 id="one-document" class="group scroll-mt-20">One document<a href="#one-document" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="one-document" class="group scroll-mt-20">One document<a href="#one-document" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Grammar validation resolves catalogs, so a DITA topic validates against the grammar its DOCTYPE names. A DITA file with no explicit schema falls back to the bundled DITA grammars, which means it validates the same way in the editor and headless.</p>
       <CodeBlock code={"dogsbay-xml validate topics/installing-audacity.dita"} lang="bash" />
       <p>In the editor, problems appear in the margin as you type and in the error pane.</p>
-      <h2 id="a-whole-set" class="group scroll-mt-20">A whole set<a href="#a-whole-set" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="a-whole-set" class="group scroll-mt-20">A whole set<a href="#a-whole-set" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <CodeBlock code={"dogsbay-xml validate-project . --map audacity-guide.ditamap"} lang="bash" />
       <p>The scope decides what is checked. With <code>--map</code>, it is that map's publication set, which is what a build would include. With <code>--scope</code> you can point at a glob or the project root instead.</p>
       <p>The command exits with a nonzero status when any file is invalid.</p>
-      <h2 id="business-rules-with-schematron" class="group scroll-mt-20">Business rules with Schematron<a href="#business-rules-with-schematron" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="business-rules-with-schematron" class="group scroll-mt-20">Business rules with Schematron<a href="#business-rules-with-schematron" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Schematron expresses the rules your house style cares about. The sample project ships one, <code>house-style.sch</code>, which requires a short description on every topic and forbids hardcoded product names in prose.</p>
       <CodeBlock code={"dogsbay-xml schematron topics/installing-audacity.dita house-style.sch\ndogsbay-xml schematron-project . house-style.sch"} lang="bash" />
       <p>The editor and a pipeline report rule failures in the same way because they use the same engine.</p>
-      <h2 id="the-whole-picture" class="group scroll-mt-20">The whole picture<a href="#the-whole-picture" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="the-whole-picture" class="group scroll-mt-20">The whole picture<a href="#the-whole-picture" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p><code>project-health</code> runs reference and key analysis, grammar validation, the conref element-ID audit, and the required-metadata policy. It also reports open agent proposals:</p>
       <CodeBlock code={"dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch"} lang="bash" />
       <p>A clean result is the publish-ready gate. Adding <code>--map</code> enables key analysis and limits validation to the publication set. Without this option, the command also validates files that no map includes and reports orphaned topics.</p>
       <p><code>--schematron</code> adds the project's house rules to the run and its result. Without this option, the gate cannot check those rules. A DTD cannot express a rule such as "every topic needs a shortdesc," so the rule lives in a Schematron schema that the command applies when you name it.</p>
-      <h3 id="reading-the-result" class="group scroll-mt-20">Reading the result<a href="#reading-the-result" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h3>
+      <h3 id="reading-the-result" class="group scroll-mt-20">Reading the result<a href="#reading-the-result" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Every finding is printed, and the run ends with the counts:</p>
       <CodeBlock code={"Summary\n  Broken references             1\n  Broken element ids            1\n  House rules                  30  in 15 of 36 files\n    Every topic needs a shortdesc (a one- or two-sentence descrip…   14\n    Use uicontrol for UI labels (and drop decorative bold); do no…    7\n    Do not hardcode the product name \"Audacity\" in prose; use a k…    5\n  Metadata policy              49  in 21 of 29 files (28 error(s), 21 warning(s))\n    recommended <author> is missing                                  21\n    missing required <keyword>                                       21\n  Invalid files                 3  of 36"} lang="plaintext" />
       <p>The summary appears last, where it remains visible in a terminal. The command groups house rules and the metadata policy by rule, with the most frequent first. Instead of 30 separate problems, you see "14 missing shortdescs, seven bold labels, and five hardcoded product names," which gives you a practical work plan.</p>
       <p><code>--summary</code> prints only that block when you want an overview instead of the full list:</p>
       <CodeBlock code={"dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch --summary"} lang="bash" />
       <p>A healthy project prints one line either way.</p>
-      <h2 id="what-static-validation-cannot-catch" class="group scroll-mt-20">What static validation cannot catch<a href="#what-static-validation-cannot-catch" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="what-static-validation-cannot-catch" class="group scroll-mt-20">What static validation cannot catch<a href="#what-static-validation-cannot-catch" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>A key reference can be well-formed and valid but still fail to resolve at build time because resolution depends on the map, conditions, and scopes. The only way to be sure is to run the resolution:</p>
       <CodeBlock code={"dogsbay-xml validate-ot ."} lang="bash" />
       <p>The command runs DITA-OT preprocessing for each deliverable and reports what it cannot resolve. It requires DITA-OT and runs more slowly than the preceding checks, so it is separate from <code>project-health</code>.</p>
-      <h2 id="using-these-as-a-gate" class="group scroll-mt-20">Using these as a gate<a href="#using-these-as-a-gate" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="using-these-as-a-gate" class="group scroll-mt-20">Using these as a gate<a href="#using-these-as-a-gate" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Each command exits with a nonzero status when it finds a problem, so a pipeline can use a short list:</p>
       <CodeBlock code={"dogsbay-xml validate-project . --map audacity-guide.ditamap\ndogsbay-xml validate-conditions . --map audacity-guide.ditamap\ndogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch"} lang="bash" />
       <p><code>project-health</code> covers what <code>schematron-project</code> and <code>metadata-audit</code> report. Add those two commands separately only when you want independent failures. Run the fast checks first. Run <code>validate-ot</code> at the end or on a schedule instead of on every commit.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

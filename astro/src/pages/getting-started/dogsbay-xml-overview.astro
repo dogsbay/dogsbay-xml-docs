@@ -91,6 +91,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -98,7 +99,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="dogsbay-xml-overview" class="group scroll-mt-20">DogsBay XML overview<a href="#dogsbay-xml-overview" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="dogsbay-xml-overview" class="group scroll-mt-20">DogsBay XML overview<a href="#dogsbay-xml-overview" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>DogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed at writers who maintain complex documentation sets. The editor:</p>
       <ul>
       <li>Validates against your grammar as you type</li>
@@ -107,22 +108,22 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <li>Publishes through DITA-OT</li>
       <li>Runs AI agents that can use all the editor's features</li>
       </ul>
-      <h2 id="who-it-is-for" class="group scroll-mt-20">Who it is for<a href="#who-it-is-for" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="who-it-is-for" class="group scroll-mt-20">Who it is for<a href="#who-it-is-for" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>DogsBay XML is for technical writers who work in DITA or another documentation set where relationships between files matter. For example:</p>
       <ul>
       <li>Keys that resolve differently in different maps</li>
       <li>Topics reused by conref in three places</li>
       <li>Conditionals that decide what a build contains</li>
       </ul>
-      <h2 id="one-engine-three-interfaces" class="group scroll-mt-20">One engine, three interfaces<a href="#one-engine-three-interfaces" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="one-engine-three-interfaces" class="group scroll-mt-20">One engine, three interfaces<a href="#one-engine-three-interfaces" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The editor's UI menus, the command line, and the MCP server for agents all run the exact same commands.</p>
-      <h2 id="the-project-is-the-unit" class="group scroll-mt-20">The project is the unit<a href="#the-project-is-the-unit" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="the-project-is-the-unit" class="group scroll-mt-20">The project is the unit<a href="#the-project-is-the-unit" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Keys, conrefs, maps, and relationship tables describe how files relate. The operations that matter therefore work across all of them at once. They can find every reference to a topic, every use of a key, every condition value that the subject scheme disallows, and every topic that no map includes.</p>
       <p>That project awareness also makes the agent useful. Instead of editing a file as plain text, the agent calls operations that already understand the project.</p>
-      <h2 id="nothing-changes-until-you-say-so" class="group scroll-mt-20">Nothing changes until you say so<a href="#nothing-changes-until-you-say-so" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="nothing-changes-until-you-say-so" class="group scroll-mt-20">Nothing changes until you say so<a href="#nothing-changes-until-you-say-so" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The modifications that an agent makes to DITA files arrive as tracked changes attributed to it, and you accept or reject the changes.</p>
       <p>Refactoring commands run as dry runs by default and report what they would do. Pass <code>--apply</code> when you are satisfied with the plan. In the editor, review the same plan in a table before you run it.</p>
-      <h2 id="where-to-start" class="group scroll-mt-20">Where to start<a href="#where-to-start" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="where-to-start" class="group scroll-mt-20">Where to start<a href="#where-to-start" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">

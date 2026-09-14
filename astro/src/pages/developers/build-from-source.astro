@@ -98,6 +98,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   basePath={"/dogsbay-xml-docs"}
   navMode={"client"}
   pagefindUrl={"/dogsbay-xml-docs/pagefind/"}
+  pagefindBaseUrl={"/"}
   favicon={"/dogsbay-xml-docs/favicon.svg"}
   wideLayout={false}
   toc={"top"}
@@ -105,9 +106,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <RightRailStack slot="right-rail" />
   <MarkdownContentStack>
     <article class="docs-prose">
-      <h1 id="building-from-source" class="group scroll-mt-20">Building from source<a href="#building-from-source" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h1>
+      <h1 id="building-from-source" class="group scroll-mt-20">Building from source<a href="#building-from-source" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>Use these instructions if you are working on the editor or running it where you cannot use an installer, such as a build server, container, or CI job. To use DogsBay XML without building it, <a href="/dogsbay-xml-docs/getting-started/install">install a package</a>.</p>
-      <h2 id="building" class="group scroll-mt-20">Building<a href="#building" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="building" class="group scroll-mt-20">Building<a href="#building" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>You need a JDK. You do not need to install Gradle: the <code>gradlew</code> script in the repository downloads the version the build expects, and the build downloads the JDK 25 toolchain it compiles against if your JDK is a different version.</p>
       <CodeBlock code={"git clone https://github.com/dogsbay/dogsbay-xml\ncd dogsbay-xml\n./gradlew run"} lang="bash" />
       <p>The first run takes noticeably longer than later ones, because it is fetching Gradle, possibly a JDK, and the project's dependencies.</p>
@@ -137,18 +138,18 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="running-the-command-line-from-a-checkout" class="group scroll-mt-20">Running the command line from a checkout<a href="#running-the-command-line-from-a-checkout" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="running-the-command-line-from-a-checkout" class="group scroll-mt-20">Running the command line from a checkout<a href="#running-the-command-line-from-a-checkout" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>The <code>bin/dogsbay-xml</code> script runs the CLI out of the build tree, so it needs the classes compiled and the libraries copied into <code>lib/</code>:</p>
       <CodeBlock code={"./gradlew syncLib classes\nbin/dogsbay-xml --help"} lang="bash" />
       <p>Both are needed. <code>syncLib</code> alone copies the dependencies but compiles nothing, and the script runs from <code>build/classes</code>.</p>
-      <h2 id="running-on-a-machine-with-no-installer" class="group scroll-mt-20">Running on a machine with no installer<a href="#running-on-a-machine-with-no-installer" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="running-on-a-machine-with-no-installer" class="group scroll-mt-20">Running on a machine with no installer<a href="#running-on-a-machine-with-no-installer" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Each release includes an all-in-one JAR file that contains the editor and its dependencies. The file requires only JDK 25 on the machine, so it is suitable for CI runners and containers that do not use an installer or desktop.</p>
       <p>Download <code>dogsbay-editor-&lt;version&gt;-all.jar</code> from the <a href="https://github.com/dogsbay/dogsbay-xml/releases">releases page</a>, then:</p>
       <CodeBlock code={"java -cp dogsbay-editor-4.0.0-beta.1-all.jar \\\n  com.dogsbay.dogsbayaieditor.cli.DogsBayCli project-health ."} lang="bash" />
       <p>The JAR file starts the editor when you use <code>java -jar</code>. Name the CLI class to run the command line instead. A shell alias shortens the command:</p>
       <CodeBlock code={"alias dogsbay-xml='java -cp /opt/dogsbay-editor-all.jar com.dogsbay.dogsbayaieditor.cli.DogsBayCli'\ndogsbay-xml validate-deliverables ."} lang="bash" />
       <p>All commands in <a href="/dogsbay-xml-docs/reference/cli">the command line reference</a> work this way, except commands that control a running editor.</p>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1">&para;</a></h2>
+      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">
