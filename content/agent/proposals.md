@@ -28,6 +28,14 @@ Your own edits are never marked this way.
    **Accept all** or **Reject all** to act on the whole set.
 :::
 
+## Reviewing changes across files
+
+An agent often changes several files in one turn. The panel starts with the proposals in the active document, and tells you when other files have proposals too, for example "4 other files have proposals".
+
+To review them all, select **All files** at the top of the panel, or select **Show all**. The list groups proposals by file, with the number in each file. Select a proposal to open its file at the change. After you accept or reject a proposal, the panel moves to the next one, and into the next file when a file has none left.
+
+In **All files**, **Accept all** and **Reject all** act only on the file of the selected proposal. The list updates when you switch documents, after each decision, and every few seconds while the panel is open. Select **Refresh** to update it now.
+
 ## Kinds of proposal
 
 | Kind | What it means |
