@@ -113,6 +113,10 @@
         "href": "/dogsbay-xml-docs/reference/settings"
       },
       {
+        "label": "Project configuration",
+        "href": "/dogsbay-xml-docs/reference/project-config"
+      },
+      {
         "label": "Keyboard shortcuts",
         "href": "/dogsbay-xml-docs/reference/shortcuts"
       },

@@ -8,7 +8,7 @@ type: reference
 
 **File > Settings** opens the editor's settings. The pages are listed down the left; a change applies when you select **OK**, and **Cancel** discards everything you changed since the dialog opened.
 
-Settings are stored in `~/.dogsbay/settings.xml` and apply to every project. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own `.dogsbay/config.xml`, which you can commit and share. See [Format](#format) below for how to write the current formatting into it.
+Settings are stored in `~/.dogsbay/settings.xml` and apply to every project. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own `.dogsbay/config.xml`, which you can commit and share; see [Project configuration](/reference/project-config). See [Format](#format) below for how to write the current formatting into it.
 
 ## Server
 

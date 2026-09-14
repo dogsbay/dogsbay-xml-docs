@@ -15,7 +15,7 @@ the prolog.
 
 The required-metadata policy is part of the project configuration, in
 `.dogsbay/config.xml`. Because it is a file in the project, it is shared with
-everyone who clones it and changes with the content.
+everyone who clones it and changes with the content. For the rule attributes and field names, see [Project configuration](/reference/project-config#metadata-policy).
 
 You can point at a different policy for one run with `--policy`.
 
