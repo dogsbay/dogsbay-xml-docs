@@ -38,7 +38,7 @@ Add its directory to your `PATH` to run it by name:
 :::tabs
 Linux
 :   ```bash
-    export PATH="/opt/dogsbay-xml/bin:$PATH"
+    export PATH="/opt/dogsbay-xml-editor/bin:$PATH"
     dogsbay-xml --version
     ```
 
@@ -46,7 +46,7 @@ Linux
 
 macOS
 :   ```bash
-    export PATH="/Applications/DogsBay-XML.app/Contents/MacOS:$PATH"
+    export PATH="/Applications/DogsBay-XML-Editor.app/Contents/MacOS:$PATH"
     dogsbay-xml --version
     ```
 
@@ -54,7 +54,7 @@ macOS
 
 Windows
 :   ```powershell
-    $env:Path += ";C:\Program Files\DogsBay-XML"
+    $env:Path += ";C:\Program Files\DogsBay-XML-Editor"
     dogsbay-xml --version
     ```
 
@@ -77,12 +77,12 @@ Removing the application leaves your settings and the agent's history in place, 
 :::tabs
 Linux
 :   ```bash
-    sudo apt remove dogsbay-xml       # or: sudo dnf remove dogsbay-xml
+    sudo apt remove dogsbay-xml-editor       # or: sudo dnf remove dogsbay-xml-editor
     ```
 
 macOS
 :   ```bash
-    rm -rf /Applications/DogsBay-XML.app
+    rm -rf /Applications/DogsBay-XML-Editor.app
     ```
 
 Windows
