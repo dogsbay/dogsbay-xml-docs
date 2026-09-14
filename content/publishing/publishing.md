@@ -79,7 +79,7 @@ dogsbay-xml validate-ot .
 ```
 
 `validate-deliverables` validates each deliverable with its own map and
-conditions. `validate-ot` goes further and runs DITA-OT preprocessing, which
+conditions. It lists each invalid file once, with the deliverables it breaks. `validate-ot` goes further and runs DITA-OT preprocessing, which
 is the only way to catch a key or conref that resolves in one build and not in
 another.
 

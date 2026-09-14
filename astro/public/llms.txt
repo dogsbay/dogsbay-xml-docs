@@ -31,6 +31,7 @@
 
 - [Validating a project](https://dogsbay.ai/dogsbay-xml-docs/finding/validation.md): Check a document or documentation set against its grammar, business rules, and references. Use the checks as a build gate.
 - [Refactoring](https://dogsbay.ai/dogsbay-xml-docs/finding/refactoring.md): Rename, move, split, and restructure content without breaking its references.
+- [Mapping a project and writing reports](https://dogsbay.ai/dogsbay-xml-docs/finding/reports.md): See how maps, topics, and keys connect, and write standalone HTML pages that anyone can open.
 
 ## Publishing
 

@@ -46,6 +46,8 @@ These commands answer questions about more than one file.
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
 | `project-health` | Report broken references, key problems, orphaned topics, grammar validation, metadata policy violations, and open proposals. With `--schematron`, also report the project's house rules. |
+| `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON. |
+| `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
 
 `check-links`, `health`, and `project-health` exit with a nonzero status when
 they find a problem, so they work as pipeline gates.
@@ -54,7 +56,9 @@ they find a problem, so they work as pipeline gates.
 dogsbay-xml project-health . --schematron house-style.sch
 ```
 
-`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone. See [validating a project](/finding/validation#reading-the-result).
+`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone, `--include` to run only some of the checks (for example `--include reuse,validation`), and `--severity error` to leave out findings that do not block a clean result, such as unused keys. See [validating a project](/finding/validation#reading-the-result).
+
+To see the project as a page, see [Mapping a project and writing reports](/finding/reports).
 
 ## Validating a set
 

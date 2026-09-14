@@ -1417,6 +1417,81 @@ If a refactoring would create a broken reference, it reports the problem instead
 
 ---
 
+# Mapping a project and writing reports
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/finding/reports.md
+
+---
+title: Mapping a project and writing reports
+description: See how maps, topics, and keys connect, and write standalone HTML pages that anyone can open.
+type: how-to
+---
+
+# Mapping a project and writing reports {#mapping-a-project-and-writing-reports}
+
+A documentation set is easier to fix when you can see it. The editor can describe how every map, topic, key, and DITAVAL file connects, and turn that, or any other check, into a standalone HTML page. The page is a single file that opens from disk in any browser, with no internet connection, so you can attach it to a ticket or keep it next to the content.
+
+## Write a relationship map {#write-a-relationship-map}
+
+```bash
+dogsbay-xml report project-graph . -o docs/relationship-map.html
+```
+
+The page has three tabs:
+
+- **Graph** draws maps as squares, topics as circles, keys as diamonds, and DITAVAL files as chevrons. Select a node to see what it references and what references it. Choose a deliverable to see only what that deliverable ships, and turn relationship kinds on and off.
+- **Table** lists every relationship, with the line it is on and, for a key, the map that defined it.
+- **Issues** lists broken references, undefined keys, keys that resolve in some deliverables but not others, shadowed and unused keys, orphaned topics, files that fail grammar validation, and reuse references to missing element IDs. Select a file to find it in the graph.
+
+A broken reference or a missing file is drawn in the error color and labeled, so the problem is visible without relying on color.
+
+To map one deliverable or one root map:
+
+```bash
+dogsbay-xml report project-graph . -o beginner-map.html --arg deliverable=beginner-mac
+dogsbay-xml report project-graph . -o guide-map.html --arg map=audacity-guide.ditamap
+```
+
+## Write a health report {#write-a-health-report}
+
+```bash
+dogsbay-xml report project-health . -o health.html --arg map=audacity-guide.ditamap
+```
+
+The page shows whether the project is clean, then one table per check. A rule that fails in many files appears once, with a count and the list of files.
+
+## Ask the agent for a page {#ask-the-agent-for-a-page}
+
+The agent and connected assistants use the same operation. Ask for the page you want, for example *write a relationship map of this project to docs/relationship-map.html*. The agent reads the project with the editor's own checks, so the page matches what `project-health` reports.
+
+## Use your own template {#use-your-own-template}
+
+The built-in templates are `relationship-map` and `health`. A project can add its own: save an HTML file in `.dogsbay/reports/` and name it with `--template`:
+
+```bash
+dogsbay-xml report project-graph . -o coverage.html --template .dogsbay/reports/coverage.html
+```
+
+A template is an ordinary HTML page with one empty `<script id="report-data" type="application/json"></script>` element. The command fills that element with the command's JSON output. The page's own script reads it with `JSON.parse`, and the result is still a single file.
+
+To see the data a template receives, run the command on its own:
+
+```bash
+dogsbay-xml project-graph .
+```
+
+## Related {#related}
+
+:::cards
+- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
+  The checks behind the health report, and how to use them as a build gate.
+
+- **[The command line](/dogsbay-xml-docs/reference/cli){icon="terminal"}**
+  Every command, including project-graph and report.
+:::
+
+---
+
 # Previewing and publishing
 
 URL: https://dogsbay.ai/dogsbay-xml-docs/publishing/publishing.md
@@ -1488,7 +1563,7 @@ dogsbay-xml validate-deliverables .
 dogsbay-xml validate-ot .
 ```
 
-`validate-deliverables` validates each deliverable with its own map and conditions. `validate-ot` goes further and runs DITA-OT preprocessing, which is the only way to catch a key or conref that resolves in one build and not in another.
+`validate-deliverables` validates each deliverable with its own map and conditions. It lists each invalid file once, with the deliverables it breaks. `validate-ot` goes further and runs DITA-OT preprocessing, which is the only way to catch a key or conref that resolves in one build and not in another.
 
 Before either, the cheaper check:
 
@@ -1562,10 +1637,14 @@ The tools support the same operations as the command line:
 
 - **Read and validate** documents, including Schematron and project-wide validation
 - **Inspect the project** to find where a file is used, what a key resolves to, which references are broken, and the project's overall health
+- **Map the project** in one call: every map, topic, key, and DITAVAL file, how they connect, and what each deliverable ships
+- **Write reports** as standalone HTML pages, such as a relationship map or a health report
 - **Refactor** by renaming files, keys, and IDs; converting between direct references and keys; extracting and inlining reuse; and splitting topics
 - **Edit** the structure of maps and relationship tables
 - **Control the editor** by opening documents, moving the cursor, selecting elements, and reading the outline
 - **Review** proposals, add comments, and read the audit log
+
+When a client connects, the server tells the assistant where to start: the project health check for any validation or audit question, the project graph for structure, and the report tool for a page. An assistant that follows it finds the checks the editor already has instead of writing its own.
 
 Every call is attributed to a session, so the audit log records which assistant did what.
 
@@ -2309,6 +2388,8 @@ These commands answer questions about more than one file.
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
 | `project-health` | Report broken references, key problems, orphaned topics, grammar validation, metadata policy violations, and open proposals. With `--schematron`, also report the project's house rules. |
+| `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON. |
+| `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
 
 `check-links`, `health`, and `project-health` exit with a nonzero status when they find a problem, so they work as pipeline gates.
 
@@ -2316,7 +2397,9 @@ These commands answer questions about more than one file.
 dogsbay-xml project-health . --schematron house-style.sch
 ```
 
-`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone. See [validating a project](/dogsbay-xml-docs/finding/validation#reading-the-result).
+`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone, `--include` to run only some of the checks (for example `--include reuse,validation`), and `--severity error` to leave out findings that do not block a clean result, such as unused keys. See [validating a project](/dogsbay-xml-docs/finding/validation#reading-the-result).
+
+To see the project as a page, see [Mapping a project and writing reports](/dogsbay-xml-docs/finding/reports).
 
 ## Validating a set {#validating-a-set}
 

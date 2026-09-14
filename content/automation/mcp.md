@@ -58,12 +58,18 @@ The tools support the same operations as the command line:
   validation
 - **Inspect the project** to find where a file is used, what a key resolves to,
   which references are broken, and the project's overall health
+- **Map the project** in one call: every map, topic, key, and DITAVAL file,
+  how they connect, and what each deliverable ships
+- **Write reports** as standalone HTML pages, such as a relationship map or a
+  health report
 - **Refactor** by renaming files, keys, and IDs; converting between direct
   references and keys; extracting and inlining reuse; and splitting topics
 - **Edit** the structure of maps and relationship tables
 - **Control the editor** by opening documents, moving the cursor, selecting
   elements, and reading the outline
 - **Review** proposals, add comments, and read the audit log
+
+When a client connects, the server tells the assistant where to start: the project health check for any validation or audit question, the project graph for structure, and the report tool for a page. An assistant that follows it finds the checks the editor already has instead of writing its own.
 
 Every call is attributed to a session, so the audit log records which
 assistant did what.

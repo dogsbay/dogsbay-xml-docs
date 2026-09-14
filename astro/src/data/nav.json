@@ -76,6 +76,10 @@
       {
         "label": "Refactoring",
         "href": "/dogsbay-xml-docs/finding/refactoring"
+      },
+      {
+        "label": "Mapping a project and writing reports",
+        "href": "/dogsbay-xml-docs/finding/reports"
       }
     ]
   },
