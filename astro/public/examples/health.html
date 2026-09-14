@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Health Report</title>
+<style>
+/* DogsBay report kit: base styles. Theme tokens, layout, tabs, tables, badges. */
+:root {
+  color-scheme: light;
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #efefeb;
+  --text: #1c1d1f;
+  --muted: #5d6066;
+  --border: #d4d5d0;
+  --accent: #2456b8;
+  --accent-contrast: #ffffff;
+  --focus: #1a62e0;
+  --critical: #b3261e;
+  --critical-bg: #fbe4e2;
+  --warning: #8a5300;
+  --warning-bg: #fdf0d9;
+  --info: #1f5f99;
+  --info-bg: #e2eef9;
+  --ok: #2c6e2f;
+  --ok-bg: #e2f2e2;
+  --suspect: #6b3fa0;
+  --suspect-bg: #efe6f8;
+  --radius: 6px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #16171a;
+    --surface: #1f2024;
+    --surface-2: #2a2b30;
+    --text: #e8e8e6;
+    --muted: #a3a6ad;
+    --border: #3b3d43;
+    --accent: #7aa7ff;
+    --accent-contrast: #0d1220;
+    --focus: #8fb6ff;
+    --critical: #ff8a80;
+    --critical-bg: #3d1c1a;
+    --warning: #f2b85b;
+    --warning-bg: #3a2c12;
+    --info: #86bdf0;
+    --info-bg: #182c3e;
+    --ok: #8bd48e;
+    --ok-bg: #1b3220;
+    --suspect: #c9a6f2;
+    --suspect-bg: #2e2140;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #16171a;
+  --surface: #1f2024;
+  --surface-2: #2a2b30;
+  --text: #e8e8e6;
+  --muted: #a3a6ad;
+  --border: #3b3d43;
+  --accent: #7aa7ff;
+  --accent-contrast: #0d1220;
+  --focus: #8fb6ff;
+  --critical: #ff8a80;
+  --critical-bg: #3d1c1a;
+  --warning: #f2b85b;
+  --warning-bg: #3a2c12;
+  --info: #86bdf0;
+  --info-bg: #182c3e;
+  --ok: #8bd48e;
+  --ok-bg: #1b3220;
+  --suspect: #c9a6f2;
+  --suspect-bg: #2e2140;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  padding-inline: 16px;
+  padding-block: 16px 40px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 var(--font);
+}
+.report { max-width: 1400px; margin: 0 auto; }
+h1, h2, h3 { line-height: 1.25; margin: 0 0 .5em; }
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 1rem; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--mono); font-size: .92em; }
+.muted { color: var(--muted); }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; margin: -1px; padding: 0; border: 0;
+}
+
+.report-header {
+  display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.report-header dl { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; }
+.report-header dl div { display: flex; gap: 6px; min-width: 0; }
+.report-header dt { color: var(--muted); }
+.report-header dd { margin: 0; overflow-wrap: anywhere; }
+
+button, select, input {
+  font: inherit; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 10px;
+}
+button { cursor: pointer; }
+button:hover { background: var(--surface-2); }
+button[aria-pressed="true"] { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+.link-button {
+  background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-align: left;
+  overflow-wrap: anywhere;
+}
+.link-button:hover { background: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+.toolbar label { display: inline-flex; gap: 6px; align-items: center; }
+
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+
+/* Tabs */
+[role="tablist"] { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+[role="tab"] {
+  border: 1px solid transparent; border-bottom: 0; border-radius: var(--radius) var(--radius) 0 0;
+  background: transparent; padding: 6px 14px; margin-bottom: -1px; color: var(--muted);
+}
+[role="tab"][aria-selected="true"] {
+  background: var(--surface); border-color: var(--border); color: var(--text); font-weight: 600;
+  border-bottom: 1px solid var(--surface);
+}
+[role="tabpanel"]:focus-visible { outline-offset: 4px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table.report-table { border-collapse: collapse; width: 100%; }
+.report-table th, .report-table td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.report-table tbody tr:last-child td { border-bottom: 0; }
+.report-table th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
+.report-table th button { background: none; border: 0; padding: 0; font-weight: 600; display: inline-flex; gap: 4px; }
+.report-table th[aria-sort="ascending"] button::after { content: "\25B2"; font-size: .7em; }
+.report-table th[aria-sort="descending"] button::after { content: "\25BC"; font-size: .7em; }
+.report-table td { overflow-wrap: anywhere; }
+.table-count { color: var(--muted); font-size: .9em; }
+
+.empty { padding: 16px; color: var(--muted); text-align: center; }
+
+/* Badges: colour always paired with a text label */
+.badge {
+  display: inline-block; padding: 0 8px; border-radius: 999px; border: 1px solid currentColor;
+  font-size: .82em; font-weight: 600; white-space: nowrap; text-transform: lowercase;
+}
+.badge-error, .badge-broken, .badge-critical, .badge-missing { color: var(--critical); background: var(--critical-bg); }
+.badge-warning { color: var(--warning); background: var(--warning-bg); }
+.badge-info { color: var(--info); background: var(--info-bg); }
+.badge-suspect { color: var(--suspect); background: var(--suspect-bg); }
+.badge-ok, .badge-clean { color: var(--ok); background: var(--ok-bg); }
+.badge-error::before, .badge-broken::before, .badge-missing::before { content: "\2716\00a0"; }
+.badge-warning::before { content: "\26A0\00a0"; }
+.badge-ok::before, .badge-clean::before { content: "\2714\00a0"; }
+
+details summary { cursor: pointer; }
+details ul { margin: 4px 0 0; padding-left: 18px; }
+
+.theme-toggle { white-space: nowrap; }
+
+@media (max-width: 400px) {
+  body { padding-inline: 16px; font-size: 13px; }
+  [role="tab"] { padding: 6px 8px; }
+  .report-table th, .report-table td { padding: 4px 6px; }
+  .toolbar > * { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+</style><script>
+/* DogsBay report kit: base helpers. Plain ES2020, no dependencies. Exposes window.Report. */
+(function () {
+  'use strict';
+
+  var THEME_KEY = 'dogsbay-report-theme';
+
+  function readJson(id) {
+    var node = document.getElementById(id);
+    if (!node) return null;
+    var text = (node.textContent || '').trim();
+    if (!text) return null;
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      if (window.console) console.error('Report: cannot parse #' + id, e);
+      return null;
+    }
+  }
+
+  var cache = {};
+  function data() {
+    if (!('data' in cache)) cache.data = readJson('report-data') || {};
+    return cache.data;
+  }
+  function meta() {
+    if (!('meta' in cache)) cache.meta = readJson('report-meta') || {};
+    return cache.meta;
+  }
+
+  function escapeText(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function append(parent, child) {
+    if (child == null || child === false) return;
+    if (Array.isArray(child)) {
+      child.forEach(function (c) { append(parent, c); });
+    } else if (child instanceof Node) {
+      parent.appendChild(child);
+    } else {
+      parent.appendChild(document.createTextNode(String(child)));
+    }
+  }
+
+  /** Creates an element. attrs: class, text, style (object or string), dataset, on* handlers, others as attributes. */
+  function el(tag, attrs) {
+    var node = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (key) {
+        var value = attrs[key];
+        if (value == null || value === false) return;
+        if (key === 'class' || key === 'className') node.className = value;
+        else if (key === 'text') node.textContent = value;
+        else if (key === 'dataset') Object.keys(value).forEach(function (k) { node.dataset[k] = value[k]; });
+        else if (key === 'style' && typeof value === 'object') Object.assign(node.style, value);
+        else if (key.slice(0, 2) === 'on' && typeof value === 'function') node.addEventListener(key.slice(2).toLowerCase(), value);
+        else if (value === true) node.setAttribute(key, '');
+        else node.setAttribute(key, String(value));
+      });
+    }
+    for (var i = 2; i < arguments.length; i++) append(node, arguments[i]);
+    return node;
+  }
+
+  /**
+   * Wires ARIA tabs inside rootEl: [role=tab] elements with aria-controls pointing at [role=tabpanel] ids.
+   * Returns { select(idOrIndex), current(), onChange(fn) }.
+   */
+  function tabs(rootEl) {
+    var tabList = Array.prototype.slice.call(rootEl.querySelectorAll('[role="tab"]'));
+    var listeners = [];
+    function panelOf(tab) { return document.getElementById(tab.getAttribute('aria-controls')); }
+    function select(which, focus) {
+      var target = typeof which === 'number' ? tabList[which]
+        : tabList.filter(function (t) { return t.id === which || t.getAttribute('aria-controls') === which; })[0];
+      if (!target) return;
+      tabList.forEach(function (t) {
+        var on = t === target;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        var p = panelOf(t);
+        if (p) p.hidden = !on;
+      });
+      if (focus) target.focus();
+      listeners.forEach(function (fn) { fn(target.getAttribute('aria-controls'), target); });
+    }
+    tabList.forEach(function (tab, index) {
+      var p = panelOf(tab);
+      if (p) { p.setAttribute('aria-labelledby', tab.id); if (!p.hasAttribute('tabindex')) p.tabIndex = 0; }
+      tab.addEventListener('click', function () { select(index); });
+      tab.addEventListener('keydown', function (e) {
+        var next = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (index + 1) % tabList.length;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (index - 1 + tabList.length) % tabList.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = tabList.length - 1;
+        if (next !== null) { e.preventDefault(); select(next, true); }
+      });
+    });
+    var initial = tabList.findIndex(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+    select(initial < 0 ? 0 : initial);
+    return {
+      select: function (which) { select(which, false); },
+      current: function () {
+        var t = tabList.filter(function (x) { return x.getAttribute('aria-selected') === 'true'; })[0];
+        return t ? t.getAttribute('aria-controls') : null;
+      },
+      onChange: function (fn) { listeners.push(fn); }
+    };
+  }
+
+  function storedTheme() {
+    try {
+      var v = window.localStorage.getItem(THEME_KEY);
+      return v === 'light' || v === 'dark' ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Makes buttonEl a light/dark toggle. With no stored choice the page follows the system theme and no
+   * data-theme attribute is set. Clicking sets an explicit theme and remembers it where storage allows.
+   */
+  function themeToggle(buttonEl) {
+    var root = document.documentElement;
+    var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    function effective() {
+      var explicit = root.getAttribute('data-theme');
+      if (explicit === 'light' || explicit === 'dark') return explicit;
+      return media && media.matches ? 'dark' : 'light';
+    }
+    function sync() {
+      var dark = effective() === 'dark';
+      buttonEl.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      buttonEl.textContent = dark ? 'Dark theme' : 'Light theme';
+      buttonEl.title = 'Switch to ' + (dark ? 'light' : 'dark') + ' theme';
+    }
+    var stored = storedTheme();
+    if (stored) root.setAttribute('data-theme', stored);
+    buttonEl.classList.add('theme-toggle');
+    buttonEl.addEventListener('click', function () {
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { window.localStorage.setItem(THEME_KEY, next); } catch (e) { /* storage unavailable */ }
+      sync();
+    });
+    if (media) {
+      var onChange = function () { sync(); };
+      if (media.addEventListener) media.addEventListener('change', onChange);
+      else if (media.addListener) media.addListener(onChange);
+    }
+    sync();
+  }
+
+  function cellValue(column, row) {
+    if (column.value) return column.value(row);
+    return row[column.key];
+  }
+
+  function compareValues(a, b) {
+    var an = a == null || a === '', bn = b == null || b === '';
+    if (an || bn) return an === bn ? 0 : an ? 1 : -1;
+    if (typeof a === 'number' && typeof b === 'number') return a - b;
+    return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+  }
+
+  /**
+   * Renders a table into container.
+   * columns: [{ key, label, value?(row), render?(row) -> Node|string, className? }]
+   * options: { sortable, filterInput, caption, empty, countEl }
+   * Returns { update(rows), rows(), visibleCount() }.
+   */
+  function table(container, columns, rows, options) {
+    var opts = options || {};
+    var allRows = (rows || []).slice();
+    var sortIndex = -1, sortDir = 1, visible = 0;
+    container.textContent = '';
+
+    var wrap = el('div', { class: 'table-wrap' });
+    var tableEl = el('table', { class: 'report-table' });
+    if (opts.caption) tableEl.appendChild(el('caption', { class: 'visually-hidden', text: opts.caption }));
+    var headRow = el('tr');
+    var headers = columns.map(function (col, i) {
+      var th = el('th', { scope: 'col' });
+      if (opts.sortable) {
+        th.setAttribute('aria-sort', 'none');
+        th.appendChild(el('button', { type: 'button', onclick: function () {
+          if (sortIndex === i) sortDir = -sortDir; else { sortIndex = i; sortDir = 1; }
+          draw();
+        } }, col.label));
+      } else {
+        th.textContent = col.label;
+      }
+      headRow.appendChild(th);
+      return th;
+    });
+    tableEl.appendChild(el('thead', null, headRow));
+    var body = el('tbody');
+    tableEl.appendChild(body);
+    wrap.appendChild(tableEl);
+    var emptyEl = el('div', { class: 'empty', role: 'status' });
+    container.appendChild(wrap);
+    container.appendChild(emptyEl);
+
+    function rowText(row) {
+      return columns.map(function (c) {
+        var v = c.filterValue ? c.filterValue(row) : cellValue(c, row);
+        return Array.isArray(v) ? v.join(' ') : v == null ? '' : String(v);
+      }).join(' ').toLowerCase();
+    }
+
+    function draw() {
+      var query = opts.filterInput ? opts.filterInput.value.trim().toLowerCase() : '';
+      var list = allRows.filter(function (r) { return !query || rowText(r).indexOf(query) >= 0; });
+      if (sortIndex >= 0) {
+        var col = columns[sortIndex];
+        list.sort(function (a, b) { return sortDir * compareValues(cellValue(col, a), cellValue(col, b)); });
+      }
+      headers.forEach(function (th, i) {
+        if (opts.sortable) th.setAttribute('aria-sort', i !== sortIndex ? 'none' : sortDir > 0 ? 'ascending' : 'descending');
+      });
+      body.textContent = '';
+      var frag = document.createDocumentFragment();
+      list.forEach(function (row) {
+        var tr = el('tr');
+        columns.forEach(function (col) {
+          var td = el('td', col.className ? { class: col.className } : null);
+          if (col.render) append(td, col.render(row));
+          else { var v = cellValue(col, row); td.textContent = v == null ? '' : String(v); }
+          tr.appendChild(td);
+        });
+        frag.appendChild(tr);
+      });
+      body.appendChild(frag);
+      visible = list.length;
+      var none = list.length === 0;
+      wrap.hidden = none;
+      emptyEl.hidden = !none;
+      emptyEl.textContent = none ? (allRows.length === 0 ? (opts.empty || 'Nothing to show.') : 'No rows match the filter.') : '';
+      if (opts.countEl) {
+        opts.countEl.textContent = list.length === allRows.length
+          ? allRows.length + ' rows' : list.length + ' of ' + allRows.length + ' rows';
+      }
+    }
+
+    if (opts.filterInput) opts.filterInput.addEventListener('input', draw);
+    draw();
+    return {
+      update: function (newRows) { allRows = (newRows || []).slice(); draw(); },
+      rows: function () { return allRows.slice(); },
+      visibleCount: function () { return visible; }
+    };
+  }
+
+  function badge(label, kind) {
+    return el('span', { class: 'badge badge-' + String(kind || label).toLowerCase() }, String(label));
+  }
+
+  window.Report = Object.assign(window.Report || {}, {
+    data: data,
+    meta: meta,
+    el: el,
+    tabs: tabs,
+    themeToggle: themeToggle,
+    table: table,
+    badge: badge,
+    escapeText: escapeText
+  });
+})();
+
+</script>
+<style>
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 12px 0 20px; }
+  .summary .panel h2 { font-size: .95rem; margin-bottom: 4px; }
+  .summary .status { display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+  .summary .status.is-clean { border-color: var(--ok); }
+  .summary .status.is-dirty { border-color: var(--critical); }
+  .summary .figures { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0; }
+  .summary .figures div { display: flex; gap: 4px; }
+  .summary .figures dt { color: var(--muted); }
+  .summary .figures dd { margin: 0; font-weight: 600; }
+  .section { margin-bottom: 24px; }
+  .section-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; }
+  .section-head a { color: inherit; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="report">
+  <header class="report-header">
+    <div>
+      <h1>Project health</h1>
+      <dl>
+        <div><dt>Root</dt><dd id="hdr-root" class="mono"></dd></div>
+        <div><dt>Scope</dt><dd id="hdr-scope"></dd></div>
+        <div><dt>Generated</dt><dd id="hdr-generated"></dd></div>
+      </dl>
+    </div>
+    <button type="button" id="theme-toggle">Theme</button>
+  </header>
+  <section class="summary" id="summary" aria-label="Summary"></section>
+  <main id="sections"></main>
+</div>
+
+<script id="report-meta" type="application/json">{"generated":"2026-09-14T18:44:02.953662412Z","editorVersion":"4.0.0-beta.1","source":"project-health {\"map\":\"audacity-guide.ditamap\",\"schematron\":\"house-style.sch\",\"root\":\"audacity-demo\"}"}</script>
+<script id="report-data" type="application/json">{"reuse":{"brokenReferences":[{"source":"audacity-demo/topics/recording-your-first-track.dita","line":59,"attribute":"href","value":"digital-audio-basics.dita","reason":"target not found"}],"undefinedKeys":[{"source":"audacity-demo/topics/supported-audio-formats.dita","line":22,"attribute":"keyref","value":"gl-bitdepth","reason":"key 'gl-bitdepth' not defined"},{"source":"audacity-demo/topics/installing-audacity.dita","line":53,"attribute":"keyref","value":"produkt-version","reason":"key 'produkt-version' not defined"}],"unusedKeys":[{"name":"start-here","definedIn":"audacity-demo/audacity-guide.ditamap","line":10,"href":"topics/what-is-audacity.dita","resolvedPath":"audacity-demo/topics/what-is-audacity.dita","text":null,"scope":""},{"name":"product-version","definedIn":"audacity-demo/keydefs-product.ditamap","line":14,"href":null,"resolvedPath":null,"text":"3.4","scope":""},{"name":"project-extension","definedIn":"audacity-demo/keydefs-product.ditamap","line":28,"href":null,"resolvedPath":null,"text":".aup3","scope":""},{"name":"gl-clipping","definedIn":"audacity-demo/keydefs-glossary.ditamap","line":9,"href":"topics/glossary/g-clipping.dita","resolvedPath":"audacity-demo/topics/glossary/g-clipping.dita","text":null,"scope":""}],"orphanTopics":[],"clean":false},"validation":{"total":24,"passed":22,"failed":2,"findings":[{"file":"audacity-demo/topics/installing-audacity.dita","valid":false,"errors":[{"line":10,"column":10,"severity":"error","message":"Element type \"x\" must be declared.","source":"parser"},{"line":11,"column":15,"severity":"error","message":"The content of element type \"context\" does not match its content model.","source":"parser"},{"line":45,"column":29,"severity":"error","message":"Attribute \"type\" with value \"tipp\" must have a value from the list \"attention caution danger fastpath important note notice other remember restriction tip trouble warning -dita-use-conref-target \".","source":"parser"}]},{"file":"audacity-demo/topics/trimming-audio.dita","valid":false,"errors":[{"line":10,"column":11,"severity":"error","message":"Element type \"x\" must be declared.","source":"parser"},{"line":14,"column":15,"severity":"error","message":"The content of element type \"context\" does not match its content model.","source":"parser"}]}],"truncated":0,"clean":false},"brokenElementIds":[{"source":"audacity-demo/topics/removing-background-noise.dita","line":9,"attribute":"conref","value":"../shared/common-notes.dita#common-notes/backup-warningX","reason":"element id 'backup-warningX' not found in common-notes.dita"}],"metadata":{"total":24,"passed":3,"failed":21,"findings":[],"truncated":0,"clean":false},"openProposals":[],"schematron":{"total":24,"passed":11,"failed":13,"findings":[],"truncated":0,"clean":false},"metadataRules":[{"rule":"author","severity":"warning","message":"recommended \u003cauthor\u003e is missing","count":21,"files":["audacity-demo/shared/common-notes.dita:4","audacity-demo/shared/common-steps.dita:4","audacity-demo/topics/burning-an-audio-cd.dita:4","audacity-demo/topics/editing-techniques.dita:4","audacity-demo/topics/effects-reference.dita:4","audacity-demo/topics/exporting-audio.dita:4","audacity-demo/topics/glossary/g-bit-depth.dita:4","audacity-demo/topics/glossary/g-clipping.dita:4","audacity-demo/topics/glossary/g-compression.dita:4","audacity-demo/topics/glossary/g-normalization.dita:4","audacity-demo/topics/glossary/g-sample-rate.dita:4","audacity-demo/topics/glossary/g-waveform.dita:4","audacity-demo/topics/installing-audacity.dita:4","audacity-demo/topics/keyboard-shortcuts.dita:4","audacity-demo/topics/podcast-production-workflow.dita:4","audacity-demo/topics/recording-your-first-track.dita:4","audacity-demo/topics/removing-background-noise.dita:4","audacity-demo/topics/supported-audio-formats.dita:6","audacity-demo/topics/trimming-audio.dita:4","audacity-demo/topics/what-is-audacity.dita:7","audacity-demo/topics/what-is-digital-audio.dita:4"]},{"rule":"keyword","severity":"error","message":"missing required \u003ckeyword\u003e","count":21,"files":["audacity-demo/shared/common-notes.dita:4","audacity-demo/shared/common-steps.dita:4","audacity-demo/topics/burning-an-audio-cd.dita:4","audacity-demo/topics/editing-techniques.dita:4","audacity-demo/topics/effects-reference.dita:4","audacity-demo/topics/exporting-audio.dita:4","audacity-demo/topics/glossary/g-bit-depth.dita:4","audacity-demo/topics/glossary/g-clipping.dita:4","audacity-demo/topics/glossary/g-compression.dita:4","audacity-demo/topics/glossary/g-normalization.dita:4","audacity-demo/topics/glossary/g-sample-rate.dita:4","audacity-demo/topics/glossary/g-waveform.dita:4","audacity-demo/topics/installing-audacity.dita:4","audacity-demo/topics/keyboard-shortcuts.dita:4","audacity-demo/topics/podcast-production-workflow.dita:4","audacity-demo/topics/recording-your-first-track.dita:4","audacity-demo/topics/removing-background-noise.dita:4","audacity-demo/topics/supported-audio-formats.dita:6","audacity-demo/topics/trimming-audio.dita:4","audacity-demo/topics/what-is-audacity.dita:7","audacity-demo/topics/what-is-digital-audio.dita:4"]},{"rule":"created","severity":"error","message":"missing required \u003ccreated @date\u003e","count":7,"files":["audacity-demo/shared/common-steps.dita:4","audacity-demo/topics/burning-an-audio-cd.dita:4","audacity-demo/topics/exporting-audio.dita:4","audacity-demo/topics/installing-audacity.dita:4","audacity-demo/topics/recording-your-first-track.dita:4","audacity-demo/topics/removing-background-noise.dita:4","audacity-demo/topics/trimming-audio.dita:4"]}],"schematronRules":[{"rule":"shortdesc","severity":"error","message":"Every topic needs a shortdesc (a one- or two-sentence description).","count":12,"files":["audacity-demo/topics/burning-an-audio-cd.dita:4","audacity-demo/topics/editing-techniques.dita:4","audacity-demo/topics/effects-reference.dita:4","audacity-demo/topics/exporting-audio.dita:4","audacity-demo/topics/installing-audacity.dita:4","audacity-demo/topics/keyboard-shortcuts.dita:4","audacity-demo/topics/podcast-production-workflow.dita:4","audacity-demo/topics/recording-your-first-track.dita:4","audacity-demo/topics/removing-background-noise.dita:4","audacity-demo/topics/supported-audio-formats.dita:4","audacity-demo/topics/trimming-audio.dita:4","audacity-demo/topics/what-is-digital-audio.dita:4"]},{"rule":"true()","severity":"error","message":"Use uicontrol for UI labels (and drop decorative bold); do not use b.","count":7,"files":["audacity-demo/topics/podcast-production-workflow.dita:36","audacity-demo/topics/podcast-production-workflow.dita:37","audacity-demo/topics/podcast-production-workflow.dita:38","audacity-demo/topics/podcast-production-workflow.dita:39","audacity-demo/topics/podcast-production-workflow.dita:40","audacity-demo/topics/trimming-audio.dita:38","audacity-demo/topics/what-is-audacity.dita:14"]},{"rule":"text()[contains(., 'Audacity')]","severity":"error","message":"Do not hardcode the product name \"Audacity\" in prose; use a keyword with keyref=\"product-name\".","count":5,"files":["audacity-demo/topics/editing-techniques.dita:7","audacity-demo/topics/effects-reference.dita:8","audacity-demo/topics/exporting-audio.dita:8","audacity-demo/topics/keyboard-shortcuts.dita:8","audacity-demo/topics/supported-audio-formats.dita:20"]},{"rule":"text()[contains(., '.aup3')]","severity":"error","message":"Do not hardcode \".aup3\"; use keyref=\"project-extension\".","count":1,"files":["audacity-demo/topics/exporting-audio.dita:8"]},{"rule":"@type = 'note' or @type = 'tip' or @type = 'important' or @type = 'caution' or @type = 'warning' or @type = 'attention' or @type = 'danger' or @type = 'fastpath' or @type = 'remember' or @type = 'restriction' or @type = 'trouble' or @type = 'other'","severity":"error","message":"note type is not an allowed DITA value.","count":1,"files":["audacity-demo/topics/installing-audacity.dita:45"]},{"rule":"text()[contains(., 'Audacity')]","severity":"error","message":"Do not hardcode the product name \"Audacity\" in a table cell; use keyref=\"product-name\".","count":1,"files":["audacity-demo/topics/supported-audio-formats.dita:59"]},{"rule":"text()[contains(., 'Audacity')]","severity":"error","message":"Do not hardcode the product name \"Audacity\" in a list item; use keyref=\"product-name\".","count":1,"files":["audacity-demo/topics/what-is-digital-audio.dita:40"]}],"checked":["reuse","validation","elementIds","metadata","schematron","proposals"],"reviewed":true,"clean":false}</script>
+<script>
+(function () {
+  'use strict';
+  var R = window.Report;
+  var el = R.el;
+  var data = R.data();
+  var meta = R.meta() || {};
+
+  // project_health output, as the tool returns it: one section per check that ran.
+  function fromProjectHealth(h) {
+    // project_health carries no root; the report records the source command's arguments.
+    var sourceRoot = String(meta.source || '').match(/"root":"([^"]*)"/);
+    function rel(path) {
+      var root = h.root || (sourceRoot ? sourceRoot[1].replace(/\\\\/g, '\\') : '');
+      return root && path && path.indexOf(root) === 0 ? path.slice(root.length).replace(/^[\/\\]/, '') : path;
+    }
+    function ref(severity, rule) {
+      return function (r) { return { severity: severity, rule: rule, file: rel(r.source), line: r.line, message: r.reason || (r.attribute + '="' + r.value + '"') }; };
+    }
+    function groups(list) {
+      return (list || []).map(function (g) {
+        return { severity: g.severity, rule: g.rule, message: g.message, count: g.count, files: (g.files || []).map(rel) };
+      });
+    }
+    var checked = Array.isArray(h.checked) && h.checked.length ? h.checked
+      : ['reuse', 'validation', 'elementIds', 'metadata', 'schematron', 'proposals'];
+    var out = [];
+    var reuse = h.reuse || {};
+    if (checked.indexOf('reuse') >= 0) {
+      out.push({ name: 'References and keys', findings: []
+        .concat((reuse.brokenReferences || []).map(ref('error', 'broken-reference')))
+        .concat((reuse.undefinedKeys || []).map(ref('error', 'undefined-key')))
+        .concat((reuse.unusedKeys || []).map(function (k) { return { severity: 'info', rule: 'unused-key', file: rel(k.definedIn), line: k.line, message: 'Key "' + k.name + '" is never referenced' }; }))
+        .concat((reuse.orphanTopics || []).map(function (t) { return { severity: 'info', rule: 'orphan-topic', file: rel(t), message: 'Nothing references this topic' }; })) });
+    }
+    if (checked.indexOf('validation') >= 0) {
+      var v = h.validation || {};
+      var vf = [];
+      (v.findings || []).forEach(function (f) {
+        (f.errors || []).forEach(function (e) { vf.push({ severity: e.severity || 'error', rule: 'dtd', file: rel(f.file), line: e.line, message: e.message }); });
+      });
+      out.push({ name: 'DTD validation', total: v.total, passed: v.passed, failed: v.failed, findings: vf });
+    }
+    if (checked.indexOf('elementIds') >= 0) {
+      out.push({ name: 'Element ids', findings: (h.brokenElementIds || []).map(ref('error', 'broken-element-id')) });
+    }
+    if (checked.indexOf('metadata') >= 0) {
+      var m = h.metadata || {};
+      var mf = groups(h.metadataRules).concat((m.findings || []).map(function (f) {
+        return { severity: f.severity, rule: f.field, file: rel(f.file), line: f.line, message: f.message };
+      }));
+      out.push({ name: 'Metadata', total: m.total, passed: m.passed, failed: m.failed, findings: mf });
+    }
+    if (checked.indexOf('schematron') >= 0) {
+      var s = h.schematron || {};
+      var sf = groups(h.schematronRules).concat((s.findings || []).map(function (f) {
+        // Same rule as ProjectHealthReport.blocks: a softened role is advisory, anything else blocks.
+        var role = String(f.role || '').toLowerCase();
+        var advisory = ['warning', 'warn', 'info', 'information', 'hint'].indexOf(role) >= 0;
+        return { severity: advisory ? 'warning' : 'error', rule: f.test, file: rel(f.file), line: f.line, message: f.message };
+      }));
+      out.push({ name: 'House rules', total: s.total, passed: s.passed, failed: s.failed, findings: sf });
+    }
+    if (checked.indexOf('proposals') >= 0 && (h.openProposals || []).length) {
+      out.push({ name: 'Open review proposals', findings: h.openProposals.map(function (p) {
+        return { severity: 'info', rule: 'proposal', file: rel(p.file), message: p.changes + ' change(s), ' + p.comments + ' comment(s) by ' + (p.authors || []).join(', ') };
+      }) });
+    }
+    return out;
+  }
+
+  var isHealth = !Array.isArray(data.sections) && (data.reuse || data.validation || data.checked);
+  var sections = Array.isArray(data.sections) ? data.sections : (isHealth ? fromProjectHealth(data) : []);
+  var source = String(meta.source || '');
+  var rootMatch = source.match(/"root":"([^"]*)"/);
+  var mapMatch = source.match(/"map":"([^"]*)"/);
+
+  document.getElementById('hdr-root').textContent = data.root || (rootMatch && rootMatch[1]) || '(unknown)';
+  document.getElementById('hdr-scope').textContent = data.scope || (mapMatch && mapMatch[1]) || 'All';
+  document.getElementById('hdr-generated').textContent = data.generated || R.meta().generated || '';
+  R.themeToggle(document.getElementById('theme-toggle'));
+
+  var SEVERITY_RANK = { error: 0, broken: 0, warning: 1, suspect: 2, info: 3 };
+  // A grouped rule is one row standing for count findings.
+  function findingCount(list) {
+    return (list || []).reduce(function (sum, f) { return sum + (f.count != null ? f.count : 1); }, 0);
+  }
+  var totalFindings = sections.reduce(function (sum, s) { return sum + findingCount(s.findings); }, 0);
+  var clean = typeof data.clean === 'boolean' ? data.clean : totalFindings === 0;
+
+  var summary = document.getElementById('summary');
+  summary.appendChild(el('div', { class: 'panel status ' + (clean ? 'is-clean' : 'is-dirty'), role: 'status' },
+    el('h2', null, 'Overall'),
+    el('div', null, R.badge(clean ? 'clean' : 'not clean', clean ? 'clean' : 'error')),
+    el('span', { class: 'muted' }, totalFindings + (totalFindings === 1 ? ' finding' : ' findings'))));
+
+  function slug(text, i) {
+    return 'section-' + i + '-' + String(text || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  sections.forEach(function (section, i) {
+    var findings = Array.isArray(section.findings) ? section.findings : [];
+    var figures = el('dl', { class: 'figures' });
+    [['passed', section.passed], ['failed', section.failed], ['total', section.total], ['findings', findingCount(findings)]].forEach(function (f) {
+      if (f[1] == null) return;
+      figures.appendChild(el('div', null, el('dt', null, f[0]), el('dd', null, String(f[1]))));
+    });
+    var id = slug(section.name, i);
+    summary.appendChild(el('div', { class: 'panel' },
+      el('h2', null, el('a', { href: '#' + id }, section.name || ('Section ' + (i + 1)))),
+      figures));
+
+    var filter = el('input', { type: 'search', name: id + '-filter', id: id + '-filter', placeholder: 'Filter findings', 'aria-label': 'Filter ' + (section.name || 'findings') });
+    var count = el('span', { class: 'table-count' });
+    var host = el('div');
+    var hasRule = findings.some(function (f) { return f.rule; });
+    var hasCount = findings.some(function (f) { return f.count != null || (f.files && f.files.length); });
+
+    var columns = [
+      { key: 'severity', label: 'Severity',
+        value: function (f) { return SEVERITY_RANK[f.severity] != null ? SEVERITY_RANK[f.severity] : 9; },
+        filterValue: function (f) { return f.severity; },
+        render: function (f) { return R.badge(f.severity || 'info'); } }
+    ];
+    if (hasRule) columns.push({ key: 'rule', label: 'Rule', className: 'mono' });
+    columns.push({ key: 'file', label: 'File',
+      value: function (f) { return f.file || (f.files && f.files[0]) || ''; },
+      filterValue: function (f) { return [f.file].concat(f.files || []).filter(Boolean).join(' '); },
+      render: function (f) {
+        var files = Array.isArray(f.files) ? f.files : [];
+        if (files.length > 1 || (files.length === 1 && f.file && files[0] !== f.file)) {
+          return el('details', null,
+            el('summary', null, (f.file ? f.file + ' and ' : '') + files.length + (files.length === 1 ? ' file' : ' files')),
+            el('ul', null, files.map(function (name) { return el('li', { class: 'mono' }, name); })));
+        }
+        return el('span', { class: 'mono' }, f.file || files[0] || '');
+      } });
+    columns.push({ key: 'line', label: 'Line' });
+    columns.push({ key: 'message', label: 'Message' });
+    if (hasCount) {
+      columns.push({ key: 'count', label: 'Count',
+        value: function (f) { return f.count != null ? f.count : (f.files ? f.files.length : 1); } });
+    }
+
+    var sectionEl = el('section', { class: 'section', id: id, 'aria-labelledby': id + '-h' },
+      el('div', { class: 'section-head' },
+        el('h2', { id: id + '-h' }, section.name || ('Section ' + (i + 1))),
+        findings.length ? el('div', { class: 'toolbar' }, el('label', null, 'Filter ', filter), count) : null),
+      host);
+    document.getElementById('sections').appendChild(sectionEl);
+    R.table(host, columns, findings, {
+      sortable: true, filterInput: filter, countEl: count, caption: section.name,
+      empty: 'No findings in this section.'
+    });
+  });
+
+  if (!sections.length) {
+    document.getElementById('sections').appendChild(el('p', { class: 'empty' }, 'The report has no sections.'));
+  }
+})();
+</script>
+</body>
+</html>

@@ -12,7 +12,7 @@ type: reference
 dogsbay-xml project-graph .
 ```
 
-The command prints JSON.
+The command prints JSON. For the same data as a page, see the [example relationship map](https://dogsbay.ai/dogsbay-xml-docs/examples/relationship-map.html).
 
 ## Options
 

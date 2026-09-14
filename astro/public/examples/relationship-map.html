@@ -1,0 +1,1392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DITA Relationship Map</title>
+<style>
+/* DogsBay report kit: base styles. Theme tokens, layout, tabs, tables, badges. */
+:root {
+  color-scheme: light;
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #efefeb;
+  --text: #1c1d1f;
+  --muted: #5d6066;
+  --border: #d4d5d0;
+  --accent: #2456b8;
+  --accent-contrast: #ffffff;
+  --focus: #1a62e0;
+  --critical: #b3261e;
+  --critical-bg: #fbe4e2;
+  --warning: #8a5300;
+  --warning-bg: #fdf0d9;
+  --info: #1f5f99;
+  --info-bg: #e2eef9;
+  --ok: #2c6e2f;
+  --ok-bg: #e2f2e2;
+  --suspect: #6b3fa0;
+  --suspect-bg: #efe6f8;
+  --radius: 6px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #16171a;
+    --surface: #1f2024;
+    --surface-2: #2a2b30;
+    --text: #e8e8e6;
+    --muted: #a3a6ad;
+    --border: #3b3d43;
+    --accent: #7aa7ff;
+    --accent-contrast: #0d1220;
+    --focus: #8fb6ff;
+    --critical: #ff8a80;
+    --critical-bg: #3d1c1a;
+    --warning: #f2b85b;
+    --warning-bg: #3a2c12;
+    --info: #86bdf0;
+    --info-bg: #182c3e;
+    --ok: #8bd48e;
+    --ok-bg: #1b3220;
+    --suspect: #c9a6f2;
+    --suspect-bg: #2e2140;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #16171a;
+  --surface: #1f2024;
+  --surface-2: #2a2b30;
+  --text: #e8e8e6;
+  --muted: #a3a6ad;
+  --border: #3b3d43;
+  --accent: #7aa7ff;
+  --accent-contrast: #0d1220;
+  --focus: #8fb6ff;
+  --critical: #ff8a80;
+  --critical-bg: #3d1c1a;
+  --warning: #f2b85b;
+  --warning-bg: #3a2c12;
+  --info: #86bdf0;
+  --info-bg: #182c3e;
+  --ok: #8bd48e;
+  --ok-bg: #1b3220;
+  --suspect: #c9a6f2;
+  --suspect-bg: #2e2140;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  padding-inline: 16px;
+  padding-block: 16px 40px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 var(--font);
+}
+.report { max-width: 1400px; margin: 0 auto; }
+h1, h2, h3 { line-height: 1.25; margin: 0 0 .5em; }
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 1rem; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--mono); font-size: .92em; }
+.muted { color: var(--muted); }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; margin: -1px; padding: 0; border: 0;
+}
+
+.report-header {
+  display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.report-header dl { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; }
+.report-header dl div { display: flex; gap: 6px; min-width: 0; }
+.report-header dt { color: var(--muted); }
+.report-header dd { margin: 0; overflow-wrap: anywhere; }
+
+button, select, input {
+  font: inherit; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 10px;
+}
+button { cursor: pointer; }
+button:hover { background: var(--surface-2); }
+button[aria-pressed="true"] { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+.link-button {
+  background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-align: left;
+  overflow-wrap: anywhere;
+}
+.link-button:hover { background: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+.toolbar label { display: inline-flex; gap: 6px; align-items: center; }
+
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+
+/* Tabs */
+[role="tablist"] { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+[role="tab"] {
+  border: 1px solid transparent; border-bottom: 0; border-radius: var(--radius) var(--radius) 0 0;
+  background: transparent; padding: 6px 14px; margin-bottom: -1px; color: var(--muted);
+}
+[role="tab"][aria-selected="true"] {
+  background: var(--surface); border-color: var(--border); color: var(--text); font-weight: 600;
+  border-bottom: 1px solid var(--surface);
+}
+[role="tabpanel"]:focus-visible { outline-offset: 4px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table.report-table { border-collapse: collapse; width: 100%; }
+.report-table th, .report-table td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.report-table tbody tr:last-child td { border-bottom: 0; }
+.report-table th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
+.report-table th button { background: none; border: 0; padding: 0; font-weight: 600; display: inline-flex; gap: 4px; }
+.report-table th[aria-sort="ascending"] button::after { content: "\25B2"; font-size: .7em; }
+.report-table th[aria-sort="descending"] button::after { content: "\25BC"; font-size: .7em; }
+.report-table td { overflow-wrap: anywhere; }
+.table-count { color: var(--muted); font-size: .9em; }
+
+.empty { padding: 16px; color: var(--muted); text-align: center; }
+
+/* Badges: colour always paired with a text label */
+.badge {
+  display: inline-block; padding: 0 8px; border-radius: 999px; border: 1px solid currentColor;
+  font-size: .82em; font-weight: 600; white-space: nowrap; text-transform: lowercase;
+}
+.badge-error, .badge-broken, .badge-critical, .badge-missing { color: var(--critical); background: var(--critical-bg); }
+.badge-warning { color: var(--warning); background: var(--warning-bg); }
+.badge-info { color: var(--info); background: var(--info-bg); }
+.badge-suspect { color: var(--suspect); background: var(--suspect-bg); }
+.badge-ok, .badge-clean { color: var(--ok); background: var(--ok-bg); }
+.badge-error::before, .badge-broken::before, .badge-missing::before { content: "\2716\00a0"; }
+.badge-warning::before { content: "\26A0\00a0"; }
+.badge-ok::before, .badge-clean::before { content: "\2714\00a0"; }
+
+details summary { cursor: pointer; }
+details ul { margin: 4px 0 0; padding-left: 18px; }
+
+.theme-toggle { white-space: nowrap; }
+
+@media (max-width: 400px) {
+  body { padding-inline: 16px; font-size: 13px; }
+  [role="tab"] { padding: 6px 8px; }
+  .report-table th, .report-table td { padding: 4px 6px; }
+  .toolbar > * { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+</style><script>
+/* DogsBay report kit: base helpers. Plain ES2020, no dependencies. Exposes window.Report. */
+(function () {
+  'use strict';
+
+  var THEME_KEY = 'dogsbay-report-theme';
+
+  function readJson(id) {
+    var node = document.getElementById(id);
+    if (!node) return null;
+    var text = (node.textContent || '').trim();
+    if (!text) return null;
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      if (window.console) console.error('Report: cannot parse #' + id, e);
+      return null;
+    }
+  }
+
+  var cache = {};
+  function data() {
+    if (!('data' in cache)) cache.data = readJson('report-data') || {};
+    return cache.data;
+  }
+  function meta() {
+    if (!('meta' in cache)) cache.meta = readJson('report-meta') || {};
+    return cache.meta;
+  }
+
+  function escapeText(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function append(parent, child) {
+    if (child == null || child === false) return;
+    if (Array.isArray(child)) {
+      child.forEach(function (c) { append(parent, c); });
+    } else if (child instanceof Node) {
+      parent.appendChild(child);
+    } else {
+      parent.appendChild(document.createTextNode(String(child)));
+    }
+  }
+
+  /** Creates an element. attrs: class, text, style (object or string), dataset, on* handlers, others as attributes. */
+  function el(tag, attrs) {
+    var node = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (key) {
+        var value = attrs[key];
+        if (value == null || value === false) return;
+        if (key === 'class' || key === 'className') node.className = value;
+        else if (key === 'text') node.textContent = value;
+        else if (key === 'dataset') Object.keys(value).forEach(function (k) { node.dataset[k] = value[k]; });
+        else if (key === 'style' && typeof value === 'object') Object.assign(node.style, value);
+        else if (key.slice(0, 2) === 'on' && typeof value === 'function') node.addEventListener(key.slice(2).toLowerCase(), value);
+        else if (value === true) node.setAttribute(key, '');
+        else node.setAttribute(key, String(value));
+      });
+    }
+    for (var i = 2; i < arguments.length; i++) append(node, arguments[i]);
+    return node;
+  }
+
+  /**
+   * Wires ARIA tabs inside rootEl: [role=tab] elements with aria-controls pointing at [role=tabpanel] ids.
+   * Returns { select(idOrIndex), current(), onChange(fn) }.
+   */
+  function tabs(rootEl) {
+    var tabList = Array.prototype.slice.call(rootEl.querySelectorAll('[role="tab"]'));
+    var listeners = [];
+    function panelOf(tab) { return document.getElementById(tab.getAttribute('aria-controls')); }
+    function select(which, focus) {
+      var target = typeof which === 'number' ? tabList[which]
+        : tabList.filter(function (t) { return t.id === which || t.getAttribute('aria-controls') === which; })[0];
+      if (!target) return;
+      tabList.forEach(function (t) {
+        var on = t === target;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        var p = panelOf(t);
+        if (p) p.hidden = !on;
+      });
+      if (focus) target.focus();
+      listeners.forEach(function (fn) { fn(target.getAttribute('aria-controls'), target); });
+    }
+    tabList.forEach(function (tab, index) {
+      var p = panelOf(tab);
+      if (p) { p.setAttribute('aria-labelledby', tab.id); if (!p.hasAttribute('tabindex')) p.tabIndex = 0; }
+      tab.addEventListener('click', function () { select(index); });
+      tab.addEventListener('keydown', function (e) {
+        var next = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (index + 1) % tabList.length;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (index - 1 + tabList.length) % tabList.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = tabList.length - 1;
+        if (next !== null) { e.preventDefault(); select(next, true); }
+      });
+    });
+    var initial = tabList.findIndex(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+    select(initial < 0 ? 0 : initial);
+    return {
+      select: function (which) { select(which, false); },
+      current: function () {
+        var t = tabList.filter(function (x) { return x.getAttribute('aria-selected') === 'true'; })[0];
+        return t ? t.getAttribute('aria-controls') : null;
+      },
+      onChange: function (fn) { listeners.push(fn); }
+    };
+  }
+
+  function storedTheme() {
+    try {
+      var v = window.localStorage.getItem(THEME_KEY);
+      return v === 'light' || v === 'dark' ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Makes buttonEl a light/dark toggle. With no stored choice the page follows the system theme and no
+   * data-theme attribute is set. Clicking sets an explicit theme and remembers it where storage allows.
+   */
+  function themeToggle(buttonEl) {
+    var root = document.documentElement;
+    var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    function effective() {
+      var explicit = root.getAttribute('data-theme');
+      if (explicit === 'light' || explicit === 'dark') return explicit;
+      return media && media.matches ? 'dark' : 'light';
+    }
+    function sync() {
+      var dark = effective() === 'dark';
+      buttonEl.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      buttonEl.textContent = dark ? 'Dark theme' : 'Light theme';
+      buttonEl.title = 'Switch to ' + (dark ? 'light' : 'dark') + ' theme';
+    }
+    var stored = storedTheme();
+    if (stored) root.setAttribute('data-theme', stored);
+    buttonEl.classList.add('theme-toggle');
+    buttonEl.addEventListener('click', function () {
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { window.localStorage.setItem(THEME_KEY, next); } catch (e) { /* storage unavailable */ }
+      sync();
+    });
+    if (media) {
+      var onChange = function () { sync(); };
+      if (media.addEventListener) media.addEventListener('change', onChange);
+      else if (media.addListener) media.addListener(onChange);
+    }
+    sync();
+  }
+
+  function cellValue(column, row) {
+    if (column.value) return column.value(row);
+    return row[column.key];
+  }
+
+  function compareValues(a, b) {
+    var an = a == null || a === '', bn = b == null || b === '';
+    if (an || bn) return an === bn ? 0 : an ? 1 : -1;
+    if (typeof a === 'number' && typeof b === 'number') return a - b;
+    return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+  }
+
+  /**
+   * Renders a table into container.
+   * columns: [{ key, label, value?(row), render?(row) -> Node|string, className? }]
+   * options: { sortable, filterInput, caption, empty, countEl }
+   * Returns { update(rows), rows(), visibleCount() }.
+   */
+  function table(container, columns, rows, options) {
+    var opts = options || {};
+    var allRows = (rows || []).slice();
+    var sortIndex = -1, sortDir = 1, visible = 0;
+    container.textContent = '';
+
+    var wrap = el('div', { class: 'table-wrap' });
+    var tableEl = el('table', { class: 'report-table' });
+    if (opts.caption) tableEl.appendChild(el('caption', { class: 'visually-hidden', text: opts.caption }));
+    var headRow = el('tr');
+    var headers = columns.map(function (col, i) {
+      var th = el('th', { scope: 'col' });
+      if (opts.sortable) {
+        th.setAttribute('aria-sort', 'none');
+        th.appendChild(el('button', { type: 'button', onclick: function () {
+          if (sortIndex === i) sortDir = -sortDir; else { sortIndex = i; sortDir = 1; }
+          draw();
+        } }, col.label));
+      } else {
+        th.textContent = col.label;
+      }
+      headRow.appendChild(th);
+      return th;
+    });
+    tableEl.appendChild(el('thead', null, headRow));
+    var body = el('tbody');
+    tableEl.appendChild(body);
+    wrap.appendChild(tableEl);
+    var emptyEl = el('div', { class: 'empty', role: 'status' });
+    container.appendChild(wrap);
+    container.appendChild(emptyEl);
+
+    function rowText(row) {
+      return columns.map(function (c) {
+        var v = c.filterValue ? c.filterValue(row) : cellValue(c, row);
+        return Array.isArray(v) ? v.join(' ') : v == null ? '' : String(v);
+      }).join(' ').toLowerCase();
+    }
+
+    function draw() {
+      var query = opts.filterInput ? opts.filterInput.value.trim().toLowerCase() : '';
+      var list = allRows.filter(function (r) { return !query || rowText(r).indexOf(query) >= 0; });
+      if (sortIndex >= 0) {
+        var col = columns[sortIndex];
+        list.sort(function (a, b) { return sortDir * compareValues(cellValue(col, a), cellValue(col, b)); });
+      }
+      headers.forEach(function (th, i) {
+        if (opts.sortable) th.setAttribute('aria-sort', i !== sortIndex ? 'none' : sortDir > 0 ? 'ascending' : 'descending');
+      });
+      body.textContent = '';
+      var frag = document.createDocumentFragment();
+      list.forEach(function (row) {
+        var tr = el('tr');
+        columns.forEach(function (col) {
+          var td = el('td', col.className ? { class: col.className } : null);
+          if (col.render) append(td, col.render(row));
+          else { var v = cellValue(col, row); td.textContent = v == null ? '' : String(v); }
+          tr.appendChild(td);
+        });
+        frag.appendChild(tr);
+      });
+      body.appendChild(frag);
+      visible = list.length;
+      var none = list.length === 0;
+      wrap.hidden = none;
+      emptyEl.hidden = !none;
+      emptyEl.textContent = none ? (allRows.length === 0 ? (opts.empty || 'Nothing to show.') : 'No rows match the filter.') : '';
+      if (opts.countEl) {
+        opts.countEl.textContent = list.length === allRows.length
+          ? allRows.length + ' rows' : list.length + ' of ' + allRows.length + ' rows';
+      }
+    }
+
+    if (opts.filterInput) opts.filterInput.addEventListener('input', draw);
+    draw();
+    return {
+      update: function (newRows) { allRows = (newRows || []).slice(); draw(); },
+      rows: function () { return allRows.slice(); },
+      visibleCount: function () { return visible; }
+    };
+  }
+
+  function badge(label, kind) {
+    return el('span', { class: 'badge badge-' + String(kind || label).toLowerCase() }, String(label));
+  }
+
+  window.Report = Object.assign(window.Report || {}, {
+    data: data,
+    meta: meta,
+    el: el,
+    tabs: tabs,
+    themeToggle: themeToggle,
+    table: table,
+    badge: badge,
+    escapeText: escapeText
+  });
+})();
+
+</script>
+<style>
+/* DogsBay report kit: SVG graph styles. */
+svg.report-graph {
+  display: block; width: 100%; height: 100%; min-height: 360px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  touch-action: none; user-select: none; cursor: grab;
+}
+svg.report-graph.is-panning { cursor: grabbing; }
+svg.report-graph:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Strokes keep their width on screen at any zoom; labels are sized by the zoom variables the kit sets. */
+.report-graph .g-edge { stroke: var(--muted); stroke-width: 1.4; fill: none; vector-effect: non-scaling-stroke; }
+.report-graph .g-edge-label {
+  fill: var(--critical); font-size: var(--g-edge-label-size, 10px); font-weight: 700; text-anchor: middle;
+  paint-order: stroke; stroke: var(--surface); stroke-width: var(--g-halo, 3px); stroke-linejoin: round;
+}
+.report-graph .g-arrow { fill: var(--muted); }
+.report-graph .g-node { cursor: pointer; outline: none; }
+.report-graph .g-shape { fill: var(--surface-2); stroke: var(--text); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.report-graph .g-label {
+  fill: var(--text); font-size: var(--g-label-size, 12px); text-anchor: middle; pointer-events: none;
+  paint-order: stroke; stroke: var(--surface); stroke-width: var(--g-halo, 3px); stroke-linejoin: round;
+}
+.report-graph .g-node:focus-visible .g-shape { stroke: var(--focus); stroke-width: 3.5; }
+.report-graph .g-node.is-selected .g-shape { stroke: var(--accent); stroke-width: 3.5; }
+.report-graph .g-node.is-selected .g-label { font-weight: 700; }
+.report-graph .g-node.is-dim { opacity: .35; }
+.report-graph .is-hidden { display: none; }
+
+/* Zoomed far out, only the nodes that orient the viewer keep their labels, and arrowheads go. */
+.report-graph.is-zoomed-out .g-edge { marker-end: none; }
+.report-graph.is-zoomed-out .g-label { display: none; }
+.report-graph.is-zoomed-out .g-important .g-label,
+.report-graph.is-zoomed-out .g-node.is-selected .g-label,
+.report-graph.is-zoomed-out.has-focus .g-node.is-near .g-label { display: inline; }
+
+/* Focus: everything not connected to the selected node fades back. */
+.report-graph .g-node, .report-graph .g-edge { transition: opacity .15s ease; }
+.report-graph.has-focus .g-node:not(.is-near):not(.is-selected) { opacity: .14; }
+.report-graph.has-focus .g-edge:not(.is-near),
+.report-graph.has-focus .g-edge-label:not(.is-near) { opacity: .06; }
+.report-graph.has-focus .g-edge.is-near { stroke-width: 2.6; }
+@media (prefers-reduced-motion: reduce) {
+  .report-graph .g-node, .report-graph .g-edge { transition: none; }
+}
+
+</style><script>
+/* DogsBay report kit: force-directed SVG graph with zoom, pan and focus. Plain ES2020, no dependencies. Requires the base kit. */
+(function () {
+  'use strict';
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var MIN_ZOOM = 0.08;
+  var MAX_ZOOM = 6;
+  var instance = 0;
+
+  function svgEl(tag, attrs) {
+    var node = document.createElementNS(NS, tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { if (attrs[k] != null) node.setAttribute(k, String(attrs[k])); });
+    return node;
+  }
+
+  var SHAPES = {
+    square: function () { return svgEl('rect', { x: -9, y: -9, width: 18, height: 18, rx: 2 }); },
+    circle: function () { return svgEl('circle', { r: 10 }); },
+    diamond: function () { return svgEl('path', { d: 'M0,-12 L12,0 L0,12 L-12,0 Z' }); },
+    chevron: function () { return svgEl('path', { d: 'M-11,-9 L2,-9 L11,0 L2,9 L-11,9 L-3,0 Z' }); }
+  };
+
+  function truncate(text, max) {
+    text = String(text == null ? '' : text);
+    return text.length > max ? text.slice(0, max - 1) + '…' : text;
+  }
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  /**
+   * Report.graph(svgEl, { nodes, edges,
+   *   nodeStyle(node) -> {shape, cls, label, size, important},
+   *   edgeStyle(edge) -> {dash, cls, label},
+   *   onSelect(node), label(node) })
+   * nodes need an id; edges need from and to. Returns { relayout(), setVisible(nodePred, edgePred), select(id),
+   *   selected(), has(id), isVisible(id), fit(), zoomIn(), zoomOut() }.
+   *
+   * The view fits the graph until the viewer zooms or pans; scrolling zooms around the pointer, dragging the
+   * background pans, and selecting a node fades everything it is not connected to.
+   */
+  function graph(svg, options) {
+    var opts = options || {};
+    var id = ++instance;
+    var nodeStyle = opts.nodeStyle || function () { return {}; };
+    var edgeStyle = opts.edgeStyle || function () { return {}; };
+    var labelOf = opts.label || function (n) { return n.title || n.id; };
+
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.classList.add('report-graph');
+    svg.setAttribute('role', 'group');
+    svg.setAttribute('tabindex', '0');
+    if (!svg.hasAttribute('aria-label')) svg.setAttribute('aria-label', 'Relationship graph');
+
+    var defs = svgEl('defs');
+    var markerId = 'g-arrow-' + id;
+    var marker = svgEl('marker', { id: markerId, viewBox: '0 0 10 10', refX: 10, refY: 5, markerWidth: 4, markerHeight: 4, orient: 'auto-start-reverse' });
+    marker.appendChild(svgEl('path', { d: 'M0,0 L10,5 L0,10 Z', class: 'g-arrow' }));
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+    var viewport = svgEl('g', { class: 'g-viewport' });
+    var edgeLayer = svgEl('g', { class: 'g-edges' });
+    var nodeLayer = svgEl('g', { class: 'g-nodes' });
+    viewport.appendChild(edgeLayer);
+    viewport.appendChild(nodeLayer);
+    svg.appendChild(viewport);
+
+    var nodes = [];
+    var byId = new Map();
+    (opts.nodes || []).forEach(function (data) {
+      if (data == null || data.id == null || byId.has(data.id)) return;
+      var style = nodeStyle(data) || {};
+      var size = style.size > 0 ? style.size : 1;
+      var n = { data: data, x: 0, y: 0, vx: 0, vy: 0, fixed: false, visible: true, degree: 0, size: size };
+      var cls = 'g-node' + (style.cls ? ' ' + style.cls : '') + (style.important ? ' g-important' : '');
+      var g = svgEl('g', { class: cls, tabindex: 0, role: 'button', 'aria-pressed': 'false' });
+      var label = labelOf(data) + (style.label ? ' (' + style.label + ')' : '');
+      g.setAttribute('aria-label', label);
+      var title = svgEl('title');
+      title.textContent = label + (data.id !== labelOf(data) ? ' — ' + data.id : '');
+      g.appendChild(title);
+      var shape = (SHAPES[style.shape] || SHAPES.circle)();
+      shape.setAttribute('class', 'g-shape');
+      if (size !== 1) shape.setAttribute('transform', 'scale(' + size + ')');
+      g.appendChild(shape);
+      var text = svgEl('text', { class: 'g-label', y: (12 * size + 13).toFixed(1) });
+      text.textContent = truncate(labelOf(data), 34) + (style.label ? ' [' + style.label + ']' : '');
+      g.appendChild(text);
+      n.el = g;
+      n.shape = shape;
+      n.label = text;
+      // About half the label's width in layout units (12px text, roughly 6.2px a character).
+      n.halfWidth = Math.max(14 * size, text.textContent.length * 3.1);
+      nodeLayer.appendChild(g);
+      nodes.push(n);
+      byId.set(data.id, n);
+    });
+
+    var edges = [];
+    (opts.edges || []).forEach(function (data) {
+      var a = byId.get(data.from), b = byId.get(data.to);
+      if (!a || !b || a === b) return;
+      var style = edgeStyle(data) || {};
+      var line = svgEl('line', { class: 'g-edge' + (style.cls ? ' ' + style.cls : ''), 'marker-end': 'url(#' + markerId + ')' });
+      if (style.dash) line.setAttribute('stroke-dasharray', style.dash);
+      var t = svgEl('title');
+      t.textContent = (data.kind || 'edge') + ': ' + labelOf(a.data) + ' → ' + labelOf(b.data) + (style.label ? ' (' + style.label + ')' : '');
+      line.appendChild(t);
+      edgeLayer.appendChild(line);
+      var labelEl = null;
+      if (style.label) {
+        labelEl = svgEl('text', { class: 'g-edge-label' });
+        labelEl.textContent = style.label;
+        edgeLayer.appendChild(labelEl);
+      }
+      a.degree++; b.degree++;
+      edges.push({ data: data, a: a, b: b, el: line, labelEl: labelEl, visible: true });
+    });
+
+    var selectedNode = null;
+    var frame = 0;
+    var placed = false;
+    // Well-connected nodes (a map that places every topic) repel harder, so hubs spread apart instead of
+    // piling up in the middle with their shared topics.
+    nodes.forEach(function (n) { n.weight = 1 + Math.sqrt(n.degree) * 0.3; });
+
+    // ── View: world coordinates mapped to the stage by a translate and a scale ──
+
+    var view = { k: 1, tx: 0, ty: 0 };
+    var width = 800, height = 600;
+    var userMoved = false;
+    var shapeScale = 1;
+
+    function measure() {
+      var r = svg.getBoundingClientRect();
+      width = Math.max(r.width || 0, 200);
+      height = Math.max(r.height || 0, 200);
+      svg.setAttribute('viewBox', '0 0 ' + width.toFixed(0) + ' ' + height.toFixed(0));
+    }
+
+    function applyView() {
+      viewport.setAttribute('transform',
+        'translate(' + view.tx.toFixed(1) + ',' + view.ty.toFixed(1) + ') scale(' + view.k.toFixed(4) + ')');
+      // Labels, halos and edge labels keep their size on screen at any zoom.
+      svg.style.setProperty('--g-label-size', (12 / view.k).toFixed(2) + 'px');
+      svg.style.setProperty('--g-edge-label-size', (11 / view.k).toFixed(2) + 'px');
+      svg.style.setProperty('--g-halo', (3 / view.k).toFixed(2) + 'px');
+      svg.classList.toggle('is-zoomed-out', view.k < 0.3);
+      // Shapes never shrink below about their natural size on screen, and labels sit a fixed
+      // distance below them, so a fitted overview stays legible.
+      shapeScale = Math.max(1, 0.9 / view.k);
+      nodes.forEach(function (n) {
+        var s = n.size * shapeScale;
+        n.shape.setAttribute('transform', s === 1 ? '' : 'scale(' + s.toFixed(3) + ')');
+        n.label.setAttribute('y', (12 * s + 13 / view.k).toFixed(1));
+      });
+    }
+
+    function fit() {
+      var vis = nodes.filter(function (n) { return n.visible; });
+      if (!vis.length) { view = { k: 1, tx: width / 2, ty: height / 2 }; applyView(); return; }
+      var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      vis.forEach(function (n) {
+        minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x);
+        minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y);
+      });
+      // Room for labels, which sit below nodes and run wider than them.
+      var w = maxX - minX + 180, h = maxY - minY + 90;
+      var k = clamp(Math.min(width / w, height / h), MIN_ZOOM, 1.6);
+      view.k = k;
+      view.tx = width / 2 - k * (minX + maxX) / 2;
+      view.ty = height / 2 - k * (minY + maxY) / 2;
+      applyView();
+    }
+
+    function zoomAt(factor, sx, sy) {
+      var k = clamp(view.k * factor, MIN_ZOOM, MAX_ZOOM);
+      var f = k / view.k;
+      view.tx = sx - (sx - view.tx) * f;
+      view.ty = sy - (sy - view.ty) * f;
+      view.k = k;
+      userMoved = true;
+      applyView();
+    }
+
+    function stagePoint(evt) {
+      var r = svg.getBoundingClientRect();
+      return { x: (evt.clientX - r.left) * (width / (r.width || width)), y: (evt.clientY - r.top) * (height / (r.height || height)) };
+    }
+
+    function worldPoint(evt) {
+      var p = stagePoint(evt);
+      return { x: (p.x - view.tx) / view.k, y: (p.y - view.ty) / view.k };
+    }
+
+    svg.addEventListener('wheel', function (evt) {
+      evt.preventDefault();
+      var p = stagePoint(evt);
+      var dy = evt.deltaMode === 1 ? evt.deltaY * 16 : evt.deltaY;
+      zoomAt(Math.exp(-dy * 0.0015), p.x, p.y);
+    }, { passive: false });
+
+    // Dragging the background pans; a click on the background clears the selection.
+    var pan = null;
+    svg.addEventListener('pointerdown', function (evt) {
+      if (evt.button !== 0 || (evt.target.closest && evt.target.closest('.g-node'))) return;
+      pan = { sx: evt.clientX, sy: evt.clientY, tx: view.tx, ty: view.ty, moved: false };
+      try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* ignore */ }
+    });
+    svg.addEventListener('pointermove', function (evt) {
+      if (!pan) return;
+      var r = svg.getBoundingClientRect();
+      var dx = (evt.clientX - pan.sx) * (width / (r.width || width));
+      var dy = (evt.clientY - pan.sy) * (height / (r.height || height));
+      if (Math.abs(dx) + Math.abs(dy) > 3) pan.moved = true;
+      if (!pan.moved) return;
+      view.tx = pan.tx + dx;
+      view.ty = pan.ty + dy;
+      userMoved = true;
+      svg.classList.add('is-panning');
+      applyView();
+    });
+    function endPan(evt) {
+      if (!pan) return;
+      var wasClick = !pan.moved;
+      pan = null;
+      svg.classList.remove('is-panning');
+      try { svg.releasePointerCapture(evt.pointerId); } catch (e) { /* ignore */ }
+      if (wasClick) select(null);
+    }
+    svg.addEventListener('pointerup', endPan);
+    svg.addEventListener('pointercancel', function () { pan = null; svg.classList.remove('is-panning'); });
+
+    function zoomKey(evt) {
+      if (evt.key === '+' || evt.key === '=') { zoomAt(1.25, width / 2, height / 2); }
+      else if (evt.key === '-' || evt.key === '_') { zoomAt(0.8, width / 2, height / 2); }
+      else if (evt.key === '0') { userMoved = false; fit(); }
+      else if (evt.key === 'Escape') { select(null); }
+      else return;
+      evt.preventDefault();
+    }
+    svg.addEventListener('keydown', function (evt) { if (evt.target === svg) zoomKey(evt); });
+
+    // ── Drawing ──
+
+    function draw() {
+      nodes.forEach(function (n) {
+        if (n.visible) n.el.setAttribute('transform', 'translate(' + n.x.toFixed(1) + ',' + n.y.toFixed(1) + ')');
+      });
+      edges.forEach(function (e) {
+        if (!e.visible) return;
+        var dx = e.b.x - e.a.x, dy = e.b.y - e.a.y;
+        var d = Math.sqrt(dx * dx + dy * dy) || 1;
+        var padA = 13 * e.a.size * shapeScale, padB = 13 * e.b.size * shapeScale;
+        e.el.setAttribute('x1', (e.a.x + dx / d * padA).toFixed(1));
+        e.el.setAttribute('y1', (e.a.y + dy / d * padA).toFixed(1));
+        e.el.setAttribute('x2', (e.b.x - dx / d * padB).toFixed(1));
+        e.el.setAttribute('y2', (e.b.y - dy / d * padB).toFixed(1));
+        if (e.labelEl) {
+          e.labelEl.setAttribute('x', ((e.a.x + e.b.x) / 2).toFixed(1));
+          e.labelEl.setAttribute('y', ((e.a.y + e.b.y) / 2 - 4).toFixed(1));
+        }
+      });
+    }
+
+    // ── Focus: the selected node, its neighbours and the edges between them stay bright ──
+
+    function applyFocus() {
+      var focus = selectedNode && selectedNode.visible ? selectedNode : null;
+      svg.classList.toggle('has-focus', !!focus);
+      nodes.forEach(function (n) { n.el.classList.remove('is-near'); });
+      edges.forEach(function (e) {
+        e.el.classList.remove('is-near');
+        if (e.labelEl) e.labelEl.classList.remove('is-near');
+      });
+      if (!focus) return;
+      edges.forEach(function (e) {
+        if (!e.visible || (e.a !== focus && e.b !== focus)) return;
+        e.el.classList.add('is-near');
+        if (e.labelEl) e.labelEl.classList.add('is-near');
+        e.a.el.classList.add('is-near');
+        e.b.el.classList.add('is-near');
+        edgeLayer.appendChild(e.el);
+      });
+      nodeLayer.appendChild(focus.el);
+    }
+
+    function select(nodeId, notify) {
+      var n = nodeId == null ? null : byId.get(nodeId) || null;
+      if (selectedNode) { selectedNode.el.classList.remove('is-selected'); selectedNode.el.setAttribute('aria-pressed', 'false'); }
+      selectedNode = n;
+      if (n) { n.el.classList.add('is-selected'); n.el.setAttribute('aria-pressed', 'true'); }
+      applyFocus();
+      if (notify !== false && opts.onSelect) opts.onSelect(n ? n.data : null);
+      return !!n;
+    }
+
+    // ── Layout ──
+
+    /** The spring length that spreads this many nodes over the stage. */
+    function idealLength(count) {
+      return clamp(Math.sqrt((width * height) / Math.max(count, 1)) * 0.4, 50, 220);
+    }
+
+    /** One simulation step over visible nodes. Returns the largest displacement. */
+    function step(active, activeEdges, temperature, L) {
+      var count = active.length;
+      var i, j, a, dx, dy, d2, d, f;
+      var reach = Math.max(500, L * 4);
+      var reach2 = reach * reach;
+      for (i = 0; i < count; i++) { active[i].fx = 0; active[i].fy = 0; }
+      // Repulsion between nodes within reach, bucketed into cells of that size so each node is compared
+      // with its own and neighbouring cells only: the same forces as all pairs, without the quadratic cost.
+      function repel(p, q) {
+        dx = p.x - q.x; dy = p.y - q.y;
+        d2 = dx * dx + dy * dy;
+        if (d2 < 0.01) { dx = (Math.random() - 0.5); dy = (Math.random() - 0.5); d2 = 0.5; }
+        if (d2 > reach2) return;
+        f = (L * L) * p.weight * q.weight / d2;
+        p.fx += dx * f; p.fy += dy * f;
+        q.fx -= dx * f; q.fy -= dy * f;
+        // Labels: two nodes whose label boxes overlap push apart sideways and down, so text stays readable
+        // where the graph is dense. The box is the label's width at the natural zoom, and a line of text tall.
+        var overlapX = (p.halfWidth + q.halfWidth) - Math.abs(dx);
+        var overlapY = 34 - Math.abs(dy);
+        if (overlapX > 0 && overlapY > 0) {
+          var push = Math.min(overlapX, overlapY) * 0.35;
+          var sx = dx === 0 ? (Math.random() - 0.5) : Math.sign(dx);
+          var sy = dy === 0 ? (Math.random() - 0.5) : Math.sign(dy);
+          if (overlapX < overlapY * 2.5) { p.fx += sx * push; q.fx -= sx * push; }
+          else { p.fy += sy * push; q.fy -= sy * push; }
+        }
+      }
+      var grid = new Map();
+      for (i = 0; i < count; i++) {
+        a = active[i];
+        a.cx = Math.floor(a.x / reach); a.cy = Math.floor(a.y / reach);
+        var key = a.cx + ',' + a.cy;
+        var bucket = grid.get(key);
+        if (!bucket) { bucket = []; grid.set(key, bucket); }
+        bucket.push(i);
+      }
+      for (i = 0; i < count; i++) {
+        a = active[i];
+        for (var gx = a.cx - 1; gx <= a.cx + 1; gx++) {
+          for (var gy = a.cy - 1; gy <= a.cy + 1; gy++) {
+            var cell = grid.get(gx + ',' + gy);
+            if (!cell) continue;
+            for (var c = 0; c < cell.length; c++) {
+              j = cell[c];
+              if (j > i) repel(a, active[j]);
+            }
+          }
+        }
+      }
+      // Springs pull connected nodes to about one spring length apart.
+      activeEdges.forEach(function (e) {
+        dx = e.b.x - e.a.x; dy = e.b.y - e.a.y;
+        d = Math.sqrt(dx * dx + dy * dy) || 0.1;
+        f = (d - L) * 0.05 / d;
+        e.a.fx += dx * f; e.a.fy += dy * f;
+        e.b.fx -= dx * f; e.b.fy -= dy * f;
+      });
+      // Gravity is weaker along the stage's longer side, so the graph takes the stage's shape.
+      var gxPull = 0.01 * Math.min(1, height / width);
+      var gyPull = 0.01 * Math.min(1, width / height);
+      var maxMove = 0;
+      for (i = 0; i < count; i++) {
+        a = active[i];
+        a.fx -= a.x * gxPull; a.fy -= a.y * gyPull;
+        if (a.fixed) { a.vx = 0; a.vy = 0; continue; }
+        a.vx = (a.vx + a.fx) * 0.82; // damping
+        a.vy = (a.vy + a.fy) * 0.82;
+        var speed = Math.sqrt(a.vx * a.vx + a.vy * a.vy);
+        if (speed > temperature) { a.vx = a.vx / speed * temperature; a.vy = a.vy / speed * temperature; speed = temperature; }
+        a.x += a.vx; a.y += a.vy;
+        if (speed > maxMove) maxMove = speed;
+      }
+      return maxMove;
+    }
+
+    function relayout() {
+      if (frame) cancelAnimationFrame(frame);
+      measure();
+      userMoved = false;
+      var active = nodes.filter(function (n) { return n.visible; });
+      var activeEdges = edges.filter(function (e) { return e.visible; });
+      var n = Math.max(active.length, 1);
+      var L = idealLength(n);
+      if (!placed) {
+        // A sunflower spiral at the scale of the layout, so the first frames are already spread out.
+        nodes.forEach(function (node, i) {
+          var angle = i * 2.399963;
+          var radius = L * 0.5 * Math.sqrt(i + 1);
+          node.x = Math.cos(angle) * radius * Math.max(1, width / height);
+          node.y = Math.sin(angle) * radius * Math.max(1, height / width);
+        });
+        placed = true;
+      }
+      // Repulsion is bucketed, so a step costs roughly n times the nodes near each one. Fewer iterations on
+      // big graphs, and a capped number of steps per frame, including with reduced motion.
+      var iterations = Math.max(40, Math.min(400, Math.floor(4e6 / n)));
+      var perFrame = Math.max(1, Math.min(50, Math.floor(1e6 / n)));
+      var done = 0;
+      var temperature = L * 0.6;
+      var cooling = Math.pow(0.5 / temperature, 1 / iterations);
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function tick() {
+        var batch = reduced ? perFrame * 4 : perFrame;
+        var moved = 0;
+        for (var s = 0; s < batch && done < iterations; s++, done++) {
+          moved = step(active, activeEdges, temperature, L);
+          temperature *= cooling;
+        }
+        if (!userMoved) fit();
+        draw();
+        if (done < iterations && moved > 0.05) frame = requestAnimationFrame(tick);
+        else frame = 0;
+      }
+      tick();
+    }
+
+    // ── Node interaction: drag to move, click or Enter to select ──
+
+    nodes.forEach(function (n) {
+      var drag = null;
+      n.el.addEventListener('pointerdown', function (evt) {
+        if (evt.button !== 0) return;
+        var p = worldPoint(evt);
+        drag = { dx: n.x - p.x, dy: n.y - p.y, sx: evt.clientX, sy: evt.clientY, moved: false };
+        n.fixed = true;
+        try { n.el.setPointerCapture(evt.pointerId); } catch (e) { /* ignore */ }
+        evt.preventDefault();
+        evt.stopPropagation();
+      });
+      n.el.addEventListener('pointermove', function (evt) {
+        if (!drag) return;
+        if (Math.abs(evt.clientX - drag.sx) + Math.abs(evt.clientY - drag.sy) > 3) drag.moved = true;
+        if (!drag.moved) return;
+        var p = worldPoint(evt);
+        n.x = p.x + drag.dx; n.y = p.y + drag.dy;
+        draw();
+      });
+      function end(evt) {
+        if (!drag) return;
+        var wasClick = !drag.moved;
+        drag = null;
+        n.fixed = false;
+        try { n.el.releasePointerCapture(evt.pointerId); } catch (e) { /* ignore */ }
+        evt.stopPropagation();
+        if (wasClick) { select(n.data.id); n.el.focus({ preventScroll: true }); }
+      }
+      n.el.addEventListener('pointerup', end);
+      n.el.addEventListener('pointercancel', function () { drag = null; n.fixed = false; });
+      n.el.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Enter' || evt.key === ' ') { evt.preventDefault(); select(n.data.id); }
+        else zoomKey(evt);
+      });
+    });
+
+    function setVisible(nodePred, edgePred) {
+      nodes.forEach(function (n) {
+        n.visible = !nodePred || !!nodePred(n.data);
+        n.el.classList.toggle('is-hidden', !n.visible);
+        n.el.setAttribute('tabindex', n.visible ? '0' : '-1');
+      });
+      edges.forEach(function (e) {
+        e.visible = e.a.visible && e.b.visible && (!edgePred || !!edgePred(e.data));
+        e.el.classList.toggle('is-hidden', !e.visible);
+        if (e.labelEl) e.labelEl.classList.toggle('is-hidden', !e.visible);
+      });
+      if (selectedNode && !selectedNode.visible) select(null);
+      applyFocus();
+      if (!userMoved) fit();
+      draw();
+    }
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(function () { measure(); if (!userMoved) fit(); }).observe(svg);
+    }
+
+    measure();
+    applyView();
+    relayout();
+
+    return {
+      relayout: relayout,
+      setVisible: setVisible,
+      select: function (nodeId) {
+        var ok = select(nodeId);
+        if (ok) { var n = byId.get(nodeId); if (n.visible) n.el.focus({ preventScroll: true }); }
+        return ok;
+      },
+      selected: function () { return selectedNode ? selectedNode.data : null; },
+      has: function (nodeId) { return byId.has(nodeId); },
+      isVisible: function (nodeId) { var n = byId.get(nodeId); return !!(n && n.visible); },
+      fit: function () { userMoved = false; fit(); draw(); },
+      zoomIn: function () { zoomAt(1.25, width / 2, height / 2); },
+      zoomOut: function () { zoomAt(0.8, width / 2, height / 2); }
+    };
+  }
+
+  window.Report = window.Report || {};
+  window.Report.graph = graph;
+})();
+
+</script>
+<style>
+  .graph-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 12px; }
+  .graph-stage { height: 74vh; min-height: 420px; }
+  .detail { overflow: auto; max-height: 70vh; }
+  .detail ul { list-style: none; margin: 4px 0 12px; padding: 0; }
+  .detail li { padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .detail dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0 0 12px; }
+  .detail dt { color: var(--muted); }
+  .detail dd { margin: 0; overflow-wrap: anywhere; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 8px 0 0; padding: 0; list-style: none; font-size: .9em; }
+  .legend li { display: inline-flex; align-items: center; gap: 6px; }
+  .legend svg { width: 34px; height: 18px; overflow: visible; }
+  .kind-toggles { display: flex; flex-wrap: wrap; gap: 4px; }
+  .kind-toggles button { font-size: .85em; padding: 2px 8px; }
+  .zoom-controls { display: inline-flex; gap: 2px; }
+  .zoom-controls button { min-width: 2.2em; }
+  .graph-hint { margin: 4px 0 8px; font-size: .88em; }
+
+  /* Edge kinds: colour always paired with a dash pattern and a text label in the legend. */
+  .report-graph .ek-mapref, .legend .ek-mapref { stroke: #4a5bd4; }
+  .report-graph .ek-topicref, .legend .ek-topicref { stroke: #5d6066; }
+  .report-graph .ek-keydef, .legend .ek-keydef { stroke: #8a5300; }
+  .report-graph .ek-keytarget, .legend .ek-keytarget { stroke: #b86e00; }
+  .report-graph .ek-keyref, .legend .ek-keyref { stroke: #a86b00; }
+  .report-graph .ek-conref, .legend .ek-conref { stroke: #0f7c6e; }
+  .report-graph .ek-conkeyref, .legend .ek-conkeyref { stroke: #138a5d; }
+  .report-graph .ek-link, .legend .ek-link { stroke: #2a73c9; }
+  .report-graph .ek-reltable, .legend .ek-reltable { stroke: #6b3fa0; }
+  .report-graph .ek-ditavalref, .legend .ek-ditavalref { stroke: #9c3d80; }
+  .report-graph .ek-profile, .legend .ek-profile { stroke: #7d4fa8; }
+  .report-graph .g-edge.is-broken, .legend .is-broken { stroke: var(--critical); stroke-width: 2.4; }
+  .legend line { stroke-width: 2; }
+
+  .report-graph .nk-map .g-shape, .legend .nk-map { fill: #dbe3fb; }
+  .report-graph .nk-topic .g-shape, .legend .nk-topic { fill: #e8e8e4; }
+  .report-graph .nk-key .g-shape, .legend .nk-key { fill: #fbeccd; }
+  .report-graph .nk-ditaval .g-shape, .legend .nk-ditaval { fill: #f1dcf0; }
+  .report-graph .is-missing .g-shape, .legend .is-missing { stroke: var(--critical); stroke-width: 3; stroke-dasharray: 4 2; }
+  .report-graph .is-missing .g-label { fill: var(--critical); font-weight: 700; }
+  .legend .g-shape-sample { stroke: var(--text); stroke-width: 1.5; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .report-graph .nk-map .g-shape, :root:not([data-theme="light"]) .legend .nk-map { fill: #2b3566; }
+    :root:not([data-theme="light"]) .report-graph .nk-topic .g-shape, :root:not([data-theme="light"]) .legend .nk-topic { fill: #3a3b40; }
+    :root:not([data-theme="light"]) .report-graph .nk-key .g-shape, :root:not([data-theme="light"]) .legend .nk-key { fill: #5a4414; }
+    :root:not([data-theme="light"]) .report-graph .nk-ditaval .g-shape, :root:not([data-theme="light"]) .legend .nk-ditaval { fill: #55284f; }
+  }
+  :root[data-theme="dark"] .report-graph .nk-map .g-shape, :root[data-theme="dark"] .legend .nk-map { fill: #2b3566; }
+  :root[data-theme="dark"] .report-graph .nk-topic .g-shape, :root[data-theme="dark"] .legend .nk-topic { fill: #3a3b40; }
+  :root[data-theme="dark"] .report-graph .nk-key .g-shape, :root[data-theme="dark"] .legend .nk-key { fill: #5a4414; }
+  :root[data-theme="dark"] .report-graph .nk-ditaval .g-shape, :root[data-theme="dark"] .legend .nk-ditaval { fill: #55284f; }
+
+  @media (max-width: 800px) {
+    .graph-layout { grid-template-columns: 1fr; }
+    .graph-stage { height: 60vh; }
+    .detail { max-height: none; }
+  }
+</style>
+</head>
+<body>
+<div class="report">
+  <header class="report-header">
+    <div>
+      <h1>DITA relationship map</h1>
+      <dl>
+        <div><dt>Root</dt><dd id="hdr-root" class="mono"></dd></div>
+        <div><dt>Scope</dt><dd id="hdr-scope"></dd></div>
+        <div><dt>Generated</dt><dd id="hdr-generated"></dd></div>
+      </dl>
+    </div>
+    <button type="button" id="theme-toggle">Theme</button>
+  </header>
+
+  <div id="tabs">
+    <div role="tablist" aria-label="Report views">
+      <button type="button" role="tab" id="tab-graph" aria-controls="panel-graph" aria-selected="true">Graph</button>
+      <button type="button" role="tab" id="tab-table" aria-controls="panel-table" aria-selected="false">Table</button>
+      <button type="button" role="tab" id="tab-issues" aria-controls="panel-issues" aria-selected="false">Issues</button>
+    </div>
+
+    <section role="tabpanel" id="panel-graph">
+      <div class="toolbar">
+        <label>Scope <select id="scope-select" name="scope"></select></label>
+        <div class="kind-toggles" id="kind-toggles" role="group" aria-label="Relationship kinds shown"></div>
+        <div class="zoom-controls" role="group" aria-label="Zoom">
+          <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+          <button type="button" id="zoom-fit">Fit</button>
+          <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+        </div>
+        <button type="button" id="relayout">Relayout</button>
+      </div>
+      <p class="muted graph-hint">Scroll to zoom, drag the background to pan, and select a node to focus on its relationships. Keys: + and − zoom, 0 fits, Esc clears the selection.</p>
+      <div id="graph-empty" class="empty" hidden>No relationships to draw.</div>
+      <div class="graph-layout" id="graph-layout">
+        <div class="graph-stage"><svg id="graph" aria-label="Relationship graph"></svg></div>
+        <aside class="panel detail" id="detail" aria-live="polite">
+          <p class="muted">Select a node to see its relationships.</p>
+        </aside>
+      </div>
+      <ul class="legend" id="legend" aria-label="Legend"></ul>
+    </section>
+
+    <section role="tabpanel" id="panel-table" hidden>
+      <div class="toolbar">
+        <label>Filter <input type="search" id="edge-filter" name="edge-filter" placeholder="Filter relationships"></label>
+        <span class="table-count" id="edge-count"></span>
+      </div>
+      <div id="edge-table"></div>
+    </section>
+
+    <section role="tabpanel" id="panel-issues" hidden>
+      <div class="toolbar">
+        <label>Filter <input type="search" id="issue-filter" name="issue-filter" placeholder="Filter issues"></label>
+        <span class="table-count" id="issue-count"></span>
+      </div>
+      <div id="issue-table"></div>
+    </section>
+  </div>
+</div>
+
+<script id="report-meta" type="application/json">{"generated":"2026-09-14T18:43:58.916212845Z","editorVersion":"4.0.0-beta.1","source":"project-graph {\"root\":\"audacity-demo\"}"}</script>
+<script id="report-data" type="application/json">{"generated":"2026-09-14T18:43:57.235208843Z","root":"audacity-demo","scope":"all","deliverables":[{"name":"full","map":"audacity-guide.ditamap","ditavals":[],"ships":["audacity-guide.ditamap","keydefs-glossary.ditamap","keydefs-product.ditamap","shared/common-notes.dita","shared/common-steps.dita","topics/burning-an-audio-cd.dita","topics/editing-techniques.dita","topics/effects-reference.dita","topics/exporting-audio.dita","topics/glossary/g-bit-depth.dita","topics/glossary/g-compression.dita","topics/glossary/g-normalization.dita","topics/glossary/g-sample-rate.dita","topics/glossary/g-waveform.dita","topics/installing-audacity.dita","topics/keyboard-shortcuts.dita","topics/podcast-production-workflow.dita","topics/recording-your-first-track.dita","topics/removing-background-noise.dita","topics/supported-audio-formats.dita","topics/trimming-audio.dita","topics/what-is-audacity.dita","topics/what-is-digital-audio.dita"]},{"name":"beginner-mac","map":"beginner-guide.ditamap","ditavals":["filters/mac-beginner.ditaval"],"ships":["beginner-guide.ditamap","keydefs-product.ditamap","shared/common-notes.dita","shared/common-steps.dita","topics/exporting-audio.dita","topics/installing-audacity.dita","topics/keyboard-shortcuts.dita","topics/recording-your-first-track.dita","topics/supported-audio-formats.dita","topics/trimming-audio.dita","topics/what-is-audacity.dita"]},{"name":"beginner-windows","map":"beginner-guide.ditamap","ditavals":["filters/windows-beginner.ditaval"],"ships":["beginner-guide.ditamap","keydefs-product.ditamap","shared/common-notes.dita","shared/common-steps.dita","topics/exporting-audio.dita","topics/installing-audacity.dita","topics/keyboard-shortcuts.dita","topics/recording-your-first-track.dita","topics/supported-audio-formats.dita","topics/trimming-audio.dita","topics/what-is-audacity.dita"]},{"name":"podcaster-linux","map":"podcaster-guide.ditamap","ditavals":["filters/linux-podcaster.ditaval"],"ships":["keydefs-glossary.ditamap","keydefs-product.ditamap","podcaster-guide.ditamap","shared/common-notes.dita","shared/common-steps.dita","topics/effects-reference.dita","topics/exporting-audio.dita","topics/glossary/g-bit-depth.dita","topics/glossary/g-compression.dita","topics/glossary/g-normalization.dita","topics/glossary/g-sample-rate.dita","topics/glossary/g-waveform.dita","topics/installing-audacity.dita","topics/keyboard-shortcuts.dita","topics/podcast-production-workflow.dita","topics/recording-your-first-track.dita","topics/removing-background-noise.dita","topics/supported-audio-formats.dita","topics/trimming-audio.dita","topics/what-is-audacity.dita","topics/what-is-digital-audio.dita"]}],"nodes":[{"id":"audacity-book.ditamap","kind":"map","type":"bookmap","title":"Audacity User Guide"},{"id":"audacity-collection.ditamap","kind":"map","type":"map","title":"Audacity Documentation Collection"},{"id":"audacity-guide.ditamap","kind":"map","type":"map","title":"Audacity User Guide","ships":["full"]},{"id":"beginner-guide.ditamap","kind":"map","type":"map","title":"Audacity Beginner's Guide","ships":["beginner-mac","beginner-windows"]},{"id":"filters/linux-podcaster.ditaval","kind":"ditaval","type":"ditaval"},{"id":"filters/mac-beginner.ditaval","kind":"ditaval","type":"ditaval"},{"id":"filters/platform-linux.ditaval","kind":"ditaval","type":"ditaval"},{"id":"filters/platform-macos.ditaval","kind":"ditaval","type":"ditaval"},{"id":"filters/platform-windows.ditaval","kind":"ditaval","type":"ditaval"},{"id":"filters/windows-beginner.ditaval","kind":"ditaval","type":"ditaval"},{"id":"installation-variants.ditamap","kind":"map","type":"map","title":"Installation (per-platform variants)"},{"id":"keydefs-glossary.ditamap","kind":"map","type":"map","title":"Glossary Key Definitions","ships":["full","podcaster-linux"]},{"id":"keydefs-product.ditamap","kind":"map","type":"map","title":"Product Key Definitions","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"podcaster-guide.ditamap","kind":"map","type":"map","title":"Audacity for Podcasters","ships":["podcaster-linux"]},{"id":"shared/common-notes.dita","kind":"topic","type":"topic","title":"Common Notes","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"shared/common-steps.dita","kind":"topic","type":"task","title":"Common Steps","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/burning-an-audio-cd.dita","kind":"topic","type":"task","title":"Burning an Audio CD","ships":["full"]},{"id":"topics/digital-audio-basics.dita","kind":"topic","missing":true},{"id":"topics/editing-techniques.dita","kind":"topic","type":"concept","title":"Editing Techniques","ships":["full"]},{"id":"topics/effects-reference.dita","kind":"topic","type":"reference","title":"Effects Reference","ships":["full","podcaster-linux"]},{"id":"topics/exporting-audio.dita","kind":"topic","type":"task","title":"Exporting Audio","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/glossary/g-bit-depth.dita","kind":"topic","type":"glossentry","title":"Bit Depth","ships":["full","podcaster-linux"]},{"id":"topics/glossary/g-clipping.dita","kind":"topic","type":"glossentry","title":"Clipping"},{"id":"topics/glossary/g-compression.dita","kind":"topic","type":"glossentry","title":"Dynamic Range Compression","ships":["full","podcaster-linux"]},{"id":"topics/glossary/g-normalization.dita","kind":"topic","type":"glossentry","title":"Normalization","ships":["full","podcaster-linux"]},{"id":"topics/glossary/g-sample-rate.dita","kind":"topic","type":"glossentry","title":"Sample Rate","ships":["full","podcaster-linux"]},{"id":"topics/glossary/g-waveform.dita","kind":"topic","type":"glossentry","title":"Waveform","ships":["full","podcaster-linux"]},{"id":"topics/installing-audacity.dita","kind":"topic","type":"task","title":"Installing [product-name]","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/keyboard-shortcuts.dita","kind":"topic","type":"reference","title":"Keyboard Shortcuts","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/podcast-production-workflow.dita","kind":"topic","type":"concept","title":"Podcast Production Workflow","ships":["full","podcaster-linux"]},{"id":"topics/recording-your-first-track.dita","kind":"topic","type":"task","title":"Recording Your First Track","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/removing-background-noise.dita","kind":"topic","type":"task","title":"Removing Background Noise","ships":["full","podcaster-linux"]},{"id":"topics/supported-audio-formats.dita","kind":"topic","type":"reference","title":"Supported Audio Formats","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/trimming-audio.dita","kind":"topic","type":"task","title":"Trimming Audio","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/what-is-audacity.dita","kind":"topic","type":"topic","title":"What is [product-name]?","ships":["full","beginner-mac","beginner-windows","podcaster-linux"]},{"id":"topics/what-is-digital-audio.dita","kind":"topic","type":"concept","title":"What is Digital Audio?","ships":["full","podcaster-linux"]},{"id":"key:download-url","kind":"key"},{"id":"key:gl-bit-depth","kind":"key"},{"id":"key:gl-bitdepth","kind":"key"},{"id":"key:gl-clipping","kind":"key"},{"id":"key:gl-compression","kind":"key"},{"id":"key:gl-normalization","kind":"key"},{"id":"key:gl-sample-rate","kind":"key"},{"id":"key:gl-waveform","kind":"key"},{"id":"key:product-name","kind":"key"},{"id":"key:product-version","kind":"key"},{"id":"key:produkt-version","kind":"key"},{"id":"key:project-extension","kind":"key"},{"id":"key:start-here","kind":"key"}],"edges":[{"from":"audacity-book.ditamap","to":"topics/what-is-audacity.dita","kind":"topicref","line":63},{"from":"audacity-book.ditamap","to":"topics/what-is-digital-audio.dita","kind":"topicref","line":64},{"from":"audacity-book.ditamap","to":"topics/installing-audacity.dita","kind":"topicref","line":65},{"from":"audacity-book.ditamap","to":"topics/recording-your-first-track.dita","kind":"topicref","line":68},{"from":"audacity-book.ditamap","to":"topics/trimming-audio.dita","kind":"topicref","line":69},{"from":"audacity-book.ditamap","to":"topics/removing-background-noise.dita","kind":"topicref","line":70},{"from":"audacity-book.ditamap","to":"topics/exporting-audio.dita","kind":"topicref","line":71},{"from":"audacity-book.ditamap","to":"topics/podcast-production-workflow.dita","kind":"topicref","line":74},{"from":"audacity-book.ditamap","to":"topics/effects-reference.dita","kind":"topicref","line":76},{"from":"audacity-book.ditamap","to":"topics/supported-audio-formats.dita","kind":"topicref","line":77},{"from":"audacity-book.ditamap","to":"topics/keyboard-shortcuts.dita","kind":"topicref","line":78},{"from":"audacity-book.ditamap","to":"topics/glossary/g-bit-depth.dita","kind":"topicref","line":84},{"from":"audacity-book.ditamap","to":"topics/glossary/g-clipping.dita","kind":"topicref","line":85},{"from":"audacity-book.ditamap","to":"topics/glossary/g-compression.dita","kind":"topicref","line":86},{"from":"audacity-book.ditamap","to":"topics/glossary/g-normalization.dita","kind":"topicref","line":87},{"from":"audacity-book.ditamap","to":"topics/glossary/g-sample-rate.dita","kind":"topicref","line":88},{"from":"audacity-book.ditamap","to":"topics/glossary/g-waveform.dita","kind":"topicref","line":89},{"from":"audacity-book.ditamap","to":"key:product-name","kind":"keydef","line":26},{"from":"audacity-book.ditamap","to":"key:product-version","kind":"keydef","line":33},{"from":"audacity-book.ditamap","to":"key:download-url","kind":"keydef","line":40},{"from":"audacity-book.ditamap","to":"key:project-extension","kind":"keydef","line":47},{"from":"audacity-book.ditamap","to":"key:gl-sample-rate","kind":"keydef","line":55},{"from":"key:gl-sample-rate","to":"topics/glossary/g-sample-rate.dita","kind":"keytarget","line":55,"via":"audacity-book.ditamap"},{"from":"audacity-book.ditamap","to":"key:gl-bit-depth","kind":"keydef","line":56},{"from":"key:gl-bit-depth","to":"topics/glossary/g-bit-depth.dita","kind":"keytarget","line":56,"via":"audacity-book.ditamap"},{"from":"audacity-book.ditamap","to":"key:gl-clipping","kind":"keydef","line":57},{"from":"key:gl-clipping","to":"topics/glossary/g-clipping.dita","kind":"keytarget","line":57,"via":"audacity-book.ditamap"},{"from":"audacity-book.ditamap","to":"key:gl-normalization","kind":"keydef","line":58},{"from":"key:gl-normalization","to":"topics/glossary/g-normalization.dita","kind":"keytarget","line":58,"via":"audacity-book.ditamap"},{"from":"audacity-book.ditamap","to":"key:gl-compression","kind":"keydef","line":59},{"from":"key:gl-compression","to":"topics/glossary/g-compression.dita","kind":"keytarget","line":59,"via":"audacity-book.ditamap"},{"from":"audacity-book.ditamap","to":"key:gl-waveform","kind":"keydef","line":60},{"from":"key:gl-waveform","to":"topics/glossary/g-waveform.dita","kind":"keytarget","line":60,"via":"audacity-book.ditamap"},{"from":"audacity-collection.ditamap","to":"audacity-guide.ditamap","kind":"mapref","line":8},{"from":"audacity-collection.ditamap","to":"beginner-guide.ditamap","kind":"mapref","line":11},{"from":"audacity-collection.ditamap","to":"podcaster-guide.ditamap","kind":"mapref","line":14},{"from":"audacity-guide.ditamap","to":"keydefs-product.ditamap","kind":"mapref","line":7},{"from":"audacity-guide.ditamap","to":"keydefs-glossary.ditamap","kind":"mapref","line":8},{"from":"audacity-guide.ditamap","to":"topics/what-is-audacity.dita","kind":"topicref","line":13},{"from":"audacity-guide.ditamap","to":"topics/what-is-digital-audio.dita","kind":"topicref","line":14},{"from":"audacity-guide.ditamap","to":"topics/installing-audacity.dita","kind":"topicref","line":15},{"from":"audacity-guide.ditamap","to":"topics/recording-your-first-track.dita","kind":"topicref","line":19},{"from":"audacity-guide.ditamap","to":"topics/editing-techniques.dita","kind":"topicref","line":20},{"from":"audacity-guide.ditamap","to":"topics/trimming-audio.dita","kind":"topicref","line":21},{"from":"audacity-guide.ditamap","to":"topics/removing-background-noise.dita","kind":"topicref","line":22},{"from":"audacity-guide.ditamap","to":"topics/exporting-audio.dita","kind":"topicref","line":23},{"from":"audacity-guide.ditamap","to":"topics/burning-an-audio-cd.dita","kind":"topicref","line":24},{"from":"audacity-guide.ditamap","to":"topics/keyboard-shortcuts.dita","kind":"topicref","line":25},{"from":"audacity-guide.ditamap","to":"topics/podcast-production-workflow.dita","kind":"topicref","line":29},{"from":"audacity-guide.ditamap","to":"topics/supported-audio-formats.dita","kind":"topicref","line":33},{"from":"audacity-guide.ditamap","to":"topics/effects-reference.dita","kind":"topicref","line":34},{"from":"audacity-guide.ditamap","to":"topics/what-is-digital-audio.dita","kind":"reltable","line":45},{"from":"audacity-guide.ditamap","to":"topics/recording-your-first-track.dita","kind":"reltable","line":48},{"from":"audacity-guide.ditamap","to":"topics/supported-audio-formats.dita","kind":"reltable","line":51},{"from":"audacity-guide.ditamap","to":"topics/exporting-audio.dita","kind":"reltable","line":57},{"from":"audacity-guide.ditamap","to":"topics/supported-audio-formats.dita","kind":"reltable","line":60},{"from":"audacity-guide.ditamap","to":"key:start-here","kind":"keydef","line":10},{"from":"key:start-here","to":"topics/what-is-audacity.dita","kind":"keytarget","line":10,"via":"audacity-guide.ditamap"},{"from":"beginner-guide.ditamap","to":"keydefs-product.ditamap","kind":"mapref","line":7},{"from":"beginner-guide.ditamap","to":"topics/what-is-audacity.dita","kind":"topicref","line":12},{"from":"beginner-guide.ditamap","to":"topics/installing-audacity.dita","kind":"topicref","line":13},{"from":"beginner-guide.ditamap","to":"topics/recording-your-first-track.dita","kind":"topicref","line":17},{"from":"beginner-guide.ditamap","to":"topics/trimming-audio.dita","kind":"topicref","line":18},{"from":"beginner-guide.ditamap","to":"topics/exporting-audio.dita","kind":"topicref","line":19},{"from":"beginner-guide.ditamap","to":"topics/keyboard-shortcuts.dita","kind":"topicref","line":23},{"from":"beginner-guide.ditamap","to":"topics/supported-audio-formats.dita","kind":"topicref","line":24},{"from":"beginner-guide.ditamap","to":"key:start-here","kind":"keydef","line":9},{"from":"key:start-here","to":"topics/recording-your-first-track.dita","kind":"keytarget","line":9,"via":"beginner-guide.ditamap"},{"from":"installation-variants.ditamap","to":"topics/installing-audacity.dita","kind":"topicref","line":10},{"from":"installation-variants.ditamap","to":"filters/platform-windows.ditaval","kind":"ditavalref","line":11},{"from":"installation-variants.ditamap","to":"filters/platform-macos.ditaval","kind":"ditavalref","line":16},{"from":"installation-variants.ditamap","to":"filters/platform-linux.ditaval","kind":"ditavalref","line":21},{"from":"keydefs-glossary.ditamap","to":"key:gl-sample-rate","kind":"keydef","line":7},{"from":"key:gl-sample-rate","to":"topics/glossary/g-sample-rate.dita","kind":"keytarget","line":7,"via":"keydefs-glossary.ditamap"},{"from":"keydefs-glossary.ditamap","to":"key:gl-bit-depth","kind":"keydef","line":8},{"from":"key:gl-bit-depth","to":"topics/glossary/g-bit-depth.dita","kind":"keytarget","line":8,"via":"keydefs-glossary.ditamap"},{"from":"keydefs-glossary.ditamap","to":"key:gl-clipping","kind":"keydef","line":9},{"from":"key:gl-clipping","to":"topics/glossary/g-clipping.dita","kind":"keytarget","line":9,"via":"keydefs-glossary.ditamap"},{"from":"keydefs-glossary.ditamap","to":"key:gl-normalization","kind":"keydef","line":10},{"from":"key:gl-normalization","to":"topics/glossary/g-normalization.dita","kind":"keytarget","line":10,"via":"keydefs-glossary.ditamap"},{"from":"keydefs-glossary.ditamap","to":"key:gl-compression","kind":"keydef","line":11},{"from":"key:gl-compression","to":"topics/glossary/g-compression.dita","kind":"keytarget","line":11,"via":"keydefs-glossary.ditamap"},{"from":"keydefs-glossary.ditamap","to":"key:gl-waveform","kind":"keydef","line":12},{"from":"key:gl-waveform","to":"topics/glossary/g-waveform.dita","kind":"keytarget","line":12,"via":"keydefs-glossary.ditamap"},{"from":"keydefs-glossary.ditamap","to":"key:product-version","kind":"keydef","line":15},{"from":"keydefs-product.ditamap","to":"key:product-name","kind":"keydef","line":7},{"from":"keydefs-product.ditamap","to":"key:product-version","kind":"keydef","line":14},{"from":"keydefs-product.ditamap","to":"key:download-url","kind":"keydef","line":21},{"from":"keydefs-product.ditamap","to":"key:project-extension","kind":"keydef","line":28},{"from":"podcaster-guide.ditamap","to":"keydefs-product.ditamap","kind":"mapref","line":7},{"from":"podcaster-guide.ditamap","to":"keydefs-glossary.ditamap","kind":"mapref","line":8},{"from":"podcaster-guide.ditamap","to":"topics/what-is-audacity.dita","kind":"topicref","line":13},{"from":"podcaster-guide.ditamap","to":"topics/what-is-digital-audio.dita","kind":"topicref","line":14},{"from":"podcaster-guide.ditamap","to":"topics/installing-audacity.dita","kind":"topicref","line":15},{"from":"podcaster-guide.ditamap","to":"topics/recording-your-first-track.dita","kind":"topicref","line":19},{"from":"podcaster-guide.ditamap","to":"topics/trimming-audio.dita","kind":"topicref","line":20},{"from":"podcaster-guide.ditamap","to":"topics/removing-background-noise.dita","kind":"topicref","line":21},{"from":"podcaster-guide.ditamap","to":"topics/exporting-audio.dita","kind":"topicref","line":22},{"from":"podcaster-guide.ditamap","to":"topics/podcast-production-workflow.dita","kind":"topicref","line":26},{"from":"podcaster-guide.ditamap","to":"topics/effects-reference.dita","kind":"topicref","line":30},{"from":"podcaster-guide.ditamap","to":"topics/supported-audio-formats.dita","kind":"topicref","line":31},{"from":"podcaster-guide.ditamap","to":"topics/keyboard-shortcuts.dita","kind":"topicref","line":32},{"from":"podcaster-guide.ditamap","to":"key:start-here","kind":"keydef","line":10},{"from":"key:start-here","to":"topics/podcast-production-workflow.dita","kind":"keytarget","line":10,"via":"podcaster-guide.ditamap"},{"from":"topics/burning-an-audio-cd.dita","to":"key:product-name","kind":"keyref","line":8},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":5},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":8},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":14},{"from":"topics/installing-audacity.dita","to":"key:download-url","kind":"keyref","line":16},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":26},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":43},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":46},{"from":"topics/installing-audacity.dita","to":"key:product-name","kind":"keyref","line":53},{"from":"topics/installing-audacity.dita","to":"key:produkt-version","kind":"keyref","line":53},{"from":"topics/podcast-production-workflow.dita","to":"key:product-name","kind":"keyref","line":7},{"from":"topics/podcast-production-workflow.dita","to":"key:product-name","kind":"keyref","line":26},{"from":"topics/podcast-production-workflow.dita","to":"key:gl-normalization","kind":"keyref","line":38},{"from":"topics/podcast-production-workflow.dita","to":"key:gl-compression","kind":"keyref","line":39},{"from":"topics/recording-your-first-track.dita","to":"key:product-name","kind":"keyref","line":8},{"from":"topics/recording-your-first-track.dita","to":"topics/what-is-digital-audio.dita","kind":"link","line":10},{"from":"topics/recording-your-first-track.dita","to":"key:product-name","kind":"keyref","line":17},{"from":"topics/recording-your-first-track.dita","to":"key:product-name","kind":"keyref","line":19},{"from":"topics/recording-your-first-track.dita","to":"key:product-name","kind":"keyref","line":32},{"from":"topics/recording-your-first-track.dita","to":"shared/common-steps.dita","kind":"conref","line":48,"fragment":"common-steps/save-project"},{"from":"topics/recording-your-first-track.dita","to":"key:product-name","kind":"keyref","line":53},{"from":"topics/recording-your-first-track.dita","to":"topics/digital-audio-basics.dita","kind":"link","line":59,"broken":true},{"from":"topics/recording-your-first-track.dita","to":"topics/exporting-audio.dita","kind":"link","line":60},{"from":"topics/recording-your-first-track.dita","to":"topics/supported-audio-formats.dita","kind":"link","line":61},{"from":"topics/removing-background-noise.dita","to":"key:product-name","kind":"keyref","line":8},{"from":"topics/removing-background-noise.dita","to":"shared/common-notes.dita","kind":"conref","line":9,"fragment":"common-notes/backup-warningX"},{"from":"topics/removing-background-noise.dita","to":"shared/common-steps.dita","kind":"conref","line":25,"fragment":"common-steps/select-region"},{"from":"topics/removing-background-noise.dita","to":"shared/common-steps.dita","kind":"conref","line":66,"fragment":"common-steps/save-project"},{"from":"topics/supported-audio-formats.dita","to":"key:gl-bitdepth","kind":"keyref","line":22},{"from":"topics/trimming-audio.dita","to":"shared/common-notes.dita","kind":"conref","line":11,"fragment":"common-notes/backup-warning"},{"from":"topics/trimming-audio.dita","to":"shared/common-steps.dita","kind":"conref","line":16,"fragment":"common-steps/select-region"},{"from":"topics/trimming-audio.dita","to":"shared/common-steps.dita","kind":"conref","line":33,"fragment":"common-steps/save-project"},{"from":"topics/what-is-audacity.dita","to":"key:product-name","kind":"keyref","line":5},{"from":"topics/what-is-audacity.dita","to":"key:product-name","kind":"keyref","line":13},{"from":"topics/what-is-audacity.dita","to":"key:product-name","kind":"keyref","line":15},{"from":"topics/what-is-audacity.dita","to":"key:product-name","kind":"keyref","line":22},{"from":"topics/what-is-digital-audio.dita","to":"key:product-name","kind":"keyref","line":8},{"from":"topics/what-is-digital-audio.dita","to":"key:product-name","kind":"keyref","line":11},{"from":"topics/what-is-digital-audio.dita","to":"key:gl-waveform","kind":"keyref","line":16},{"from":"topics/what-is-digital-audio.dita","to":"key:gl-sample-rate","kind":"keyref","line":23},{"from":"topics/what-is-digital-audio.dita","to":"key:gl-bit-depth","kind":"keyref","line":35},{"from":"topics/what-is-digital-audio.dita","to":"topics/recording-your-first-track.dita","kind":"link","line":65},{"from":"topics/what-is-digital-audio.dita","to":"topics/supported-audio-formats.dita","kind":"link","line":66},{"from":"beginner-guide.ditamap","to":"filters/mac-beginner.ditaval","kind":"profile","deliverable":"beginner-mac"},{"from":"beginner-guide.ditamap","to":"filters/windows-beginner.ditaval","kind":"profile","deliverable":"beginner-windows"},{"from":"podcaster-guide.ditamap","to":"filters/linux-podcaster.ditaval","kind":"profile","deliverable":"podcaster-linux"}],"issues":[{"severity":"error","rule":"broken-reference","file":"topics/recording-your-first-track.dita","line":59,"message":"Reference to missing file \"topics/digital-audio-basics.dita\""},{"severity":"error","rule":"undefined-key","file":"topics/installing-audacity.dita","line":53,"message":"Key \"produkt-version\" is undefined in full, beginner-mac, beginner-windows, podcaster-linux"},{"severity":"error","rule":"undefined-key","file":"topics/supported-audio-formats.dita","line":22,"message":"Key \"gl-bitdepth\" is undefined in full, beginner-mac, beginner-windows, podcaster-linux"},{"severity":"warning","rule":"shadowed-key","file":"keydefs-glossary.ditamap","line":15,"message":"Key \"product-version\" is shadowed by the definition in keydefs-product.ditamap line 14"},{"severity":"info","rule":"unused-key","file":"audacity-guide.ditamap","line":10,"message":"Key \"start-here\" is defined but never referenced"},{"severity":"info","rule":"unused-key","file":"beginner-guide.ditamap","line":9,"message":"Key \"start-here\" is defined but never referenced"},{"severity":"info","rule":"unused-key","file":"keydefs-glossary.ditamap","line":9,"message":"Key \"gl-clipping\" is defined but never referenced"},{"severity":"info","rule":"unused-key","file":"keydefs-glossary.ditamap","line":15,"message":"Key \"product-version\" is defined but never referenced"},{"severity":"info","rule":"unused-key","file":"keydefs-product.ditamap","line":14,"message":"Key \"product-version\" is defined but never referenced"},{"severity":"info","rule":"unused-key","file":"keydefs-product.ditamap","line":28,"message":"Key \"project-extension\" is defined but never referenced"},{"severity":"info","rule":"unused-key","file":"podcaster-guide.ditamap","line":10,"message":"Key \"start-here\" is defined but never referenced"},{"severity":"error","rule":"invalid-dtd","file":"topics/installing-audacity.dita","line":10,"message":"Element type \"x\" must be declared."},{"severity":"error","rule":"invalid-dtd","file":"topics/installing-audacity.dita","line":11,"message":"The content of element type \"context\" does not match its content model."},{"severity":"error","rule":"invalid-dtd","file":"topics/installing-audacity.dita","line":45,"message":"Attribute \"type\" with value \"tipp\" must have a value from the list \"attention caution danger fastpath important note notice other remember restriction tip trouble warning -dita-use-conref-target \"."},{"severity":"error","rule":"invalid-dtd","file":"topics/trimming-audio.dita","line":10,"message":"Element type \"x\" must be declared."},{"severity":"error","rule":"invalid-dtd","file":"topics/trimming-audio.dita","line":14,"message":"The content of element type \"context\" does not match its content model."},{"severity":"error","rule":"broken-element-id","file":"topics/removing-background-noise.dita","line":9,"message":"conref=\"../shared/common-notes.dita#common-notes/backup-warningX\": element id 'backup-warningX' not found in common-notes.dita"},{"severity":"warning","rule":"conref-push","file":"topics/effects-reference.dita","line":14,"message":"\u003cnote\u003e: pushbefore has no sibling conaction=\"mark\" (nothing identifies the push target)"}]}</script>
+<script>
+(function () {
+  'use strict';
+  var R = window.Report;
+  var el = R.el;
+  var data = R.data();
+  var nodes = Array.isArray(data.nodes) ? data.nodes : [];
+  var edges = Array.isArray(data.edges) ? data.edges : [];
+  var issues = Array.isArray(data.issues) ? data.issues : [];
+  var deliverables = Array.isArray(data.deliverables) ? data.deliverables : [];
+  var nodeById = new Map();
+  nodes.forEach(function (n) { if (n && n.id != null) nodeById.set(n.id, n); });
+
+  var SHAPE = { map: 'square', topic: 'circle', key: 'diamond', ditaval: 'chevron' };
+  var DASH = {
+    mapref: null, topicref: null, keydef: '2 3', keytarget: '6 2 2 2', keyref: '1 3',
+    conref: '8 3', conkeyref: '8 3 2 3', link: '4 4', reltable: '10 2 2 2 2 2', ditavalref: '3 2', profile: '12 4'
+  };
+
+  function nodeLabel(id) {
+    var n = nodeById.get(id);
+    return n && n.title ? n.title : String(id);
+  }
+
+  // Header
+  document.getElementById('hdr-root').textContent = data.root || '(unknown)';
+  document.getElementById('hdr-scope').textContent = data.scope || 'All';
+  document.getElementById('hdr-generated').textContent = data.generated || R.meta().generated || '';
+  R.themeToggle(document.getElementById('theme-toggle'));
+  var tabs = R.tabs(document.getElementById('tabs'));
+
+  // Graph
+  var svg = document.getElementById('graph');
+  var detail = document.getElementById('detail');
+  var rootMaps = new Set(deliverables.map(function (d) { return d.map; }));
+  var g = R.graph(svg, {
+    nodes: nodes,
+    edges: edges,
+    label: function (n) { return n.title || n.id; },
+    nodeStyle: function (n) {
+      return {
+        shape: SHAPE[n.kind] || 'circle',
+        cls: 'nk-' + (n.kind || 'topic') + (n.missing ? ' is-missing' : ''),
+        label: n.missing ? 'missing' : null,
+        // Root maps of deliverables are the landmarks: drawn larger, labelled at every zoom.
+        size: rootMaps.has(n.id) ? 1.7 : (n.kind === 'map' ? 1.25 : 1),
+        important: n.kind === 'map' || !!n.missing
+      };
+    },
+    edgeStyle: function (e) {
+      return {
+        dash: DASH[e.kind] || null,
+        cls: 'ek-' + (e.kind || 'link') + (e.broken ? ' is-broken' : ''),
+        label: e.broken ? 'broken' : null
+      };
+    },
+    onSelect: showDetail
+  });
+
+  var kinds = [];
+  edges.forEach(function (e) { if (e.kind && kinds.indexOf(e.kind) < 0) kinds.push(e.kind); });
+  var enabledKinds = new Set(kinds);
+  var toggles = document.getElementById('kind-toggles');
+  kinds.forEach(function (kind) {
+    toggles.appendChild(el('button', {
+      type: 'button', 'aria-pressed': 'true',
+      onclick: function (evt) {
+        var btn = evt.currentTarget;
+        var on = btn.getAttribute('aria-pressed') !== 'true';
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (on) enabledKinds.add(kind); else enabledKinds.delete(kind);
+        applyScope();
+      }
+    }, kind));
+  });
+
+  var scopeSelect = document.getElementById('scope-select');
+  scopeSelect.appendChild(el('option', { value: '' }, 'All'));
+  deliverables.forEach(function (d, i) {
+    scopeSelect.appendChild(el('option', { value: String(i) }, d.name || d.map || ('Deliverable ' + (i + 1))));
+  });
+  scopeSelect.addEventListener('change', function () { applyScope(); g.relayout(); });
+
+  function scopeNodes() {
+    if (scopeSelect.value === '') return null;
+    var d = deliverables[Number(scopeSelect.value)];
+    if (!d) return null;
+    var files = new Set(Array.isArray(d.ships) ? d.ships : []);
+    if (d.map) files.add(d.map);
+    var set = new Set(files);
+    (d.ditavals || []).forEach(function (v) { if (nodeById.has(v)) set.add(v); });
+    // Only what this deliverable uses: its own profiles, DITAVALs its maps reference, keys its
+    // maps define or its files reference, and key bindings made by one of its maps. Two
+    // deliverables can share a root map, so a profile edge counts only for its own deliverable.
+    edges.forEach(function (e) {
+      switch (e.kind) {
+        case 'profile':
+          if (e.deliverable === d.name && nodeById.has(e.to)) set.add(e.to);
+          break;
+        case 'ditavalref':
+        case 'keydef':
+        case 'keyref':
+        case 'conkeyref':
+          if (files.has(e.from) && nodeById.has(e.to)) set.add(e.to);
+          break;
+        case 'keytarget':
+          if (e.via && files.has(e.via)) set.add(e.from);
+          break;
+      }
+    });
+    return set;
+  }
+
+  function applyScope() {
+    var set = scopeNodes();
+    g.setVisible(
+      function (n) { return !set || set.has(n.id); },
+      function (e) { return enabledKinds.has(e.kind); }
+    );
+  }
+
+  document.getElementById('relayout').addEventListener('click', function () { g.relayout(); });
+  document.getElementById('zoom-in').addEventListener('click', function () { g.zoomIn(); });
+  document.getElementById('zoom-out').addEventListener('click', function () { g.zoomOut(); });
+  document.getElementById('zoom-fit').addEventListener('click', function () { g.fit(); });
+  if (!nodes.length) {
+    document.getElementById('graph-empty').hidden = false;
+    document.getElementById('graph-layout').hidden = true;
+  }
+
+  function edgeItem(e, otherId, arrow) {
+    var other = nodeById.get(otherId);
+    var btn = el('button', { type: 'button', class: 'link-button', onclick: function () { g.select(otherId); } }, nodeLabel(otherId));
+    return el('li', null,
+      el('span', { class: 'muted' }, e.kind + ' ' + arrow + ' '), other ? btn : String(otherId),
+      e.line != null ? el('span', { class: 'muted' }, ' (line ' + e.line + ')') : null,
+      e.via ? el('span', { class: 'muted' }, ' via ' + e.via) : null,
+      e.broken ? [' ', R.badge('broken')] : null);
+  }
+
+  function showDetail(n) {
+    detail.textContent = '';
+    if (!n) { detail.appendChild(el('p', { class: 'muted' }, 'Select a node to see its relationships.')); return; }
+    var incoming = edges.filter(function (e) { return e.to === n.id; });
+    var outgoing = edges.filter(function (e) { return e.from === n.id; });
+    detail.appendChild(el('h2', null, n.title || n.id, n.missing ? [' ', R.badge('missing')] : null));
+    var dl = el('dl');
+    [['Id', n.id], ['Kind', n.kind], ['Type', n.type], ['Ships in', (n.ships || []).join(', ')]].forEach(function (row) {
+      if (row[1]) { dl.appendChild(el('dt', null, row[0])); dl.appendChild(el('dd', { class: row[0] === 'Id' ? 'mono' : null }, row[1])); }
+    });
+    detail.appendChild(dl);
+    detail.appendChild(el('h3', null, 'Outgoing (' + outgoing.length + ')'));
+    detail.appendChild(outgoing.length
+      ? el('ul', null, outgoing.map(function (e) { return edgeItem(e, e.to, '→'); }))
+      : el('p', { class: 'muted' }, 'None.'));
+    detail.appendChild(el('h3', null, 'Incoming (' + incoming.length + ')'));
+    detail.appendChild(incoming.length
+      ? el('ul', null, incoming.map(function (e) { return edgeItem(e, e.from, '←'); }))
+      : el('p', { class: 'muted' }, 'None.'));
+  }
+
+  // Legend
+  var legend = document.getElementById('legend');
+  function legendItem(sample, text) {
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '-17 -9 34 18');
+    s.setAttribute('aria-hidden', 'true');
+    s.appendChild(sample);
+    legend.appendChild(el('li', null, s, text));
+  }
+  function svgNode(tag, attrs) {
+    var n = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.keys(attrs).forEach(function (k) { if (attrs[k] != null) n.setAttribute(k, attrs[k]); });
+    return n;
+  }
+  var shapeSamples = {
+    map: function (c) { return svgNode('rect', { x: -7, y: -7, width: 14, height: 14, class: c }); },
+    topic: function (c) { return svgNode('circle', { r: 7, class: c }); },
+    key: function (c) { return svgNode('path', { d: 'M0,-8 L8,0 L0,8 L-8,0 Z', class: c }); },
+    ditaval: function (c) { return svgNode('path', { d: 'M-8,-7 L2,-7 L8,0 L2,7 L-8,7 L-2,0 Z', class: c }); }
+  };
+  Object.keys(shapeSamples).forEach(function (kind) {
+    legendItem(shapeSamples[kind]('g-shape-sample nk-' + kind), kind + ' (' + SHAPE[kind] + ')');
+  });
+  legendItem(shapeSamples.topic('g-shape-sample nk-topic is-missing'), 'missing file (red dashed outline, labelled)');
+  kinds.forEach(function (kind) {
+    legendItem(svgNode('line', { x1: -16, y1: 0, x2: 16, y2: 0, class: 'ek-' + kind, 'stroke-dasharray': DASH[kind] }),
+      kind + (DASH[kind] ? ' (dash ' + DASH[kind] + ')' : ' (solid)'));
+  });
+  legendItem(svgNode('line', { x1: -16, y1: 0, x2: 16, y2: 0, class: 'is-broken' }), 'broken reference (red, labelled "broken")');
+
+  // Table
+  R.table(document.getElementById('edge-table'), [
+    { key: 'kind', label: 'Relationship' },
+    { key: 'from', label: 'From', value: function (e) { return nodeLabel(e.from); }, filterValue: function (e) { return nodeLabel(e.from) + ' ' + e.from; },
+      render: function (e) { return nodeLink(e.from, nodeLabel(e.from)); } },
+    { key: 'to', label: 'To', value: function (e) { return nodeLabel(e.to); }, filterValue: function (e) { return nodeLabel(e.to) + ' ' + e.to; },
+      render: function (e) { return nodeLink(e.to, nodeLabel(e.to)); } },
+    { key: 'line', label: 'Line' },
+    { key: 'via', label: 'Via', value: function (e) { return [e.via, e.fragment ? '#' + e.fragment : null].filter(Boolean).join(' '); } },
+    { key: 'broken', label: 'State', value: function (e) { return e.broken ? 'broken' : 'ok'; },
+      render: function (e) { return e.broken ? R.badge('broken') : R.badge('ok'); } }
+  ], edges, {
+    sortable: true, caption: 'All relationships', filterInput: document.getElementById('edge-filter'),
+    countEl: document.getElementById('edge-count'), empty: 'No relationships were found.'
+  });
+
+  function findNodeForFile(file) {
+    if (file == null) return null;
+    if (nodeById.has(file)) return file;
+    var match = null;
+    nodeById.forEach(function (n, id) {
+      if (!match && (String(id).endsWith('/' + file) || String(file).endsWith('/' + id))) match = id;
+    });
+    return match;
+  }
+
+  function nodeLink(id, text) {
+    if (!nodeById.has(id)) return String(text);
+    return el('button', { type: 'button', class: 'link-button', title: 'Show in graph',
+      onclick: function () { revealNode(id); } }, String(text));
+  }
+
+  function revealNode(id) {
+    tabs.select('panel-graph');
+    if (!g.isVisible(id)) { scopeSelect.value = ''; applyScope(); }
+    g.select(id);
+  }
+
+  // Issues
+  var SEVERITY_RANK = { error: 0, warning: 1, info: 2 };
+  R.table(document.getElementById('issue-table'), [
+    { key: 'severity', label: 'Severity', value: function (i) { return SEVERITY_RANK[i.severity] != null ? SEVERITY_RANK[i.severity] : 9; },
+      filterValue: function (i) { return i.severity; }, render: function (i) { return R.badge(i.severity || 'info'); } },
+    { key: 'rule', label: 'Rule', className: 'mono' },
+    { key: 'file', label: 'File', render: function (i) {
+      var id = findNodeForFile(i.file);
+      return id ? nodeLink(id, i.file) : String(i.file || '');
+    } },
+    { key: 'line', label: 'Line' },
+    { key: 'message', label: 'Message' }
+  ], issues, {
+    sortable: true, caption: 'Issues', filterInput: document.getElementById('issue-filter'),
+    countEl: document.getElementById('issue-count'), empty: 'No issues found.'
+  });
+  var issueTab = document.getElementById('tab-issues');
+  issueTab.textContent = 'Issues (' + issues.length + ')';
+
+  applyScope();
+})();
+</script>
+</body>
+</html>

@@ -8,6 +8,13 @@ type: how-to
 
 A documentation set is easier to fix when you can see it. The editor can describe how every map, topic, key, and DITAVAL file connects, and turn that, or any other check, into a standalone HTML page. The page is a single file that opens from disk in any browser, with no internet connection, so you can attach it to a ticket or keep it next to the content.
 
+## Examples
+
+These pages were generated from the [DITA tutorial project](https://github.com/dogsbay/dogsbay-xml-dita-tutorial), which has problems planted in it on purpose. Each is the single file the command writes, published as it is.
+
+- [Relationship map](https://dogsbay.ai/dogsbay-xml-docs/examples/relationship-map.html): the whole project, with a deliverable scope, zoom, and the issues tab.
+- [Health report](https://dogsbay.ai/dogsbay-xml-docs/examples/health.html): the audacity-guide map checked against the project's house rules.
+
 ## Write a relationship map
 
 ```bash
@@ -16,7 +23,7 @@ dogsbay-xml report project-graph . -o docs/relationship-map.html
 
 The page has three tabs:
 
-- **Graph** draws maps as squares, topics as circles, keys as diamonds, and DITAVAL files as chevrons. Select a node to see what it references and what references it. Choose a deliverable to see only what that deliverable ships, and turn relationship kinds on and off.
+- **Graph** draws maps as squares, topics as circles, keys as diamonds, and DITAVAL files as chevrons. Scroll to zoom, drag the background to pan, and use **Fit** to see everything again. Select a node to fade everything it is not connected to and list what it references and what references it. Choose a deliverable to see only what that deliverable ships, and turn relationship kinds on and off.
 - **Table** lists every relationship, with the line it is on and, for a key, the map that defined it.
 - **Issues** lists broken references, undefined keys, keys that resolve in some deliverables but not others, shadowed and unused keys, orphaned topics, files that fail grammar validation, and reuse references to missing element IDs. Select a file to find it in the graph.
 
