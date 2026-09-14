@@ -6,5 +6,6 @@
 - [Panel reference](https://dogsbay.ai/dogsbay-xml-docs/reference/panels.md): Find every panel in the sidebars and bottom bar, and learn what you can do in each panel.
 - [Settings reference](https://dogsbay.ai/dogsbay-xml-docs/reference/settings.md): Every page in File > Settings, and what each one controls.
 - [Project configuration](https://dogsbay.ai/dogsbay-xml-docs/reference/project-config.md): The files in a project's .dogsbay folder, what each element means, and which ones to commit.
+- [Project graph](https://dogsbay.ai/dogsbay-xml-docs/reference/project-graph.md): What the project-graph command returns, field by field, and what counts as a relationship, a shipped file, or an issue.
 - [Keyboard shortcuts](https://dogsbay.ai/dogsbay-xml-docs/reference/shortcuts.md): The default key for every command that has one, and how to change it.
 - [The command line](https://dogsbay.ai/dogsbay-xml-docs/reference/cli.md): Find the dogsbay-xml command for the information or change that you need.

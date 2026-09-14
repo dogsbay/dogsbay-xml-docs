@@ -58,10 +58,8 @@ The tools support the same operations as the command line:
   validation
 - **Inspect the project** to find where a file is used, what a key resolves to,
   which references are broken, and the project's overall health
-- **Map the project** in one call: every map, topic, key, and DITAVAL file,
-  how they connect, and what each deliverable ships
-- **Write reports** as standalone HTML pages, such as a relationship map or a
-  health report
+- **Map the project** in one call: every map, topic, key, and DITAVAL file, how they connect, and what each deliverable ships
+- **Write reports** as standalone HTML pages, such as a relationship map or a health report
 - **Refactor** by renaming files, keys, and IDs; converting between direct
   references and keys; extracting and inlining reuse; and splitting topics
 - **Edit** the structure of maps and relationship tables

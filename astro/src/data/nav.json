@@ -121,6 +121,10 @@
         "href": "/dogsbay-xml-docs/reference/project-config"
       },
       {
+        "label": "Project graph",
+        "href": "/dogsbay-xml-docs/reference/project-graph"
+      },
+      {
         "label": "Keyboard shortcuts",
         "href": "/dogsbay-xml-docs/reference/shortcuts"
       },

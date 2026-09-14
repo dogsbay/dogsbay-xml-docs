@@ -57,6 +57,8 @@ To see the data a template receives, run the command on its own:
 dogsbay-xml project-graph .
 ```
 
+Every field is described in the [project graph reference](/reference/project-graph).
+
 ## Related
 
 :::cards

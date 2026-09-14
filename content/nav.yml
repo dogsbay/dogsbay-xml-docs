@@ -34,6 +34,7 @@
     - Panel reference: reference/panels.md
     - Settings reference: reference/settings.md
     - Project configuration: reference/project-config.md
+    - Project graph: reference/project-graph.md
     - Keyboard shortcuts: reference/shortcuts.md
     - The command line: reference/cli.md
 - For developers:
