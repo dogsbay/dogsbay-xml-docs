@@ -115,7 +115,7 @@ operation as their second argument, and both write unless you pass
 
 | Command | What it does |
 |---|---|
-| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. |
+| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`. |
 
 ## Driving a running editor
 

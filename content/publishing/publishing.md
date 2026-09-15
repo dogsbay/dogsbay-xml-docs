@@ -65,8 +65,19 @@ Two options are worth knowing:
 |---|---|
 | `--dita-ot` | Use a different DITA-OT than the one the project configures. |
 | `--output` | Put the output somewhere else, each deliverable under its own subdirectory. |
+| `--keep-temp` | Keep DITA-OT's temporary files. See [Keeping temporary files](#keeping-temporary-files). |
 
 Building requires DITA-OT. The sample project is configured with one already.
+
+## Keeping temporary files
+
+DITA-OT normally deletes its temporary files when a build finishes. These are the preprocessed files it publishes from, with conrefs, keys, and filtering already applied, so they show exactly what DITA-OT resolved. Keep them when output is missing content or a condition does not filter the way you expect.
+
+To keep them for a deliverable, open **Project > Manage Deliverables**, edit the deliverable, and select **Keep temporary files**. This sets the standard DITA-OT parameter `clean.temp` to `no`, so the setting also works when you build with DITA-OT directly. To keep them for one build only, use `dogsbay-xml build . --keep-temp`.
+
+The files are kept in `.dogsbay/temp/<deliverable>` in the project. Each build replaces its deliverable's previous temporary files, and the folder is ignored by Git. After a build, select **Open Temp Folder** in the results to open it. To remove every kept folder, select **Project > Clear Temporary Build Files**.
+
+Agents can ask for the files with the `keepTemp` option of the `build_deliverables` tool, then read them to find out why a build did not produce what you expected.
 
 ## Checking before you publish
 
