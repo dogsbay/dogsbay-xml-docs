@@ -34,7 +34,7 @@ An agent often changes several files in one turn. The panel starts with the prop
 
 To review them all, select **All files** at the top of the panel, or select **Show all**. The list groups proposals by file, with the number in each file. Select a proposal to open its file at the change. After you accept or reject a proposal, the panel moves to the next one, and into the next file when a file has none left.
 
-In **All files**, **Accept all** and **Reject all** act only on the file of the selected proposal. The list updates when you switch documents, after each decision, and every few seconds while the panel is open. Select **Refresh** to update it now.
+In **All files**, **Accept all** and **Reject all** act on every file in the list, and their labels say how many files, for example **Accept all in 5 files**. To act on one agent's changes only, choose the agent in **From** first. The panel asks before it changes anything and lists the files. Each file is saved. Files that are open in the editor can be undone with **Undo**; files that are not open are changed directly on disk, so use Git to get a previous version back. Comments are not included; resolve them one at a time. The list updates when you switch documents, after each decision, and every few seconds while the panel is open. Select **Refresh** to update it now.
 
 ## Kinds of proposal
 
