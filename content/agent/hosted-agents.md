@@ -92,6 +92,14 @@ dogsbay-xml audit-log
 dogsbay-xml sessions
 ```
 
+## If an agent does not start
+
+When an agent stops before it connects, the session shows the error with the last lines the agent printed, under **The agent reported**. Those lines usually say what went wrong, such as a missing sign-in or a command that could not be found.
+
+If the agent reported that its own command was not found, an earlier download of it was interrupted, for example by closing the session while it was still downloading. npx keeps the incomplete copy and tries to run it every time. Delete the folder under `~/.npm/_npx` (on Windows, `%LocalAppData%\npm-cache\_npx`) that contains the agent's package but no `node_modules/.bin` folder, and start the agent again; it downloads a fresh copy.
+
+Closing a session while an agent is still downloading no longer interrupts the download, so this should not happen again.
+
 ## Related
 
 :::cards
