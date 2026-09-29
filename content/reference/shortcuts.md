@@ -74,7 +74,6 @@ These are the defaults. Every one of them can be changed in **File > Settings > 
 | Insert Special Character | Ctrl+I |
 | Select Element | Ctrl+E |
 | Select Element Content | Ctrl+Shift+E |
-| Select Fragment | Ctrl+Shift+Space |
 | Goto start tag | Ctrl+Up |
 | Goto end tag | Ctrl+Down |
 | Goto next Attribute value | Ctrl+Shift+Down |

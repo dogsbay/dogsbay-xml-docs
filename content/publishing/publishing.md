@@ -69,13 +69,99 @@ Two options are worth knowing:
 
 Building requires DITA-OT. The sample project is configured with one already.
 
+## Output types
+
+The bundled DITA-OT includes plugins for the following output types.
+
+| Transtype | Produces |
+|---|---|
+| `html5` | DITA-OT's HTML output. |
+| `pdf` | A PDF rendered by Apache FOP. See [PDF](#pdf). |
+| `dogsbay` | A dogsbay site project in the output folder: a Markdown page per topic, `index.md`, `nav.yml`, and `dogsbay.config.yml`. The pages match what `html5` shows. |
+| `dogsbay-site` | The same project, then the built site in `astro/dist`. It installs the site's packages from npm, so it needs network access and takes longer. |
+
+The two dogsbay types need **Node.js 20 or later**; `dogsbay-site` also needs
+the dogsbay CLI. If the requested output type is unavailable, the build
+reports an error and lists the available types.
+
+### PDF
+
+A deliverable with transtype `pdf` uses the bundled Apache FOP renderer.
+No separate renderer installation is required. The editor, command line,
+and agent use the same renderer.
+
+PDFs embed Liberation Serif, Liberation Sans, and Liberation Mono fonts.
+These fonts are metric-compatible with Times New Roman, Arial, and Courier
+New. They also support Hebrew, Cyrillic, Greek, the minus sign, and arrows
+that the built-in PostScript fonts do not support.
+
+The renderer selects a font for each text run. Characters that the selected
+font does not support can be omitted from the output. Embedded fonts allow
+PDF viewers to use the same fonts on different computers.
+
+To use the built-in fonts, copy DITA-OT's font mapping into a PDF
+customization directory:
+
+```bash
+mkdir -p mypdf/fo
+cp "<framework>/dita-ot/plugins/org.dita.pdf2/cfg/fo/font-mappings-base14.xml" \
+   mypdf/fo/font-mappings.xml
+```
+
+Then set `customization.dir` to `mypdf` in the deliverable's publication
+parameters.
+
+To include an index in the PDF, add `<indexlist/>` to the bookmap.
+The build report summarizes rendering warnings, such as missing characters,
+overflowing text, and changes to table layout.
+
+## Build messages
+
+Build errors include DITA-OT message codes when available, such as
+`DOTJ046E`. Use these codes to find the corresponding DITA-OT documentation.
+
+The commands display different levels of detail:
+
+| Command | Default output | With `--verbose` or `-v` |
+|---|---|---|
+| `build` | Errors and a count of other messages. | Also displays individual warnings and coded informational messages. |
+| `check` | Errors and warnings, including unresolved key references for each deliverable, plus a count of informational messages. | Also displays coded informational messages. |
+
+For example, `DOTJ047I` identifies a file that is not included in a map.
+Routine progress messages from DITA-OT are not retained in the build report.
+
+In the editor, build messages appear in the **Project Validation** tab.
+Select a message with a source location to open the file at that location.
+
+## Live preview
+
+Select **Project > Live Preview** to build and serve a `dogsbay` deliverable.
+When you save a topic, the preview rebuilds and reloads the browser page.
+
+```bash
+dogsbay-xml live-preview start -d site .   # in the background
+dogsbay-xml live-preview status .          # every preview of this project
+dogsbay-xml live-preview stop -d site .    # or --all
+dogsbay-xml live-preview run -d site .     # in the foreground; Ctrl+C stops it
+```
+
+You can run multiple previews of a project with different filters, such as
+macOS and Windows editions of a guide. The editor, command line, and agents
+can list and stop previews on the same computer, regardless of which
+interface started them. Agents use `live_preview` to start a preview and
+`live_preview_status` to check its status.
+
+Live preview requires Node.js 20 or later and the dogsbay CLI. Search is
+available only in a production build. Publish with `dogsbay-site` to include
+search.
+
 ## Keeping temporary files
 
 DITA-OT normally deletes its temporary files when a build finishes. These are the preprocessed files it publishes from, with conrefs, keys, and filtering already applied, so they show exactly what DITA-OT resolved. Keep them when output is missing content or a condition does not filter the way you expect.
 
-To keep them for a deliverable, open **Project > Manage Deliverables**, edit the deliverable, and select **Keep temporary files**. This sets the standard DITA-OT parameter `clean.temp` to `no`, so the setting also works when you build with DITA-OT directly. To keep them for one build only, use `dogsbay-xml build . --keep-temp`.
+To keep them for a deliverable, open **Project > Project Tools > Manage Deliverables**, edit the deliverable, and select **Keep temporary files**. This sets the standard DITA-OT parameter `clean.temp` to `no`, so the setting also works when you build with DITA-OT directly. To keep them for one build only, use `dogsbay-xml build . --keep-temp`.
 
-The files are kept in `.dogsbay/temp/<deliverable>` in the project. Each build replaces its deliverable's previous temporary files, and the folder is ignored by Git. After a build, select **Open Temp Folder** in the results to open it. To remove every kept folder, select **Project > Clear Temporary Build Files**.
+The files are kept in `.dogsbay/temp/<deliverable>` in the project. Each build replaces its deliverable's previous temporary files, and the folder is ignored by Git. After a build, select **Open Temp Folder** in the results to open it. To remove every kept folder, select **Project > Project Tools > Clear Temporary Build Files**.
 
 Agents can ask for the files with the `keepTemp` option of the `build_deliverables` tool, then read them to find out why a build did not produce what you expected.
 
@@ -94,11 +180,21 @@ conditions. It lists each invalid file once, with the deliverables it breaks. `v
 is the only way to catch a key or conref that resolves in one build and not in
 another.
 
-Before either, the cheaper check:
+Use `project-health` for source checks, or `check` to include the build and
+output-link checks:
 
 ```bash
-dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health .   # the health report on its own
+dogsbay-xml check .            # health, then the build, then the built output
 ```
+
+In the editor, select **Project > Check Project** to run `check`. Its final
+stage checks the output folder for links to missing pages, fragments, and
+images. To check an output folder separately, run
+`dogsbay-xml check-output-links out/`.
+
+For PDF output, this stage checks that the deliverable produced a nonempty
+file. It does not validate links within the PDF.
 
 ## Related
 

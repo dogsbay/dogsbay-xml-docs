@@ -97,9 +97,52 @@ problems in the sample project.
 
 4. **Check the result**
    ```bash
-   dogsbay-xml project-health . --map audacity-guide.ditamap
+   dogsbay-xml project-health .
    ```
 :::
+
+## Setting one attribute everywhere
+
+Select **Refactor > Set Attribute…** to set an attribute on a selected element
+in each file within a scope. For example, you can add `xml:lang` to topic root
+elements or set `outputclass` on a `conbody` element.
+
+Enter the attribute name, value, element selector, and scope. The selector can
+be an XPath expression or `#id`; `/*` selects the root element. **Only where
+the attribute is missing** is selected by default and preserves existing
+attribute values.
+
+Review the proposed changes before applying them. The operation rewrites
+only the selected element's start tag and preserves the rest of each file.
+
+To preview the changes from the command line, run:
+
+```bash
+dogsbay-xml set-attribute . --name xml:lang --value en --only-if-absent
+```
+
+After reviewing the plan, run the same command with `--apply`. The command
+checks DITA documents by default. Use `--map` or `--scope` to specify a file
+set, and `--select` to select an element other than the root. On the command
+line, you must include `--only-if-absent` to preserve existing attribute values.
+
+## Finding what to refactor
+
+Select **Refactor > Find Broken References and Orphans** to list broken
+references, undefined keys, unused keys, and orphan topics. Double-click a
+finding to open the file at the reported line. Select **Refresh** to run the
+checks again after making changes. The command-line equivalent is
+`dogsbay-xml health .`.
+
+Use the refactoring commands to address findings as appropriate. For example,
+use **Retarget References** to update a reference or **Create Key from Selected
+Text** to define a key. Review unused keys and orphan topics before removing
+them; they might be needed by another publication.
+
+For project validation, a build, and output-link checks, select **Project >
+Check Project**, or run `dogsbay-xml check .`. To run only the project health
+report, use `dogsbay-xml project-health .`. See [Validating a
+project](./validation).
 
 ## When a refactoring refuses
 

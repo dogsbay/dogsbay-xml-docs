@@ -52,7 +52,7 @@ An agent can handle repetitive updates across many topics.
 
 :::steps
 1. **Ask for the survey first**
-   For example: *Run a project health check on this project, apply house-style.sch, and summarize the problems by kind.* The agent calls the same `project-health` operation as the command line, so the results cover the project instead of a few files. Name the schema because missing short descriptions are a house rule, and the check applies a schema only when you provide one.
+   For example: *Run a project health check on this project, apply house-style.sch, and summarize the problems by kind.* The agent calls the same `project-health` operation as the command line, so the results cover the project instead of a few files. Name the schema because missing short descriptions are a house rule. If the project specifies a default Schematron schema in its [configuration](/reference/project-config), the health check applies that schema automatically.
 
 2. **Pick one kind of problem**
    *Add a one-sentence shortdesc to every topic that has none.* Naming one kind at a time keeps the review in the next step manageable.

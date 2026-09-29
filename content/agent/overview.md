@@ -63,7 +63,10 @@ tests.
 
 **Containment.** A hosted or external agent can write only inside the open
 project. The editor resolves symbolic links first, so a link out of the project does
-not become a way around it.
+not allow access outside the project. If an agent requests to open or create
+another project, the editor prompts you for permission. The dialog defaults
+to **Deny**. If you deny the request, or no editor is running, the project
+does not change.
 
 **Conflict.** To write a document, an agent must first read it during the
 current session. The agent can write only while the document still contains what it read. If the
@@ -80,6 +83,12 @@ When an agent edits a DITA file, the editor records the edit as a tracked change
 instead of applying it silently. You accept or reject it in the **Proposals**
 panel. See [Reviewing an agent's changes](./proposals).
 
+Agents can read and edit files on disk without opening them in editor tabs.
+If an edit is applied without proposal markup, the editor reports this to the
+agent. You can review these changes in version control. The agent can undo
+its own changes with `review_revert`; see [Undoing an agent's
+changes](./proposals#undoing-an-agents-changes).
+
 ## What is recorded
 
 The editor appends agent commands to an audit log in the project at
@@ -91,7 +100,7 @@ The log does not record your commands or tokens. When the editor creates the
 log, it excludes the file from version control so that the log does not reach
 the team repository.
 
-To read it, select **Project > Agent activity**, or run:
+To read it, select **Project > Project Tools > Agent activity**, or run:
 
 ```bash
 dogsbay-xml audit-log

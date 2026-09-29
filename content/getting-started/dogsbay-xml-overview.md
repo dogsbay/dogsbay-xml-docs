@@ -11,7 +11,8 @@ DogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed a
 -   Validates against your grammar as you type
 -   Resolves keys and reuse across the project
 -   Refactors without breaking references
--   Publishes through DITA-OT
+-   Publishes through DITA-OT: HTML, PDF, and dogsbay sites, with no plugin to install
+-   Checks project health, builds deliverables, and validates output links with one command
 -   Runs AI agents that can use all the editor's features
 
 ## Who it is for

@@ -1,0 +1,50 @@
+# Product commits against which the documentation was verified.
+# Update a page entry after checking its content against the product.
+# Editorial changes alone do not change the verified commit.
+# tools/source-drift.sh lists subsequent product commits for each page.
+
+source:
+  repo: dogsbay-xml
+  url: https://github.com/dogsbay/dogsbay-xml
+
+  # The oldest verified commit in the page entries below.
+  # Update only after all pages have been checked against this commit or later.
+  reconciled: eed40df
+  date: 2026-09-29
+
+# Page path: the dogsbay-xml commit against which it was last verified.
+pages:
+  index.md: eed40df
+
+  getting-started/dogsbay-xml-overview.md: eed40df
+  getting-started/install.md: eed40df
+  getting-started/tutorial-manual.md: eed40df
+  getting-started/tutorial-agentic.md: eed40df
+
+  agent/overview.md: eed40df
+  agent/choosing.md: eed40df
+  agent/proposals.md: eed40df
+  agent/hosted-agents.md: eed40df
+
+  authoring/topics-and-maps.md: eed40df
+  authoring/keys-and-reuse.md: eed40df
+  authoring/conditional-content.md: eed40df
+  authoring/metadata.md: eed40df
+
+  finding/validation.md: eed40df
+  finding/refactoring.md: eed40df
+  finding/reports.md: eed40df
+
+  publishing/publishing.md: eed40df
+
+  automation/mcp.md: eed40df
+
+  reference/menus.md: eed40df
+  reference/panels.md: eed40df
+  reference/settings.md: eed40df
+  reference/project-config.md: eed40df
+  reference/project-graph.md: eed40df
+  reference/shortcuts.md: eed40df
+  reference/cli.md: eed40df
+
+  developers/build-from-source.md: eed40df

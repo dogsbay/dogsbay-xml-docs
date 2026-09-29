@@ -9,6 +9,26 @@ type: how-to
 A DITA project is topics plus the maps that assemble them. The editor gives
 you two ways to write a topic and two ways to change a map.
 
+## Starting a file
+
+To create a file, select **File > New File**, or use **New File** on a folder
+in the Explorer. Enter a file name and select a template. The file extension
+filters the template list. For example, `.ditamap` displays map templates.
+
+Templates are available for topics, tasks, concepts, references, maps,
+bookmaps, key definition maps, subject schemes, DITAVAL files, glossary
+entries, glossary groups, troubleshooting topics, and Schematron rules.
+The dialog selects a default template for the extension and remembers your
+last selection.
+
+Each template includes the required elements and, where applicable, a DOCTYPE
+declaration. Associated grammar types provide fragment shortcuts, an outline,
+and validation. DITAVAL and Schematron files are checked for well-formedness.
+The editor also bundles DITA 1.3 learning and training grammars.
+
+Templates use nonempty reference placeholders so that reference checks can
+identify targets that you need to supply.
+
 ## Writing a topic
 
 Each open document offers more than one view of the same file. Switch between
