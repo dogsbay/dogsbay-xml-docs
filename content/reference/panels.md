@@ -27,11 +27,12 @@ Select **New File** to enter a file name and choose a document type, template,
 or DTD for an XML file. Non-XML files, such as Markdown files, are created
 without a document type selection.
 
-**Add Files…** on a folder copies files, or whole folders, from anywhere on the
-machine into it — and you can drag them onto the tree from a desktop or file
-manager instead. A drop on a folder puts them in it; a drop on a file puts them
-beside it. They are copied, never moved, and a name already taken gets a number
-rather than overwriting what is there.
+To copy files or folders into the project, select **Add Files…** from a
+folder's context menu. You can also drag files or folders from the desktop or
+file manager into the Explorer. Dropping them on a folder copies them into
+that folder; dropping them on a file copies them into its parent folder.
+The source files remain in place. If a name already exists at the destination,
+the editor adds a number to the copied item's name.
 
 ### Search
 
@@ -56,11 +57,13 @@ them individually or together.
 
 Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.
 
-**Tag > Create Tag…** marks the current commit with a name — a stage, a release,
-anything worth coming back to. A branch is not the same thing: it moves when you
-commit on it. Tags are annotated by default, a name already in use is refused
-rather than moved, and **Tag > Tags…** lists what the repository has. Tags are
-not pushed along with a branch.
+Select **Tag > Create Tag…** to tag the current commit, for example to mark a
+release. The tag continues to identify that commit when you make new commits
+on the branch. Tags are annotated by default. If the tag name already exists,
+the editor rejects the request.
+
+Select **Tag > Tags…** to list repository tags. Tags require a separate push;
+pushing a branch does not push its tags.
 
 The branch list includes remote branches. Selecting a remote branch creates
 a local branch that tracks it. If a local branch with that name already

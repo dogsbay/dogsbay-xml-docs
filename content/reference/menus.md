@@ -81,7 +81,7 @@ Use the Project menu to validate, build, preview, and configure a project.
 | Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/publishing/publishing). |
 | Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |
 | Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/authoring/metadata). |
-| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map, plus two read-only views of what the map defines: Key Space and Controlled Values. |
+| Map **DITA** | Edit Structure and Edit Relationship Tables on the active deliverable's map. Inspect key definitions with [Key Space](/authoring/keys-and-reuse#seeing-the-key-space) and allowed profiling values with [Controlled Values](/authoring/conditional-content#controlling-values-with-a-subject-scheme). |
 | Manage Projects | Add, edit, and remove projects. |
 | Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |
 

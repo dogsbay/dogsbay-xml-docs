@@ -108,8 +108,8 @@ The tools support the same operations as the command line:
 - **Write reports** as standalone HTML pages, such as a relationship map or a health report
 - **Refactor** by renaming files, keys, and IDs; converting between direct
   references and keys; extracting and inlining reuse; and splitting topics
-- **Change one thing everywhere**, such as setting `xml:lang` on every topic,
-  with a dry run first
+- **Set attributes** across a file set, such as adding `xml:lang` to topic
+  root elements, with a dry run to review the changes
 - **Edit** the structure of maps and relationship tables
 - **Control the editor** by opening documents, moving the cursor, selecting
   elements, and reading the outline

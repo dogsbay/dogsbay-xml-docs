@@ -46,7 +46,7 @@ These commands answer questions about more than one file.
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
 | `project-health` | The full report: broken references, key problems, orphaned topics, grammar validation, element IDs, metadata policy, open proposals, conref push, index entries, house style, authoring leftovers, and controlled values. |
-| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. The build stage also warns about key references a deliverable could not resolve. Add `-v` for DITA-OT's coded notes. |
+| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. The build stage also warns about key references a deliverable could not resolve. Add `--verbose` to display coded informational messages from DITA-OT. |
 | `check-output-links` | Check a build output folder for links to missing pages, fragments, and images. |
 | `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON; see the [project graph reference](/reference/project-graph). |
 | `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
@@ -97,7 +97,7 @@ To see the project as a page, see [Mapping a project and writing reports](/findi
 |---|---|
 | `metadata-audit` | Report where required metadata is missing or wrong. |
 | `metadata-set` | Set, fill, append, or remove fields in bulk, preserving the rest of the prolog. |
-| `set-attribute` | Set one attribute on one element in every file of a scope — `xml:lang` on every topic — rewriting only that element's start tag. `--select` picks the element (default `/*`), `--only-if-absent` leaves a file that already has the attribute alone, and nothing is written until `--apply`. With no scope it keeps to DITA documents rather than every XML file under the root. |
+| `set-attribute` | Set an attribute on a selected element in each file within a scope. `--select` specifies the element (default `/*`). `--only-if-absent` preserves existing attribute values. Preview the changes, then add `--apply` to write them. Without `--map` or `--scope`, the command checks only DITA documents. See [Setting one attribute everywhere](/finding/refactoring#setting-one-attribute-everywhere). |
 | `metadata-export-schematron` | Compile the metadata policy to ISO Schematron, so the same rules run anywhere. |
 
 ## Surveying DITA features
@@ -136,7 +136,7 @@ operation as their second argument, and both write unless you pass
 
 | Command | What it does |
 |---|---|
-| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`, and `-v` for DITA-OT's warnings and coded notes. |
+| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`, and `--verbose` to display individual DITA-OT warnings and coded informational messages. See [Build messages](/publishing/publishing#build-messages). |
 | `live-preview` | Publish a deliverable and serve it, republishing as you save. `start`, `status`, and `stop` manage previews; `run` stays in the foreground. Previews started by the editor or by a headless MCP server are listed and stopped here too. |
 
 ## Starting and driving the editor

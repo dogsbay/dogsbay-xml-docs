@@ -115,18 +115,23 @@ To include an index in the PDF, add `<indexlist/>` to the bookmap.
 The build report summarizes rendering warnings, such as missing characters,
 overflowing text, and changes to table layout.
 
-## What a build tells you
+## Build messages
 
-Errors are always printed, with DITA-OT's own code (`DOTJ046E`) — that is what its
-documentation is indexed by, and what to search for.
+Build errors include DITA-OT message codes when available, such as
+`DOTJ046E`. Use these codes to find the corresponding DITA-OT documentation.
 
-Warnings are printed too. Add `--verbose` to `build` or `check` for DITA-OT's coded
-notes as well, such as `DOTJ047I` for a file that no map includes; without it, each
-command says how many notes it is not showing rather than staying silent. The
-narration DITA-OT logs while it works is never kept.
+The commands display different levels of detail:
 
-In the editor, all of it lands in the **Project Validation** tab, where selecting a
-line opens that file.
+| Command | Default output | With `--verbose` or `-v` |
+|---|---|---|
+| `build` | Errors and a count of other messages. | Also displays individual warnings and coded informational messages. |
+| `check` | Errors and warnings, including unresolved key references for each deliverable, plus a count of informational messages. | Also displays coded informational messages. |
+
+For example, `DOTJ047I` identifies a file that is not included in a map.
+Routine progress messages from DITA-OT are not retained in the build report.
+
+In the editor, build messages appear in the **Project Validation** tab.
+Select a message with a source location to open the file at that location.
 
 ## Live preview
 

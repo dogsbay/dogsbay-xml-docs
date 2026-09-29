@@ -87,15 +87,16 @@ checks links in the built output. Each stage runs only if the preceding
 stage passes. If a stage fails, the command identifies it and exits with
 status 1.
 
-The build stage reports something the health report cannot see: **a key
-reference this deliverable could not resolve**, where the reference has no
-`@href` to fall back on. Health resolves keys against the project's root map,
-where a key is usually defined; a deliverable builds a narrower scope, and a
-key missing from *that* scope loses a link in that deliverable alone. It is a
-warning, printed against the deliverable it belongs to, and you do not need
-`--verbose` to see it. In the editor it appears in the **Project Validation**
-panel — select a row to open the topic at the line — and the summary counts
-them, so "Ready" never stands alone over a set of links that will be missing.
+The build stage also reports unresolved key references that have no `href`
+fallback. The health report resolves keys against the project's root map;
+a deliverable can use a different map or filtered content in which a key is
+unavailable.
+
+The command reports these references as warnings for the affected deliverable,
+even without `--verbose`, and includes a warning count in the final summary.
+These warnings do not, by themselves, cause the check to fail. In the editor,
+select a warning in the **Project Validation** tab to open the topic at the
+reported line.
 
 In the editor, select **Project > Check Project**. Results appear in the
 **Project Validation** tab.
@@ -205,9 +206,10 @@ every commit.
 
 `validate-conditions` reports profiling values that the subject scheme does
 not allow. The `conditions` check in `project-health` performs the same
-validation. Both use the project's default root map if you omit `--map`. If
-no root map is configured, they search the project for `subjectScheme` maps.
-The checks follow DITA-OT's subject scheme rules.
+validation. Without an explicit map scope, scheme discovery uses the
+project's default root map, then searches the project for `subjectScheme`
+maps if the default map provides no definitions. The checks follow DITA-OT's
+subject scheme rules.
 
 ## Related
 

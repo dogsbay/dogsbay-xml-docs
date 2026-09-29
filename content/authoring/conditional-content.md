@@ -67,12 +67,16 @@ reader might be the first person to notice.
 A subject scheme map declares which values an attribute may take. It turns a
 typo from an invisible content loss into something you can find.
 
-To see what a scheme allows, open **Project > Map > Controlled Values…**: one row
-per profiling attribute the scheme governs, and the values a build will accept
-for it. It reads the scheme through the map's own closure, so it shows what the
-check below enforces. **Check Project** looks wider — if the map's closure names
-no scheme, it searches the project for one — so it can flag values this view does
-not explain.
+Select **Project > Map > Controlled Values…** to list the allowed values for
+each profiling attribute governed by a subject scheme. The view uses the
+active deliverable's map, then the map in the Map Explorer, then the project's
+default root map. It reads subject schemes referenced by that map and its
+included maps.
+
+**Check Project** can also find subject schemes elsewhere in the project when
+none is found through the default root map. It can therefore report values
+that the view does not list. A value outside the allowed set causes **Check
+Project** to fail; a DITA-OT build reports a warning.
 
 From the command line:
 
@@ -90,8 +94,11 @@ The command scans the map's publication set and reports every profiling value
 that the scheme does not allow. It exits with a nonzero status when it finds any,
 so it works as a pipeline gate.
 
-If you omit `--map`, the command uses the project's default root map. If no
-root map is configured, it searches the project for subject scheme maps.
+If you omit `--map`, the command looks for subject schemes through the
+project's default root map. If no root map is configured, or that map provides
+no subject scheme definitions, it searches the project for subject scheme
+maps. An explicit `--map` limits scheme discovery to that map and its included
+maps.
 
 The command follows DITA-OT's subject scheme rules. It combines bindings from
 multiple definitions. A subject referenced by an `enumerationdef` defines the

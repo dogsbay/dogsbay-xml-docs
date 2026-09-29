@@ -103,15 +103,28 @@ problems in the sample project.
 
 ## Setting one attribute everywhere
 
-**Refactor > Set Attribute…** sets one attribute on one element in every file of a
-scope — `xml:lang` on every topic, an `outputclass` on every `conbody`. It asks for
-the attribute, the value, the element (an XPath, or `#id`; `/*` is the root element)
-and the scope, with **Only where the attribute is missing** on by default, so adding
-`xml:lang` does not overwrite the one topic that says `de`.
+Select **Refactor > Set Attribute…** to set an attribute on a selected element
+in each file within a scope. For example, you can add `xml:lang` to topic root
+elements or set `outputclass` on a `conbody` element.
 
-It shows every file it would touch before writing anything, and rewrites only that
-element's start tag, so the rest of each file comes back as it was. On the command
-line it is `dogsbay-xml set-attribute`.
+Enter the attribute name, value, element selector, and scope. The selector can
+be an XPath expression or `#id`; `/*` selects the root element. **Only where
+the attribute is missing** is selected by default and preserves existing
+attribute values.
+
+Review the proposed changes before applying them. The operation rewrites
+only the selected element's start tag and preserves the rest of each file.
+
+To preview the changes from the command line, run:
+
+```bash
+dogsbay-xml set-attribute . --name xml:lang --value en --only-if-absent
+```
+
+After reviewing the plan, run the same command with `--apply`. The command
+checks DITA documents by default. Use `--map` or `--scope` to specify a file
+set, and `--select` to select an element other than the root. On the command
+line, you must include `--only-if-absent` to preserve existing attribute values.
 
 ## Finding what to refactor
 

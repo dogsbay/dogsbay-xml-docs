@@ -16,10 +16,12 @@ show you and change safely.
 A map's key space is every key its topics can use, including keys defined in
 the maps it includes.
 
-**Project > Map > Key Space…** lists them: what each key resolves to, its
-keyword text, and the map that defines it. Filter as you type, and double-click
-a row to open the defining map at the line that defines that key — a key is the
-one thing in DITA whose definition is deliberately somewhere else.
+Select **Project > Map > Key Space…** to list keys, their resolved targets,
+keyword text, and defining maps. Type in the filter field to narrow the list.
+Double-click a row to open the defining map at the key definition.
+
+The view uses the active deliverable's map. If none is available, it uses the
+map in the Map Explorer, then the project's default root map.
 
 From the command line:
 

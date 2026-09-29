@@ -923,7 +923,9 @@ DITA has two mechanisms for not repeating yourself: keys, which give a name to a
 
 A map's key space is every key its topics can use, including keys defined in the maps it includes.
 
-**Project > Map > Key Space…** lists them: what each key resolves to, its keyword text, and the map that defines it. Filter as you type, and double-click a row to open the defining map at the line that defines that key — a key is the one thing in DITA whose definition is deliberately somewhere else.
+Select **Project > Map > Key Space…** to list keys, their resolved targets, keyword text, and defining maps. Type in the filter field to narrow the list. Double-click a row to open the defining map at the key definition.
+
+The view uses the active deliverable's map. If none is available, it uses the map in the Map Explorer, then the project's default root map.
 
 From the command line:
 
@@ -1087,7 +1089,9 @@ The build then silently drops the topic that uses the value your DITAVAL does no
 
 A subject scheme map declares which values an attribute may take. It turns a typo from an invisible content loss into something you can find.
 
-To see what a scheme allows, open **Project > Map > Controlled Values…**: one row per profiling attribute the scheme governs, and the values a build will accept for it. It reads the scheme through the map's own closure, so it shows what the check below enforces. **Check Project** looks wider — if the map's closure names no scheme, it searches the project for one — so it can flag values this view does not explain.
+Select **Project > Map > Controlled Values…** to list the allowed values for each profiling attribute governed by a subject scheme. The view uses the active deliverable's map, then the map in the Map Explorer, then the project's default root map. It reads subject schemes referenced by that map and its included maps.
+
+**Check Project** can also find subject schemes elsewhere in the project when none is found through the default root map. It can therefore report values that the view does not list. A value outside the allowed set causes **Check Project** to fail; a DITA-OT build reports a warning.
 
 From the command line:
 
@@ -1103,7 +1107,7 @@ dogsbay-xml validate-conditions . --map audacity-guide.ditamap
 
 The command scans the map's publication set and reports every profiling value that the scheme does not allow. It exits with a nonzero status when it finds any, so it works as a pipeline gate.
 
-If you omit `--map`, the command uses the project's default root map. If no root map is configured, it searches the project for subject scheme maps.
+If you omit `--map`, the command looks for subject schemes through the project's default root map. If no root map is configured, or that map provides no subject scheme definitions, it searches the project for subject scheme maps. An explicit `--map` limits scheme discovery to that map and its included maps.
 
 The command follows DITA-OT's subject scheme rules. It combines bindings from multiple definitions. A subject referenced by an `enumerationdef` defines the dimension; its child subjects define the allowed values.
 
@@ -1295,7 +1299,9 @@ dogsbay-xml check .
 
 The command runs the project health report, builds the deliverables, and checks links in the built output. Each stage runs only if the preceding stage passes. If a stage fails, the command identifies it and exits with status 1.
 
-The build stage reports something the health report cannot see: **a key reference this deliverable could not resolve**, where the reference has no `@href` to fall back on. Health resolves keys against the project's root map, where a key is usually defined; a deliverable builds a narrower scope, and a key missing from *that* scope loses a link in that deliverable alone. It is a warning, printed against the deliverable it belongs to, and you do not need `--verbose` to see it. In the editor it appears in the **Project Validation** panel — select a row to open the topic at the line — and the summary counts them, so "Ready" never stands alone over a set of links that will be missing.
+The build stage also reports unresolved key references that have no `href` fallback. The health report resolves keys against the project's root map; a deliverable can use a different map or filtered content in which a key is unavailable.
+
+The command reports these references as warnings for the affected deliverable, even without `--verbose`, and includes a warning count in the final summary. These warnings do not, by themselves, cause the check to fail. In the editor, select a warning in the **Project Validation** tab to open the topic at the reported line.
 
 In the editor, select **Project > Check Project**. Results appear in the **Project Validation** tab.
 
@@ -1375,7 +1381,7 @@ dogsbay-xml check-output-links out/   # links in what the build wrote
 
 ### Controlled values {#controlled-values}
 
-`validate-conditions` reports profiling values that the subject scheme does not allow. The `conditions` check in `project-health` performs the same validation. Both use the project's default root map if you omit `--map`. If no root map is configured, they search the project for `subjectScheme` maps. The checks follow DITA-OT's subject scheme rules.
+`validate-conditions` reports profiling values that the subject scheme does not allow. The `conditions` check in `project-health` performs the same validation. Without an explicit map scope, scheme discovery uses the project's default root map, then searches the project for `subjectScheme` maps if the default map provides no definitions. The checks follow DITA-OT's subject scheme rules.
 
 ## Related {#related}
 
@@ -1485,9 +1491,19 @@ This example turns a hardcoded product name into a key. It fixes one of the prob
 
 ## Setting one attribute everywhere {#setting-one-attribute-everywhere}
 
-**Refactor > Set Attribute…** sets one attribute on one element in every file of a scope — `xml:lang` on every topic, an `outputclass` on every `conbody`. It asks for the attribute, the value, the element (an XPath, or `#id`; `/*` is the root element) and the scope, with **Only where the attribute is missing** on by default, so adding `xml:lang` does not overwrite the one topic that says `de`.
+Select **Refactor > Set Attribute…** to set an attribute on a selected element in each file within a scope. For example, you can add `xml:lang` to topic root elements or set `outputclass` on a `conbody` element.
 
-It shows every file it would touch before writing anything, and rewrites only that element's start tag, so the rest of each file comes back as it was. On the command line it is `dogsbay-xml set-attribute`.
+Enter the attribute name, value, element selector, and scope. The selector can be an XPath expression or `#id`; `/*` selects the root element. **Only where the attribute is missing** is selected by default and preserves existing attribute values.
+
+Review the proposed changes before applying them. The operation rewrites only the selected element's start tag and preserves the rest of each file.
+
+To preview the changes from the command line, run:
+
+```bash
+dogsbay-xml set-attribute . --name xml:lang --value en --only-if-absent
+```
+
+After reviewing the plan, run the same command with `--apply`. The command checks DITA documents by default. Use `--map` or `--scope` to specify a file set, and `--select` to select an element other than the root. On the command line, you must include `--only-if-absent` to preserve existing attribute values.
 
 ## Finding what to refactor {#finding-what-to-refactor}
 
@@ -1693,13 +1709,20 @@ Then set `customization.dir` to `mypdf` in the deliverable's publication paramet
 
 To include an index in the PDF, add `<indexlist/>` to the bookmap. The build report summarizes rendering warnings, such as missing characters, overflowing text, and changes to table layout.
 
-## What a build tells you {#what-a-build-tells-you}
+## Build messages {#build-messages}
 
-Errors are always printed, with DITA-OT's own code (`DOTJ046E`) — that is what its documentation is indexed by, and what to search for.
+Build errors include DITA-OT message codes when available, such as `DOTJ046E`. Use these codes to find the corresponding DITA-OT documentation.
 
-Warnings are printed too. Add `--verbose` to `build` or `check` for DITA-OT's coded notes as well, such as `DOTJ047I` for a file that no map includes; without it, each command says how many notes it is not showing rather than staying silent. The narration DITA-OT logs while it works is never kept.
+The commands display different levels of detail:
 
-In the editor, all of it lands in the **Project Validation** tab, where selecting a line opens that file.
+| Command | Default output | With `--verbose` or `-v` |
+| --- | --- | --- |
+| `build` | Errors and a count of other messages. | Also displays individual warnings and coded informational messages. |
+| `check` | Errors and warnings, including unresolved key references for each deliverable, plus a count of informational messages. | Also displays coded informational messages. |
+
+For example, `DOTJ047I` identifies a file that is not included in a map. Routine progress messages from DITA-OT are not retained in the build report.
+
+In the editor, build messages appear in the **Project Validation** tab. Select a message with a source location to open the file at that location.
 
 ## Live preview {#live-preview}
 
@@ -1852,7 +1875,7 @@ The tools support the same operations as the command line:
 - **Map the project** in one call: every map, topic, key, and DITAVAL file, how they connect, and what each deliverable ships
 - **Write reports** as standalone HTML pages, such as a relationship map or a health report
 - **Refactor** by renaming files, keys, and IDs; converting between direct references and keys; extracting and inlining reuse; and splitting topics
-- **Change one thing everywhere**, such as setting `xml:lang` on every topic, with a dry run first
+- **Set attributes** across a file set, such as adding `xml:lang` to topic root elements, with a dry run to review the changes
 - **Edit** the structure of maps and relationship tables
 - **Control the editor** by opening documents, moving the cursor, selecting elements, and reading the outline
 - **Review** proposals, add comments, revert what an agent wrote, and read the audit log
@@ -1960,7 +1983,7 @@ Use the Project menu to validate, build, preview, and configure a project.
 | Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |
 | Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |
 | Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/dogsbay-xml-docs/authoring/metadata). |
-| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map, plus two read-only views of what the map defines: Key Space and Controlled Values. |
+| Map **DITA** | Edit Structure and Edit Relationship Tables on the active deliverable's map. Inspect key definitions with [Key Space](/dogsbay-xml-docs/authoring/keys-and-reuse#seeing-the-key-space) and allowed profiling values with [Controlled Values](/dogsbay-xml-docs/authoring/conditional-content#controlling-values-with-a-subject-scheme). |
 | Manage Projects | Add, edit, and remove projects. |
 | Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |
 
@@ -2097,7 +2120,7 @@ Open, rename, move, and delete files, and drag a file onto an agent's chat box t
 
 Select **New File** to enter a file name and choose a document type, template, or DTD for an XML file. Non-XML files, such as Markdown files, are created without a document type selection.
 
-**Add Files…** on a folder copies files, or whole folders, from anywhere on the machine into it — and you can drag them onto the tree from a desktop or file manager instead. A drop on a folder puts them in it; a drop on a file puts them beside it. They are copied, never moved, and a name already taken gets a number rather than overwriting what is there.
+To copy files or folders into the project, select **Add Files…** from a folder's context menu. You can also drag files or folders from the desktop or file manager into the Explorer. Dropping them on a folder copies them into that folder; dropping them on a file copies them into its parent folder. The source files remain in place. If a name already exists at the destination, the editor adds a number to the copied item's name.
 
 ### Search {#search}
 
@@ -2120,7 +2143,9 @@ Version control for the project. The panel lists changed files and stages them i
 
 Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.
 
-**Tag > Create Tag…** marks the current commit with a name — a stage, a release, anything worth coming back to. A branch is not the same thing: it moves when you commit on it. Tags are annotated by default, a name already in use is refused rather than moved, and **Tag > Tags…** lists what the repository has. Tags are not pushed along with a branch.
+Select **Tag > Create Tag…** to tag the current commit, for example to mark a release. The tag continues to identify that commit when you make new commits on the branch. Tags are annotated by default. If the tag name already exists, the editor rejects the request.
+
+Select **Tag > Tags…** to list repository tags. Tags require a separate push; pushing a branch does not push its tags.
 
 The branch list includes remote branches. Selecting a remote branch creates a local branch that tracks it. If a local branch with that name already points elsewhere, the editor reports the conflict.
 
@@ -2788,7 +2813,7 @@ These commands answer questions about more than one file.
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
 | `project-health` | The full report: broken references, key problems, orphaned topics, grammar validation, element IDs, metadata policy, open proposals, conref push, index entries, house style, authoring leftovers, and controlled values. |
-| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. The build stage also warns about key references a deliverable could not resolve. Add `-v` for DITA-OT's coded notes. |
+| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. The build stage also warns about key references a deliverable could not resolve. Add `--verbose` to display coded informational messages from DITA-OT. |
 | `check-output-links` | Check a build output folder for links to missing pages, fragments, and images. |
 | `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON; see the [project graph reference](/dogsbay-xml-docs/reference/project-graph). |
 | `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
@@ -2830,7 +2855,7 @@ To see the project as a page, see [Mapping a project and writing reports](/dogsb
 | --- | --- |
 | `metadata-audit` | Report where required metadata is missing or wrong. |
 | `metadata-set` | Set, fill, append, or remove fields in bulk, preserving the rest of the prolog. |
-| `set-attribute` | Set one attribute on one element in every file of a scope — `xml:lang` on every topic — rewriting only that element's start tag. `--select` picks the element (default `/*`), `--only-if-absent` leaves a file that already has the attribute alone, and nothing is written until `--apply`. With no scope it keeps to DITA documents rather than every XML file under the root. |
+| `set-attribute` | Set an attribute on a selected element in each file within a scope. `--select` specifies the element (default `/*`). `--only-if-absent` preserves existing attribute values. Preview the changes, then add `--apply` to write them. Without `--map` or `--scope`, the command checks only DITA documents. See [Setting one attribute everywhere](/dogsbay-xml-docs/finding/refactoring#setting-one-attribute-everywhere). |
 | `metadata-export-schematron` | Compile the metadata policy to ISO Schematron, so the same rules run anywhere. |
 
 ## Surveying DITA features {#surveying-dita-features}
@@ -2863,7 +2888,7 @@ Structural editing of maps and relationship tables preserves formatting and keep
 
 | Command | What it does |
 | --- | --- |
-| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`, and `-v` for DITA-OT's warnings and coded notes. |
+| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`, and `--verbose` to display individual DITA-OT warnings and coded informational messages. See [Build messages](/dogsbay-xml-docs/publishing/publishing#build-messages). |
 | `live-preview` | Publish a deliverable and serve it, republishing as you save. `start`, `status`, and `stop` manage previews; `run` stays in the foreground. Previews started by the editor or by a headless MCP server are listed and stopped here too. |
 
 ## Starting and driving the editor {#starting-and-driving-the-editor}
