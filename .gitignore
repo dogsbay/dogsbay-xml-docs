@@ -23,8 +23,11 @@ astro/.astro/
 # it. If something breaks after a deploy that "changed nothing", suspect a new
 # beta first and check the build log's install step.
 #
-# AT RELEASE, reverse this: pin exact versions and commit the lockfile.
+# AT RELEASE, reverse this: pin exact versions and commit the lockfile — both of
+# them: `dogsbay site build` writes package-lock.json, and npm is what the
+# Workers build installs with.
 astro/pnpm-lock.yaml
+astro/package-lock.json
 
 # Working material, not for publication: planning notes and agent scratch.
 # Tracked history for plans/ is left in place; only future changes are hidden.
