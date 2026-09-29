@@ -14,7 +14,7 @@ type: explanation
 
 # DogsBay XML {#dogsbay-xml}
 
-DogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, and refactors without breaking references.
+DogsBay XML is an agentic editor for DITA and other XML formats. It validates against your grammar as you type, resolves keys and reuse across the whole project, refactors without breaking references, and publishes to HTML, PDF, or a documentation site. Run `dogsbay-xml check` to check project health, build deliverables, and validate output links before publishing.
 
 It has three interfaces that run the same commands through one core engine:
 
@@ -64,7 +64,8 @@ DogsBay XML is an agentic desktop editor for DITA and other XML formats, aimed a
 - Validates against your grammar as you type
 - Resolves keys and reuse across the project
 - Refactors without breaking references
-- Publishes through DITA-OT
+- Publishes through DITA-OT: HTML, PDF, and dogsbay sites, with no plugin to install
+- Checks project health, builds deliverables, and validates output links with one command
 - Runs AI agents that can use all the editor's features
 
 ## Who it is for {#who-it-is-for}
@@ -122,7 +123,7 @@ DogsBay XML runs on Linux, macOS, and Windows.
 
 ## Installing from a package {#installing-from-a-package}
 
-Each installer bundles its own Java runtime, so no separate JDK is required.
+Each installer bundles its own Java runtime, so no separate JDK is required. It also bundles DITA-OT with the plugins for HTML, PDF, and dogsbay sites. The `dogsbay` and `dogsbay-site` output types require Node.js 20 or later, which the editor searches for in `PATH` and standard installation directories. The `dogsbay-site` output type also requires the dogsbay CLI.
 
 :::steps
 1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.
@@ -331,6 +332,7 @@ The report covers specific kinds of problems:
 - Keys that are used but never defined, or defined and never used
 - Topics that are not included in any map
 - Files that fail validation against their grammar
+- Profiling values the subject scheme does not allow
 - Required metadata the project's policy says a topic must carry
 - House rules from `house-style.sch`, such as every topic needing a `shortdesc`
 
@@ -414,7 +416,7 @@ If you prefer to control Claude Code, Codex, or Gemini from the panel, see [Usin
 An agent can handle repetitive updates across many topics.
 
 :::steps
-1. **Ask for the survey first** For example: *Run a project health check on this project, apply house-style.sch, and summarize the problems by kind.* The agent calls the same `project-health` operation as the command line, so the results cover the project instead of a few files. Name the schema because missing short descriptions are a house rule, and the check applies a schema only when you provide one.
+1. **Ask for the survey first** For example: *Run a project health check on this project, apply house-style.sch, and summarize the problems by kind.* The agent calls the same `project-health` operation as the command line, so the results cover the project instead of a few files. Name the schema because missing short descriptions are a house rule. If the project specifies a default Schematron schema in its [configuration](/dogsbay-xml-docs/reference/project-config), the health check applies that schema automatically.
 2. **Pick one kind of problem** *Add a one-sentence shortdesc to every topic that has none.* Naming one kind at a time keeps the review in the next step manageable.
 3. **Watch the panel while it works** The panel lists each operation as it runs. You can verify that the agent is calling the editor's DITA commands instead of rewriting files as text.
 :::
@@ -511,7 +513,7 @@ New hosted sessions default to T1. The tier shows as a badge on the session so i
 
 Every change from an agent session passes one checkpoint, which applies three tests.
 
-**Containment.** A hosted or external agent can write only inside the open project. The editor resolves symbolic links first, so a link out of the project does not become a way around it.
+**Containment.** A hosted or external agent can write only inside the open project. The editor resolves symbolic links first, so a link out of the project does not allow access outside the project. If an agent requests to open or create another project, the editor prompts you for permission. The dialog defaults to **Deny**. If you deny the request, or no editor is running, the project does not change.
 
 **Conflict.** To write a document, an agent must first read it during the current session. The agent can write only while the document still contains what it read. If the file changed underneath it, the write is refused and the agent is told to read again. The refusal includes the current content so that the agent can read it.
 
@@ -521,13 +523,15 @@ Every change from an agent session passes one checkpoint, which applies three te
 
 When an agent edits a DITA file, the editor records the edit as a tracked change instead of applying it silently. You accept or reject it in the **Proposals** panel. See [Reviewing an agent's changes](./proposals).
 
+Agents can read and edit files on disk without opening them in editor tabs. If an edit is applied without proposal markup, the editor reports this to the agent. You can review these changes in version control. The agent can undo its own changes with `review_revert`; see [Undoing an agent's changes](./proposals#undoing-an-agents-changes).
+
 ## What is recorded {#what-is-recorded}
 
 The editor appends agent commands to an audit log in the project at `.dogsbay/agent-audit/commands.jsonl`. Each line records the time, the session, its identity, the command, the files, whether it was a dry run, and the outcome.
 
 The log does not record your commands or tokens. When the editor creates the log, it excludes the file from version control so that the log does not reach the team repository.
 
-To read it, select **Project > Agent activity**, or run:
+To read it, select **Project > Project Tools > Agent activity**, or run:
 
 ```bash
 dogsbay-xml audit-log
@@ -644,6 +648,14 @@ Your own edits are never marked this way.
 3. **Decide** Select **Accept** to keep the change or **Reject** to discard it. Use **Accept all** or **Reject all** to act on the whole set.
 :::
 
+## Reviewing changes across files {#reviewing-changes-across-files}
+
+An agent often changes several files in one turn. The panel starts with the proposals in the active document, and tells you when other files have proposals too, for example "4 other files have proposals".
+
+To review them all, select **All files** at the top of the panel, or select **Show all**. The list groups proposals by file, with the number in each file. Select a proposal to open its file at the change. After you accept or reject a proposal, the panel moves to the next one, and into the next file when a file has none left.
+
+In **All files**, **Accept all** and **Reject all** act on every file in the list, and their labels say how many files, for example **Accept all in 5 files**. To act on one agent's changes only, choose the agent in **From** first. The panel asks before it changes anything and lists the files. Each file is saved. Files that are open in the editor can be undone with **Undo**; files that are not open are changed directly on disk, so use Git to get a previous version back. Comments are not included; resolve them one at a time. The list updates when you switch documents, after each decision, and every few seconds while the panel is open. Select **Refresh** to update it now.
+
 ## Kinds of proposal {#kinds-of-proposal}
 
 | Kind | What it means |
@@ -679,6 +691,12 @@ Rejecting removes the proposed content and restores what was there. Accepting re
 ## Publishing while proposals are open {#publishing-while-proposals-are-open}
 
 Deleted spans remain in the file until you accept the deletion. A property on each span enables DITAVAL to filter it. A build can therefore exclude proposed deletions before you resolve every proposal.
+
+## Undoing an agent's changes {#undoing-an-agents-changes}
+
+An agent can use `review_revert` to undo its own changes to a document. If the document still matches the agent's last edit, the tool restores the content from before the session's changes, including changes made without proposal markup. This restoration is available until the editor restarts.
+
+If the document has changed since that edit, the tool can reject only the session's proposals. It preserves comments and other authors' proposals. If reverting would introduce a validation error, the tool leaves the document unchanged.
 
 ## Two protections worth knowing {#two-protections-worth-knowing}
 
@@ -758,12 +776,20 @@ Nothing is added to your `PATH`. Deleting the folder uninstalls the agent.
 
 ## Seeing what it did {#seeing-what-it-did}
 
-Every command from a hosted agent is recorded in the project's audit log, with the session that ran it. Select **Project > Agent activity**, or:
+Every command from a hosted agent is recorded in the project's audit log, with the session that ran it. Select **Project > Project Tools > Agent activity**, or:
 
 ```bash
 dogsbay-xml audit-log
 dogsbay-xml sessions
 ```
+
+## If an agent does not start {#if-an-agent-does-not-start}
+
+When an agent stops before it connects, the session shows the error with the last lines the agent printed, under **The agent reported**. Those lines usually say what went wrong, such as a missing sign-in or a command that could not be found.
+
+If the agent reported that its own command was not found, an earlier download of it was interrupted, for example by closing the session while it was still downloading. npx keeps the incomplete copy and tries to run it every time. Delete the folder under `~/.npm/_npx` (on Windows, `%LocalAppData%\npm-cache\_npx`) that contains the agent's package but no `node_modules/.bin` folder, and start the agent again; it downloads a fresh copy.
+
+Closing a session while an agent is still downloading no longer interrupts the download, so this should not happen again.
 
 ## Related {#related}
 
@@ -793,6 +819,16 @@ type: how-to
 # Topics and maps {#topics-and-maps}
 
 A DITA project is topics plus the maps that assemble them. The editor gives you two ways to write a topic and two ways to change a map.
+
+## Starting a file {#starting-a-file}
+
+To create a file, select **File > New File**, or use **New File** on a folder in the Explorer. Enter a file name and select a template. The file extension filters the template list. For example, `.ditamap` displays map templates.
+
+Templates are available for topics, tasks, concepts, references, maps, bookmaps, key definition maps, subject schemes, DITAVAL files, glossary entries, glossary groups, troubleshooting topics, and Schematron rules. The dialog selects a default template for the extension and remembers your last selection.
+
+Each template includes the required elements and, where applicable, a DOCTYPE declaration. Associated grammar types provide fragment shortcuts, an outline, and validation. DITAVAL and Schematron files are checked for well-formedness. The editor also bundles DITA 1.3 learning and training grammars.
+
+Templates use nonempty reference placeholders so that reference checks can identify targets that you need to supply.
 
 ## Writing a topic {#writing-a-topic}
 
@@ -1061,7 +1097,11 @@ dogsbay-xml validate-conditions . --map audacity-guide.ditamap
 
 The command scans the map's publication set and reports every profiling value that the scheme does not allow. It exits with a nonzero status when it finds any, so it works as a pipeline gate.
 
-Use `--scope` to limit the scan to one map, a glob, or the project root.
+If you omit `--map`, the command uses the project's default root map. If no root map is configured, it searches the project for subject scheme maps.
+
+The command follows DITA-OT's subject scheme rules. It combines bindings from multiple definitions. A subject referenced by an `enumerationdef` defines the dimension; its child subjects define the allowed values.
+
+Use `--scope` to limit the scan to one map, a glob, or the project root. The `conditions` check in `project-health` runs the same validation. In the editor, select **Project > Validate Files > Controlled Values**.
 
 ## Renaming a value everywhere {#renaming-a-value-everywhere}
 
@@ -1194,7 +1234,7 @@ type: how-to
 
 # Validating a project {#validating-a-project}
 
-Validation in DogsBay XML answers three separate questions, and it is worth keeping them apart because they fail for different reasons.
+DogsBay XML checks document syntax, project rules, and references. Use `dogsbay-xml check` to run project health checks, build the deliverables, and check links in the output. You can also run the checks separately.
 
 **Is this well-formed and valid?** The document parses and matches its grammar, whether that grammar is a DTD, an XML Schema, or RELAX NG.
 
@@ -1210,7 +1250,7 @@ Grammar validation resolves catalogs, so a DITA topic validates against the gram
 dogsbay-xml validate topics/installing-audacity.dita
 ```
 
-In the editor, problems appear in the margin as you type and in the error pane.
+In the editor, problems appear in the margin as you type and in the error pane. To check the current document, select **XML > Check Well-Formedness**, **XML > Validate**, or **XML > Schematron**.
 
 ## A whole set {#a-whole-set}
 
@@ -1222,6 +1262,8 @@ The scope decides what is checked. With `--map`, it is that map's publication se
 
 The command exits with a nonzero status when any file is invalid.
 
+In the editor, **Project > Validate Files** provides project-wide checks using a DTD, Schematron, DITA-OT, or a subject scheme.
+
 ## Business rules with Schematron {#business-rules-with-schematron}
 
 Schematron expresses the rules your house style cares about. The sample project ships one, `house-style.sch`, which requires a short description on every topic and forbids hardcoded product names in prose.
@@ -1231,19 +1273,41 @@ dogsbay-xml schematron topics/installing-audacity.dita house-style.sch
 dogsbay-xml schematron-project . house-style.sch
 ```
 
+To set a default schema, specify [`<default-schematron>`](/dogsbay-xml-docs/reference/project-config) in the project configuration. The `schematron` and `schematron-project` commands use this schema when you omit the schema argument. **XML > Schematron** and **Project > Validate Files > With Schematron** also use it.
+
+If no default schema is configured, the editor prompts you to select one. The menu label ends in an ellipsis when the command opens this dialog.
+
 The editor and a pipeline report rule failures in the same way because they use the same engine.
+
+## Is the project ready? {#is-the-project-ready}
+
+To check whether the project is ready to publish, run:
+
+```bash
+dogsbay-xml check .
+```
+
+The command runs the project health report, builds the deliverables, and checks links in the built output. Each stage runs only if the preceding stage passes. If a stage fails, the command identifies it and exits with status 1.
+
+In the editor, select **Project > Check Project**. Results appear in the **Project Validation** tab.
+
+Use `--no-build` to run only the health report or `--deliverable` to check a single deliverable. Use `--map` or `--schematron` to override the project's default root map or Schematron schema.
+
+If no deliverables are defined, the command reports the project as unfinished. You can run the individual stages described below to check specific aspects of the project.
 
 ## The whole picture {#the-whole-picture}
 
-`project-health` runs reference and key analysis, grammar validation, the conref element-ID audit, and the required-metadata policy. It also reports open agent proposals:
+`project-health` is the first stage on its own: reference and key analysis, grammar validation, the conref element ID audit, the metadata policy, the project's house rules, controlled values, conref push, index entries, house style, and authoring leftovers. It also reports open agent proposals.
 
 ```bash
-dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch
+dogsbay-xml project-health .
 ```
 
-A clean result is the publish-ready gate. Adding `--map` enables key analysis and limits validation to the publication set. Without this option, the command also validates files that no map includes and reports orphaned topics.
+The health report checks source files; it does not build deliverables or check output links. The command uses the project's settings: its default root map, and its `<default-schematron>` house rules. Use `--map` or `--schematron` to specify a different map or schema. Use `--map none` to check without the default map, or `--schematron none` to skip the configured Schematron rules.
 
-`--schematron` adds the project's house rules to the run and its result. Without this option, the gate cannot check those rules. A DTD cannot express a rule such as "every topic needs a shortdesc," so the rule lives in a Schematron schema that the command applies when you name it.
+A default root map from the project configuration enables key analysis only. Naming a map with `--map` also scopes validation to that map's publication set. Otherwise the command validates files that no map includes, and reports orphan topics.
+
+Two of the checks are reported as **warnings**, and never make a project unclean on their own: files not in the project's house style, and authoring leftovers — TODO, FIXME, or TBD in text or comments, `draft-comment`, `required-cleanup`, and tasks with no steps.
 
 ### Reading the result {#reading-the-result}
 
@@ -1253,6 +1317,7 @@ Every finding is printed, and the run ends with the counts:
 Summary
   Broken references             1
   Broken element ids            1
+  Controlled values             4  in 2 of 36 files
   House rules                  30  in 15 of 36 files
     Every topic needs a shortdesc (a one- or two-sentence descrip…   14
     Use uicontrol for UI labels (and drop decorative bold); do no…    7
@@ -1261,17 +1326,14 @@ Summary
     recommended <author> is missing                                  21
     missing required <keyword>                                       21
   Invalid files                 3  of 36
+  Not in house style            2  warnings
 ```
 
 The summary appears last, where it remains visible in a terminal. The command groups house rules and the metadata policy by rule, with the most frequent first. Instead of 30 separate problems, you see "14 missing shortdescs, seven bold labels, and five hardcoded product names," which gives you a practical work plan.
 
-`--summary` prints only that block when you want an overview instead of the full list:
+`--summary` prints only that block when you want an overview instead of the full list, and `--severity error` leaves out what does not block a clean result — unused keys, orphans, warnings, and recommended metadata.
 
-```bash
-dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch --summary
-```
-
-A healthy project prints one line either way.
+A healthy project prints a one-line result. If you use `--include` to limit the checks, the result lists the checks performed. It does not report the health of the entire project.
 
 ## What static validation cannot catch {#what-static-validation-cannot-catch}
 
@@ -1285,15 +1347,27 @@ The command runs DITA-OT preprocessing for each deliverable and reports what it 
 
 ## Using these as a gate {#using-these-as-a-gate}
 
-Each command exits with a nonzero status when it finds a problem, so a pipeline can use a short list:
+To run all three stages in a pipeline, use:
 
 ```bash
-dogsbay-xml validate-project . --map audacity-guide.ditamap
-dogsbay-xml validate-conditions . --map audacity-guide.ditamap
-dogsbay-xml project-health . --map audacity-guide.ditamap --schematron house-style.sch
+dogsbay-xml check .
 ```
 
-`project-health` covers what `schematron-project` and `metadata-audit` report. Add those two commands separately only when you want independent failures. Run the fast checks first. Run `validate-ot` at the end or on a schedule instead of on every commit.
+The command stops at the first failing stage.
+
+You can also run the stages in separate jobs. Each command exits with a nonzero status if it finds a problem:
+
+```bash
+dogsbay-xml project-health .          # the health report
+dogsbay-xml build .                   # the deliverables
+dogsbay-xml check-output-links out/   # links in what the build wrote
+```
+
+`project-health` covers what `schematron-project`, `validate-conditions`, and `metadata-audit` report, so add those separately only when you want them to fail on their own. Run `validate-ot` at the end or on a schedule rather than on every commit.
+
+### Controlled values {#controlled-values}
+
+`validate-conditions` reports profiling values that the subject scheme does not allow. The `conditions` check in `project-health` performs the same validation. Both use the project's default root map if you omit `--map`. If no root map is configured, they search the project for `subjectScheme` maps. The checks follow DITA-OT's subject scheme rules.
 
 ## Related {#related}
 
@@ -1397,9 +1471,17 @@ This example turns a hardcoded product name into a key. It fixes one of the prob
 4. **Check the result**
 
    ```bash
-   dogsbay-xml project-health . --map audacity-guide.ditamap
+   dogsbay-xml project-health .
    ```
 :::
+
+## Finding what to refactor {#finding-what-to-refactor}
+
+Select **Refactor > Find Broken References and Orphans** to list broken references, undefined keys, unused keys, and orphan topics. Double-click a finding to open the file at the reported line. Select **Refresh** to run the checks again after making changes. The command-line equivalent is `dogsbay-xml health .`.
+
+Use the refactoring commands to address findings as appropriate. For example, use **Retarget References** to update a reference or **Create Key from Selected Text** to define a key. Review unused keys and orphan topics before removing them; they might be needed by another publication.
+
+For project validation, a build, and output-link checks, select **Project > Check Project**, or run `dogsbay-xml check .`. To run only the project health report, use `dogsbay-xml project-health .`. See [Validating a project](./validation).
 
 ## When a refactoring refuses {#when-a-refactoring-refuses}
 
@@ -1462,10 +1544,10 @@ dogsbay-xml report project-graph . -o guide-map.html --arg map=audacity-guide.di
 ## Write a health report {#write-a-health-report}
 
 ```bash
-dogsbay-xml report project-health . -o health.html --arg map=audacity-guide.ditamap
+dogsbay-xml report project-health . -o health.html
 ```
 
-The page shows whether the project is clean, then one table per check. A rule that fails in many files appears once, with a count and the list of files.
+The page shows whether the project is clean, then one table per check. A rule that fails in many files appears once, with a count and the list of files. The report uses the project's default root map and Schematron schema. Use `--arg map=…` and `--arg schematron=…` to override them.
 
 ## Ask the agent for a page {#ask-the-agent-for-a-page}
 
@@ -1560,8 +1642,67 @@ Two options are worth knowing:
 | --- | --- |
 | `--dita-ot` | Use a different DITA-OT than the one the project configures. |
 | `--output` | Put the output somewhere else, each deliverable under its own subdirectory. |
+| `--keep-temp` | Keep DITA-OT's temporary files. See [Keeping temporary files](#keeping-temporary-files). |
 
 Building requires DITA-OT. The sample project is configured with one already.
+
+## Output types {#output-types}
+
+The bundled DITA-OT includes plugins for the following output types.
+
+| Transtype | Produces |
+| --- | --- |
+| `html5` | DITA-OT's HTML output. |
+| `pdf` | A PDF rendered by Apache FOP. See [PDF](#pdf). |
+| `dogsbay` | A dogsbay site project in the output folder: a Markdown page per topic, `index.md`, `nav.yml`, and `dogsbay.config.yml`. The pages match what `html5` shows. |
+| `dogsbay-site` | The same project, then the built site in `astro/dist`. It installs the site's packages from npm, so it needs network access and takes longer. |
+
+The two dogsbay types need **Node.js 20 or later**; `dogsbay-site` also needs the dogsbay CLI. If the requested output type is unavailable, the build reports an error and lists the available types.
+
+### PDF {#pdf}
+
+A deliverable with transtype `pdf` uses the bundled Apache FOP renderer. No separate renderer installation is required. The editor, command line, and agent use the same renderer.
+
+PDFs embed Liberation Serif, Liberation Sans, and Liberation Mono fonts. These fonts are metric-compatible with Times New Roman, Arial, and Courier New. They also support Hebrew, Cyrillic, Greek, the minus sign, and arrows that the built-in PostScript fonts do not support.
+
+The renderer selects a font for each text run. Characters that the selected font does not support can be omitted from the output. Embedded fonts allow PDF viewers to use the same fonts on different computers.
+
+To use the built-in fonts, copy DITA-OT's font mapping into a PDF customization directory:
+
+```bash
+mkdir -p mypdf/fo
+cp "<framework>/dita-ot/plugins/org.dita.pdf2/cfg/fo/font-mappings-base14.xml" \
+   mypdf/fo/font-mappings.xml
+```
+
+Then set `customization.dir` to `mypdf` in the deliverable's publication parameters.
+
+To include an index in the PDF, add `<indexlist/>` to the bookmap. The build report summarizes rendering warnings, such as missing characters, overflowing text, and changes to table layout.
+
+## Live preview {#live-preview}
+
+Select **Project > Live Preview** to build and serve a `dogsbay` deliverable. When you save a topic, the preview rebuilds and reloads the browser page.
+
+```bash
+dogsbay-xml live-preview start -d site .   # in the background
+dogsbay-xml live-preview status .          # every preview of this project
+dogsbay-xml live-preview stop -d site .    # or --all
+dogsbay-xml live-preview run -d site .     # in the foreground; Ctrl+C stops it
+```
+
+You can run multiple previews of a project with different filters, such as macOS and Windows editions of a guide. The editor, command line, and agents can list and stop previews on the same computer, regardless of which interface started them. Agents use `live_preview` to start a preview and `live_preview_status` to check its status.
+
+Live preview requires Node.js 20 or later and the dogsbay CLI. Search is available only in a production build. Publish with `dogsbay-site` to include search.
+
+## Keeping temporary files {#keeping-temporary-files}
+
+DITA-OT normally deletes its temporary files when a build finishes. These are the preprocessed files it publishes from, with conrefs, keys, and filtering already applied, so they show exactly what DITA-OT resolved. Keep them when output is missing content or a condition does not filter the way you expect.
+
+To keep them for a deliverable, open **Project > Project Tools > Manage Deliverables**, edit the deliverable, and select **Keep temporary files**. This sets the standard DITA-OT parameter `clean.temp` to `no`, so the setting also works when you build with DITA-OT directly. To keep them for one build only, use `dogsbay-xml build . --keep-temp`.
+
+The files are kept in `.dogsbay/temp/<deliverable>` in the project. Each build replaces its deliverable's previous temporary files, and the folder is ignored by Git. After a build, select **Open Temp Folder** in the results to open it. To remove every kept folder, select **Project > Project Tools > Clear Temporary Build Files**.
+
+Agents can ask for the files with the `keepTemp` option of the `build_deliverables` tool, then read them to find out why a build did not produce what you expected.
 
 ## Checking before you publish {#checking-before-you-publish}
 
@@ -1574,11 +1715,16 @@ dogsbay-xml validate-ot .
 
 `validate-deliverables` validates each deliverable with its own map and conditions. It lists each invalid file once, with the deliverables it breaks. `validate-ot` goes further and runs DITA-OT preprocessing, which is the only way to catch a key or conref that resolves in one build and not in another.
 
-Before either, the cheaper check:
+Use `project-health` for source checks, or `check` to include the build and output-link checks:
 
 ```bash
-dogsbay-xml project-health . --map audacity-guide.ditamap
+dogsbay-xml project-health .   # the health report on its own
+dogsbay-xml check .            # health, then the build, then the built output
 ```
+
+In the editor, select **Project > Check Project** to run `check`. Its final stage checks the output folder for links to missing pages, fragments, and images. To check an output folder separately, run `dogsbay-xml check-output-links out/`.
+
+For PDF output, this stage checks that the deliverable produced a nonempty file. It does not validate links within the PDF.
 
 ## Related {#related}
 
@@ -1607,6 +1753,8 @@ type: how-to
 The editor can provide its operations to an AI assistant over the Model Context Protocol. The assistant then works on your project through the same commands the editor and the command line use, rather than by reading and rewriting files as text.
 
 This setup differs from using an agent inside the editor. The assistant runs in a terminal or desktop application, and the editor provides the tools.
+
+You can connect through the running editor or start an MCP server for a project folder without opening the editor. Both modes provide document and project operations. Tools that control the editor require a running editor.
 
 ## Turn on the server {#turn-on-the-server}
 
@@ -1640,6 +1788,39 @@ dogsbay-xml status --mcp-install
 
 Paste the configuration into the client's MCP settings, or run the command.
 
+## Without the editor {#without-the-editor}
+
+The same tools run with no editor open, on the files of a project folder:
+
+```bash
+claude mcp add dogsbay -- dogsbay-xml mcp --root /path/to/project
+```
+
+Alternatively, add the following configuration to `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "dogsbay": {
+      "command": "dogsbay-xml",
+      "args": ["mcp", "--root", "/path/to/project"]
+    }
+  }
+}
+```
+
+When the server runs without the editor:
+
+- The agent can read and write only within the specified project folder. It cannot switch projects.
+- The agent must read a file before editing it. The server rejects the edit if the file has changed since that read.
+- Edits are recorded as proposals attributed to the client. Accept or reject them later in the editor or with `dogsbay-xml review`. To apply edits without proposal markup, pass `--no-proposals` and review the changes in version control.
+- Tools for the cursor, selection, open documents, Author view, and screenshots are unavailable.
+- The server does not write to files that have unsaved changes in a running editor.
+
+The server writes the audit log to the project's `.dogsbay/agent-audit/` directory.
+
+To run a single tool from a terminal or script, use `dogsbay-xml tool <name> '<json>'`. The command prints the tool's JSON result.
+
 ## What the assistant can do {#what-the-assistant-can-do}
 
 The tools support the same operations as the command line:
@@ -1651,7 +1832,8 @@ The tools support the same operations as the command line:
 - **Refactor** by renaming files, keys, and IDs; converting between direct references and keys; extracting and inlining reuse; and splitting topics
 - **Edit** the structure of maps and relationship tables
 - **Control the editor** by opening documents, moving the cursor, selecting elements, and reading the outline
-- **Review** proposals, add comments, and read the audit log
+- **Review** proposals, add comments, revert what an agent wrote, and read the audit log
+- **Publish** deliverables and start or stop a live preview
 
 When a client connects, the server tells the assistant where to start: the project health check for any validation or audit question, the project graph for structure, and the report tool for a page. An assistant that follows it finds the checks the editor already has instead of writing its own.
 
@@ -1693,7 +1875,11 @@ type: reference
 
 This reference lists every menu bar command in the order that it appears. Items marked **DITA** come from the DITA plugin and appear only when that plugin is enabled.
 
+The menu bar contains **File**, **Edit**, **View**, **Project**, **XML**, **Refactor**, **Utilities**, and **Help**.
+
 Some menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.
+
+In the menus, a command that opens a dialog ends in an ellipsis. The tables below omit it. **Schematron** is the one command whose ellipsis comes and goes: it becomes **Schematron…** only when no default schema is configured and you must select one.
 
 ## File {#file}
 
@@ -1707,8 +1893,6 @@ Some menus change with the document. Preview entries are enabled only for a docu
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Settings | Editor settings, on eight pages. See the [settings reference](/dogsbay-xml-docs/reference/settings). The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/dogsbay-xml-docs/reference/shortcuts). |
-| Import Framework | Add support for a non-DITA vocabulary. |
-| Manage Frameworks | Review and remove imported frameworks. |
 | Close, Close All | Close the document, or all of them. |
 | Exit | Leave the editor. |
 
@@ -1742,14 +1926,53 @@ Full Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sid
 
 Show Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.
 
+## Project {#project}
+
+Use the Project menu to validate, build, preview, and configure a project.
+
+| Item | What it does |
+| --- | --- |
+| Check Project **DITA** | Run project health checks, build deliverables, and check output links. See [Validating a project](/dogsbay-xml-docs/finding/validation#is-the-project-ready). |
+| Validate Files | Run individual project-wide checks. See [Validate Files](#project-validate-files). |
+| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |
+| Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |
+| Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/dogsbay-xml-docs/authoring/metadata). |
+| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map. |
+| Manage Projects | Add, edit, and remove projects. |
+| Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |
+
+### Project > Validate Files {#project-validate-files}
+
+Select a command to run an individual project-wide check.
+
+| Item | What it does |
+| --- | --- |
+| With DTD | Validate every file in scope against its grammar. |
+| With Schematron | Apply the default Schematron schema across the project. If none is configured, select a schema when prompted. |
+| With DITA-OT — Current Map, All Deliverables **DITA** | Run DITA-OT preprocessing and report validation errors. |
+| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |
+
+To check the current document, use **XML > Check Well-Formedness**, **XML > Validate**, or **XML > Schematron**.
+
+### Project > Project Tools {#project-project-tools}
+
+| Item | What it does |
+| --- | --- |
+| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. See [project configuration](/dogsbay-xml-docs/reference/project-config). |
+| Format Project, Reflow Project | Apply the house style across the project. |
+| Manage Deliverables **DITA** | Edit the project's deliverables. |
+| Clear Temporary Build Files **DITA** | Remove the DITA-OT temporary folders that deliverables kept. |
+| Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |
+
 ## XML {#xml}
 
-Commands that work on markup rather than on text.
+Use the XML menu to validate and edit markup in the current document.
 
 | Item | What it does |
 | --- | --- |
 | Check Well-Formedness | Parse the document and report syntax errors. |
 | Validate | Validate against the document's grammar. See [validating](/dogsbay-xml-docs/finding/validation). |
+| Schematron | Apply the default Schematron schema to the current document. If none is configured, select a schema when prompted. |
 | Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |
 | Split Element | Split the element at the cursor into two. |
 | Insert Special Character | Insert a character by name. |
@@ -1769,68 +1992,40 @@ Commands that work on markup rather than on text.
 | Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |
 | Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |
 
-## Project {#project}
-
-| Item | What it does |
-| --- | --- |
-| Manage Projects | Add, edit, and remove projects. |
-| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. |
-| Validate | Run project-wide validation. See [Validating a project](/dogsbay-xml-docs/finding/validation). |
-| Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |
-| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |
-| Manage Deliverables **DITA** | Edit the project's deliverables. |
-| Edit Structure **DITA** | Structural map editing. |
-| Edit Relationship Tables **DITA** | Edit reltables. |
-| Metadata: Audit, Normalize, Edit Policy, Export Policy as Schematron **DITA** | See [metadata](/dogsbay-xml-docs/authoring/metadata). |
-| Format Project, Reflow Project | Apply the house style across the project. |
-
-### Project > Validate {#project-validate}
-
-Every project-wide check lives in one submenu rather than being spread across the menu bar.
-
-| Item | What it does |
-| --- | --- |
-| Project | Validate every file in scope against its grammar. |
-| Project with Schematron | Apply a Schematron schema across the project. |
-| Document with Schematron | Apply one to the current document. |
-| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |
-| With DITA-OT — Current Map, All Deliverables **DITA** | Run deep validation with DITA-OT preprocessing. |
-
-## Types {#types}
-
-Grammar management includes Create Type, Set Type, Type Properties, and Manage Types.
-
-## Transform {#transform}
-
-Run XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.
-
 ## Refactor {#refactor}
 
 Every command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).
+
+Commands are grouped by files and references, keys, content reuse, and conditions. **Find Broken References and Orphans** reports problems without changing files.
 
 | Item | Command-line equivalent |
 | --- | --- |
 | Rename/Move File with References | `rename-file` |
 | Retarget References | `retarget` |
-| Rename Key | `rename-key` |
 | Split Topic by Sections | `split-topic` |
-| Extract Element to Conref | `extract-conref` |
 | Create Key from Selected Text | `create-keydef` |
-| Rename Element Id | `rename-element-id` |
+| Rename Key | `rename-key` |
 | Merge Duplicate Keydefs | `merge-keydefs` |
+| Extract Element to Conref | `extract-conref` |
+| Rename Element Id | `rename-element-id` |
 | Rename Profiling Value | `rename-profile-value` |
-| Project Health Report | `project-health` |
+| Find Broken References and Orphans | `health` |
+
+**Find Broken References and Orphans** reports broken references, undefined keys, unused keys, and orphan topics. Review each finding to determine whether a refactoring is needed.
+
+For project validation, a build, and output-link checks, select **Project > Check Project**, or run `dogsbay-xml check .`. To run only the project health report, use `dogsbay-xml project-health .`.
 
 ## Utilities {#utilities}
 
+Use the Utilities menu to manage grammars, frameworks, templates, transforms, and bookmarks.
+
 | Item | What it does |
 | --- | --- |
-| XML Diff and Merge | Compare two documents structurally. |
-| Start Browser | Open the document in your system browser. |
-| Resolve XIncludes | Replace XInclude references with the content they pull in. |
-| Save As Template, Manage Templates | Use a document as a template for new documents. |
-| Insert Fragment | Insert a saved markup fragment. |
-| Toggle Bookmark, Select Bookmark | Mark a place and return to it. |
+| Types | Create Type, Set Type, Type Properties, and Manage Types: the grammars the editor validates against. |
+| Frameworks | Import Framework and Manage Frameworks — support for a vocabulary that is not DITA. |
+| Templates | Save As Template and Manage Templates: use a document as the starting point for new ones. |
+| Transforms | Run XSLT and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous. |
+| Bookmarks | Toggle Bookmark and Select Bookmark: mark a place and return to it. |
 
 ## Help {#help}
 
@@ -1876,6 +2071,8 @@ The file tree for the open folder. Always present; it is not a plugin.
 
 Open, rename, move, and delete files, and drag a file onto an agent's chat box to attach it.
 
+Select **New File** to enter a file name and choose a document type, template, or DTD for an XML file. Non-XML files, such as Markdown files, are created without a document type selection.
+
 ### Search {#search}
 
 Find and replace across the project.
@@ -1896,6 +2093,8 @@ Filters take comma-separated globs, such as `*.xml,*.java` to include, or `targe
 Version control for the project. The panel lists changed files and stages them individually or together.
 
 Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.
+
+The branch list includes remote branches. Selecting a remote branch creates a local branch that tracks it. If a local branch with that name already points elsewhere, the editor reports the conflict.
 
 **Merge Branch** brings another local branch into the one you are on. This is the step after an agent has finished work on a branch and you have reviewed it. It refuses to start if the working tree has uncommitted changes, since a merge rewrites the files it brings in. A merge that ends in conflicts leaves the markers in the files and names them, for you to resolve, stage and commit; `git merge --abort` in the Terminal puts things back.
 
@@ -1975,7 +2174,7 @@ Validation results for the document in front. Selecting an entry jumps to the pl
 
 ### Project Validation {#project-validation}
 
-Results from a project-wide run, such as **Project > Validate > Project**, and output from long-running operations including DITA-OT builds.
+Results from **Project > Check Project**, commands under **Project > Validate Files**, and long-running operations such as DITA-OT builds. Select a finding to open the file at the reported line.
 
 ### Inspector {#inspector}
 
@@ -2013,7 +2212,7 @@ type: reference
 
 **File > Settings** opens the editor's settings. The pages are listed down the left; a change applies when you select **OK**, and **Cancel** discards everything you changed since the dialog opened.
 
-Settings are stored in `~/.dogsbay/settings.xml` and apply to every project. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own `.dogsbay/config.xml`, which you can commit and share; see [Project configuration](/dogsbay-xml-docs/reference/project-config). See [Format](#format) below for how to write the current formatting into it.
+Settings are stored in `~/.dogsbay/settings.xml` and apply to every project. The `~/.dogsbay` folder also stores bundled grammars, templates, and agent files. To use a separate profile for a demonstration or test, run `dogsbay-xml gui --settings DIR`. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own `.dogsbay/config.xml`, which you can commit and share; see [Project configuration](/dogsbay-xml-docs/reference/project-config). See [Format](#format) below for how to write the current formatting into it.
 
 ## Server {#server}
 
@@ -2115,6 +2314,7 @@ The machine, rather than the editing.
 | Browser | Which browser opens external links. Linux and other Unix systems only; macOS and Windows use the system default and the group is not shown. |
 | Proxy Configuration | Host address and port for a proxy, and whether to use one. |
 | Extensions | Extra jars and directories added to the editor's classpath. **Add Jar …**, **Add Dir …** and **Delete**. |
+| Node.js | The Node.js executable used by the `dogsbay` and `dogsbay-site` output types and by [live preview](/dogsbay-xml-docs/publishing/publishing#live-preview). The panel shows the detected executable. Leave the setting empty to search `PATH` and standard installation directories. When started from the desktop, the editor might have a different `PATH` from your terminal. |
 
 ---
 
@@ -2144,17 +2344,23 @@ Every file is optional. A missing file, or one that is not well-formed XML, is t
 
 ## Creating the configuration {#creating-the-configuration}
 
-When you open a folder that has no `config.xml` and the editor recognizes it as a DITA project, it writes a `config.xml` with the project type, the root map it detected, and the framework it chose. Commit the file if the choices are right, or change them and save again.
+When you open a folder that has no `config.xml` and the editor recognizes it as a DITA project, it writes a `config.xml` with the project type, the root map it detected, the framework it chose, and the formatting house style. Commit the file if the choices are right, or change them and save again.
+
+A folder with topics but no map yet still gets one — a project whose first topic exists and whose map does not is unfinished, not something other than DITA — and so does a folder that was empty when you opened it, as soon as you create the first `.dita` or `.ditamap` in it.
+
+The house style it writes **names the line endings**, which is what makes formatting convert them. A project nobody configured never converts anything, so a file keeps the endings it has; a project that says `newline="lf"` means it. An existing `config.xml` that names no line endings is left as it is.
 
 These actions write to `config.xml` and keep the parts they do not change:
 
 | Action | Writes |
 | --- | --- |
-| **Project > Save Project Settings...** | The project type, framework, and default root map, and the selected deliverable as the default deliverable. |
+| **Project > Project Tools > Save Project Settings...** | The project type, framework, and default root map, and the selected deliverable as the default deliverable. |
 | **Project > Metadata > Edit Policy...** | The metadata policy. |
 | **Save to project (.dogsbay/config.xml)...** on the [Format](/dogsbay-xml-docs/reference/settings#format) settings page | The formatting house style and the format-on-save setting. |
 
 Selecting a deliverable writes it to `local.xml`. You can also edit either file by hand. After editing by hand, open the project folder again so the editor picks up every change.
+
+Every one of these writes the file the same way — the same element order, the same indentation, a newline at the end — so the file does not change shape depending on which dialog you last used. Comments, and anything a newer version of the editor wrote, are kept.
 
 ## config.xml {#configxml}
 
@@ -2164,6 +2370,7 @@ The root element is `dogsbay-project`. Each child element is optional.
 | --- | --- | --- |
 | `project-type` | `DITA`, `DocBook` or `None` | The kind of content in the project. |
 | `default-root-map` | A path relative to the project root | The map used for validation, key resolution, and publishing. |
+| `default-schematron` | A path relative to the project root | The default schema for the Schematron commands, **XML > Schematron**, **Project > Validate Files > With Schematron**, and the `schematron` check in the health report. |
 | `framework` | A framework name, such as `DITA-OT 4.3.5` | The framework the project requires, by name. Each person's editor finds its own installed framework with that name, so the file contains no machine paths. |
 | `default-deliverable` | Attributes `file` and `name` | The deliverable selected when someone opens the project for the first time. `file` is the DITA-OT project file, relative to the project root, and `name` is a deliverable defined in it. |
 | `metadata-policy` | `rule` elements | The metadata that topics must contain. See [Metadata policy](#metadata-policy). |
@@ -2234,6 +2441,7 @@ This is the `config.xml` from the sample project:
 <dogsbay-project>
   <project-type>DITA</project-type>
   <default-root-map>audacity-guide.ditamap</default-root-map>
+  <default-schematron>house-style.sch</default-schematron>
   <framework>DITA-OT 4.3.5</framework>
   <default-deliverable file="project.json" name="full"/>
   <metadata-policy>
@@ -2245,7 +2453,7 @@ This is the `config.xml` from the sample project:
 </dogsbay-project>
 ```
 
-The policy requires every task to record a creation date in the form `2026-01-31`, requires a keyword in every topic, and recommends an author. Format on save is off because the file has no `format-on-save` element.
+The policy requires every task to record a creation date in the form `2026-01-31`, requires a keyword in every topic, and recommends an author. The `default-schematron` element specifies the schema used by `dogsbay-xml project-health .` and the Schematron menu commands. Format on save is off because the file has no `format-on-save` element.
 
 ## Related {#related}
 
@@ -2491,7 +2699,6 @@ These are the defaults. Every one of them can be changed in **File > Settings > 
 | Insert Special Character | Ctrl+I |
 | Select Element | Ctrl+E |
 | Select Element Content | Ctrl+Shift+E |
-| Select Fragment | Ctrl+Shift+Space |
 | Goto start tag | Ctrl+Up |
 | Goto end tag | Ctrl+Down |
 | Goto next Attribute value | Ctrl+Shift+Down |
@@ -2552,17 +2759,29 @@ These commands answer questions about more than one file.
 | `check-links` | Which references point at something missing? |
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
-| `project-health` | Report broken references, key problems, orphaned topics, grammar validation, metadata policy violations, and open proposals. With `--schematron`, also report the project's house rules. |
+| `project-health` | The full report: broken references, key problems, orphaned topics, grammar validation, element IDs, metadata policy, open proposals, conref push, index entries, house style, authoring leftovers, and controlled values. |
+| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. |
+| `check-output-links` | Check a build output folder for links to missing pages, fragments, and images. |
 | `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON; see the [project graph reference](/dogsbay-xml-docs/reference/project-graph). |
 | `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
 
-`check-links`, `health`, and `project-health` exit with a nonzero status when they find a problem, so they work as pipeline gates.
+`check-links`, `health`, `project-health`, `check`, and `check-output-links` exit with a nonzero status when they find a problem, so they work as pipeline gates. Use `check` in CI to run the health report, build, and output-link checks in sequence. It stops at the first failing stage.
+
+```bash
+dogsbay-xml check .                    # health, build, then the built output
+dogsbay-xml check . --no-build         # stop after health
+dogsbay-xml check . --deliverable web  # one deliverable rather than all
+```
 
 ```bash
 dogsbay-xml project-health . --schematron house-style.sch
 ```
 
-`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone, `--include` to run only some of the checks (for example `--include reuse,validation`), and `--severity error` to leave out findings that do not block a clean result, such as unused keys. See [validating a project](/dogsbay-xml-docs/finding/validation#reading-the-result).
+`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone, `--include` to run only some of the checks, and `--severity error` to leave out findings that do not block a clean result, such as unused keys. See [validating a project](/dogsbay-xml-docs/finding/validation#reading-the-result).
+
+The `--include` option accepts these checks: `reuse`, `validation`, `elementIds`, `metadata`, `schematron`, `proposals`, `conrefPush`, `index`, `format`, `markers`, and `conditions`.
+
+Both `check` and `project-health` use the project's default root map and `<default-schematron>` schema unless you override them. Use `--map` or `--schematron` to specify a different map or schema. Use `--map none` to check without the default map, or `--schematron none` to skip the configured Schematron rules.
 
 To see the project as a page, see [Mapping a project and writing reports](/dogsbay-xml-docs/finding/reports).
 
@@ -2615,11 +2834,16 @@ Structural editing of maps and relationship tables preserves formatting and keep
 
 | Command | What it does |
 | --- | --- |
-| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. |
+| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`. |
+| `live-preview` | Publish a deliverable and serve it, republishing as you save. `start`, `status`, and `stop` manage previews; `run` stays in the foreground. Previews started by the editor or by a headless MCP server are listed and stopped here too. |
 
-## Driving a running editor {#driving-a-running-editor}
+## Starting and driving the editor {#starting-and-driving-the-editor}
 
-These need the integration server, which you turn on in **File > Settings > Server**.
+`gui` opens the editor window. Use `--project DIR` to open a project folder, `--settings DIR` to use a separate profile directory, `--window WxH` to set the window size, and `--no-welcome` to skip the welcome screen.
+
+A separate profile directory isolates settings, bundled grammars, templates, and agent files from your usual profile. Use it for demonstrations, recordings, or tests that require a specific configuration.
+
+The following commands require the integration server, which you turn on in **File > Settings > Server**.
 
 | Command | What it does |
 | --- | --- |
@@ -2628,6 +2852,19 @@ These need the integration server, which you turn on in **File > Settings > Serv
 | `author` | Drive the Author view: `outline`, `switch`, `insert`, `set-text`, `issues`. |
 | `screenshot` | Capture the editor window. |
 | `status` | Report whether the editor is reachable, and print MCP configuration for AI assistants. |
+
+## Running the tools without the editor {#running-the-tools-without-the-editor}
+
+| Command | What it does |
+| --- | --- |
+| `mcp` | Run the editor's tools as an MCP server over stdio, on a project folder, with no editor open. The agent reads and writes only inside that folder, must read a document before editing it, and its edits are recorded as review proposals unless you pass `--no-proposals`. |
+| `tool` | Run any one of those tools by its MCP name with JSON arguments, and print the JSON result. Use this command to test a tool or call it from a script. With `--editor`, it runs through the running editor instead of on the files. |
+
+```bash
+claude mcp add dogsbay -- dogsbay-xml mcp --root /path/to/project
+```
+
+See [connecting an AI assistant](/dogsbay-xml-docs/automation/mcp).
 
 ## Agents and review {#agents-and-review}
 
@@ -2676,6 +2913,9 @@ The first run takes noticeably longer than later ones, because it is fetching Gr
 | `./gradlew test` | Run the test suite |
 | `./gradlew shadowJar` | Build the all-in-one JAR file |
 | `./gradlew jpackage` | Build a native installer for the current platform |
+| `./gradlew bundleDitaOt` | Regenerate the bundled DITA-OT (manual; Linux and macOS) |
+
+The bundled DITA-OT is committed, so a normal build does not rebuild it. The editor uses a content digest to detect bundle changes. After an update that changes the bundle, the editor extracts it at the next start. If the bundle is unchanged, the editor keeps the existing extracted files.
 
 ## Running the command line from a checkout {#running-the-command-line-from-a-checkout}
 

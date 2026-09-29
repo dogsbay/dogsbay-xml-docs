@@ -31,6 +31,12 @@ Gradle, possibly a JDK, and the project's dependencies.
 | `./gradlew test` | Run the test suite |
 | `./gradlew shadowJar` | Build the all-in-one JAR file |
 | `./gradlew jpackage` | Build a native installer for the current platform |
+| `./gradlew bundleDitaOt` | Regenerate the bundled DITA-OT (manual; Linux and macOS) |
+
+The bundled DITA-OT is committed, so a normal build does not rebuild it.
+The editor uses a content digest to detect bundle changes. After an update
+that changes the bundle, the editor extracts it at the next start. If the
+bundle is unchanged, the editor keeps the existing extracted files.
 
 ## Running the command line from a checkout
 

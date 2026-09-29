@@ -8,7 +8,7 @@ type: reference
 
 **File > Settings** opens the editor's settings. The pages are listed down the left; a change applies when you select **OK**, and **Cancel** discards everything you changed since the dialog opened.
 
-Settings are stored in `~/.dogsbay/settings.xml` and apply to every project. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own `.dogsbay/config.xml`, which you can commit and share; see [Project configuration](/reference/project-config). See [Format](#format) below for how to write the current formatting into it.
+Settings are stored in `~/.dogsbay/settings.xml` and apply to every project. The `~/.dogsbay` folder also stores bundled grammars, templates, and agent files. To use a separate profile for a demonstration or test, run `dogsbay-xml gui --settings DIR`. Settings that belong to a project, such as its type, root map, framework and formatting house style, live in that project's own `.dogsbay/config.xml`, which you can commit and share; see [Project configuration](/reference/project-config). See [Format](#format) below for how to write the current formatting into it.
 
 ## Server
 
@@ -110,3 +110,4 @@ The machine, rather than the editing.
 | Browser | Which browser opens external links. Linux and other Unix systems only; macOS and Windows use the system default and the group is not shown. |
 | Proxy Configuration | Host address and port for a proxy, and whether to use one. |
 | Extensions | Extra jars and directories added to the editor's classpath. **Add Jar …**, **Add Dir …** and **Delete**. |
+| Node.js | The Node.js executable used by the `dogsbay` and `dogsbay-site` output types and by [live preview](/publishing/publishing#live-preview). The panel shows the detected executable. Leave the setting empty to search `PATH` and standard installation directories. When started from the desktop, the editor might have a different `PATH` from your terminal. |

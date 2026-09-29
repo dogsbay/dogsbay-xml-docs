@@ -19,6 +19,21 @@ astro/              GENERATED — committed, built by Workers Builds
 runs the build in `astro/`; it does not run the DogsBay CLI. Edit `content/`,
 rebuild, and commit both.
 
+## Product version tracking
+
+`docs-source.yml` records the `dogsbay-xml` commit against which each page was
+last verified. The `reconciled` field records the oldest of these commits.
+
+```bash
+tools/source-drift.sh                    # List pages by the number of subsequent product commits
+tools/source-drift.sh reference/menus.md # List subsequent product commits for one page
+```
+
+The script expects a `dogsbay-xml` checkout beside this repository. Set
+`DOGSBAY_XML` to use a different path. After verifying a page, update its
+entry to the commit you checked. Update `reconciled` only after every page
+has been verified against that commit or a later one.
+
 ## Working on it
 
 ```bash

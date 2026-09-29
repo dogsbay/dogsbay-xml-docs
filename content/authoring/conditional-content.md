@@ -83,7 +83,16 @@ The command scans the map's publication set and reports every profiling value
 that the scheme does not allow. It exits with a nonzero status when it finds any,
 so it works as a pipeline gate.
 
-Use `--scope` to limit the scan to one map, a glob, or the project root.
+If you omit `--map`, the command uses the project's default root map. If no
+root map is configured, it searches the project for subject scheme maps.
+
+The command follows DITA-OT's subject scheme rules. It combines bindings from
+multiple definitions. A subject referenced by an `enumerationdef` defines the
+dimension; its child subjects define the allowed values.
+
+Use `--scope` to limit the scan to one map, a glob, or the project root. The
+`conditions` check in `project-health` runs the same validation. In the
+editor, select **Project > Validate Files > Controlled Values**.
 
 ## Renaming a value everywhere
 

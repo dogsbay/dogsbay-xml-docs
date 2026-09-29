@@ -23,6 +23,10 @@ The file tree for the open folder. Always present; it is not a plugin.
 Open, rename, move, and delete files, and drag a file onto an agent's chat box
 to attach it.
 
+Select **New File** to enter a file name and choose a document type, template,
+or DTD for an XML file. Non-XML files, such as Markdown files, are created
+without a document type selection.
+
 ### Search
 
 Find and replace across the project.
@@ -45,6 +49,10 @@ Version control for the project. The panel lists changed files and stages
 them individually or together.
 
 Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.
+
+The branch list includes remote branches. Selecting a remote branch creates
+a local branch that tracks it. If a local branch with that name already
+points elsewhere, the editor reports the conflict.
 
 **Merge Branch** brings another local branch into the one you are on. This is the step after an agent has finished work on a branch and you have reviewed it. It refuses to start if the working tree has uncommitted changes, since a merge rewrites the files it brings in. A merge that ends in conflicts leaves the markers in the files and names them, for you to resolve, stage and commit; `git merge --abort` in the Terminal puts things back.
 
@@ -144,8 +152,9 @@ place it refers to.
 
 ### Project Validation
 
-Results from a project-wide run, such as **Project > Validate > Project**, and
-output from long-running operations including DITA-OT builds.
+Results from **Project > Check Project**, commands under **Project > Validate
+Files**, and long-running operations such as DITA-OT builds. Select a finding
+to open the file at the reported line.
 
 ### Inspector
 

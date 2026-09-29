@@ -85,7 +85,7 @@ Nothing is added to your `PATH`. Deleting the folder uninstalls the agent.
 ## Seeing what it did
 
 Every command from a hosted agent is recorded in the project's audit log, with
-the session that ran it. Select **Project > Agent activity**, or:
+the session that ran it. Select **Project > Project Tools > Agent activity**, or:
 
 ```bash
 dogsbay-xml audit-log

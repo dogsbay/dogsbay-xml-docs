@@ -10,7 +10,7 @@ DogsBay XML runs on Linux, macOS, and Windows.
 
 ## Installing from a package
 
-Each installer bundles its own Java runtime, so no separate JDK is required.
+Each installer bundles its own Java runtime, so no separate JDK is required. It also bundles DITA-OT with the plugins for HTML, PDF, and dogsbay sites. The `dogsbay` and `dogsbay-site` output types require Node.js 20 or later, which the editor searches for in `PATH` and standard installation directories. The `dogsbay-site` output type also requires the dogsbay CLI.
 
 :::steps
 1. **Download the installer for your platform**

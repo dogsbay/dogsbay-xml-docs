@@ -97,9 +97,27 @@ problems in the sample project.
 
 4. **Check the result**
    ```bash
-   dogsbay-xml project-health . --map audacity-guide.ditamap
+   dogsbay-xml project-health .
    ```
 :::
+
+## Finding what to refactor
+
+Select **Refactor > Find Broken References and Orphans** to list broken
+references, undefined keys, unused keys, and orphan topics. Double-click a
+finding to open the file at the reported line. Select **Refresh** to run the
+checks again after making changes. The command-line equivalent is
+`dogsbay-xml health .`.
+
+Use the refactoring commands to address findings as appropriate. For example,
+use **Retarget References** to update a reference or **Create Key from Selected
+Text** to define a key. Review unused keys and orphan topics before removing
+them; they might be needed by another publication.
+
+For project validation, a build, and output-link checks, select **Project >
+Check Project**, or run `dogsbay-xml check .`. To run only the project health
+report, use `dogsbay-xml project-health .`. See [Validating a
+project](./validation).
 
 ## When a refactoring refuses
 

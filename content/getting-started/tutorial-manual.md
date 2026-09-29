@@ -46,6 +46,7 @@ The report covers specific kinds of problems:
 -   Keys that are used but never defined, or defined and never used
 -   Topics that are not included in any map
 -   Files that fail validation against their grammar
+-   Profiling values the subject scheme does not allow
 -   Required metadata the project's policy says a topic must carry
 -   House rules from `house-style.sch`, such as every topic needing a `shortdesc`
 

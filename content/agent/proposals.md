@@ -83,6 +83,18 @@ Deleted spans remain in the file until you accept the deletion. A property on
 each span enables DITAVAL to filter it. A build can therefore exclude proposed
 deletions before you resolve every proposal.
 
+## Undoing an agent's changes
+
+An agent can use `review_revert` to undo its own changes to a document. If the
+document still matches the agent's last edit, the tool restores the content
+from before the session's changes, including changes made without proposal
+markup. This restoration is available until the editor restarts.
+
+If the document has changed since that edit, the tool can reject only the
+session's proposals. It preserves comments and other authors' proposals. If
+reverting would introduce a validation error, the tool leaves the document
+unchanged.
+
 ## Two protections worth knowing
 
 **An agent cannot quietly remove another author's proposal.** A write that

@@ -39,10 +39,10 @@ dogsbay-xml report project-graph . -o guide-map.html --arg map=audacity-guide.di
 ## Write a health report
 
 ```bash
-dogsbay-xml report project-health . -o health.html --arg map=audacity-guide.ditamap
+dogsbay-xml report project-health . -o health.html
 ```
 
-The page shows whether the project is clean, then one table per check. A rule that fails in many files appears once, with a count and the list of files.
+The page shows whether the project is clean, then one table per check. A rule that fails in many files appears once, with a count and the list of files. The report uses the project's default root map and Schematron schema. Use `--arg map=…` and `--arg schematron=…` to override them.
 
 ## Ask the agent for a page
 

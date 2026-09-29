@@ -20,17 +20,23 @@ Every file is optional. A missing file, or one that is not well-formed XML, is t
 
 ## Creating the configuration
 
-When you open a folder that has no `config.xml` and the editor recognizes it as a DITA project, it writes a `config.xml` with the project type, the root map it detected, and the framework it chose. Commit the file if the choices are right, or change them and save again.
+When you open a folder that has no `config.xml` and the editor recognizes it as a DITA project, it writes a `config.xml` with the project type, the root map it detected, the framework it chose, and the formatting house style. Commit the file if the choices are right, or change them and save again.
+
+A folder with topics but no map yet still gets one — a project whose first topic exists and whose map does not is unfinished, not something other than DITA — and so does a folder that was empty when you opened it, as soon as you create the first `.dita` or `.ditamap` in it.
+
+The house style it writes **names the line endings**, which is what makes formatting convert them. A project nobody configured never converts anything, so a file keeps the endings it has; a project that says `newline="lf"` means it. An existing `config.xml` that names no line endings is left as it is.
 
 These actions write to `config.xml` and keep the parts they do not change:
 
 | Action | Writes |
 |---|---|
-| **Project > Save Project Settings...** | The project type, framework, and default root map, and the selected deliverable as the default deliverable. |
+| **Project > Project Tools > Save Project Settings...** | The project type, framework, and default root map, and the selected deliverable as the default deliverable. |
 | **Project > Metadata > Edit Policy...** | The metadata policy. |
 | **Save to project (.dogsbay/config.xml)...** on the [Format](/reference/settings#format) settings page | The formatting house style and the format-on-save setting. |
 
 Selecting a deliverable writes it to `local.xml`. You can also edit either file by hand. After editing by hand, open the project folder again so the editor picks up every change.
+
+Every one of these writes the file the same way — the same element order, the same indentation, a newline at the end — so the file does not change shape depending on which dialog you last used. Comments, and anything a newer version of the editor wrote, are kept.
 
 ## config.xml
 
@@ -40,6 +46,7 @@ The root element is `dogsbay-project`. Each child element is optional.
 |---|---|---|
 | `project-type` | `DITA`, `DocBook` or `None` | The kind of content in the project. |
 | `default-root-map` | A path relative to the project root | The map used for validation, key resolution, and publishing. |
+| `default-schematron` | A path relative to the project root | The default schema for the Schematron commands, **XML > Schematron**, **Project > Validate Files > With Schematron**, and the `schematron` check in the health report. |
 | `framework` | A framework name, such as `DITA-OT 4.3.5` | The framework the project requires, by name. Each person's editor finds its own installed framework with that name, so the file contains no machine paths. |
 | `default-deliverable` | Attributes `file` and `name` | The deliverable selected when someone opens the project for the first time. `file` is the DITA-OT project file, relative to the project root, and `name` is a deliverable defined in it. |
 | `metadata-policy` | `rule` elements | The metadata that topics must contain. See [Metadata policy](#metadata-policy). |
@@ -110,6 +117,7 @@ This is the `config.xml` from the sample project:
 <dogsbay-project>
   <project-type>DITA</project-type>
   <default-root-map>audacity-guide.ditamap</default-root-map>
+  <default-schematron>house-style.sch</default-schematron>
   <framework>DITA-OT 4.3.5</framework>
   <default-deliverable file="project.json" name="full"/>
   <metadata-policy>
@@ -121,7 +129,7 @@ This is the `config.xml` from the sample project:
 </dogsbay-project>
 ```
 
-The policy requires every task to record a creation date in the form `2026-01-31`, requires a keyword in every topic, and recommends an author. Format on save is off because the file has no `format-on-save` element.
+The policy requires every task to record a creation date in the form `2026-01-31`, requires a keyword in every topic, and recommends an author. The `default-schematron` element specifies the schema used by `dogsbay-xml project-health .` and the Schematron menu commands. Format on save is off because the file has no `format-on-save` element.
 
 ## Related
 

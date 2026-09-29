@@ -22,7 +22,7 @@ import TableHead from "@ui/table/TableHead.astro";
 import TableHeader from "@ui/table/TableHeader.astro";
 import TableRow from "@ui/table/TableRow.astro";
 
-const headings = [{"depth":1,"slug":"menu-reference","text":"Menu reference"},{"depth":2,"slug":"file","text":"File"},{"depth":2,"slug":"edit","text":"Edit"},{"depth":2,"slug":"view","text":"View"},{"depth":3,"slug":"appearance","text":"Appearance"},{"depth":3,"slug":"editor-properties","text":"Editor Properties"},{"depth":2,"slug":"xml","text":"XML"},{"depth":2,"slug":"project","text":"Project"},{"depth":3,"slug":"project-validate","text":"Project > Validate"},{"depth":2,"slug":"types","text":"Types"},{"depth":2,"slug":"transform","text":"Transform"},{"depth":2,"slug":"refactor","text":"Refactor"},{"depth":2,"slug":"utilities","text":"Utilities"},{"depth":2,"slug":"help","text":"Help"},{"depth":2,"slug":"beyond-the-menu-bar","text":"Beyond the menu bar"}];
+const headings = [{"depth":1,"slug":"menu-reference","text":"Menu reference"},{"depth":2,"slug":"file","text":"File"},{"depth":2,"slug":"edit","text":"Edit"},{"depth":2,"slug":"view","text":"View"},{"depth":3,"slug":"appearance","text":"Appearance"},{"depth":3,"slug":"editor-properties","text":"Editor Properties"},{"depth":2,"slug":"project","text":"Project"},{"depth":3,"slug":"project-validate-files","text":"Project > Validate Files"},{"depth":3,"slug":"project-project-tools","text":"Project > Project Tools"},{"depth":2,"slug":"xml","text":"XML"},{"depth":2,"slug":"refactor","text":"Refactor"},{"depth":2,"slug":"utilities","text":"Utilities"},{"depth":2,"slug":"help","text":"Help"},{"depth":2,"slug":"beyond-the-menu-bar","text":"Beyond the menu bar"}];
 const nav = navData;
 const currentPath = "/dogsbay-xml-docs/reference/menus";
 const _navForPagination = filterNavByAxis(nav as any[], {
@@ -46,7 +46,7 @@ const pageCategory = ["reference"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Menu reference {#menu-reference}\n\nThis reference lists every menu bar command in the order that it appears. Items marked **DITA** come from the DITA plugin and appear only when that plugin is enabled.\n\nSome menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.\n\n## File {#file}\n\n| Item | What it does |\n| --- | --- |\n| New File | Create a document. |\n| New Project | Create a project. |\n| Open File | Open a document. |\n| Open Project Folder | Open a folder as the project. |\n| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |\n| Open Recent | Recently opened files and projects, in two groups. |\n| Save, Save As, Save All | Write the document, under a new name, or every modified document. |\n| Settings | Editor settings, on eight pages. See the [settings reference](/dogsbay-xml-docs/reference/settings). The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/dogsbay-xml-docs/reference/shortcuts). |\n| Import Framework | Add support for a non-DITA vocabulary. |\n| Manage Frameworks | Review and remove imported frameworks. |\n| Close, Close All | Close the document, or all of them. |\n| Exit | Leave the editor. |\n\n## Edit {#edit}\n\n| Item | What it does |\n| --- | --- |\n| Undo, Redo | Step back and forward. Shared between the source and Author views of a document. |\n| Cut, Copy, Paste | Cut, copy, or paste content. |\n| Find, Replace | Search within the current document. |\n| Find in Files, Replace in Files | Search across the project. |\n\n## View {#view}\n\n| Item | What it does |\n| --- | --- |\n| Preview in Tab | Open the styled preview in its own tab. See [previewing](/dogsbay-xml-docs/publishing/publishing). |\n| Preview in Split | Open it beside the source. |\n| Document Views | Switch this document between Editor, Author, and the split views. |\n| Appearance | Full screen, which toolbars are shown, and the three sidebar toggles. |\n| Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronize splits on XPath. |\n| Editor Properties | Margins, tag completion, smart indentation, error highlighting, and soft wrapping. |\n| Viewer Properties | What the tree view shows: namespaces, attributes, comments, content, processing instructions, and whether mixed content is inlined. |\n| Select document | Jump to an open document. |\n\n### Appearance {#appearance}\n\nFull Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.\n\n### Editor Properties {#editor-properties}\n\nShow Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.\n\n## XML {#xml}\n\nCommands that work on markup rather than on text.\n\n| Item | What it does |\n| --- | --- |\n| Check Well-Formedness | Parse the document and report syntax errors. |\n| Validate | Validate against the document's grammar. See [validating](/dogsbay-xml-docs/finding/validation). |\n| Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |\n| Split Element | Split the element at the cursor into two. |\n| Insert Special Character | Insert a character by name. |\n| Convert Entities to Characters, Convert Characters to Entities | Move between the two forms. |\n| Strip Tags | Remove markup from the selection, keeping the text. |\n| Tag, Repeat last Tag | Wrap the selection in an element, or repeat the last one used. |\n| Rename Element | Rename the element at the cursor, and its end tag. |\n| Expand Empty Element | Turn a self-closing element into a start and end tag. |\n| Comment, CDATA | Wrap the selection as a comment or a CDATA section. |\n| Unlock | Remove protection from a region. |\n| Format | Pretty-print to the project's house style. |\n| Reflow Sentences | One sentence per line, leaving verbatim blocks alone. |\n| Goto Start Tag, Goto End Tag | Move between the two ends of an element. |\n| Goto Previous, Goto Next Attribute Value | Move between attribute values. |\n| Strip Text | Remove text content from selected nodes. |\n| Change Case | Capitalize, decapitalize, uppercase, or lowercase element and attribute names. |\n| Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |\n| Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |\n\n## Project {#project}\n\n| Item | What it does |\n| --- | --- |\n| Manage Projects | Add, edit, and remove projects. |\n| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. |\n| Validate | Run project-wide validation. See [Validating a project](/dogsbay-xml-docs/finding/validation). |\n| Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |\n| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |\n| Manage Deliverables **DITA** | Edit the project's deliverables. |\n| Edit Structure **DITA** | Structural map editing. |\n| Edit Relationship Tables **DITA** | Edit reltables. |\n| Metadata: Audit, Normalize, Edit Policy, Export Policy as Schematron **DITA** | See [metadata](/dogsbay-xml-docs/authoring/metadata). |\n| Format Project, Reflow Project | Apply the house style across the project. |\n\n### Project > Validate {#project-validate}\n\nEvery project-wide check lives in one submenu rather than being spread across the menu bar.\n\n| Item | What it does |\n| --- | --- |\n| Project | Validate every file in scope against its grammar. |\n| Project with Schematron | Apply a Schematron schema across the project. |\n| Document with Schematron | Apply one to the current document. |\n| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |\n| With DITA-OT — Current Map, All Deliverables **DITA** | Run deep validation with DITA-OT preprocessing. |\n\n## Types {#types}\n\nGrammar management includes Create Type, Set Type, Type Properties, and Manage Types.\n\n## Transform {#transform}\n\nRun XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.\n\n## Refactor {#refactor}\n\nEvery command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).\n\n| Item | Command-line equivalent |\n| --- | --- |\n| Rename/Move File with References | `rename-file` |\n| Retarget References | `retarget` |\n| Rename Key | `rename-key` |\n| Split Topic by Sections | `split-topic` |\n| Extract Element to Conref | `extract-conref` |\n| Create Key from Selected Text | `create-keydef` |\n| Rename Element Id | `rename-element-id` |\n| Merge Duplicate Keydefs | `merge-keydefs` |\n| Rename Profiling Value | `rename-profile-value` |\n| Project Health Report | `project-health` |\n\n## Utilities {#utilities}\n\n| Item | What it does |\n| --- | --- |\n| XML Diff and Merge | Compare two documents structurally. |\n| Start Browser | Open the document in your system browser. |\n| Resolve XIncludes | Replace XInclude references with the content they pull in. |\n| Save As Template, Manage Templates | Use a document as a template for new documents. |\n| Insert Fragment | Insert a saved markup fragment. |\n| Toggle Bookmark, Select Bookmark | Mark a place and return to it. |\n\n## Help {#help}\n\n**Documentation** opens this site, **Welcome** reopens the welcome tab, and **About** shows information about the editor.\n\n## Beyond the menu bar {#beyond-the-menu-bar}\n\nNot everything is in a menu.\n\n**The view buttons** in the menu bar switch the current document between the Editor and Author views.\n\n**The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used, and Bookmarks on the left; AI Agent, Proposals, Outline, Properties, Navigator, Helper, and Metadata on the right. The three toggles in **View > Appearance** show and hide them.\n\n**The bottom panel** holds output, validation errors, the Inspector, and the Terminal.\n\n**The status bar** shows the project, the Git branch, and the active deliverable. Select the branch to switch to another, create one, merge one into the branch you are on, or delete one.\n\n**Right-click** in the editor to access clipboard and markup commands. Right-click a selection to access **Send selection to AI Agent**.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Menu reference {#menu-reference}\n\nThis reference lists every menu bar command in the order that it appears. Items marked **DITA** come from the DITA plugin and appear only when that plugin is enabled.\n\nThe menu bar contains **File**, **Edit**, **View**, **Project**, **XML**, **Refactor**, **Utilities**, and **Help**.\n\nSome menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.\n\nIn the menus, a command that opens a dialog ends in an ellipsis. The tables below omit it. **Schematron** is the one command whose ellipsis comes and goes: it becomes **Schematron…** only when no default schema is configured and you must select one.\n\n## File {#file}\n\n| Item | What it does |\n| --- | --- |\n| New File | Create a document. |\n| New Project | Create a project. |\n| Open File | Open a document. |\n| Open Project Folder | Open a folder as the project. |\n| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |\n| Open Recent | Recently opened files and projects, in two groups. |\n| Save, Save As, Save All | Write the document, under a new name, or every modified document. |\n| Settings | Editor settings, on eight pages. See the [settings reference](/dogsbay-xml-docs/reference/settings). The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/dogsbay-xml-docs/reference/shortcuts). |\n| Close, Close All | Close the document, or all of them. |\n| Exit | Leave the editor. |\n\n## Edit {#edit}\n\n| Item | What it does |\n| --- | --- |\n| Undo, Redo | Step back and forward. Shared between the source and Author views of a document. |\n| Cut, Copy, Paste | Cut, copy, or paste content. |\n| Find, Replace | Search within the current document. |\n| Find in Files, Replace in Files | Search across the project. |\n\n## View {#view}\n\n| Item | What it does |\n| --- | --- |\n| Preview in Tab | Open the styled preview in its own tab. See [previewing](/dogsbay-xml-docs/publishing/publishing). |\n| Preview in Split | Open it beside the source. |\n| Document Views | Switch this document between Editor, Author, and the split views. |\n| Appearance | Full screen, which toolbars are shown, and the three sidebar toggles. |\n| Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronize splits on XPath. |\n| Editor Properties | Margins, tag completion, smart indentation, error highlighting, and soft wrapping. |\n| Viewer Properties | What the tree view shows: namespaces, attributes, comments, content, processing instructions, and whether mixed content is inlined. |\n| Select document | Jump to an open document. |\n\n### Appearance {#appearance}\n\nFull Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.\n\n### Editor Properties {#editor-properties}\n\nShow Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.\n\n## Project {#project}\n\nUse the Project menu to validate, build, preview, and configure a project.\n\n| Item | What it does |\n| --- | --- |\n| Check Project **DITA** | Run project health checks, build deliverables, and check output links. See [Validating a project](/dogsbay-xml-docs/finding/validation#is-the-project-ready). |\n| Validate Files | Run individual project-wide checks. See [Validate Files](#project-validate-files). |\n| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |\n| Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |\n| Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/dogsbay-xml-docs/authoring/metadata). |\n| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map. |\n| Manage Projects | Add, edit, and remove projects. |\n| Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |\n\n### Project > Validate Files {#project-validate-files}\n\nSelect a command to run an individual project-wide check.\n\n| Item | What it does |\n| --- | --- |\n| With DTD | Validate every file in scope against its grammar. |\n| With Schematron | Apply the default Schematron schema across the project. If none is configured, select a schema when prompted. |\n| With DITA-OT — Current Map, All Deliverables **DITA** | Run DITA-OT preprocessing and report validation errors. |\n| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |\n\nTo check the current document, use **XML > Check Well-Formedness**, **XML > Validate**, or **XML > Schematron**.\n\n### Project > Project Tools {#project-project-tools}\n\n| Item | What it does |\n| --- | --- |\n| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. See [project configuration](/dogsbay-xml-docs/reference/project-config). |\n| Format Project, Reflow Project | Apply the house style across the project. |\n| Manage Deliverables **DITA** | Edit the project's deliverables. |\n| Clear Temporary Build Files **DITA** | Remove the DITA-OT temporary folders that deliverables kept. |\n| Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |\n\n## XML {#xml}\n\nUse the XML menu to validate and edit markup in the current document.\n\n| Item | What it does |\n| --- | --- |\n| Check Well-Formedness | Parse the document and report syntax errors. |\n| Validate | Validate against the document's grammar. See [validating](/dogsbay-xml-docs/finding/validation). |\n| Schematron | Apply the default Schematron schema to the current document. If none is configured, select a schema when prompted. |\n| Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |\n| Split Element | Split the element at the cursor into two. |\n| Insert Special Character | Insert a character by name. |\n| Convert Entities to Characters, Convert Characters to Entities | Move between the two forms. |\n| Strip Tags | Remove markup from the selection, keeping the text. |\n| Tag, Repeat last Tag | Wrap the selection in an element, or repeat the last one used. |\n| Rename Element | Rename the element at the cursor, and its end tag. |\n| Expand Empty Element | Turn a self-closing element into a start and end tag. |\n| Comment, CDATA | Wrap the selection as a comment or a CDATA section. |\n| Unlock | Remove protection from a region. |\n| Format | Pretty-print to the project's house style. |\n| Reflow Sentences | One sentence per line, leaving verbatim blocks alone. |\n| Goto Start Tag, Goto End Tag | Move between the two ends of an element. |\n| Goto Previous, Goto Next Attribute Value | Move between attribute values. |\n| Strip Text | Remove text content from selected nodes. |\n| Change Case | Capitalize, decapitalize, uppercase, or lowercase element and attribute names. |\n| Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |\n| Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |\n\n## Refactor {#refactor}\n\nEvery command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).\n\nCommands are grouped by files and references, keys, content reuse, and conditions. **Find Broken References and Orphans** reports problems without changing files.\n\n| Item | Command-line equivalent |\n| --- | --- |\n| Rename/Move File with References | `rename-file` |\n| Retarget References | `retarget` |\n| Split Topic by Sections | `split-topic` |\n| Create Key from Selected Text | `create-keydef` |\n| Rename Key | `rename-key` |\n| Merge Duplicate Keydefs | `merge-keydefs` |\n| Extract Element to Conref | `extract-conref` |\n| Rename Element Id | `rename-element-id` |\n| Rename Profiling Value | `rename-profile-value` |\n| Find Broken References and Orphans | `health` |\n\n**Find Broken References and Orphans** reports broken references, undefined keys, unused keys, and orphan topics. Review each finding to determine whether a refactoring is needed.\n\nFor project validation, a build, and output-link checks, select **Project > Check Project**, or run `dogsbay-xml check .`. To run only the project health report, use `dogsbay-xml project-health .`.\n\n## Utilities {#utilities}\n\nUse the Utilities menu to manage grammars, frameworks, templates, transforms, and bookmarks.\n\n| Item | What it does |\n| --- | --- |\n| Types | Create Type, Set Type, Type Properties, and Manage Types: the grammars the editor validates against. |\n| Frameworks | Import Framework and Manage Frameworks — support for a vocabulary that is not DITA. |\n| Templates | Save As Template and Manage Templates: use a document as the starting point for new ones. |\n| Transforms | Run XSLT and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous. |\n| Bookmarks | Toggle Bookmark and Select Bookmark: mark a place and return to it. |\n\n## Help {#help}\n\n**Documentation** opens this site, **Welcome** reopens the welcome tab, and **About** shows information about the editor.\n\n## Beyond the menu bar {#beyond-the-menu-bar}\n\nNot everything is in a menu.\n\n**The view buttons** in the menu bar switch the current document between the Editor and Author views.\n\n**The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used, and Bookmarks on the left; AI Agent, Proposals, Outline, Properties, Navigator, Helper, and Metadata on the right. The three toggles in **View > Appearance** show and hide them.\n\n**The bottom panel** holds output, validation errors, the Inspector, and the Terminal.\n\n**The status bar** shows the project, the Git branch, and the active deliverable. Select the branch to switch to another, create one, merge one into the branch you are on, or delete one.\n\n**Right-click** in the editor to access clipboard and markup commands. Right-click a selection to access **Send selection to AI Agent**.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/reference/menus.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -102,7 +102,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
     <article class="docs-prose">
       <h1 id="menu-reference" class="group scroll-mt-20">Menu reference<a href="#menu-reference" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
       <p>This reference lists every menu bar command in the order that it appears. Items marked <strong>DITA</strong> come from the DITA plugin and appear only when that plugin is enabled.</p>
+      <p>The menu bar contains <strong>File</strong>, <strong>Edit</strong>, <strong>View</strong>, <strong>Project</strong>, <strong>XML</strong>, <strong>Refactor</strong>, <strong>Utilities</strong>, and <strong>Help</strong>.</p>
       <p>Some menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.</p>
+      <p>In the menus, a command that opens a dialog ends in an ellipsis. The tables below omit it. <strong>Schematron</strong> is the one command whose ellipsis comes and goes: it becomes <strong>Schematron…</strong> only when no default schema is configured and you must select one.</p>
       <h2 id="file" class="group scroll-mt-20">File<a href="#file" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Table class="my-4">
       <TableHeader>
@@ -143,14 +145,6 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <TableRow>
       <TableCell>Settings</TableCell>
       <TableCell>Editor settings, on eight pages. See the <a href="/dogsbay-xml-docs/reference/settings">settings reference</a>. The <strong>Server</strong> page turns on the <a href="/dogsbay-xml-docs/automation/mcp">integration server</a> and holds the agent defaults, including how long <a href="/dogsbay-xml-docs/agent/overview#session-transcripts">session transcripts</a> are kept; <strong>Bindings</strong> is where you change a <a href="/dogsbay-xml-docs/reference/shortcuts">keyboard shortcut</a>.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Import Framework</TableCell>
-      <TableCell>Add support for a non-DITA vocabulary.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Manage Frameworks</TableCell>
-      <TableCell>Review and remove imported frameworks.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Close, Close All</TableCell>
@@ -236,8 +230,112 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <p>Full Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.</p>
       <h3 id="editor-properties" class="group scroll-mt-20">Editor Properties<a href="#editor-properties" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
       <p>Show Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.</p>
+      <h2 id="project" class="group scroll-mt-20">Project<a href="#project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use the Project menu to validate, build, preview, and configure a project.</p>
+      <Table class="my-4">
+      <TableHeader>
+      <TableRow>
+      <TableHead>Item</TableHead>
+      <TableHead>What it does</TableHead>
+      </TableRow>
+      </TableHeader>
+      <TableBody>
+      <TableRow>
+      <TableCell>Check Project <strong>DITA</strong></TableCell>
+      <TableCell>Run project health checks, build deliverables, and check output links. See <a href="/dogsbay-xml-docs/finding/validation#is-the-project-ready">Validating a project</a>.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Validate Files</TableCell>
+      <TableCell>Run individual project-wide checks. See <a href="#project-validate-files">Validate Files</a>.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Build Deliverables <strong>DITA</strong></TableCell>
+      <TableCell>Build with DITA-OT. See <a href="/dogsbay-xml-docs/publishing/publishing">publishing</a>.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Live Preview <strong>DITA</strong></TableCell>
+      <TableCell>Build a deliverable and serve it, rebuilding as you save.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Metadata <strong>DITA</strong></TableCell>
+      <TableCell>Edit Policy, Audit, Normalize, and Export Policy as Schematron. See <a href="/dogsbay-xml-docs/authoring/metadata">metadata</a>.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Map <strong>DITA</strong></TableCell>
+      <TableCell>Edit Structure and Edit Relationship Tables, both on the active deliverable's map.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Manage Projects</TableCell>
+      <TableCell>Add, edit, and remove projects.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Project Tools</TableCell>
+      <TableCell>Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See <a href="#project-project-tools">Project Tools</a>.</TableCell>
+      </TableRow>
+      </TableBody>
+      </Table>
+      <h3 id="project-validate-files" class="group scroll-mt-20">Project &gt; Validate Files<a href="#project-validate-files" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
+      <p>Select a command to run an individual project-wide check.</p>
+      <Table class="my-4">
+      <TableHeader>
+      <TableRow>
+      <TableHead>Item</TableHead>
+      <TableHead>What it does</TableHead>
+      </TableRow>
+      </TableHeader>
+      <TableBody>
+      <TableRow>
+      <TableCell>With DTD</TableCell>
+      <TableCell>Validate every file in scope against its grammar.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>With Schematron</TableCell>
+      <TableCell>Apply the default Schematron schema across the project. If none is configured, select a schema when prompted.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>With DITA-OT — Current Map, All Deliverables <strong>DITA</strong></TableCell>
+      <TableCell>Run DITA-OT preprocessing and report validation errors.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Controlled Values (Subject Scheme) <strong>DITA</strong></TableCell>
+      <TableCell>Report profiling values the subject scheme does not allow. See <a href="/dogsbay-xml-docs/authoring/conditional-content">conditional content</a>.</TableCell>
+      </TableRow>
+      </TableBody>
+      </Table>
+      <p>To check the current document, use <strong>XML &gt; Check Well-Formedness</strong>, <strong>XML &gt; Validate</strong>, or <strong>XML &gt; Schematron</strong>.</p>
+      <h3 id="project-project-tools" class="group scroll-mt-20">Project &gt; Project Tools<a href="#project-project-tools" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
+      <Table class="my-4">
+      <TableHeader>
+      <TableRow>
+      <TableHead>Item</TableHead>
+      <TableHead>What it does</TableHead>
+      </TableRow>
+      </TableHeader>
+      <TableBody>
+      <TableRow>
+      <TableCell>Save Project Settings</TableCell>
+      <TableCell>Write the current setup into the project's <code>.dogsbay</code> folder so it is shared. See <a href="/dogsbay-xml-docs/reference/project-config">project configuration</a>.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Format Project, Reflow Project</TableCell>
+      <TableCell>Apply the house style across the project.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Manage Deliverables <strong>DITA</strong></TableCell>
+      <TableCell>Edit the project's deliverables.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Clear Temporary Build Files <strong>DITA</strong></TableCell>
+      <TableCell>Remove the DITA-OT temporary folders that deliverables kept.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Agent activity</TableCell>
+      <TableCell>The audit log of what agents changed. See <a href="/dogsbay-xml-docs/agent/overview">the agent</a>.</TableCell>
+      </TableRow>
+      </TableBody>
+      </Table>
       <h2 id="xml" class="group scroll-mt-20">XML<a href="#xml" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>Commands that work on markup rather than on text.</p>
+      <p>Use the XML menu to validate and edit markup in the current document.</p>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -253,6 +351,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <TableRow>
       <TableCell>Validate</TableCell>
       <TableCell>Validate against the document's grammar. See <a href="/dogsbay-xml-docs/finding/validation">validating</a>.</TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Schematron</TableCell>
+      <TableCell>Apply the default Schematron schema to the current document. If none is configured, select a schema when prompted.</TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Select Element, Select Element Content</TableCell>
@@ -328,95 +430,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableRow>
       </TableBody>
       </Table>
-      <h2 id="project" class="group scroll-mt-20">Project<a href="#project" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <Table class="my-4">
-      <TableHeader>
-      <TableRow>
-      <TableHead>Item</TableHead>
-      <TableHead>What it does</TableHead>
-      </TableRow>
-      </TableHeader>
-      <TableBody>
-      <TableRow>
-      <TableCell>Manage Projects</TableCell>
-      <TableCell>Add, edit, and remove projects.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Save Project Settings</TableCell>
-      <TableCell>Write the current setup into the project's <code>.dogsbay</code> folder so it is shared.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Validate</TableCell>
-      <TableCell>Run project-wide validation. See <a href="/dogsbay-xml-docs/finding/validation">Validating a project</a>.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Agent activity</TableCell>
-      <TableCell>The audit log of what agents changed. See <a href="/dogsbay-xml-docs/agent/overview">the agent</a>.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Build Deliverables <strong>DITA</strong></TableCell>
-      <TableCell>Build with DITA-OT. See <a href="/dogsbay-xml-docs/publishing/publishing">publishing</a>.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Manage Deliverables <strong>DITA</strong></TableCell>
-      <TableCell>Edit the project's deliverables.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Edit Structure <strong>DITA</strong></TableCell>
-      <TableCell>Structural map editing.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Edit Relationship Tables <strong>DITA</strong></TableCell>
-      <TableCell>Edit reltables.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Metadata: Audit, Normalize, Edit Policy, Export Policy as Schematron <strong>DITA</strong></TableCell>
-      <TableCell>See <a href="/dogsbay-xml-docs/authoring/metadata">metadata</a>.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Format Project, Reflow Project</TableCell>
-      <TableCell>Apply the house style across the project.</TableCell>
-      </TableRow>
-      </TableBody>
-      </Table>
-      <h3 id="project-validate" class="group scroll-mt-20">Project &gt; Validate<a href="#project-validate" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h3>
-      <p>Every project-wide check lives in one submenu rather than being spread across the menu bar.</p>
-      <Table class="my-4">
-      <TableHeader>
-      <TableRow>
-      <TableHead>Item</TableHead>
-      <TableHead>What it does</TableHead>
-      </TableRow>
-      </TableHeader>
-      <TableBody>
-      <TableRow>
-      <TableCell>Project</TableCell>
-      <TableCell>Validate every file in scope against its grammar.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Project with Schematron</TableCell>
-      <TableCell>Apply a Schematron schema across the project.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Document with Schematron</TableCell>
-      <TableCell>Apply one to the current document.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Controlled Values (Subject Scheme) <strong>DITA</strong></TableCell>
-      <TableCell>Report profiling values the subject scheme does not allow. See <a href="/dogsbay-xml-docs/authoring/conditional-content">conditional content</a>.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>With DITA-OT — Current Map, All Deliverables <strong>DITA</strong></TableCell>
-      <TableCell>Run deep validation with DITA-OT preprocessing.</TableCell>
-      </TableRow>
-      </TableBody>
-      </Table>
-      <h2 id="types" class="group scroll-mt-20">Types<a href="#types" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>Grammar management includes Create Type, Set Type, Type Properties, and Manage Types.</p>
-      <h2 id="transform" class="group scroll-mt-20">Transform<a href="#transform" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>Run XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.</p>
       <h2 id="refactor" class="group scroll-mt-20">Refactor<a href="#refactor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <p>Every command here reports a plan you review before it runs. The same operations are available from the <a href="./cli">command line</a>, and are described in <a href="/dogsbay-xml-docs/finding/refactoring">refactoring</a>.</p>
+      <p>Commands are grouped by files and references, keys, content reuse, and conditions. <strong>Find Broken References and Orphans</strong> reports problems without changing files.</p>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -434,40 +450,43 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <TableCell><code>retarget</code></TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Rename Key</TableCell>
-      <TableCell><code>rename-key</code></TableCell>
-      </TableRow>
-      <TableRow>
       <TableCell>Split Topic by Sections</TableCell>
       <TableCell><code>split-topic</code></TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Extract Element to Conref</TableCell>
-      <TableCell><code>extract-conref</code></TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Create Key from Selected Text</TableCell>
       <TableCell><code>create-keydef</code></TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Rename Element Id</TableCell>
-      <TableCell><code>rename-element-id</code></TableCell>
+      <TableCell>Rename Key</TableCell>
+      <TableCell><code>rename-key</code></TableCell>
       </TableRow>
       <TableRow>
       <TableCell>Merge Duplicate Keydefs</TableCell>
       <TableCell><code>merge-keydefs</code></TableCell>
       </TableRow>
       <TableRow>
+      <TableCell>Extract Element to Conref</TableCell>
+      <TableCell><code>extract-conref</code></TableCell>
+      </TableRow>
+      <TableRow>
+      <TableCell>Rename Element Id</TableCell>
+      <TableCell><code>rename-element-id</code></TableCell>
+      </TableRow>
+      <TableRow>
       <TableCell>Rename Profiling Value</TableCell>
       <TableCell><code>rename-profile-value</code></TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Project Health Report</TableCell>
-      <TableCell><code>project-health</code></TableCell>
+      <TableCell>Find Broken References and Orphans</TableCell>
+      <TableCell><code>health</code></TableCell>
       </TableRow>
       </TableBody>
       </Table>
+      <p><strong>Find Broken References and Orphans</strong> reports broken references, undefined keys, unused keys, and orphan topics. Review each finding to determine whether a refactoring is needed.</p>
+      <p>For project validation, a build, and output-link checks, select <strong>Project &gt; Check Project</strong>, or run <code>dogsbay-xml check .</code>. To run only the project health report, use <code>dogsbay-xml project-health .</code>.</p>
       <h2 id="utilities" class="group scroll-mt-20">Utilities<a href="#utilities" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use the Utilities menu to manage grammars, frameworks, templates, transforms, and bookmarks.</p>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
@@ -477,28 +496,24 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </TableHeader>
       <TableBody>
       <TableRow>
-      <TableCell>XML Diff and Merge</TableCell>
-      <TableCell>Compare two documents structurally.</TableCell>
+      <TableCell>Types</TableCell>
+      <TableCell>Create Type, Set Type, Type Properties, and Manage Types: the grammars the editor validates against.</TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Start Browser</TableCell>
-      <TableCell>Open the document in your system browser.</TableCell>
+      <TableCell>Frameworks</TableCell>
+      <TableCell>Import Framework and Manage Frameworks — support for a vocabulary that is not DITA.</TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Resolve XIncludes</TableCell>
-      <TableCell>Replace XInclude references with the content they pull in.</TableCell>
+      <TableCell>Templates</TableCell>
+      <TableCell>Save As Template and Manage Templates: use a document as the starting point for new ones.</TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Save As Template, Manage Templates</TableCell>
-      <TableCell>Use a document as a template for new documents.</TableCell>
+      <TableCell>Transforms</TableCell>
+      <TableCell>Run XSLT and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous.</TableCell>
       </TableRow>
       <TableRow>
-      <TableCell>Insert Fragment</TableCell>
-      <TableCell>Insert a saved markup fragment.</TableCell>
-      </TableRow>
-      <TableRow>
-      <TableCell>Toggle Bookmark, Select Bookmark</TableCell>
-      <TableCell>Mark a place and return to it.</TableCell>
+      <TableCell>Bookmarks</TableCell>
+      <TableCell>Toggle Bookmark and Select Bookmark: mark a place and return to it.</TableCell>
       </TableRow>
       </TableBody>
       </Table>

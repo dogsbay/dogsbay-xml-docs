@@ -10,9 +10,17 @@ This reference lists every menu bar command in the order that it appears. Items 
 **DITA** come from the DITA plugin and appear only when that plugin is
 enabled.
 
+The menu bar contains **File**, **Edit**, **View**, **Project**, **XML**,
+**Refactor**, **Utilities**, and **Help**.
+
 Some menus change with the document. Preview entries are enabled only for a
 document that can be previewed, and the Document Views submenu lists the views
 the current document supports.
+
+In the menus, a command that opens a dialog ends in an ellipsis. The tables
+below omit it. **Schematron** is the one command whose ellipsis comes and
+goes: it becomes **Schematron…** only when no default schema is configured and
+you must select one.
 
 ## File
 
@@ -26,8 +34,6 @@ the current document supports.
 | Open Recent | Recently opened files and projects, in two groups. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Settings | Editor settings, on eight pages. See the [settings reference](/reference/settings). The **Server** page turns on the [integration server](/automation/mcp) and holds the agent defaults, including how long [session transcripts](/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/reference/shortcuts). |
-| Import Framework | Add support for a non-DITA vocabulary. |
-| Manage Frameworks | Review and remove imported frameworks. |
 | Close, Close All | Close the document, or all of them. |
 | Exit | Leave the editor. |
 
@@ -64,14 +70,54 @@ Show Annotation Margin, line number margin, folding margin, and overview
 margin; tag completion and end-tag completion; smart indentation; error
 highlighting; and soft wrapping.
 
+## Project
+
+Use the Project menu to validate, build, preview, and configure a project.
+
+| Item | What it does |
+|---|---|
+| Check Project **DITA** | Run project health checks, build deliverables, and check output links. See [Validating a project](/finding/validation#is-the-project-ready). |
+| Validate Files | Run individual project-wide checks. See [Validate Files](#project-validate-files). |
+| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/publishing/publishing). |
+| Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |
+| Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/authoring/metadata). |
+| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map. |
+| Manage Projects | Add, edit, and remove projects. |
+| Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |
+
+### Project > Validate Files
+
+Select a command to run an individual project-wide check.
+
+| Item | What it does |
+|---|---|
+| With DTD | Validate every file in scope against its grammar. |
+| With Schematron | Apply the default Schematron schema across the project. If none is configured, select a schema when prompted. |
+| With DITA-OT — Current Map, All Deliverables **DITA** | Run DITA-OT preprocessing and report validation errors. |
+| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/authoring/conditional-content). |
+
+To check the current document, use **XML > Check Well-Formedness**,
+**XML > Validate**, or **XML > Schematron**.
+
+### Project > Project Tools
+
+| Item | What it does |
+|---|---|
+| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. See [project configuration](/reference/project-config). |
+| Format Project, Reflow Project | Apply the house style across the project. |
+| Manage Deliverables **DITA** | Edit the project's deliverables. |
+| Clear Temporary Build Files **DITA** | Remove the DITA-OT temporary folders that deliverables kept. |
+| Agent activity | The audit log of what agents changed. See [the agent](/agent/overview). |
+
 ## XML
 
-Commands that work on markup rather than on text.
+Use the XML menu to validate and edit markup in the current document.
 
 | Item | What it does |
 |---|---|
 | Check Well-Formedness | Parse the document and report syntax errors. |
 | Validate | Validate against the document's grammar. See [validating](/finding/validation). |
+| Schematron | Apply the default Schematron schema to the current document. If none is configured, select a schema when prompted. |
 | Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |
 | Split Element | Split the element at the cursor into two. |
 | Insert Special Character | Insert a character by name. |
@@ -91,73 +137,49 @@ Commands that work on markup rather than on text.
 | Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |
 | Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |
 
-## Project
-
-| Item | What it does |
-|---|---|
-| Manage Projects | Add, edit, and remove projects. |
-| Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. |
-| Validate | Run project-wide validation. See [Validating a project](/finding/validation). |
-| Agent activity | The audit log of what agents changed. See [the agent](/agent/overview). |
-| Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/publishing/publishing). |
-| Manage Deliverables **DITA** | Edit the project's deliverables. |
-| Edit Structure **DITA** | Structural map editing. |
-| Edit Relationship Tables **DITA** | Edit reltables. |
-| Metadata: Audit, Normalize, Edit Policy, Export Policy as Schematron **DITA** | See [metadata](/authoring/metadata). |
-| Format Project, Reflow Project | Apply the house style across the project. |
-
-### Project > Validate
-
-Every project-wide check lives in one submenu rather than being spread across
-the menu bar.
-
-| Item | What it does |
-|---|---|
-| Project | Validate every file in scope against its grammar. |
-| Project with Schematron | Apply a Schematron schema across the project. |
-| Document with Schematron | Apply one to the current document. |
-| Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/authoring/conditional-content). |
-| With DITA-OT — Current Map, All Deliverables **DITA** | Run deep validation with DITA-OT preprocessing. |
-
-## Types
-
-Grammar management includes Create Type, Set Type, Type Properties, and Manage Types.
-
-## Transform
-
-Run XSLT, XQuery, and XSL-FO as reusable scenarios: Execute Simple XSLT,
-Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and
-Execute Previous.
-
 ## Refactor
 
 Every command here reports a plan you review before it runs. The same
 operations are available from the [command line](./cli), and are described in
 [refactoring](/finding/refactoring).
 
+Commands are grouped by files and references, keys, content reuse, and
+conditions. **Find Broken References and Orphans** reports problems without
+changing files.
+
 | Item | Command-line equivalent |
 |---|---|
 | Rename/Move File with References | `rename-file` |
 | Retarget References | `retarget` |
-| Rename Key | `rename-key` |
 | Split Topic by Sections | `split-topic` |
-| Extract Element to Conref | `extract-conref` |
 | Create Key from Selected Text | `create-keydef` |
-| Rename Element Id | `rename-element-id` |
+| Rename Key | `rename-key` |
 | Merge Duplicate Keydefs | `merge-keydefs` |
+| Extract Element to Conref | `extract-conref` |
+| Rename Element Id | `rename-element-id` |
 | Rename Profiling Value | `rename-profile-value` |
-| Project Health Report | `project-health` |
+| Find Broken References and Orphans | `health` |
+
+**Find Broken References and Orphans** reports broken references, undefined
+keys, unused keys, and orphan topics. Review each finding to determine
+whether a refactoring is needed.
+
+For project validation, a build, and output-link checks, select **Project >
+Check Project**, or run `dogsbay-xml check .`. To run only the project health
+report, use `dogsbay-xml project-health .`.
 
 ## Utilities
 
+Use the Utilities menu to manage grammars, frameworks, templates, transforms,
+and bookmarks.
+
 | Item | What it does |
 |---|---|
-| XML Diff and Merge | Compare two documents structurally. |
-| Start Browser | Open the document in your system browser. |
-| Resolve XIncludes | Replace XInclude references with the content they pull in. |
-| Save As Template, Manage Templates | Use a document as a template for new documents. |
-| Insert Fragment | Insert a saved markup fragment. |
-| Toggle Bookmark, Select Bookmark | Mark a place and return to it. |
+| Types | Create Type, Set Type, Type Properties, and Manage Types: the grammars the editor validates against. |
+| Frameworks | Import Framework and Manage Frameworks — support for a vocabulary that is not DITA. |
+| Templates | Save As Template and Manage Templates: use a document as the starting point for new ones. |
+| Transforms | Run XSLT and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous. |
+| Bookmarks | Toggle Bookmark and Select Bookmark: mark a place and return to it. |
 
 ## Help
 

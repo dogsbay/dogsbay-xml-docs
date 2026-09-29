@@ -45,18 +45,38 @@ These commands answer questions about more than one file.
 | `check-links` | Which references point at something missing? |
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
-| `project-health` | Report broken references, key problems, orphaned topics, grammar validation, metadata policy violations, and open proposals. With `--schematron`, also report the project's house rules. |
+| `project-health` | The full report: broken references, key problems, orphaned topics, grammar validation, element IDs, metadata policy, open proposals, conref push, index entries, house style, authoring leftovers, and controlled values. |
+| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. |
+| `check-output-links` | Check a build output folder for links to missing pages, fragments, and images. |
 | `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON; see the [project graph reference](/reference/project-graph). |
 | `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
 
-`check-links`, `health`, and `project-health` exit with a nonzero status when
-they find a problem, so they work as pipeline gates.
+`check-links`, `health`, `project-health`, `check`, and `check-output-links`
+exit with a nonzero status when they find a problem, so they work as pipeline
+gates. Use `check` in CI to run the health report, build, and output-link
+checks in sequence. It stops at the first failing stage.
+
+```bash
+dogsbay-xml check .                    # health, build, then the built output
+dogsbay-xml check . --no-build         # stop after health
+dogsbay-xml check . --deliverable web  # one deliverable rather than all
+```
 
 ```bash
 dogsbay-xml project-health . --schematron house-style.sch
 ```
 
-`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone, `--include` to run only some of the checks (for example `--include reuse,validation`), and `--severity error` to leave out findings that do not block a clean result, such as unused keys. See [validating a project](/finding/validation#reading-the-result).
+`project-health` prints every finding and then a summary of the counts, with the house rules and the metadata policy broken down by rule. Add `--summary` for the counts alone, `--include` to run only some of the checks, and `--severity error` to leave out findings that do not block a clean result, such as unused keys. See [validating a project](/finding/validation#reading-the-result).
+
+The `--include` option accepts these checks: `reuse`, `validation`, `elementIds`,
+`metadata`, `schematron`, `proposals`, `conrefPush`, `index`, `format`,
+`markers`, and `conditions`.
+
+Both `check` and `project-health` use the project's default root map and
+`<default-schematron>` schema unless you override them. Use `--map` or
+`--schematron` to specify a different map or schema. Use `--map none` to check
+without the default map, or `--schematron none` to skip the configured
+Schematron rules.
 
 To see the project as a page, see [Mapping a project and writing reports](/finding/reports).
 
@@ -116,10 +136,19 @@ operation as their second argument, and both write unless you pass
 | Command | What it does |
 |---|---|
 | `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`. |
+| `live-preview` | Publish a deliverable and serve it, republishing as you save. `start`, `status`, and `stop` manage previews; `run` stays in the foreground. Previews started by the editor or by a headless MCP server are listed and stopped here too. |
 
-## Driving a running editor
+## Starting and driving the editor
 
-These need the integration server, which you turn on in **File > Settings >
+`gui` opens the editor window. Use `--project DIR` to open a project folder,
+`--settings DIR` to use a separate profile directory, `--window WxH` to set
+the window size, and `--no-welcome` to skip the welcome screen.
+
+A separate profile directory isolates settings, bundled grammars, templates,
+and agent files from your usual profile. Use it for demonstrations,
+recordings, or tests that require a specific configuration.
+
+The following commands require the integration server, which you turn on in **File > Settings >
 Server**.
 
 | Command | What it does |
@@ -129,6 +158,19 @@ Server**.
 | `author` | Drive the Author view: `outline`, `switch`, `insert`, `set-text`, `issues`. |
 | `screenshot` | Capture the editor window. |
 | `status` | Report whether the editor is reachable, and print MCP configuration for AI assistants. |
+
+## Running the tools without the editor
+
+| Command | What it does |
+|---|---|
+| `mcp` | Run the editor's tools as an MCP server over stdio, on a project folder, with no editor open. The agent reads and writes only inside that folder, must read a document before editing it, and its edits are recorded as review proposals unless you pass `--no-proposals`. |
+| `tool` | Run any one of those tools by its MCP name with JSON arguments, and print the JSON result. Use this command to test a tool or call it from a script. With `--editor`, it runs through the running editor instead of on the files. |
+
+```bash
+claude mcp add dogsbay -- dogsbay-xml mcp --root /path/to/project
+```
+
+See [connecting an AI assistant](/automation/mcp).
 
 ## Agents and review
 
