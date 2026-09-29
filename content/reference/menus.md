@@ -81,7 +81,7 @@ Use the Project menu to validate, build, preview, and configure a project.
 | Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/publishing/publishing). |
 | Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |
 | Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/authoring/metadata). |
-| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map. |
+| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map, plus two read-only views of what the map defines: Key Space and Controlled Values. |
 | Manage Projects | Add, edit, and remove projects. |
 | Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |
 
@@ -144,7 +144,7 @@ operations are available from the [command line](./cli), and are described in
 [refactoring](/finding/refactoring).
 
 Commands are grouped by files and references, keys, content reuse, and
-conditions. **Find Broken References and Orphans** reports problems without
+attributes. **Find Broken References and Orphans** reports problems without
 changing files.
 
 | Item | Command-line equivalent |
@@ -158,6 +158,7 @@ changing files.
 | Extract Element to Conref | `extract-conref` |
 | Rename Element Id | `rename-element-id` |
 | Rename Profiling Value | `rename-profile-value` |
+| Set Attribute | `set-attribute` |
 | Find Broken References and Orphans | `health` |
 
 **Find Broken References and Orphans** reports broken references, undefined

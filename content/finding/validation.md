@@ -87,6 +87,16 @@ checks links in the built output. Each stage runs only if the preceding
 stage passes. If a stage fails, the command identifies it and exits with
 status 1.
 
+The build stage reports something the health report cannot see: **a key
+reference this deliverable could not resolve**, where the reference has no
+`@href` to fall back on. Health resolves keys against the project's root map,
+where a key is usually defined; a deliverable builds a narrower scope, and a
+key missing from *that* scope loses a link in that deliverable alone. It is a
+warning, printed against the deliverable it belongs to, and you do not need
+`--verbose` to see it. In the editor it appears in the **Project Validation**
+panel — select a row to open the topic at the line — and the summary counts
+them, so "Ready" never stands alone over a set of links that will be missing.
+
 In the editor, select **Project > Check Project**. Results appear in the
 **Project Validation** tab.
 

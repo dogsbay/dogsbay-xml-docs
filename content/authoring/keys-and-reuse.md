@@ -16,6 +16,13 @@ show you and change safely.
 A map's key space is every key its topics can use, including keys defined in
 the maps it includes.
 
+**Project > Map > Key Space…** lists them: what each key resolves to, its
+keyword text, and the map that defines it. Filter as you type, and double-click
+a row to open the defining map at the line that defines that key — a key is the
+one thing in DITA whose definition is deliberately somewhere else.
+
+From the command line:
+
 ```bash
 dogsbay-xml keys audacity-guide.ditamap
 ```

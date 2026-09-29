@@ -101,6 +101,18 @@ problems in the sample project.
    ```
 :::
 
+## Setting one attribute everywhere
+
+**Refactor > Set Attribute…** sets one attribute on one element in every file of a
+scope — `xml:lang` on every topic, an `outputclass` on every `conbody`. It asks for
+the attribute, the value, the element (an XPath, or `#id`; `/*` is the root element)
+and the scope, with **Only where the attribute is missing** on by default, so adding
+`xml:lang` does not overwrite the one topic that says `de`.
+
+It shows every file it would touch before writing anything, and rewrites only that
+element's start tag, so the rest of each file comes back as it was. On the command
+line it is `dogsbay-xml set-attribute`.
+
 ## Finding what to refactor
 
 Select **Refactor > Find Broken References and Orphans** to list broken

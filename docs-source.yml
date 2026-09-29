@@ -9,42 +9,42 @@ source:
 
   # The oldest verified commit in the page entries below.
   # Update only after all pages have been checked against this commit or later.
-  reconciled: d3564ad
+  reconciled: eed40df
   date: 2026-09-29
 
 # Page path: the dogsbay-xml commit against which it was last verified.
 pages:
-  index.md: d3564ad
+  index.md: eed40df
 
-  getting-started/dogsbay-xml-overview.md: d3564ad
-  getting-started/install.md: d3564ad
-  getting-started/tutorial-manual.md: d3564ad
-  getting-started/tutorial-agentic.md: d3564ad
+  getting-started/dogsbay-xml-overview.md: eed40df
+  getting-started/install.md: eed40df
+  getting-started/tutorial-manual.md: eed40df
+  getting-started/tutorial-agentic.md: eed40df
 
-  agent/overview.md: d3564ad
-  agent/choosing.md: d3564ad
-  agent/proposals.md: d3564ad
-  agent/hosted-agents.md: d3564ad
+  agent/overview.md: eed40df
+  agent/choosing.md: eed40df
+  agent/proposals.md: eed40df
+  agent/hosted-agents.md: eed40df
 
-  authoring/topics-and-maps.md: d3564ad
-  authoring/keys-and-reuse.md: d3564ad
-  authoring/conditional-content.md: d3564ad
-  authoring/metadata.md: d3564ad
+  authoring/topics-and-maps.md: eed40df
+  authoring/keys-and-reuse.md: eed40df
+  authoring/conditional-content.md: eed40df
+  authoring/metadata.md: eed40df
 
-  finding/validation.md: d3564ad
-  finding/refactoring.md: d3564ad
-  finding/reports.md: d3564ad
+  finding/validation.md: eed40df
+  finding/refactoring.md: eed40df
+  finding/reports.md: eed40df
 
-  publishing/publishing.md: d3564ad
+  publishing/publishing.md: eed40df
 
-  automation/mcp.md: d3564ad
+  automation/mcp.md: eed40df
 
-  reference/menus.md: d3564ad
-  reference/panels.md: d3564ad
-  reference/settings.md: d3564ad
-  reference/project-config.md: d3564ad
-  reference/project-graph.md: d3564ad
-  reference/shortcuts.md: d3564ad
-  reference/cli.md: d3564ad
+  reference/menus.md: eed40df
+  reference/panels.md: eed40df
+  reference/settings.md: eed40df
+  reference/project-config.md: eed40df
+  reference/project-graph.md: eed40df
+  reference/shortcuts.md: eed40df
+  reference/cli.md: eed40df
 
-  developers/build-from-source.md: d3564ad
+  developers/build-from-source.md: eed40df

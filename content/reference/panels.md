@@ -27,6 +27,12 @@ Select **New File** to enter a file name and choose a document type, template,
 or DTD for an XML file. Non-XML files, such as Markdown files, are created
 without a document type selection.
 
+**Add Files…** on a folder copies files, or whole folders, from anywhere on the
+machine into it — and you can drag them onto the tree from a desktop or file
+manager instead. A drop on a folder puts them in it; a drop on a file puts them
+beside it. They are copied, never moved, and a name already taken gets a number
+rather than overwriting what is there.
+
 ### Search
 
 Find and replace across the project.
@@ -49,6 +55,12 @@ Version control for the project. The panel lists changed files and stages
 them individually or together.
 
 Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.
+
+**Tag > Create Tag…** marks the current commit with a name — a stage, a release,
+anything worth coming back to. A branch is not the same thing: it moves when you
+commit on it. Tags are annotated by default, a name already in use is refused
+rather than moved, and **Tag > Tags…** lists what the repository has. Tags are
+not pushed along with a branch.
 
 The branch list includes remote branches. Selecting a remote branch creates
 a local branch that tracks it. If a local branch with that name already

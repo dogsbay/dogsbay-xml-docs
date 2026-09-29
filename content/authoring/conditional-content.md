@@ -67,7 +67,14 @@ reader might be the first person to notice.
 A subject scheme map declares which values an attribute may take. It turns a
 typo from an invisible content loss into something you can find.
 
-To see what a scheme allows:
+To see what a scheme allows, open **Project > Map > Controlled Values…**: one row
+per profiling attribute the scheme governs, and the values a build will accept
+for it. It reads the scheme through the map's own closure, so it shows what the
+check below enforces. **Check Project** looks wider — if the map's closure names
+no scheme, it searches the project for one — so it can flag values this view does
+not explain.
+
+From the command line:
 
 ```bash
 dogsbay-xml list-subjects keydefs-glossary.ditamap

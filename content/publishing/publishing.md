@@ -115,6 +115,19 @@ To include an index in the PDF, add `<indexlist/>` to the bookmap.
 The build report summarizes rendering warnings, such as missing characters,
 overflowing text, and changes to table layout.
 
+## What a build tells you
+
+Errors are always printed, with DITA-OT's own code (`DOTJ046E`) — that is what its
+documentation is indexed by, and what to search for.
+
+Warnings are printed too. Add `--verbose` to `build` or `check` for DITA-OT's coded
+notes as well, such as `DOTJ047I` for a file that no map includes; without it, each
+command says how many notes it is not showing rather than staying silent. The
+narration DITA-OT logs while it works is never kept.
+
+In the editor, all of it lands in the **Project Validation** tab, where selecting a
+line opens that file.
+
 ## Live preview
 
 Select **Project > Live Preview** to build and serve a `dogsbay` deliverable.

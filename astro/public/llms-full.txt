@@ -923,6 +923,10 @@ DITA has two mechanisms for not repeating yourself: keys, which give a name to a
 
 A map's key space is every key its topics can use, including keys defined in the maps it includes.
 
+**Project > Map > Key Space…** lists them: what each key resolves to, its keyword text, and the map that defines it. Filter as you type, and double-click a row to open the defining map at the line that defines that key — a key is the one thing in DITA whose definition is deliberately somewhere else.
+
+From the command line:
+
 ```bash
 dogsbay-xml keys audacity-guide.ditamap
 ```
@@ -1083,7 +1087,9 @@ The build then silently drops the topic that uses the value your DITAVAL does no
 
 A subject scheme map declares which values an attribute may take. It turns a typo from an invisible content loss into something you can find.
 
-To see what a scheme allows:
+To see what a scheme allows, open **Project > Map > Controlled Values…**: one row per profiling attribute the scheme governs, and the values a build will accept for it. It reads the scheme through the map's own closure, so it shows what the check below enforces. **Check Project** looks wider — if the map's closure names no scheme, it searches the project for one — so it can flag values this view does not explain.
+
+From the command line:
 
 ```bash
 dogsbay-xml list-subjects keydefs-glossary.ditamap
@@ -1289,6 +1295,8 @@ dogsbay-xml check .
 
 The command runs the project health report, builds the deliverables, and checks links in the built output. Each stage runs only if the preceding stage passes. If a stage fails, the command identifies it and exits with status 1.
 
+The build stage reports something the health report cannot see: **a key reference this deliverable could not resolve**, where the reference has no `@href` to fall back on. Health resolves keys against the project's root map, where a key is usually defined; a deliverable builds a narrower scope, and a key missing from *that* scope loses a link in that deliverable alone. It is a warning, printed against the deliverable it belongs to, and you do not need `--verbose` to see it. In the editor it appears in the **Project Validation** panel — select a row to open the topic at the line — and the summary counts them, so "Ready" never stands alone over a set of links that will be missing.
+
 In the editor, select **Project > Check Project**. Results appear in the **Project Validation** tab.
 
 Use `--no-build` to run only the health report or `--deliverable` to check a single deliverable. Use `--map` or `--schematron` to override the project's default root map or Schematron schema.
@@ -1474,6 +1482,12 @@ This example turns a hardcoded product name into a key. It fixes one of the prob
    dogsbay-xml project-health .
    ```
 :::
+
+## Setting one attribute everywhere {#setting-one-attribute-everywhere}
+
+**Refactor > Set Attribute…** sets one attribute on one element in every file of a scope — `xml:lang` on every topic, an `outputclass` on every `conbody`. It asks for the attribute, the value, the element (an XPath, or `#id`; `/*` is the root element) and the scope, with **Only where the attribute is missing** on by default, so adding `xml:lang` does not overwrite the one topic that says `de`.
+
+It shows every file it would touch before writing anything, and rewrites only that element's start tag, so the rest of each file comes back as it was. On the command line it is `dogsbay-xml set-attribute`.
 
 ## Finding what to refactor {#finding-what-to-refactor}
 
@@ -1679,6 +1693,14 @@ Then set `customization.dir` to `mypdf` in the deliverable's publication paramet
 
 To include an index in the PDF, add `<indexlist/>` to the bookmap. The build report summarizes rendering warnings, such as missing characters, overflowing text, and changes to table layout.
 
+## What a build tells you {#what-a-build-tells-you}
+
+Errors are always printed, with DITA-OT's own code (`DOTJ046E`) — that is what its documentation is indexed by, and what to search for.
+
+Warnings are printed too. Add `--verbose` to `build` or `check` for DITA-OT's coded notes as well, such as `DOTJ047I` for a file that no map includes; without it, each command says how many notes it is not showing rather than staying silent. The narration DITA-OT logs while it works is never kept.
+
+In the editor, all of it lands in the **Project Validation** tab, where selecting a line opens that file.
+
 ## Live preview {#live-preview}
 
 Select **Project > Live Preview** to build and serve a `dogsbay` deliverable. When you save a topic, the preview rebuilds and reloads the browser page.
@@ -1830,6 +1852,7 @@ The tools support the same operations as the command line:
 - **Map the project** in one call: every map, topic, key, and DITAVAL file, how they connect, and what each deliverable ships
 - **Write reports** as standalone HTML pages, such as a relationship map or a health report
 - **Refactor** by renaming files, keys, and IDs; converting between direct references and keys; extracting and inlining reuse; and splitting topics
+- **Change one thing everywhere**, such as setting `xml:lang` on every topic, with a dry run first
 - **Edit** the structure of maps and relationship tables
 - **Control the editor** by opening documents, moving the cursor, selecting elements, and reading the outline
 - **Review** proposals, add comments, revert what an agent wrote, and read the audit log
@@ -1937,7 +1960,7 @@ Use the Project menu to validate, build, preview, and configure a project.
 | Build Deliverables **DITA** | Build with DITA-OT. See [publishing](/dogsbay-xml-docs/publishing/publishing). |
 | Live Preview **DITA** | Build a deliverable and serve it, rebuilding as you save. |
 | Metadata **DITA** | Edit Policy, Audit, Normalize, and Export Policy as Schematron. See [metadata](/dogsbay-xml-docs/authoring/metadata). |
-| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map. |
+| Map **DITA** | Edit Structure and Edit Relationship Tables, both on the active deliverable's map, plus two read-only views of what the map defines: Key Space and Controlled Values. |
 | Manage Projects | Add, edit, and remove projects. |
 | Project Tools | Save settings, format files, manage deliverables, remove temporary build files, and view agent activity. See [Project Tools](#project-project-tools). |
 
@@ -1996,7 +2019,7 @@ Use the XML menu to validate and edit markup in the current document.
 
 Every command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).
 
-Commands are grouped by files and references, keys, content reuse, and conditions. **Find Broken References and Orphans** reports problems without changing files.
+Commands are grouped by files and references, keys, content reuse, and attributes. **Find Broken References and Orphans** reports problems without changing files.
 
 | Item | Command-line equivalent |
 | --- | --- |
@@ -2009,6 +2032,7 @@ Commands are grouped by files and references, keys, content reuse, and condition
 | Extract Element to Conref | `extract-conref` |
 | Rename Element Id | `rename-element-id` |
 | Rename Profiling Value | `rename-profile-value` |
+| Set Attribute | `set-attribute` |
 | Find Broken References and Orphans | `health` |
 
 **Find Broken References and Orphans** reports broken references, undefined keys, unused keys, and orphan topics. Review each finding to determine whether a refactoring is needed.
@@ -2073,6 +2097,8 @@ Open, rename, move, and delete files, and drag a file onto an agent's chat box t
 
 Select **New File** to enter a file name and choose a document type, template, or DTD for an XML file. Non-XML files, such as Markdown files, are created without a document type selection.
 
+**Add Files…** on a folder copies files, or whole folders, from anywhere on the machine into it — and you can drag them onto the tree from a desktop or file manager instead. A drop on a folder puts them in it; a drop on a file puts them beside it. They are copied, never moved, and a name already taken gets a number rather than overwriting what is there.
+
 ### Search {#search}
 
 Find and replace across the project.
@@ -2093,6 +2119,8 @@ Filters take comma-separated globs, such as `*.xml,*.java` to include, or `targe
 Version control for the project. The panel lists changed files and stages them individually or together.
 
 Available actions include Stage All, Commit, Commit All, Commit Staged, Amend Last Commit, Discard All Changes, Fetch, Pull, Push, Stash, Pop Stash, Create Branch, Checkout Branch, Merge Branch, and Delete Branch. The branch actions are also on the branch name in the status bar, at the bottom left.
+
+**Tag > Create Tag…** marks the current commit with a name — a stage, a release, anything worth coming back to. A branch is not the same thing: it moves when you commit on it. Tags are annotated by default, a name already in use is refused rather than moved, and **Tag > Tags…** lists what the repository has. Tags are not pushed along with a branch.
 
 The branch list includes remote branches. Selecting a remote branch creates a local branch that tracks it. If a local branch with that name already points elsewhere, the editor reports the conflict.
 
@@ -2760,7 +2788,7 @@ These commands answer questions about more than one file.
 | `conref-audit` | Which reuse references name an element ID that no longer exists? |
 | `health` | Broken references, undefined and unused keys, and orphaned topics. |
 | `project-health` | The full report: broken references, key problems, orphaned topics, grammar validation, element IDs, metadata policy, open proposals, conref push, index entries, house style, authoring leftovers, and controlled values. |
-| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. |
+| `check` | Run project health checks, build deliverables, and check output links. Stop at the first failing stage and exit with status 1. The build stage also warns about key references a deliverable could not resolve. Add `-v` for DITA-OT's coded notes. |
 | `check-output-links` | Check a build output folder for links to missing pages, fragments, and images. |
 | `project-graph` | How do the maps, topics, keys, and DITAVAL files connect, and what does each deliverable ship? Prints JSON; see the [project graph reference](/dogsbay-xml-docs/reference/project-graph). |
 | `report` | Write a standalone HTML page from another command's output, such as a relationship map or a health report. |
@@ -2802,6 +2830,7 @@ To see the project as a page, see [Mapping a project and writing reports](/dogsb
 | --- | --- |
 | `metadata-audit` | Report where required metadata is missing or wrong. |
 | `metadata-set` | Set, fill, append, or remove fields in bulk, preserving the rest of the prolog. |
+| `set-attribute` | Set one attribute on one element in every file of a scope — `xml:lang` on every topic — rewriting only that element's start tag. `--select` picks the element (default `/*`), `--only-if-absent` leaves a file that already has the attribute alone, and nothing is written until `--apply`. With no scope it keeps to DITA documents rather than every XML file under the root. |
 | `metadata-export-schematron` | Compile the metadata policy to ISO Schematron, so the same rules run anywhere. |
 
 ## Surveying DITA features {#surveying-dita-features}
@@ -2834,7 +2863,7 @@ Structural editing of maps and relationship tables preserves formatting and keep
 
 | Command | What it does |
 | --- | --- |
-| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`. |
+| `build` | Build one deliverable or all of them with DITA-OT, using the transform type, conditions, and parameters that the project defines. Add `--keep-temp` to keep DITA-OT's temporary files in `.dogsbay/temp/<deliverable>`, and `-v` for DITA-OT's warnings and coded notes. |
 | `live-preview` | Publish a deliverable and serve it, republishing as you save. `start`, `status`, and `stop` manage previews; `run` stays in the foreground. Previews started by the editor or by a headless MCP server are listed and stopped here too. |
 
 ## Starting and driving the editor {#starting-and-driving-the-editor}
