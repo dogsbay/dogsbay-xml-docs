@@ -147,4 +147,7 @@ Restart the editor, and give clients the new configuration.
 
 - **[The command line](/reference/cli)** {icon="terminal"}
   The same operations, without a client.
+
+- **[Driving the editor](/automation/driving-the-editor)** {icon="menu"}
+  The same server, for working the interface from a script.
 :::

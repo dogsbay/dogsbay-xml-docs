@@ -102,6 +102,10 @@
       {
         "label": "Connecting an AI assistant",
         "href": "/dogsbay-xml-docs/automation/mcp"
+      },
+      {
+        "label": "Driving the editor",
+        "href": "/dogsbay-xml-docs/automation/driving-the-editor"
       }
     ]
   },

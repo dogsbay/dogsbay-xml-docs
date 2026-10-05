@@ -30,6 +30,7 @@
     - Previewing and publishing: publishing/publishing.md
 - Automation:
     - Connecting an AI assistant: automation/mcp.md
+    - Driving the editor: automation/driving-the-editor.md
 - Reference:
     - Menu reference: reference/menus.md
     - Panel reference: reference/panels.md

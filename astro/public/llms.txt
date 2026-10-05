@@ -41,6 +41,7 @@
 ## Automation
 
 - [Connecting an AI assistant](https://dogsbay.ai/dogsbay-xml-docs/automation/mcp.md): Provide the editor's DITA operations to Claude Code, Claude Desktop, or Cursor over MCP.
+- [Driving the editor](https://dogsbay.ai/dogsbay-xml-docs/automation/driving-the-editor.md): Work the editor's interface from a script by naming what you click, and start from a known state, for recordings and end-to-end tests.
 
 ## Reference
 
