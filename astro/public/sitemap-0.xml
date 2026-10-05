@@ -16,6 +16,9 @@
     <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/conditional-content/</loc>
   </url>
   <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/formatting/</loc>
+  </url>
+  <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/keys-and-reuse/</loc>
   </url>
   <url>
@@ -23,6 +26,9 @@
   </url>
   <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/authoring/topics-and-maps/</loc>
+  </url>
+  <url>
+    <loc>https://dogsbay.ai/dogsbay-xml-docs/automation/driving-the-editor/</loc>
   </url>
   <url>
     <loc>https://dogsbay.ai/dogsbay-xml-docs/automation/mcp/</loc>

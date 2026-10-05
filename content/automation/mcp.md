@@ -122,6 +122,12 @@ When a client connects, the server tells the assistant where to start: the proje
 Every call is attributed to a session, so the audit log records which
 assistant did what.
 
+A save request from an assistant fails if a comment or processing instruction
+contains a character that the file encoding cannot represent. The error
+identifies the character and provides corrective steps. In the editor, saving
+continues with a message about the affected character. See
+[Characters in comments and processing instructions](/authoring/formatting#characters-in-comments-and-processing-instructions).
+
 ## If the token changes
 
 Regenerating the token invalidates any client configured with the old one:
@@ -140,4 +146,7 @@ Restart the editor, and give clients the new configuration.
 
 - **[The command line](/reference/cli)** {icon="terminal"}
   The same operations, without a client.
+
+- **[Driving the editor](/automation/driving-the-editor)** {icon="menu"}
+  Automate the editor interface through the integration server.
 :::

@@ -33,7 +33,7 @@ dogsbay-xml validate topics/installing-audacity.dita
 ```
 
 In the editor, problems appear in the margin as you type and in the error
-pane. To check the current document, select **XML > Check Well-Formedness**,
+pane. To check the current document, select **XML > Check Well-formedness**,
 **XML > Validate**, or **XML > Schematron**.
 
 ## A whole set

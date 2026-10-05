@@ -73,7 +73,7 @@ The field names are `author`, `source`, `publisher`, `copyryear`, `copyrholder`,
 
 ### Format style
 
-The `format-style` attributes set the house style used by **Format Document**, by format on save, and by the `dogsbay-xml format` command. An attribute that is missing takes its default value.
+The `format-style` attributes set the house style used by **XML > Format**, by format on save, and by the `dogsbay-xml format` command. An attribute that is missing takes its default value.
 
 | Attribute | Values | Default | Meaning |
 |---|---|---|---|
@@ -87,8 +87,12 @@ The `format-style` attributes set the house style used by **Format Document**, b
 | `preserve-blank-lines` | `true` or `false` | `true` | Keeps one blank line where you left blank lines, and removes the extras. |
 | `text-continuation` | `block` or `flush` | `block` | Where the continuation lines of wrapped text start. `block` aligns them with the element's indentation, and `flush` starts them at the first column, so moving an element does not re-indent its text. |
 | `trim-whitespace` | `true` or `false` | `true` | Removes whitespace at the ends of lines. |
+| `sort-attributes` | `true` or `false` | `false` | Sorts each element's attributes alphabetically by name without changing their XML meaning. Enabling this option can produce many changes in the first file comparison. Set this option in the project configuration; it is not available on the **Format** settings page. |
 
 The contents of `codeblock`, `pre`, `lines` and `screen` elements are never reformatted. To protect other elements in the same way, add a `preserve-space` child element for each one, containing the element name.
+
+Formatting preserves the file encoding. For characters that the encoding cannot
+represent, see [Formatting and encodings](/authoring/formatting).
 
 If a project has no `format-style`, the editor uses the style on the [Format](/reference/settings#format) settings page.
 
@@ -125,7 +129,7 @@ This is the `config.xml` from the sample project:
     <rule field="author" presence="recommended"/>
     <rule field="keyword" presence="required"/>
   </metadata-policy>
-  <format-style indent="spaces" size="2" max-line-width="0" preserve-mixed="true" newline="lf" final-newline="true" preserve-text-breaks="true" preserve-blank-lines="true" text-continuation="block" trim-whitespace="true"/>
+  <format-style indent="spaces" size="2" max-line-width="0" preserve-mixed="true" newline="lf" final-newline="true" preserve-text-breaks="true" preserve-blank-lines="true" text-continuation="block" trim-whitespace="true" sort-attributes="false"/>
 </dogsbay-project>
 ```
 

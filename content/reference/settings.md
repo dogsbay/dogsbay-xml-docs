@@ -84,7 +84,9 @@ Three groups:
 
 ## Format
 
-The house style used by **Format Document**, by format-on-save, and by the `dogsbay-xml format` command, so every route produces the same file.
+These settings apply to **XML > Format**, **Format on save**, and the
+`dogsbay-xml format` command. See [Formatting and encodings](/authoring/formatting)
+for details about formatting behavior.
 
 | Setting | What it does |
 |---|---|
@@ -99,6 +101,11 @@ The house style used by **Format Document**, by format-on-save, and by the `dogs
 | Format on save | Reformats a document whenever you save it. |
 
 **Save to project (.dogsbay/config.xml)…** writes the current style into the open project so everyone working on it formats identically.
+
+To sort attributes by name, set `sort-attributes` in the project's
+[`format-style`](/reference/project-config#format-style) configuration. This
+option is not available on the **Format** settings page. Clicking **OK** on
+this page preserves the project's attribute sorting setting.
 
 ## System
 

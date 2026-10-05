@@ -71,7 +71,8 @@ Select **Project > Map > Controlled Values…** to list the allowed values for
 each profiling attribute governed by a subject scheme. The view uses the
 active deliverable's map, then the map in the Map Explorer, then the project's
 default root map. It reads subject schemes referenced by that map and its
-included maps.
+included maps. Both this view and `validate-conditions` list attributes
+alphabetically by name.
 
 **Check Project** can also find subject schemes elsewhere in the project when
 none is found through the default root map. It can therefore report values
@@ -106,7 +107,7 @@ dimension; its child subjects define the allowed values.
 
 Use `--scope` to limit the scan to one map, a glob, or the project root. The
 `conditions` check in `project-health` runs the same validation. In the
-editor, select **Project > Validate Files > Controlled Values**.
+editor, select **Project > Validate Files > Controlled Values (Subject Scheme)**.
 
 ## Renaming a value everywhere
 

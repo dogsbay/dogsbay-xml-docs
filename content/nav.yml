@@ -18,6 +18,7 @@
     - Using Claude Code, Codex, or Gemini: agent/hosted-agents.md
 - Authoring DITA:
     - Topics and maps: authoring/topics-and-maps.md
+    - Formatting and encodings: authoring/formatting.md
     - Keys and reuse: authoring/keys-and-reuse.md
     - Conditional content: authoring/conditional-content.md
     - Metadata: authoring/metadata.md
@@ -29,6 +30,7 @@
     - Previewing and publishing: publishing/publishing.md
 - Automation:
     - Connecting an AI assistant: automation/mcp.md
+    - Driving the editor: automation/driving-the-editor.md
 - Reference:
     - Menu reference: reference/menus.md
     - Panel reference: reference/panels.md
