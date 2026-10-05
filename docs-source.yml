@@ -9,42 +9,43 @@ source:
 
   # The oldest verified commit in the page entries below.
   # Update only after all pages have been checked against this commit or later.
-  reconciled: eed40df
-  date: 2026-09-29
+  reconciled: 1e3e3e0
+  date: 2026-10-05
 
 # Page path: the dogsbay-xml commit against which it was last verified.
 pages:
-  index.md: eed40df
+  index.md: 1e3e3e0
 
-  getting-started/dogsbay-xml-overview.md: eed40df
-  getting-started/install.md: eed40df
-  getting-started/tutorial-manual.md: eed40df
-  getting-started/tutorial-agentic.md: eed40df
+  getting-started/dogsbay-xml-overview.md: 1e3e3e0
+  getting-started/install.md: 1e3e3e0
+  getting-started/tutorial-manual.md: 1e3e3e0
+  getting-started/tutorial-agentic.md: 1e3e3e0
 
-  agent/overview.md: eed40df
-  agent/choosing.md: eed40df
-  agent/proposals.md: eed40df
-  agent/hosted-agents.md: eed40df
+  agent/overview.md: 1e3e3e0
+  agent/choosing.md: 1e3e3e0
+  agent/proposals.md: 1e3e3e0
+  agent/hosted-agents.md: 1e3e3e0
 
-  authoring/topics-and-maps.md: eed40df
-  authoring/keys-and-reuse.md: eed40df
-  authoring/conditional-content.md: eed40df
-  authoring/metadata.md: eed40df
+  authoring/topics-and-maps.md: 1e3e3e0
+  authoring/formatting.md: 1e3e3e0
+  authoring/keys-and-reuse.md: 1e3e3e0
+  authoring/conditional-content.md: 1e3e3e0
+  authoring/metadata.md: 1e3e3e0
 
-  finding/validation.md: eed40df
-  finding/refactoring.md: eed40df
-  finding/reports.md: eed40df
+  finding/validation.md: 1e3e3e0
+  finding/refactoring.md: 1e3e3e0
+  finding/reports.md: 1e3e3e0
 
-  publishing/publishing.md: eed40df
+  publishing/publishing.md: 1e3e3e0
 
-  automation/mcp.md: eed40df
+  automation/mcp.md: 1e3e3e0
 
-  reference/menus.md: eed40df
-  reference/panels.md: eed40df
-  reference/settings.md: eed40df
-  reference/project-config.md: eed40df
-  reference/project-graph.md: eed40df
-  reference/shortcuts.md: eed40df
-  reference/cli.md: eed40df
+  reference/menus.md: 1e3e3e0
+  reference/panels.md: 1e3e3e0
+  reference/settings.md: 1e3e3e0
+  reference/project-config.md: 1e3e3e0
+  reference/project-graph.md: 1e3e3e0
+  reference/shortcuts.md: 1e3e3e0
+  reference/cli.md: 1e3e3e0
 
-  developers/build-from-source.md: eed40df
+  developers/build-from-source.md: 1e3e3e0

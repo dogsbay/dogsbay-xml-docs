@@ -53,6 +53,10 @@
         "href": "/dogsbay-xml-docs/authoring/topics-and-maps"
       },
       {
+        "label": "Formatting and encodings",
+        "href": "/dogsbay-xml-docs/authoring/formatting"
+      },
+      {
         "label": "Keys and reuse",
         "href": "/dogsbay-xml-docs/authoring/keys-and-reuse"
       },

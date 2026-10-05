@@ -71,7 +71,8 @@ Select **Project > Map > Controlled Values…** to list the allowed values for
 each profiling attribute governed by a subject scheme. The view uses the
 active deliverable's map, then the map in the Map Explorer, then the project's
 default root map. It reads subject schemes referenced by that map and its
-included maps.
+included maps. Attributes are listed in name order, here and in
+`validate-conditions`, so two runs over the same project read the same way.
 
 **Check Project** can also find subject schemes elsewhere in the project when
 none is found through the default root map. It can therefore report values

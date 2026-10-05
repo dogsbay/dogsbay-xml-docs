@@ -30,9 +30,17 @@ Run `dogsbay-xml --help` for the full list, and
 | `info` | Report encoding, grammar, root element and size. |
 | `query` | Run an XPath expression over a file or a glob. |
 | `transform` | Apply an XSLT stylesheet. |
-| `format` | Pretty-print using the project's house style. |
+| `format` | Pretty-print using the project's house style. Prints the result by default; `-i`/`--write` formats files in place, `-o FILE` writes one file, and `--check` writes nothing and exits non-zero while listing the files that are not already in house style. See [Formatting and encodings](/authoring/formatting). |
 | `reflow` | Reflow prose to one sentence per line, leaving verbatim blocks alone. |
 | `preview` | Render the styled DITA preview to HTML. |
+
+`format` and `reflow` keep the file's encoding and every character in it. `format`
+to the screen gives the same bytes as `--write` puts in the file, except that the
+screen output always ends with a newline — a project whose house style sets
+`final-newline="false"` therefore sees one extra byte there, and nowhere else.
+
+`--check` is the one to use in CI: it reports what would change without changing
+it.
 
 ## Asking about the project
 

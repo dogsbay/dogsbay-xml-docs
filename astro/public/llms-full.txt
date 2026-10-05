@@ -905,6 +905,97 @@ A clean report means references resolve, keys are defined and used, no topic is 
 
 ---
 
+# Formatting and encodings
+
+URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/formatting.md
+
+---
+title: Formatting and encodings
+description: Format documents to your project's house style, reflow prose one sentence per line, and keep every character your files contain.
+type: how-to
+---
+
+# Formatting and encodings {#formatting-and-encodings}
+
+Formatting lays a document out to your project's house style. It changes how the file reads in a text editor and in a diff; it does not change what a reader of the published output sees.
+
+## Formatting a document {#formatting-a-document}
+
+**XML ▸ Format Document** (or `F4`) formats the open document. **Format on save** does it every time you save — turn it on in **File ▸ Settings ▸ Format**.
+
+**XML ▸ Format Project** formats every XML file in the project. If any open document has unsaved changes, it offers to save them first, so what it formats is what you have been editing rather than what is on disk.
+
+On the command line:
+
+```bash
+dogsbay-xml format --write topics/*.dita   # format the files in place
+dogsbay-xml format topics/install.dita     # print the result, leave the file alone
+dogsbay-xml format --check topics/*.dita   # list files that are not in house style
+```
+
+`--check` writes nothing and exits non-zero when a file would change, which is what you want in CI. The editor and the command line use the same house style, so they produce the same file.
+
+## Reflowing prose {#reflowing-prose}
+
+**XML ▸ Reflow Sentences** (or `dogsbay-xml reflow`) breaks prose so each sentence starts on its own line. That keeps a diff to the sentences you actually changed instead of re-wrapping a whole paragraph.
+
+It is a separate, deliberate pass rather than part of formatting, because detecting where a sentence ends is a guess. Verbatim blocks are left alone.
+
+## What formatting never changes {#what-formatting-never-changes}
+
+Formatting is meant to be safe to run on anything, at any time. It leaves alone:
+
+- the contents of `codeblock`, `pre`, `lines` and `screen`, and of any element with `xml:space="preserve"`, or any element you list under [`preserve-space`](/dogsbay-xml-docs/reference/project-config#format-style)
+- the line breaks you typed in prose, so one sentence per line survives
+- one blank line wherever you left blank lines
+- the spaces around an inline element, a comment, or a processing instruction in the middle of a sentence
+- your file's encoding, and the characters in it
+
+Running it twice changes nothing the second time. If it does, that is a bug worth reporting.
+
+## Encodings {#encodings}
+
+A file is read and written in the encoding its XML declaration names — `UTF-8`, `ISO-8859-1`, `windows-1252`, `Shift_JIS` and the rest — and the declaration is left saying the same thing. Accented and non-Latin text (`café`, `naïve`, `こんにちは`) comes back exactly as you wrote it, however many times you format.
+
+### A character your encoding cannot hold {#a-character-your-encoding-cannot-hold}
+
+If your text contains a character the file's encoding has no room for — an arrow or an emoji in a Latin-1 file, say — it is written as a numeric character reference (`&#8594;`) rather than being dropped. That is the same character, spelled a way the encoding can carry, and every XML tool reads it back as the original.
+
+A `CDATA` section holding such a character is written out as ordinary escaped text instead, which says the same thing to a reader. You may see a `<![CDATA[…]]>` section you wrote appear as escaped text; the content is unchanged. This only happens when there is something to rescue — otherwise your `CDATA` is left exactly as you wrote it.
+
+### The one place a character cannot be kept {#the-one-place-a-character-cannot-be-kept}
+
+Nothing can spell an arrow inside `<!-- a comment -->` or a processing instruction: a character reference there is literal text, not the character. So if your file's encoding has no room for it:
+
+- **in the editor**, the save goes ahead and a message names the character, so you can decide
+- **from an AI assistant or the command line**, the save is refused rather than done, because nothing would be there to notice the loss
+
+Either way, the fix is to save the file as UTF-8 — change the declaration to `encoding="UTF-8"` — or to move the text out of the comment.
+
+### Byte-order marks {#byte-order-marks}
+
+Some editors start a file with a short invisible marker (a "BOM"). Formatting leaves it exactly as it found it: present if it was present, absent if it was not.
+
+## Known limitation {#known-limitation}
+
+Two inline elements written directly against each other, with no text beside them in the same element, are laid out on separate lines:
+
+```xml
+<p><uicontrol>Save</uicontrol><uicontrol>Exit</uicontrol></p>
+```
+
+A reader of the published output sees `Save Exit` rather than `SaveExit`, because the line break between them becomes a space. Where the paragraph also contains prose — which is almost always — the spacing is preserved correctly.
+
+If this affects your content, keep those elements on one line and do not format that file, or put the text in a single element.
+
+## Related {#related}
+
+- [Format style](/dogsbay-xml-docs/reference/project-config#format-style) — the attributes a project can set, including sorting attributes
+- [Format settings](/dogsbay-xml-docs/reference/settings#format) — your own default style
+- [The command line](/dogsbay-xml-docs/reference/cli) — `format`, `reflow`, and `--check`
+
+---
+
 # Keys and reuse
 
 URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/keys-and-reuse.md
@@ -1089,7 +1180,7 @@ The build then silently drops the topic that uses the value your DITAVAL does no
 
 A subject scheme map declares which values an attribute may take. It turns a typo from an invisible content loss into something you can find.
 
-Select **Project > Map > Controlled Values…** to list the allowed values for each profiling attribute governed by a subject scheme. The view uses the active deliverable's map, then the map in the Map Explorer, then the project's default root map. It reads subject schemes referenced by that map and its included maps.
+Select **Project > Map > Controlled Values…** to list the allowed values for each profiling attribute governed by a subject scheme. The view uses the active deliverable's map, then the map in the Map Explorer, then the project's default root map. It reads subject schemes referenced by that map and its included maps. Attributes are listed in name order, here and in `validate-conditions`, so two runs over the same project read the same way.
 
 **Check Project** can also find subject schemes elsewhere in the project when none is found through the default root map. It can therefore report values that the view does not list. A value outside the allowed set causes **Check Project** to fail; a DITA-OT build reports a warning.
 
@@ -1631,7 +1722,11 @@ A preview is immediate and approximate, so you can check your work as you write.
 
 Select **View > Preview in Tab**, or **View > Preview in Split** to keep the source beside it. The preview refreshes as you edit.
 
-The preview is not a plain rendering of the file you have open. It resolves conrefs, so reused content appears where it is pulled in, and it resolves key references when it knows which map provides the context.
+The preview is not a plain rendering of the file you have open. It resolves conrefs, so reused content appears where it is pulled in, and it resolves key references when it knows which map provides the context — including a key reference that supplies a title's text, as in `<title>Installing <keyword keyref="product-name"/></title>`, which previews with the product name rather than with the word missing.
+
+In a split or tabbed view, the preview follows the deliverable you make active, so switching deliverable shows the same topic filtered the way that deliverable filters it.
+
+Choice tables and the reference domain's `<properties>` tables render as tables, with an **Option** / **Description** header when the table has no `<chhead>` — which is what the published output does.
 
 From the command line:
 
@@ -1656,6 +1751,8 @@ A deliverable defines one output: a map, a transform type, a DITAVAL, parameters
 Deliverables come from a DITA project file, which is a standard rather than something this editor invented, so the same definitions work with DITA-OT directly.
 
 When a project has no project file, DogsBay XML uses the default root map. You can therefore build a documentation set that is not yet formalized.
+
+One deliverable is **active**: the status bar shows which, and the commands that act on "the project" use its map. Adding or editing a deliverable does not change which one is active — say so with **Set active** in **Manage Deliverables**. (The exception is when nothing was active yet, or when you are editing the active one and may have just renamed it.)
 
 ## Building {#building}
 
@@ -1708,6 +1805,8 @@ cp "<framework>/dita-ot/plugins/org.dita.pdf2/cfg/fo/font-mappings-base14.xml" \
 Then set `customization.dir` to `mypdf` in the deliverable's publication parameters.
 
 To include an index in the PDF, add `<indexlist/>` to the bookmap. The build report summarizes rendering warnings, such as missing characters, overflowing text, and changes to table layout.
+
+Warnings about the computer's own fonts are counted and listed separately from warnings about your document. The first PDF build on a machine reads every font it can find and reports the ones the renderer cannot parse — often dozens — and then caches the result, so later builds say nothing about them. Keeping the two apart means a deliverable reports the same number of document warnings on every machine and on every build, whether or not a PDF has been built there before.
 
 ## Build messages {#build-messages}
 
@@ -1769,7 +1868,7 @@ dogsbay-xml check .            # health, then the build, then the built output
 
 In the editor, select **Project > Check Project** to run `check`. Its final stage checks the output folder for links to missing pages, fragments, and images. To check an output folder separately, run `dogsbay-xml check-output-links out/`.
 
-For PDF output, this stage checks that the deliverable produced a nonempty file. It does not validate links within the PDF.
+For PDF output, this stage checks that the deliverable produced a nonempty file. It does not validate links within the PDF, and says so: a PDF deliverable reports that it wrote a file, with no pages to check links in. The editor and the command line word this the same way.
 
 ## Related {#related}
 
@@ -1884,6 +1983,8 @@ The tools support the same operations as the command line:
 When a client connects, the server tells the assistant where to start: the project health check for any validation or audit question, the project graph for structure, and the report tool for a page. An assistant that follows it finds the checks the editor already has instead of writing its own.
 
 Every call is attributed to a session, so the audit log records which assistant did what.
+
+An assistant's save is **refused** rather than done if it would lose a character: one your file's encoding cannot hold, sitting in a comment or a processing instruction where nothing can stand in for it. The error names the character and what to do about it. A person saving the same file in the editor is told instead and can decide, because a person will see the message and an assistant would simply report success. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting#the-one-place-a-character-cannot-be-kept).
 
 ## If the token changes {#if-the-token-changes}
 
@@ -2005,7 +2106,7 @@ To check the current document, use **XML > Check Well-Formedness**, **XML > Vali
 | Item | What it does |
 | --- | --- |
 | Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. See [project configuration](/dogsbay-xml-docs/reference/project-config). |
-| Format Project, Reflow Project | Apply the house style across the project. |
+| Format Project, Reflow Project | Apply the house style across the project. If an open document has unsaved changes, Format Project offers to save them first. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting). |
 | Manage Deliverables **DITA** | Edit the project's deliverables. |
 | Clear Temporary Build Files **DITA** | Remove the DITA-OT temporary folders that deliverables kept. |
 | Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |
@@ -2341,7 +2442,7 @@ Three groups:
 
 ## Format {#format}
 
-The house style used by **Format Document**, by format-on-save, and by the `dogsbay-xml format` command, so every route produces the same file.
+The house style used by **Format Document**, by format-on-save, and by the `dogsbay-xml format` command, so every route produces the same file. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting) for what formatting does and does not change.
 
 | Setting | What it does |
 | --- | --- |
@@ -2356,6 +2457,8 @@ The house style used by **Format Document**, by format-on-save, and by the `dogs
 | Format on save | Reformats a document whenever you save it. |
 
 **Save to project (.dogsbay/config.xml)…** writes the current style into the open project so everyone working on it formats identically.
+
+One house-style option has no setting here: `sort-attributes` is set in a project's [`format-style`](/dogsbay-xml-docs/reference/project-config#format-style), because sorting rewrites every element with more than one attribute and so is a decision for a project rather than for one person. Opening this page and clicking OK leaves a project's setting alone.
 
 ## System {#system}
 
@@ -2464,8 +2567,11 @@ The `format-style` attributes set the house style used by **Format Document**, b
 | `preserve-blank-lines` | `true` or `false` | `true` | Keeps one blank line where you left blank lines, and removes the extras. |
 | `text-continuation` | `block` or `flush` | `block` | Where the continuation lines of wrapped text start. `block` aligns them with the element's indentation, and `flush` starts them at the first column, so moving an element does not re-indent its text. |
 | `trim-whitespace` | `true` or `false` | `true` | Removes whitespace at the ends of lines. |
+| `sort-attributes` | `true` or `false` | `false` | Writes each element's attributes in name order. Attribute order means nothing in XML, so this changes nothing a reader sees — but it rewrites every element that has more than one attribute, so expect one large diff the first time. There is no setting for it on the Format settings page, because it is a decision for a project rather than for one person. |
 
 The contents of `codeblock`, `pre`, `lines` and `screen` elements are never reformatted. To protect other elements in the same way, add a `preserve-space` child element for each one, containing the element name.
+
+Formatting keeps the file's encoding and every character in it. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting) for what happens to a character the file's encoding cannot hold.
 
 If a project has no `format-style`, the editor uses the style on the [Format](/dogsbay-xml-docs/reference/settings#format) settings page.
 
@@ -2502,7 +2608,7 @@ This is the `config.xml` from the sample project:
     <rule field="author" presence="recommended"/>
     <rule field="keyword" presence="required"/>
   </metadata-policy>
-  <format-style indent="spaces" size="2" max-line-width="0" preserve-mixed="true" newline="lf" final-newline="true" preserve-text-breaks="true" preserve-blank-lines="true" text-continuation="block" trim-whitespace="true"/>
+  <format-style indent="spaces" size="2" max-line-width="0" preserve-mixed="true" newline="lf" final-newline="true" preserve-text-breaks="true" preserve-blank-lines="true" text-continuation="block" trim-whitespace="true" sort-attributes="false"/>
 </dogsbay-project>
 ```
 
@@ -2797,9 +2903,13 @@ Run `dogsbay-xml --help` for the full list, and `dogsbay-xml <command> --help` f
 | `info` | Report encoding, grammar, root element and size. |
 | `query` | Run an XPath expression over a file or a glob. |
 | `transform` | Apply an XSLT stylesheet. |
-| `format` | Pretty-print using the project's house style. |
+| `format` | Pretty-print using the project's house style. Prints the result by default; `-i`/`--write` formats files in place, `-o FILE` writes one file, and `--check` writes nothing and exits non-zero while listing the files that are not already in house style. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting). |
 | `reflow` | Reflow prose to one sentence per line, leaving verbatim blocks alone. |
 | `preview` | Render the styled DITA preview to HTML. |
+
+`format` and `reflow` keep the file's encoding and every character in it. `format` to the screen gives the same bytes as `--write` puts in the file, except that the screen output always ends with a newline — a project whose house style sets `final-newline="false"` therefore sees one extra byte there, and nowhere else.
+
+`--check` is the one to use in CI: it reports what would change without changing it.
 
 ## Asking about the project {#asking-about-the-project}
 

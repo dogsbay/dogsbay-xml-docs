@@ -104,7 +104,7 @@ To check the current document, use **XML > Check Well-Formedness**,
 | Item | What it does |
 |---|---|
 | Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. See [project configuration](/reference/project-config). |
-| Format Project, Reflow Project | Apply the house style across the project. |
+| Format Project, Reflow Project | Apply the house style across the project. If an open document has unsaved changes, Format Project offers to save them first. See [Formatting and encodings](/authoring/formatting). |
 | Manage Deliverables **DITA** | Edit the project's deliverables. |
 | Clear Temporary Build Files **DITA** | Remove the DITA-OT temporary folders that deliverables kept. |
 | Agent activity | The audit log of what agents changed. See [the agent](/agent/overview). |

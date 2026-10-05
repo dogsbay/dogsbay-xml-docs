@@ -122,6 +122,13 @@ When a client connects, the server tells the assistant where to start: the proje
 Every call is attributed to a session, so the audit log records which
 assistant did what.
 
+An assistant's save is **refused** rather than done if it would lose a character:
+one your file's encoding cannot hold, sitting in a comment or a processing
+instruction where nothing can stand in for it. The error names the character and
+what to do about it. A person saving the same file in the editor is told instead
+and can decide, because a person will see the message and an assistant would
+simply report success. See [Formatting and encodings](/authoring/formatting#the-one-place-a-character-cannot-be-kept).
+
 ## If the token changes
 
 Regenerating the token invalidates any client configured with the old one:

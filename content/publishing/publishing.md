@@ -17,7 +17,18 @@ source beside it. The preview refreshes as you edit.
 
 The preview is not a plain rendering of the file you have open. It resolves
 conrefs, so reused content appears where it is pulled in, and it resolves key
-references when it knows which map provides the context.
+references when it knows which map provides the context — including a key
+reference that supplies a title's text, as in
+`<title>Installing <keyword keyref="product-name"/></title>`, which previews with
+the product name rather than with the word missing.
+
+In a split or tabbed view, the preview follows the deliverable you make active, so
+switching deliverable shows the same topic filtered the way that deliverable
+filters it.
+
+Choice tables and the reference domain's `<properties>` tables render as tables,
+with an **Option** / **Description** header when the table has no `<chhead>` —
+which is what the published output does.
 
 From the command line:
 
@@ -47,6 +58,12 @@ directly.
 
 When a project has no project file, DogsBay XML uses the default root map. You
 can therefore build a documentation set that is not yet formalized.
+
+One deliverable is **active**: the status bar shows which, and the commands that
+act on "the project" use its map. Adding or editing a deliverable does not change
+which one is active — say so with **Set active** in **Manage Deliverables**. (The
+exception is when nothing was active yet, or when you are editing the active one
+and may have just renamed it.)
 
 ## Building
 
@@ -114,6 +131,13 @@ parameters.
 To include an index in the PDF, add `<indexlist/>` to the bookmap.
 The build report summarizes rendering warnings, such as missing characters,
 overflowing text, and changes to table layout.
+
+Warnings about the computer's own fonts are counted and listed separately from
+warnings about your document. The first PDF build on a machine reads every font it
+can find and reports the ones the renderer cannot parse — often dozens — and then
+caches the result, so later builds say nothing about them. Keeping the two apart
+means a deliverable reports the same number of document warnings on every machine
+and on every build, whether or not a PDF has been built there before.
 
 ## Build messages
 
@@ -194,7 +218,9 @@ images. To check an output folder separately, run
 `dogsbay-xml check-output-links out/`.
 
 For PDF output, this stage checks that the deliverable produced a nonempty
-file. It does not validate links within the PDF.
+file. It does not validate links within the PDF, and says so: a PDF deliverable
+reports that it wrote a file, with no pages to check links in. The editor and the
+command line word this the same way.
 
 ## Related
 
