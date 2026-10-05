@@ -2048,6 +2048,7 @@ The following table lists the methods and their requirements:
 | --- | --- | --- |
 | `locate` | Returns the location of an interface element | No |
 | `reveal` | Scrolls an interface element into view and returns its location | No |
+| `locateRange` | Returns the on-screen rectangles for a range of the open document | No |
 | `clickButton` | Clicks a button by its label or returns its location | Only to click |
 | `invokeAction` | Runs a menu command by its ID | Yes |
 | `typeText` | Enters text through the component's key handling | Yes |
@@ -2101,6 +2102,22 @@ Use `reveal` when a control is outside the visible area. It supports the same ty
 ```
 
 `reveal` preserves the cursor position, selection, and document content.
+
+## Highlighting part of a document {#highlighting-part-of-a-document}
+
+Use `locateRange` to get the rectangles covering a range of characters in the open document. Specify `start` and `end` as character offsets. Use this to draw an annotation over a phrase, an element, or an attribute — for example, to highlight what a narrator is describing in a screen recording.
+
+```json
+{"method": "locateRange", "params": {"start": 120, "end": 154}}
+```
+
+The response contains `start`, `end`, the `text` of the range, a `visibility` value, and one rectangle per line as the line appears on screen. Each rectangle includes its centre point. A paragraph that the editor wraps returns one rectangle per wrapped row, not one rectangle for the whole paragraph.
+
+`visibility` is `visible`, `partly`, or `hidden`. A range that is scrolled out of the visible area returns `hidden` with no rectangles; call `reveal` and request the range again. A range inside a collapsed fold returns an error, because scrolling cannot make it visible.
+
+Both offsets are required and must be whole numbers. A fractional offset returns an error rather than being rounded. A range covering more than 400 lines returns an error.
+
+`locateRange` reports positions only. It does not scroll, move the cursor, or change the selection.
 
 ## Clicking a button {#clicking-a-button}
 
