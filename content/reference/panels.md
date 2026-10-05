@@ -109,7 +109,7 @@ key, which a text search cannot.
 ### Bookmarks
 
 Places you marked, with Delete Bookmark to remove them. Mark and unmark from
-**Utilities > Toggle Bookmark**.
+**Utilities > Bookmarks > Toggle Bookmark**.
 
 ## Right sidebar
 

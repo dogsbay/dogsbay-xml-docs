@@ -1,120 +1,123 @@
 ---
 title: Formatting and encodings
-description: Format documents to your project's house style, reflow prose one sentence per line, and keep every character your files contain.
+description: Apply project formatting settings, reflow prose to one sentence per line, and handle characters that the file encoding cannot represent.
 type: how-to
 ---
 
 # Formatting and encodings
 
-Formatting lays a document out to your project's house style. It changes how the
-file reads in a text editor and in a diff; it does not change what a reader of
-the published output sees.
+Formatting applies your project's settings for indentation, spacing, and line
+breaks. These settings control the XML source layout. For an exception that
+can affect published output, see [Known limitation](#known-limitation).
 
 ## Formatting a document
 
-**XML ▸ Format Document** (or `F4`) formats the open document. **Format on save**
-does it every time you save — turn it on in **File ▸ Settings ▸ Format**.
+To format the open document, select **XML > Format**.
+To format it each time you save, enable **Format on save** in
+**File > Settings > Format**.
 
-**XML ▸ Format Project** formats every XML file in the project. If any open
-document has unsaved changes, it offers to save them first, so what it formats is
-what you have been editing rather than what is on disk.
+To format every XML file in the project, select
+**Project > Project Tools > Format Project**.
+If an open document has unsaved changes, the editor prompts you to save them
+before formatting the files on disk.
 
-On the command line:
+Use the following commands to format files from the command line:
 
 ```bash
-dogsbay-xml format --write topics/*.dita   # format the files in place
-dogsbay-xml format topics/install.dita     # print the result, leave the file alone
-dogsbay-xml format --check topics/*.dita   # list files that are not in house style
+dogsbay-xml format --write topics/*.dita   # Format the files in place
+dogsbay-xml format topics/install.dita     # Print the result without changing the file
+dogsbay-xml format --check topics/*.dita   # List files that require formatting
 ```
 
-`--check` writes nothing and exits non-zero when a file would change, which is
-what you want in CI. The editor and the command line use the same house style, so
-they produce the same file.
+The `--check` option leaves files unchanged and returns a nonzero exit status
+if a file requires formatting. Use this option in continuous integration (CI)
+checks. The editor and command line use the same project formatting settings.
 
 ## Reflowing prose
 
-**XML ▸ Reflow Sentences** (or `dogsbay-xml reflow`) breaks prose so each sentence
-starts on its own line. That keeps a diff to the sentences you actually changed
-instead of re-wrapping a whole paragraph.
+Select **XML > Reflow Sentences** or run `dogsbay-xml reflow` to start each
+sentence on a separate line. This layout makes individual sentence changes
+easier to review in a file comparison.
 
-It is a separate, deliberate pass rather than part of formatting, because
-detecting where a sentence ends is a guess. Verbatim blocks are left alone.
+Reflow is a separate operation because sentence boundary detection can be
+inaccurate. It preserves verbatim blocks.
 
-## What formatting never changes
+## Formatting behavior
 
-Formatting is meant to be safe to run on anything, at any time. It leaves alone:
+With the default settings, formatting preserves the following content and
+layout:
 
-- the contents of `codeblock`, `pre`, `lines` and `screen`, and of any element
-  with `xml:space="preserve"`, or any element you list under
+- Content in `codeblock`, `pre`, `lines`, and `screen` elements, elements with
+  `xml:space="preserve"`, and elements listed under
   [`preserve-space`](/reference/project-config#format-style)
-- the line breaks you typed in prose, so one sentence per line survives
-- one blank line wherever you left blank lines
-- the spaces around an inline element, a comment, or a processing instruction in
-  the middle of a sentence
-- your file's encoding, and the characters in it
+- Existing line breaks in prose, including one sentence per line
+- One blank line at each location that contains blank lines
+- Spaces around inline elements, comments, and processing instructions within
+  a sentence
+- The file encoding, with the character handling described in [Encodings](#encodings)
 
-Running it twice changes nothing the second time. If it does, that is a bug worth
-reporting.
+Project settings can change how formatting handles line breaks and blank lines.
+See [Format style](/reference/project-config#format-style).
+Formatting an unchanged document a second time produces no further changes.
 
 ## Encodings
 
-A file is read and written in the encoding its XML declaration names — `UTF-8`,
-`ISO-8859-1`, `windows-1252`, `Shift_JIS` and the rest — and the declaration is
-left saying the same thing. Accented and non-Latin text (`café`, `naïve`,
-`こんにちは`) comes back exactly as you wrote it, however many times you format.
+DogsBay XML reads and writes a file in the encoding specified by its XML
+declaration, such as `UTF-8`, `ISO-8859-1`, `windows-1252`, or `Shift_JIS`.
+Formatting preserves the encoding declaration and characters that the encoding
+can represent, including accented and non-Latin text.
 
-### A character your encoding cannot hold
+### Characters outside the file encoding
 
-If your text contains a character the file's encoding has no room for — an arrow
-or an emoji in a Latin-1 file, say — it is written as a numeric character
-reference (`&#8594;`) rather than being dropped. That is the same character,
-spelled a way the encoding can carry, and every XML tool reads it back as the
-original.
+If the encoding cannot represent a character in text or an attribute value,
+DogsBay XML writes a numeric character reference. For example, an arrow in a
+Latin-1 file is written as `&#8594;`. An XML parser interprets this reference as
+the original character.
 
-A `CDATA` section holding such a character is written out as ordinary escaped text
-instead, which says the same thing to a reader. You may see a `<![CDATA[…]]>`
-section you wrote appear as escaped text; the content is unchanged. This only
-happens when there is something to rescue — otherwise your `CDATA` is left exactly
-as you wrote it.
+If a `CDATA` section contains such a character, DogsBay XML converts the section
+to escaped text to preserve its content. Other `CDATA` sections retain their
+original form.
 
-### The one place a character cannot be kept
+### Characters in comments and processing instructions
 
-Nothing can spell an arrow inside `<!-- a comment -->` or a processing
-instruction: a character reference there is literal text, not the character. So if
-your file's encoding has no room for it:
+Character references in comments and processing instructions are literal text.
+They cannot preserve characters that the file encoding cannot represent. The
+save behavior depends on how you access the file:
 
-- **in the editor**, the save goes ahead and a message names the character, so you
-  can decide
-- **from an AI assistant or the command line**, the save is refused rather than
-  done, because nothing would be there to notice the loss
+- **In the editor**, saving continues, and a message identifies the affected
+  character. The saved file loses that character.
+- **Through an AI assistant or the command line**, saving fails with an error
+  that identifies the affected character.
 
-Either way, the fix is to save the file as UTF-8 — change the declaration to
-`encoding="UTF-8"` — or to move the text out of the comment.
+To preserve the character, change the XML declaration to `encoding="UTF-8"` and
+save the file. For text in a comment, you can also move the text into element
+content, where a character reference can represent it.
 
-### Byte-order marks
+### Byte order marks
 
-Some editors start a file with a short invisible marker (a "BOM"). Formatting
-leaves it exactly as it found it: present if it was present, absent if it was not.
+A byte order mark (BOM) is a marker at the beginning of some encoded files.
+Formatting preserves an existing BOM and does not add one if it is absent.
 
 ## Known limitation
 
-Two inline elements written directly against each other, with no text beside them
-in the same element, are laid out on separate lines:
+Formatting places adjacent inline elements on separate lines when their parent
+element contains no text:
 
 ```xml
 <p><uicontrol>Save</uicontrol><uicontrol>Exit</uicontrol></p>
 ```
 
-A reader of the published output sees `Save Exit` rather than `SaveExit`, because
-the line break between them becomes a space. Where the paragraph also contains
-prose — which is almost always — the spacing is preserved correctly.
+The line break between the elements becomes a space in the published output,
+producing `Save Exit` instead of `SaveExit`. Formatting preserves the spacing
+when the parent element also contains prose.
 
-If this affects your content, keep those elements on one line and do not format
-that file, or put the text in a single element.
+If this limitation affects your content, keep the elements on one line and avoid
+formatting that file, or combine the text in a single element.
 
-## Related
+## Related information
 
-- [Format style](/reference/project-config#format-style) — the attributes a
-  project can set, including sorting attributes
-- [Format settings](/reference/settings#format) — your own default style
-- [The command line](/reference/cli) — `format`, `reflow`, and `--check`
+- [Format style](/reference/project-config#format-style): Project formatting
+  settings, including attribute sorting
+- [Format settings](/reference/settings#format): Default formatting settings
+- [The command line](/reference/cli): The `format` and `reflow` commands and the
+  `--check` option

@@ -79,6 +79,13 @@ These are the defaults. Every one of them can be changed in **File > Settings > 
 | Goto next Attribute value | Ctrl+Shift+Down |
 | Goto previous Attribute value | Ctrl+Shift+Up |
 
+## Commands without a default shortcut
+
+**XML > Format** has no default shortcut in the current binding catalogue.
+To assign one, select **File > Settings > Bindings** and find **Format the XML**.
+The labels and categories in **Bindings** can differ from menu labels and paths.
+For example, this command is in the **Edit** category but on the **XML** menu.
+
 ## Changing a key
 
 Select **File > Settings > Bindings**, find the command (typing in the filter box narrows the list) and select **Change…**. Press the combination you want. Escape on its own cancels; Escape with a modifier is a combination like any other, so Ctrl+Escape can be bound.

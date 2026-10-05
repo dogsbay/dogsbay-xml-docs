@@ -122,12 +122,11 @@ When a client connects, the server tells the assistant where to start: the proje
 Every call is attributed to a session, so the audit log records which
 assistant did what.
 
-An assistant's save is **refused** rather than done if it would lose a character:
-one your file's encoding cannot hold, sitting in a comment or a processing
-instruction where nothing can stand in for it. The error names the character and
-what to do about it. A person saving the same file in the editor is told instead
-and can decide, because a person will see the message and an assistant would
-simply report success. See [Formatting and encodings](/authoring/formatting#the-one-place-a-character-cannot-be-kept).
+A save request from an assistant fails if a comment or processing instruction
+contains a character that the file encoding cannot represent. The error
+identifies the character and provides corrective steps. In the editor, saving
+continues with a message about the affected character. See
+[Characters in comments and processing instructions](/authoring/formatting#characters-in-comments-and-processing-instructions).
 
 ## If the token changes
 
@@ -149,5 +148,5 @@ Restart the editor, and give clients the new configuration.
   The same operations, without a client.
 
 - **[Driving the editor](/automation/driving-the-editor)** {icon="menu"}
-  The same server, for working the interface from a script.
+  Automate the editor interface through the integration server.
 :::

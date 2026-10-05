@@ -48,8 +48,8 @@ undo is shared, so a change made in one view can be undone in the other.
 The Author view preserves markup that it does not visualize, such as
 conditional attributes or unusual elements.
 
-**Author split** shows source and blocks side by side, which is useful while
-you are learning what a block corresponds to.
+Select **View > Document Views > Split: XML + Author** to show the source and
+Author views side by side.
 
 ## Assembling a map
 

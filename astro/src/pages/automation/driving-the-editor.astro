@@ -30,7 +30,7 @@ import TableHead from "@ui/table/TableHead.astro";
 import TableHeader from "@ui/table/TableHeader.astro";
 import TableRow from "@ui/table/TableRow.astro";
 
-const headings = [{"depth":1,"slug":"driving-the-editor","text":"Driving the editor"},{"depth":2,"slug":"turn-on-driving","text":"Turn on driving"},{"depth":2,"slug":"name-what-you-click","text":"Name what you click"},{"depth":2,"slug":"scroll-with-reveal","text":"Scroll with reveal"},{"depth":2,"slug":"press-a-button","text":"Press a button"},{"depth":2,"slug":"start-from-a-known-state","text":"Start from a known state"},{"depth":2,"slug":"lessons-from-recording-the-dita-tutorial","text":"Lessons from recording the DITA tutorial"},{"depth":2,"slug":"limits","text":"Limits"},{"depth":2,"slug":"related","text":"Related"}];
+const headings = [{"depth":1,"slug":"driving-the-editor","text":"Driving the editor"},{"depth":2,"slug":"enabling-interface-automation","text":"Enabling interface automation"},{"depth":2,"slug":"locating-controls-by-name","text":"Locating controls by name"},{"depth":2,"slug":"scrolling-controls-into-view","text":"Scrolling controls into view"},{"depth":2,"slug":"clicking-a-button","text":"Clicking a button"},{"depth":2,"slug":"setting-the-initial-state","text":"Setting the initial state"},{"depth":2,"slug":"recording-and-testing-guidelines","text":"Recording and testing guidelines"},{"depth":2,"slug":"limitations","text":"Limitations"},{"depth":2,"slug":"related-information","text":"Related information"}];
 const nav = navData;
 const currentPath = "/dogsbay-xml-docs/automation/driving-the-editor";
 const _navForPagination = filterNavByAxis(nav as any[], {
@@ -41,7 +41,7 @@ const _navForPagination = filterNavByAxis(nav as any[], {
 });
 const { prev, next } = getPagination(currentPath, _navForPagination);
 const title = "Driving the editor";
-const description = "Work the editor's interface from a script by naming what you click, and start from a known state, for recordings and end-to-end tests." || undefined;
+const description = "Automate the editor interface for screen recordings, end-to-end tests, and scripted demonstrations by locating controls by name." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
 const nofollow = false;
@@ -54,7 +54,7 @@ const pageCategory = ["automation"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Driving the editor {#driving-the-editor}\n\nThe integration server can work the editor's interface the way a person does: open a menu, press a button in a dialog, type into the document, scroll a panel. It is how a screen recording, an end-to-end test or a scripted walkthrough drives a real editor rather than a mock of one.\n\nThis is a different job from [connecting an AI assistant](/dogsbay-xml-docs/automation/mcp). An assistant asks for DITA operations and never touches the interface. A driver clicks things, and most of what it needs to know is *where they are*.\n\n## Turn on driving {#turn-on-driving}\n\nReading the interface needs nothing beyond the server. The part that acts on it is off unless you ask for it.\n\n:::steps\n1. **Start the editor with driving allowed**\n\n   ```bash\n   dogsbay-xml gui --allow-driving\n   ```\n2. **Check the server is on** Driving uses the same server as everything else, so turn it on under **File > Settings > Server** or leave it enabled in the project's settings.\n:::\n\nThe gate is deliberate rather than cautious. A menu command does whatever that command does, and a line in the editor's terminal can do anything at all, so the capability is withheld instead of being fenced in. An assistant holding the server's token gains none of it by default.\n\n| Method | What it does | Needs `--allow-driving` |\n| --- | --- | --- |\n| `locate` | Says where something on screen is | no |\n| `reveal` | Scrolls something into view, then answers as `locate` does | no |\n| `clickButton` | Presses a button by its label, or only says where it is | to press |\n| `invokeAction` | Runs a menu command by its id, without opening a menu | yes |\n| `typeText` | Types key by key, through the component's own key handling | yes |\n| `terminalRun` | Runs a line in the editor's terminal | yes |\n| `setCursor`, `selectElement`, `selectPanel`, `switchSidebar` | Moves the caret, the selection, the visible panel | no |\n| `waitIdle` | Waits until the interface stops changing | no |\n| `screenshot` | Captures the window | no |\n\n`invokeAction` and `clickButton` **start** their work and return rather than waiting for it to finish. A modal dialog runs its own event loop, so a call that waited for the dialog's outcome would wait for as long as the dialog stayed open — which, with nobody there to answer it, is forever. Everything such a call can refuse is therefore checked before the click is posted: an unknown action id, an unknown button, a disabled control. To find out what the click did, call `waitIdle`, or ask for the thing you expect to have changed.\n\n## Name what you click {#name-what-you-click}\n\nPositions measured from a screenshot break for reasons that have nothing to do with your script. They move when a window manager draws a title bar, when the theme or the font changes, when the display's scaling changes, and when a dialog gains a line of text. Worse, a script that mis-clicks does not usually fail — it presses something else and carries on.\n\n`locate` answers \"where is the thing with this text?\" with its box on screen. Give it the text and the kind.\n\n```json\n{\"method\": \"locate\", \"params\": {\"what\": \"row\", \"text\": \"topics\"}}\n```\n\n| Kind | Found by |\n| --- | --- |\n| `button` | Its label, then its tooltip or accessible name |\n| `menu` | A menu of the window's menu bar |\n| `item` | An item of whatever menu is open now, a context menu included |\n| `tab` | A tab of a tabbed pane |\n| `row` | A row of a list, a table or a tree — by the text the renderer draws |\n| `field` | The text field a label names |\n| `combo` | A drop-down, by the option showing in it |\n| `option` | An item of the open drop-down |\n| `text` | A place in the open document, by the words there |\n| `cell` | A cell of a table, by `column` and `row` — including an empty one |\n| `status` | A segment of the status bar, by the tooltip it is known by |\n\nText is matched as a button's label is: trimmed, ignoring case, ignoring a trailing ellipsis, and ignoring the colon a dialog puts after a field's label. So `Add` finds **Add…**, and `Value` finds the field labelled **Value:**.\n\nThe kind is required. The text alone is ambiguous — a word can be both a row and a label beside a field — and choosing between them by some fixed order would be a coin toss.\n\nThree parameters cover the rest:\n\n- `nth` picks one when a name fits several. Two rows of the same text is ordinary in a table, so an ambiguity has to be something a caller can get past. `0` means \"there should only be one\".\n- `column` and `row` address a cell by where it is, since the cells a script clicks are often empty and an empty cell has no text to be named by. `row` takes a 1-based number or `last`.\n- `offset` aims at one word inside a longer match, for `what: \"text\"`.\n\n**A refusal is the useful half.** A name that matches nothing is refused with the names that do exist, and an ambiguous one with where each candidate is. A mistake in a script surfaces as a one-line message on the first run instead of as a misclick in a recording. An item of a menu that is not open yet is refused as \"not on screen\" rather than reported missing, because a caller that names it before opening its menu has the name right and the order wrong.\n\n## Scroll with reveal {#scroll-with-reveal}\n\nBeing scrolled out of view is the one reason `locate` fails for something that is really there. `reveal` is the cure: it takes the kinds `locate` takes, plus `panel` with `to: \"end\"` or `to: \"start\"`, scrolls, and then answers as `locate` would.\n\n```json\n{\"method\": \"reveal\", \"params\": {\"what\": \"panel\", \"panel\": \"Project Validation\", \"to\": \"end\"}}\n```\n\nIt scrolls and does nothing else — no caret moved, no selection changed, no document touched. That is also why it is a separate verb rather than a flag on `locate`: `locate` can go on truthfully saying it changes nothing, which is what keeps it outside the permission gate.\n\n## Press a button {#press-a-button}\n\n`clickButton` matches a dialog's button by its label and presses it. `\"press\": false` asks only where it is, which needs no `--allow-driving`.\n\nA recording usually wants `press: false`, then moves its own pointer to the middle of the button and clicks there: the name found the target, and the pointer did the part a viewer can see.\n\nAmbiguity is refused rather than resolved. Two buttons of the same label, or no active window and more than one dialog open, both come back asking you to say which. The window is chosen by: the one you named, else the active window, else the single dialog on screen, else the only window there is.\n\n## Start from a known state {#start-from-a-known-state}\n\nA run that starts from last week's session is not reproducible. These options give the editor a stated starting point instead of a remembered one.\n\n| Option | What it fixes |\n| --- | --- |\n| `--settings DIR` | A profile of its own, so your settings are not the editor's usual ones |\n| `--project DIR` | Opens this folder as the project |\n| `--window WxH` | A known window size |\n| `--title TEXT` | A known window title, which is also how you name a window to `locate` |\n| `--terminal-font [FAMILY,]SIZE` | A legible terminal in a capture |\n| `--no-welcome` | No welcome screen in the way |\n| `--no-session-restore` | None of the previous session's files reopened |\n| `--no-change-marks` | No change marks in the margin |\n\nA `--window` as large as the screen opens undecorated, so that the editor and the window manager agree there is no title bar.\n\n## Lessons from recording the DITA tutorial {#lessons-from-recording-the-dita-tutorial}\n\nThe 27 narrated stages of the DITA tutorial were recorded by driving a real editor. These are the things that cost time, and they generalise beyond recordings.\n\n- **Check on a real display, not only in the test suite.** A green suite hid several faults that one live run found at once. A screenshot taken from the component tree rather than the screen is the trap to know about: it will happily confirm a position that is wrong.\n- **A recording environment needs a window manager.** Bare Xvfb draws no frames, so dialogs have no title bar, border or shadow and look broken. Use the window manager your readers use, not one whose frames match nothing.\n- **When the window manager and the toolkit disagree about decorations, everything is off by the height of a title bar.** That is what the undecorated screen-sized window is for.\n- **Positions break; names don't.** Every measured coordinate in the tutorial's cue sheets broke the day a window manager arrived. Nothing named broke.\n- **Ask the renderer, not the model.** A row's name is the text drawn in it, which is not always what the underlying object would call itself.\n- **Check that a click did what it should.** Read the cursor back after a click in the document; check a dialog's title after pressing a button. A silent misclick makes a run wrong without making it fail.\n- **Move the pointer the way a person does.** Open a menu by its path — the title, then across into the menu, then down its left side to the row. A diagonal crosses other menu titles and opens them.\n- **Drop-downs open from their arrow.** Clicking the middle of an editable drop-down only places a text cursor in it.\n- **Typing is guarded, and that guard is a feature.** `typeText` stops if focus moves part-way through, so a popup cannot quietly receive the rest of a listing.\n- **Collect the changes that affect every step before recording any of them.** Anything global — how files are saved, how the pointer behaves — means recording everything twice if you find it on stage 20.\n- **Don't drive an editor that is being rebuilt**, and don't run two capturing runs at once. They compete for the processor, and the one you keep shows the interface lagging behind the narration.\n- **Leave the machine as you found it.** Editors left running hold file-watch handles, and the next person's test suite fails on a limit rather than on a bug.\n\n## Limits {#limits}\n\n- Driving needs a running editor with a window. The headless server refuses these methods, and the command line has no interface to drive.\n- The HTML preview is a web view, and `locate` cannot see inside it yet. Clicks and scrolls there are still positional.\n- Targets named by XPath are not available; `locate` works from what is drawn.\n- Driving is reachable over the integration server only. These methods are not MCP tools, because they are not something an assistant should reach for.\n\n## Related {#related}\n\n:::cards\n- **[Connecting an AI assistant](/dogsbay-xml-docs/automation/mcp){icon=\"sparkles\"}**\n  The same server, for DITA operations rather than the interface.\n\n- **[The command line](/dogsbay-xml-docs/reference/cli){icon=\"terminal\"}**\n  The options that give a run its starting state.\n\n- **[Settings](/dogsbay-xml-docs/reference/settings){icon=\"menu\"}**\n  Where the integration server is turned on.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/automation/driving-the-editor.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Driving the editor {#driving-the-editor}\n\nUse the integration server to open menus, click buttons, enter text, and scroll panels from a script. You can automate the editor interface for screen recordings, end-to-end tests, and scripted demonstrations.\n\nTo run DITA operations through an AI assistant, see [Connecting an AI assistant](/dogsbay-xml-docs/automation/mcp).\n\n## Enabling interface automation {#enabling-interface-automation}\n\nMethods that run menu commands, enter text, or execute terminal commands require `--allow-driving`. The server token alone does not authorize these methods.\n\n:::steps\n1. **Start the editor with interface automation enabled.**\n\n   ```bash\n   dogsbay-xml gui --allow-driving\n   ```\n2. **Verify that the integration server is enabled.** Enable the server in **File > Settings > Server** or in the project settings.\n:::\n\nThe following table lists the methods and their requirements:\n\n| Method | Description | Requires `--allow-driving` |\n| --- | --- | --- |\n| `locate` | Returns the location of an interface element | No |\n| `reveal` | Scrolls an interface element into view and returns its location | No |\n| `clickButton` | Clicks a button by its label or returns its location | Only to click |\n| `invokeAction` | Runs a menu command by its ID | Yes |\n| `typeText` | Enters text through the component's key handling | Yes |\n| `terminalRun` | Runs a command in the editor's terminal | Yes |\n| `setCursor`, `selectElement`, `selectPanel`, `switchSidebar` | Changes the cursor position, selection, or visible panel | No |\n| `waitIdle` | Waits until the interface stops changing | No |\n| `screenshot` | Captures the window | No |\n\n`invokeAction` and `clickButton` return before the action completes. This behavior allows a script to interact with a modal dialog that the action opens. The server checks for unknown action IDs, unknown buttons, and disabled controls before scheduling the action. To verify the result, call `waitIdle` or query the interface element that you expect to change.\n\n## Locating controls by name {#locating-controls-by-name}\n\nUse `locate` to find a control by its displayed text and type. Its position can change with the window manager, theme, font, display scaling, or dialog content. Coordinates copied from a screenshot can therefore target the wrong control.\n\nThe following request returns the screen bounds of the row labeled **topics**:\n\n```json\n{\"method\": \"locate\", \"params\": {\"what\": \"row\", \"text\": \"topics\"}}\n```\n\n| Type (`what`) | Matching criteria |\n| --- | --- |\n| `button` | Button label, tooltip, or accessible name, in that order |\n| `menu` | Menu in the window's menu bar |\n| `item` | Item in an open menu, including a context menu |\n| `tab` | Tab in a tabbed pane |\n| `row` | Displayed text of a row in a list, table, or tree |\n| `field` | Label associated with a text field |\n| `combo` | Currently displayed option in a drop-down list |\n| `option` | Item in an open drop-down list |\n| `text` | Text in the open document |\n| `cell` | Table cell identified by `column` and `row`, including an empty cell |\n| `status` | Tooltip of a status bar segment |\n\nMatching ignores leading and trailing whitespace, case, a trailing ellipsis, and a trailing colon. For example, `Add` matches **Add…**, and `Value` matches the field labeled **Value:**.\n\nThe `what` parameter is required because the same text can identify different types of controls, such as a row and a field label. Use the following parameters to refine a match:\n\n- `nth`: Selects a match by its position, starting at 1. Set `nth` to `0` to require a unique match.\n- `column` and `row`: Identify a table cell by position. The `row` parameter accepts a number starting at 1 or `last`.\n- `offset`: Specifies a position within a text match when `what` is `\"text\"`.\n\nIf no control matches, the error lists the available names. If several controls match, the error lists their locations. A menu item in a closed menu returns a \"not on screen\" error. Open the menu before locating the item.\n\n## Scrolling controls into view {#scrolling-controls-into-view}\n\nUse `reveal` when a control is outside the visible area. It supports the same types as `locate` and returns the control's location after scrolling. To scroll a panel to its beginning or end, specify `\"what\": \"panel\"` and set `to` to `\"start\"` or `\"end\"`.\n\n```json\n{\"method\": \"reveal\", \"params\": {\"what\": \"panel\", \"panel\": \"Project Validation\", \"to\": \"end\"}}\n```\n\n`reveal` preserves the cursor position, selection, and document content.\n\n## Clicking a button {#clicking-a-button}\n\nUse `clickButton` to match a dialog button by its label and click it. To return the button's location without clicking it, set `\"press\": false`. This setting does not require `--allow-driving`.\n\nFor a recording that shows pointer movement, set `\"press\": false`, then use your recording script to move the pointer to the button's center and click it.\n\nThe method selects a window in the following order:\n\n1. The window that you specify\n2. The active window\n3. The only open dialog\n4. The only open window\n\nIf multiple buttons match, or if multiple dialogs are open and none is active, specify the button or window in your request.\n\n## Setting the initial state {#setting-the-initial-state}\n\nUse the following options to configure a reproducible session:\n\n| Option | Description |\n| --- | --- |\n| `--settings DIR` | Uses a separate settings profile |\n| `--project DIR` | Opens the specified folder as the project |\n| `--window WxH` | Sets the window size |\n| `--title TEXT` | Sets the window title, which you can use to identify the window in `locate` requests |\n| `--terminal-font [FAMILY,]SIZE` | Sets the terminal font for recordings |\n| `--no-welcome` | Hides the welcome screen |\n| `--no-session-restore` | Prevents files from the previous session from reopening |\n| `--no-change-marks` | Hides change marks in the margin |\n\nIf `--window` specifies a size as large as the screen, the editor opens without window decorations, such as a title bar.\n\n## Recording and testing guidelines {#recording-and-testing-guidelines}\n\nUse the following practices when you record or test the interface:\n\n- **Verify positions on a display.** A capture from the component tree can omit window decorations and report positions that differ from those on the screen.\n- **Use a window manager for recordings.** Xvfb alone does not draw window frames, title bars, or shadows. Use the window manager that your audience uses.\n- **Account for window decorations.** Differences between the window manager and the toolkit can offset positions by the height of a title bar. A screen-sized window without decorations avoids this offset.\n- **Locate controls by name.** Fixed coordinates can become incorrect when the display environment changes.\n- **Use the text displayed in each row.** It can differ from the text stored in the underlying data model.\n- **Verify the result of each click.** Query the cursor position after clicking in a document, or check the dialog title after clicking a button.\n- **Keep pointer movement within the menu.** Move from the menu title into the menu, then down to the item. A diagonal movement can cross another menu title and open that menu.\n- **Open drop-down lists by clicking their arrows.** Clicking the text area of an editable drop-down list places the text cursor there.\n- **Check for interrupted text entry.** `typeText` stops if focus changes during text entry, preventing the remaining text from being entered in another control.\n- **Finalize shared settings before recording.** Changes to file saving or pointer behavior can require you to record earlier steps again.\n- **Run one recording at a time.** Build the editor before recording. Concurrent builds or recordings can slow the interface and affect narration timing.\n- **Close the editor after each run.** Unused editor processes retain file watch handles and can cause later tests to exceed system limits.\n\n## Limitations {#limitations}\n\n- Interface automation requires a running editor window. The headless server rejects these methods.\n- `locate` cannot identify controls inside the HTML preview. Use coordinates to click or scroll within the preview.\n- `locate` identifies displayed controls and text. It does not support XPath targets.\n- These methods are available only through the integration server. They are not exposed as MCP tools.\n\n## Related information {#related-information}\n\n:::cards\n- **[Connecting an AI assistant](/dogsbay-xml-docs/automation/mcp){icon=\"sparkles\"}**\n  Run DITA operations through the integration server.\n\n- **[The command line](/dogsbay-xml-docs/reference/cli){icon=\"terminal\"}**\n  Configure the initial state of an editor session.\n\n- **[Settings](/dogsbay-xml-docs/reference/settings){icon=\"menu\"}**\n  Enable the integration server.\n:::\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/automation/driving-the-editor.md"} ?? undefined;
 ---
 
 <DocsLayout
@@ -109,228 +109,234 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   <MarkdownContentStack>
     <article class="docs-prose">
       <h1 id="driving-the-editor" class="group scroll-mt-20">Driving the editor<a href="#driving-the-editor" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h1>
-      <p>The integration server can work the editor's interface the way a person does: open a menu, press a button in a dialog, type into the document, scroll a panel. It is how a screen recording, an end-to-end test or a scripted walkthrough drives a real editor rather than a mock of one.</p>
-      <p>This is a different job from <a href="/dogsbay-xml-docs/automation/mcp">connecting an AI assistant</a>. An assistant asks for DITA operations and never touches the interface. A driver clicks things, and most of what it needs to know is <em>where they are</em>.</p>
-      <h2 id="turn-on-driving" class="group scroll-mt-20">Turn on driving<a href="#turn-on-driving" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>Reading the interface needs nothing beyond the server. The part that acts on it is off unless you ask for it.</p>
+      <p>Use the integration server to open menus, click buttons, enter text, and scroll panels from a script. You can automate the editor interface for screen recordings, end-to-end tests, and scripted demonstrations.</p>
+      <p>To run DITA operations through an AI assistant, see <a href="/dogsbay-xml-docs/automation/mcp">Connecting an AI assistant</a>.</p>
+      <h2 id="enabling-interface-automation" class="group scroll-mt-20">Enabling interface automation<a href="#enabling-interface-automation" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Methods that run menu commands, enter text, or execute terminal commands require <code>--allow-driving</code>. The server token alone does not authorize these methods.</p>
       <Steps>
       <Step>
-      <strong>Start the editor with driving allowed</strong>
+      <strong>Start the editor with interface automation enabled.</strong>
       <CodeBlock code={"dogsbay-xml gui --allow-driving"} lang="bash" />
       </Step>
       <Step>
-      <strong>Check the server is on</strong> Driving uses the same server as everything else, so turn it on under <strong>File &gt; Settings &gt; Server</strong> or leave it enabled in the project's settings.
+      <strong>Verify that the integration server is enabled.</strong> Enable the server in <strong>File &gt; Settings &gt; Server</strong> or in the project settings.
       </Step>
       </Steps>
-      <p>The gate is deliberate rather than cautious. A menu command does whatever that command does, and a line in the editor's terminal can do anything at all, so the capability is withheld instead of being fenced in. An assistant holding the server's token gains none of it by default.</p>
+      <p>The following table lists the methods and their requirements:</p>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
       <TableHead>Method</TableHead>
-      <TableHead>What it does</TableHead>
-      <TableHead>Needs <code>--allow-driving</code></TableHead>
+      <TableHead>Description</TableHead>
+      <TableHead>Requires <code>--allow-driving</code></TableHead>
       </TableRow>
       </TableHeader>
       <TableBody>
       <TableRow>
       <TableCell><code>locate</code></TableCell>
-      <TableCell>Says where something on screen is</TableCell>
-      <TableCell>no</TableCell>
+      <TableCell>Returns the location of an interface element</TableCell>
+      <TableCell>No</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>reveal</code></TableCell>
-      <TableCell>Scrolls something into view, then answers as <code>locate</code> does</TableCell>
-      <TableCell>no</TableCell>
+      <TableCell>Scrolls an interface element into view and returns its location</TableCell>
+      <TableCell>No</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>clickButton</code></TableCell>
-      <TableCell>Presses a button by its label, or only says where it is</TableCell>
-      <TableCell>to press</TableCell>
+      <TableCell>Clicks a button by its label or returns its location</TableCell>
+      <TableCell>Only to click</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>invokeAction</code></TableCell>
-      <TableCell>Runs a menu command by its id, without opening a menu</TableCell>
-      <TableCell>yes</TableCell>
+      <TableCell>Runs a menu command by its ID</TableCell>
+      <TableCell>Yes</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>typeText</code></TableCell>
-      <TableCell>Types key by key, through the component's own key handling</TableCell>
-      <TableCell>yes</TableCell>
+      <TableCell>Enters text through the component's key handling</TableCell>
+      <TableCell>Yes</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>terminalRun</code></TableCell>
-      <TableCell>Runs a line in the editor's terminal</TableCell>
-      <TableCell>yes</TableCell>
+      <TableCell>Runs a command in the editor's terminal</TableCell>
+      <TableCell>Yes</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>setCursor</code>, <code>selectElement</code>, <code>selectPanel</code>, <code>switchSidebar</code></TableCell>
-      <TableCell>Moves the caret, the selection, the visible panel</TableCell>
-      <TableCell>no</TableCell>
+      <TableCell>Changes the cursor position, selection, or visible panel</TableCell>
+      <TableCell>No</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>waitIdle</code></TableCell>
       <TableCell>Waits until the interface stops changing</TableCell>
-      <TableCell>no</TableCell>
+      <TableCell>No</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>screenshot</code></TableCell>
       <TableCell>Captures the window</TableCell>
-      <TableCell>no</TableCell>
+      <TableCell>No</TableCell>
       </TableRow>
       </TableBody>
       </Table>
-      <p><code>invokeAction</code> and <code>clickButton</code> <strong>start</strong> their work and return rather than waiting for it to finish. A modal dialog runs its own event loop, so a call that waited for the dialog's outcome would wait for as long as the dialog stayed open — which, with nobody there to answer it, is forever. Everything such a call can refuse is therefore checked before the click is posted: an unknown action id, an unknown button, a disabled control. To find out what the click did, call <code>waitIdle</code>, or ask for the thing you expect to have changed.</p>
-      <h2 id="name-what-you-click" class="group scroll-mt-20">Name what you click<a href="#name-what-you-click" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>Positions measured from a screenshot break for reasons that have nothing to do with your script. They move when a window manager draws a title bar, when the theme or the font changes, when the display's scaling changes, and when a dialog gains a line of text. Worse, a script that mis-clicks does not usually fail — it presses something else and carries on.</p>
-      <p><code>locate</code> answers "where is the thing with this text?" with its box on screen. Give it the text and the kind.</p>
+      <p><code>invokeAction</code> and <code>clickButton</code> return before the action completes. This behavior allows a script to interact with a modal dialog that the action opens. The server checks for unknown action IDs, unknown buttons, and disabled controls before scheduling the action. To verify the result, call <code>waitIdle</code> or query the interface element that you expect to change.</p>
+      <h2 id="locating-controls-by-name" class="group scroll-mt-20">Locating controls by name<a href="#locating-controls-by-name" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use <code>locate</code> to find a control by its displayed text and type. Its position can change with the window manager, theme, font, display scaling, or dialog content. Coordinates copied from a screenshot can therefore target the wrong control.</p>
+      <p>The following request returns the screen bounds of the row labeled <strong>topics</strong>:</p>
       <CodeBlock code={"{\"method\": \"locate\", \"params\": {\"what\": \"row\", \"text\": \"topics\"}}"} lang="json" />
       <Table class="my-4">
       <TableHeader>
       <TableRow>
-      <TableHead>Kind</TableHead>
-      <TableHead>Found by</TableHead>
+      <TableHead>Type (<code>what</code>)</TableHead>
+      <TableHead>Matching criteria</TableHead>
       </TableRow>
       </TableHeader>
       <TableBody>
       <TableRow>
       <TableCell><code>button</code></TableCell>
-      <TableCell>Its label, then its tooltip or accessible name</TableCell>
+      <TableCell>Button label, tooltip, or accessible name, in that order</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>menu</code></TableCell>
-      <TableCell>A menu of the window's menu bar</TableCell>
+      <TableCell>Menu in the window's menu bar</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>item</code></TableCell>
-      <TableCell>An item of whatever menu is open now, a context menu included</TableCell>
+      <TableCell>Item in an open menu, including a context menu</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>tab</code></TableCell>
-      <TableCell>A tab of a tabbed pane</TableCell>
+      <TableCell>Tab in a tabbed pane</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>row</code></TableCell>
-      <TableCell>A row of a list, a table or a tree — by the text the renderer draws</TableCell>
+      <TableCell>Displayed text of a row in a list, table, or tree</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>field</code></TableCell>
-      <TableCell>The text field a label names</TableCell>
+      <TableCell>Label associated with a text field</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>combo</code></TableCell>
-      <TableCell>A drop-down, by the option showing in it</TableCell>
+      <TableCell>Currently displayed option in a drop-down list</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>option</code></TableCell>
-      <TableCell>An item of the open drop-down</TableCell>
+      <TableCell>Item in an open drop-down list</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>text</code></TableCell>
-      <TableCell>A place in the open document, by the words there</TableCell>
+      <TableCell>Text in the open document</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>cell</code></TableCell>
-      <TableCell>A cell of a table, by <code>column</code> and <code>row</code> — including an empty one</TableCell>
+      <TableCell>Table cell identified by <code>column</code> and <code>row</code>, including an empty cell</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>status</code></TableCell>
-      <TableCell>A segment of the status bar, by the tooltip it is known by</TableCell>
+      <TableCell>Tooltip of a status bar segment</TableCell>
       </TableRow>
       </TableBody>
       </Table>
-      <p>Text is matched as a button's label is: trimmed, ignoring case, ignoring a trailing ellipsis, and ignoring the colon a dialog puts after a field's label. So <code>Add</code> finds <strong>Add…</strong>, and <code>Value</code> finds the field labelled <strong>Value:</strong>.</p>
-      <p>The kind is required. The text alone is ambiguous — a word can be both a row and a label beside a field — and choosing between them by some fixed order would be a coin toss.</p>
-      <p>Three parameters cover the rest:</p>
+      <p>Matching ignores leading and trailing whitespace, case, a trailing ellipsis, and a trailing colon. For example, <code>Add</code> matches <strong>Add…</strong>, and <code>Value</code> matches the field labeled <strong>Value:</strong>.</p>
+      <p>The <code>what</code> parameter is required because the same text can identify different types of controls, such as a row and a field label. Use the following parameters to refine a match:</p>
       <ul>
-      <li><code>nth</code> picks one when a name fits several. Two rows of the same text is ordinary in a table, so an ambiguity has to be something a caller can get past. <code>0</code> means "there should only be one".</li>
-      <li><code>column</code> and <code>row</code> address a cell by where it is, since the cells a script clicks are often empty and an empty cell has no text to be named by. <code>row</code> takes a 1-based number or <code>last</code>.</li>
-      <li><code>offset</code> aims at one word inside a longer match, for <code>what: "text"</code>.</li>
+      <li><code>nth</code>: Selects a match by its position, starting at 1. Set <code>nth</code> to <code>0</code> to require a unique match.</li>
+      <li><code>column</code> and <code>row</code>: Identify a table cell by position. The <code>row</code> parameter accepts a number starting at 1 or <code>last</code>.</li>
+      <li><code>offset</code>: Specifies a position within a text match when <code>what</code> is <code>"text"</code>.</li>
       </ul>
-      <p><strong>A refusal is the useful half.</strong> A name that matches nothing is refused with the names that do exist, and an ambiguous one with where each candidate is. A mistake in a script surfaces as a one-line message on the first run instead of as a misclick in a recording. An item of a menu that is not open yet is refused as "not on screen" rather than reported missing, because a caller that names it before opening its menu has the name right and the order wrong.</p>
-      <h2 id="scroll-with-reveal" class="group scroll-mt-20">Scroll with reveal<a href="#scroll-with-reveal" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>Being scrolled out of view is the one reason <code>locate</code> fails for something that is really there. <code>reveal</code> is the cure: it takes the kinds <code>locate</code> takes, plus <code>panel</code> with <code>to: "end"</code> or <code>to: "start"</code>, scrolls, and then answers as <code>locate</code> would.</p>
+      <p>If no control matches, the error lists the available names. If several controls match, the error lists their locations. A menu item in a closed menu returns a "not on screen" error. Open the menu before locating the item.</p>
+      <h2 id="scrolling-controls-into-view" class="group scroll-mt-20">Scrolling controls into view<a href="#scrolling-controls-into-view" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use <code>reveal</code> when a control is outside the visible area. It supports the same types as <code>locate</code> and returns the control's location after scrolling. To scroll a panel to its beginning or end, specify <code>"what": "panel"</code> and set <code>to</code> to <code>"start"</code> or <code>"end"</code>.</p>
       <CodeBlock code={"{\"method\": \"reveal\", \"params\": {\"what\": \"panel\", \"panel\": \"Project Validation\", \"to\": \"end\"}}"} lang="json" />
-      <p>It scrolls and does nothing else — no caret moved, no selection changed, no document touched. That is also why it is a separate verb rather than a flag on <code>locate</code>: <code>locate</code> can go on truthfully saying it changes nothing, which is what keeps it outside the permission gate.</p>
-      <h2 id="press-a-button" class="group scroll-mt-20">Press a button<a href="#press-a-button" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p><code>clickButton</code> matches a dialog's button by its label and presses it. <code>"press": false</code> asks only where it is, which needs no <code>--allow-driving</code>.</p>
-      <p>A recording usually wants <code>press: false</code>, then moves its own pointer to the middle of the button and clicks there: the name found the target, and the pointer did the part a viewer can see.</p>
-      <p>Ambiguity is refused rather than resolved. Two buttons of the same label, or no active window and more than one dialog open, both come back asking you to say which. The window is chosen by: the one you named, else the active window, else the single dialog on screen, else the only window there is.</p>
-      <h2 id="start-from-a-known-state" class="group scroll-mt-20">Start from a known state<a href="#start-from-a-known-state" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>A run that starts from last week's session is not reproducible. These options give the editor a stated starting point instead of a remembered one.</p>
+      <p><code>reveal</code> preserves the cursor position, selection, and document content.</p>
+      <h2 id="clicking-a-button" class="group scroll-mt-20">Clicking a button<a href="#clicking-a-button" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use <code>clickButton</code> to match a dialog button by its label and click it. To return the button's location without clicking it, set <code>"press": false</code>. This setting does not require <code>--allow-driving</code>.</p>
+      <p>For a recording that shows pointer movement, set <code>"press": false</code>, then use your recording script to move the pointer to the button's center and click it.</p>
+      <p>The method selects a window in the following order:</p>
+      <ol>
+      <li>The window that you specify</li>
+      <li>The active window</li>
+      <li>The only open dialog</li>
+      <li>The only open window</li>
+      </ol>
+      <p>If multiple buttons match, or if multiple dialogs are open and none is active, specify the button or window in your request.</p>
+      <h2 id="setting-the-initial-state" class="group scroll-mt-20">Setting the initial state<a href="#setting-the-initial-state" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use the following options to configure a reproducible session:</p>
       <Table class="my-4">
       <TableHeader>
       <TableRow>
       <TableHead>Option</TableHead>
-      <TableHead>What it fixes</TableHead>
+      <TableHead>Description</TableHead>
       </TableRow>
       </TableHeader>
       <TableBody>
       <TableRow>
       <TableCell><code>--settings DIR</code></TableCell>
-      <TableCell>A profile of its own, so your settings are not the editor's usual ones</TableCell>
+      <TableCell>Uses a separate settings profile</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--project DIR</code></TableCell>
-      <TableCell>Opens this folder as the project</TableCell>
+      <TableCell>Opens the specified folder as the project</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--window WxH</code></TableCell>
-      <TableCell>A known window size</TableCell>
+      <TableCell>Sets the window size</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--title TEXT</code></TableCell>
-      <TableCell>A known window title, which is also how you name a window to <code>locate</code></TableCell>
+      <TableCell>Sets the window title, which you can use to identify the window in <code>locate</code> requests</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--terminal-font [FAMILY,]SIZE</code></TableCell>
-      <TableCell>A legible terminal in a capture</TableCell>
+      <TableCell>Sets the terminal font for recordings</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--no-welcome</code></TableCell>
-      <TableCell>No welcome screen in the way</TableCell>
+      <TableCell>Hides the welcome screen</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--no-session-restore</code></TableCell>
-      <TableCell>None of the previous session's files reopened</TableCell>
+      <TableCell>Prevents files from the previous session from reopening</TableCell>
       </TableRow>
       <TableRow>
       <TableCell><code>--no-change-marks</code></TableCell>
-      <TableCell>No change marks in the margin</TableCell>
+      <TableCell>Hides change marks in the margin</TableCell>
       </TableRow>
       </TableBody>
       </Table>
-      <p>A <code>--window</code> as large as the screen opens undecorated, so that the editor and the window manager agree there is no title bar.</p>
-      <h2 id="lessons-from-recording-the-dita-tutorial" class="group scroll-mt-20">Lessons from recording the DITA tutorial<a href="#lessons-from-recording-the-dita-tutorial" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>The 27 narrated stages of the DITA tutorial were recorded by driving a real editor. These are the things that cost time, and they generalise beyond recordings.</p>
+      <p>If <code>--window</code> specifies a size as large as the screen, the editor opens without window decorations, such as a title bar.</p>
+      <h2 id="recording-and-testing-guidelines" class="group scroll-mt-20">Recording and testing guidelines<a href="#recording-and-testing-guidelines" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <p>Use the following practices when you record or test the interface:</p>
       <ul>
-      <li><strong>Check on a real display, not only in the test suite.</strong> A green suite hid several faults that one live run found at once. A screenshot taken from the component tree rather than the screen is the trap to know about: it will happily confirm a position that is wrong.</li>
-      <li><strong>A recording environment needs a window manager.</strong> Bare Xvfb draws no frames, so dialogs have no title bar, border or shadow and look broken. Use the window manager your readers use, not one whose frames match nothing.</li>
-      <li><strong>When the window manager and the toolkit disagree about decorations, everything is off by the height of a title bar.</strong> That is what the undecorated screen-sized window is for.</li>
-      <li><strong>Positions break; names don't.</strong> Every measured coordinate in the tutorial's cue sheets broke the day a window manager arrived. Nothing named broke.</li>
-      <li><strong>Ask the renderer, not the model.</strong> A row's name is the text drawn in it, which is not always what the underlying object would call itself.</li>
-      <li><strong>Check that a click did what it should.</strong> Read the cursor back after a click in the document; check a dialog's title after pressing a button. A silent misclick makes a run wrong without making it fail.</li>
-      <li><strong>Move the pointer the way a person does.</strong> Open a menu by its path — the title, then across into the menu, then down its left side to the row. A diagonal crosses other menu titles and opens them.</li>
-      <li><strong>Drop-downs open from their arrow.</strong> Clicking the middle of an editable drop-down only places a text cursor in it.</li>
-      <li><strong>Typing is guarded, and that guard is a feature.</strong> <code>typeText</code> stops if focus moves part-way through, so a popup cannot quietly receive the rest of a listing.</li>
-      <li><strong>Collect the changes that affect every step before recording any of them.</strong> Anything global — how files are saved, how the pointer behaves — means recording everything twice if you find it on stage 20.</li>
-      <li><strong>Don't drive an editor that is being rebuilt</strong>, and don't run two capturing runs at once. They compete for the processor, and the one you keep shows the interface lagging behind the narration.</li>
-      <li><strong>Leave the machine as you found it.</strong> Editors left running hold file-watch handles, and the next person's test suite fails on a limit rather than on a bug.</li>
+      <li><strong>Verify positions on a display.</strong> A capture from the component tree can omit window decorations and report positions that differ from those on the screen.</li>
+      <li><strong>Use a window manager for recordings.</strong> Xvfb alone does not draw window frames, title bars, or shadows. Use the window manager that your audience uses.</li>
+      <li><strong>Account for window decorations.</strong> Differences between the window manager and the toolkit can offset positions by the height of a title bar. A screen-sized window without decorations avoids this offset.</li>
+      <li><strong>Locate controls by name.</strong> Fixed coordinates can become incorrect when the display environment changes.</li>
+      <li><strong>Use the text displayed in each row.</strong> It can differ from the text stored in the underlying data model.</li>
+      <li><strong>Verify the result of each click.</strong> Query the cursor position after clicking in a document, or check the dialog title after clicking a button.</li>
+      <li><strong>Keep pointer movement within the menu.</strong> Move from the menu title into the menu, then down to the item. A diagonal movement can cross another menu title and open that menu.</li>
+      <li><strong>Open drop-down lists by clicking their arrows.</strong> Clicking the text area of an editable drop-down list places the text cursor there.</li>
+      <li><strong>Check for interrupted text entry.</strong> <code>typeText</code> stops if focus changes during text entry, preventing the remaining text from being entered in another control.</li>
+      <li><strong>Finalize shared settings before recording.</strong> Changes to file saving or pointer behavior can require you to record earlier steps again.</li>
+      <li><strong>Run one recording at a time.</strong> Build the editor before recording. Concurrent builds or recordings can slow the interface and affect narration timing.</li>
+      <li><strong>Close the editor after each run.</strong> Unused editor processes retain file watch handles and can cause later tests to exceed system limits.</li>
       </ul>
-      <h2 id="limits" class="group scroll-mt-20">Limits<a href="#limits" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <h2 id="limitations" class="group scroll-mt-20">Limitations<a href="#limitations" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <ul>
-      <li>Driving needs a running editor with a window. The headless server refuses these methods, and the command line has no interface to drive.</li>
-      <li>The HTML preview is a web view, and <code>locate</code> cannot see inside it yet. Clicks and scrolls there are still positional.</li>
-      <li>Targets named by XPath are not available; <code>locate</code> works from what is drawn.</li>
-      <li>Driving is reachable over the integration server only. These methods are not MCP tools, because they are not something an assistant should reach for.</li>
+      <li>Interface automation requires a running editor window. The headless server rejects these methods.</li>
+      <li><code>locate</code> cannot identify controls inside the HTML preview. Use coordinates to click or scroll within the preview.</li>
+      <li><code>locate</code> identifies displayed controls and text. It does not support XPath targets.</li>
+      <li>These methods are available only through the integration server. They are not exposed as MCP tools.</li>
       </ul>
-      <h2 id="related" class="group scroll-mt-20">Related<a href="#related" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
+      <h2 id="related-information" class="group scroll-mt-20">Related information<a href="#related-information" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
       <Grid cols={[1, 2]} gap={4}>
       <Card class="p-4 hover:border-foreground/20 transition-colors">
       <CardContent class="p-0">
       <a href="/dogsbay-xml-docs/automation/mcp" class="[text-decoration:none] text-foreground">
       <Icon name="sparkles" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">Connecting an AI assistant</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">The same server, for DITA operations rather than the interface.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Run DITA operations through the integration server.</p>
       </a>
       </CardContent>
       </Card>
@@ -339,7 +345,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="/dogsbay-xml-docs/reference/cli" class="[text-decoration:none] text-foreground">
       <Icon name="terminal" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">The command line</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">The options that give a run its starting state.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Configure the initial state of an editor session.</p>
       </a>
       </CardContent>
       </Card>
@@ -348,7 +354,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <a href="/dogsbay-xml-docs/reference/settings" class="[text-decoration:none] text-foreground">
       <Icon name="menu" class="size-5 mb-2 text-muted-foreground" />
       <h3 class="text-base font-semibold">Settings</h3>
-      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Where the integration server is turned on.</p>
+      <p class="text-sm text-muted-foreground mt-1 [text-decoration:none]">Enable the integration server.</p>
       </a>
       </CardContent>
       </Card>

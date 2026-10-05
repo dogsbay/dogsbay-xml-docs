@@ -73,7 +73,7 @@ The field names are `author`, `source`, `publisher`, `copyryear`, `copyrholder`,
 
 ### Format style
 
-The `format-style` attributes set the house style used by **Format Document**, by format on save, and by the `dogsbay-xml format` command. An attribute that is missing takes its default value.
+The `format-style` attributes set the house style used by **XML > Format**, by format on save, and by the `dogsbay-xml format` command. An attribute that is missing takes its default value.
 
 | Attribute | Values | Default | Meaning |
 |---|---|---|---|
@@ -87,11 +87,12 @@ The `format-style` attributes set the house style used by **Format Document**, b
 | `preserve-blank-lines` | `true` or `false` | `true` | Keeps one blank line where you left blank lines, and removes the extras. |
 | `text-continuation` | `block` or `flush` | `block` | Where the continuation lines of wrapped text start. `block` aligns them with the element's indentation, and `flush` starts them at the first column, so moving an element does not re-indent its text. |
 | `trim-whitespace` | `true` or `false` | `true` | Removes whitespace at the ends of lines. |
-| `sort-attributes` | `true` or `false` | `false` | Writes each element's attributes in name order. Attribute order means nothing in XML, so this changes nothing a reader sees — but it rewrites every element that has more than one attribute, so expect one large diff the first time. There is no setting for it on the Format settings page, because it is a decision for a project rather than for one person. |
+| `sort-attributes` | `true` or `false` | `false` | Sorts each element's attributes alphabetically by name without changing their XML meaning. Enabling this option can produce many changes in the first file comparison. Set this option in the project configuration; it is not available on the **Format** settings page. |
 
 The contents of `codeblock`, `pre`, `lines` and `screen` elements are never reformatted. To protect other elements in the same way, add a `preserve-space` child element for each one, containing the element name.
 
-Formatting keeps the file's encoding and every character in it. See [Formatting and encodings](/authoring/formatting) for what happens to a character the file's encoding cannot hold.
+Formatting preserves the file encoding. For characters that the encoding cannot
+represent, see [Formatting and encodings](/authoring/formatting).
 
 If a project has no `format-style`, the editor uses the style on the [Format](/reference/settings#format) settings page.
 

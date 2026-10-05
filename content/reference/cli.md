@@ -30,17 +30,21 @@ Run `dogsbay-xml --help` for the full list, and
 | `info` | Report encoding, grammar, root element and size. |
 | `query` | Run an XPath expression over a file or a glob. |
 | `transform` | Apply an XSLT stylesheet. |
-| `format` | Pretty-print using the project's house style. Prints the result by default; `-i`/`--write` formats files in place, `-o FILE` writes one file, and `--check` writes nothing and exits non-zero while listing the files that are not already in house style. See [Formatting and encodings](/authoring/formatting). |
+| `format` | Apply project formatting settings. Print the result by default, use `-i` or `--write` to format files in place, or use `-o FILE` to write one output file. Use `--check` to list files that require formatting without changing them. |
 | `reflow` | Reflow prose to one sentence per line, leaving verbatim blocks alone. |
 | `preview` | Render the styled DITA preview to HTML. |
 
-`format` and `reflow` keep the file's encoding and every character in it. `format`
-to the screen gives the same bytes as `--write` puts in the file, except that the
-screen output always ends with a newline — a project whose house style sets
-`final-newline="false"` therefore sees one extra byte there, and nowhere else.
+The `format` and `reflow` commands preserve the file encoding. For characters
+that the encoding cannot represent, see
+[Formatting and encodings](/authoring/formatting).
 
-`--check` is the one to use in CI: it reports what would change without changing
-it.
+The `format` command writes the same formatted content to standard output as
+`--write` writes to a file, except that standard output always ends with a
+newline. This newline is also present when the project sets
+`final-newline="false"`.
+
+Use `--check` in continuous integration (CI) checks. It leaves files unchanged
+and returns a nonzero exit status if a file requires formatting.
 
 ## Asking about the project
 

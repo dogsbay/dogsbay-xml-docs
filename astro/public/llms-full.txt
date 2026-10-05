@@ -842,7 +842,7 @@ Both views edit the same document. Switching carries your place across, and undo
 
 The Author view preserves markup that it does not visualize, such as conditional attributes or unusual elements.
 
-**Author split** shows source and blocks side by side, which is useful while you are learning what a block corresponds to.
+Select **View > Document Views > Split: XML + Author** to show the source and Author views side by side.
 
 ## Assembling a map {#assembling-a-map}
 
@@ -911,88 +911,88 @@ URL: https://dogsbay.ai/dogsbay-xml-docs/authoring/formatting.md
 
 ---
 title: Formatting and encodings
-description: Format documents to your project's house style, reflow prose one sentence per line, and keep every character your files contain.
+description: Apply project formatting settings, reflow prose to one sentence per line, and handle characters that the file encoding cannot represent.
 type: how-to
 ---
 
 # Formatting and encodings {#formatting-and-encodings}
 
-Formatting lays a document out to your project's house style. It changes how the file reads in a text editor and in a diff; it does not change what a reader of the published output sees.
+Formatting applies your project's settings for indentation, spacing, and line breaks. These settings control the XML source layout. For an exception that can affect published output, see [Known limitation](#known-limitation).
 
 ## Formatting a document {#formatting-a-document}
 
-**XML ▸ Format Document** (or `F4`) formats the open document. **Format on save** does it every time you save — turn it on in **File ▸ Settings ▸ Format**.
+To format the open document, select **XML > Format**. To format it each time you save, enable **Format on save** in **File > Settings > Format**.
 
-**XML ▸ Format Project** formats every XML file in the project. If any open document has unsaved changes, it offers to save them first, so what it formats is what you have been editing rather than what is on disk.
+To format every XML file in the project, select **Project > Project Tools > Format Project**. If an open document has unsaved changes, the editor prompts you to save them before formatting the files on disk.
 
-On the command line:
+Use the following commands to format files from the command line:
 
 ```bash
-dogsbay-xml format --write topics/*.dita   # format the files in place
-dogsbay-xml format topics/install.dita     # print the result, leave the file alone
-dogsbay-xml format --check topics/*.dita   # list files that are not in house style
+dogsbay-xml format --write topics/*.dita   # Format the files in place
+dogsbay-xml format topics/install.dita     # Print the result without changing the file
+dogsbay-xml format --check topics/*.dita   # List files that require formatting
 ```
 
-`--check` writes nothing and exits non-zero when a file would change, which is what you want in CI. The editor and the command line use the same house style, so they produce the same file.
+The `--check` option leaves files unchanged and returns a nonzero exit status if a file requires formatting. Use this option in continuous integration (CI) checks. The editor and command line use the same project formatting settings.
 
 ## Reflowing prose {#reflowing-prose}
 
-**XML ▸ Reflow Sentences** (or `dogsbay-xml reflow`) breaks prose so each sentence starts on its own line. That keeps a diff to the sentences you actually changed instead of re-wrapping a whole paragraph.
+Select **XML > Reflow Sentences** or run `dogsbay-xml reflow` to start each sentence on a separate line. This layout makes individual sentence changes easier to review in a file comparison.
 
-It is a separate, deliberate pass rather than part of formatting, because detecting where a sentence ends is a guess. Verbatim blocks are left alone.
+Reflow is a separate operation because sentence boundary detection can be inaccurate. It preserves verbatim blocks.
 
-## What formatting never changes {#what-formatting-never-changes}
+## Formatting behavior {#formatting-behavior}
 
-Formatting is meant to be safe to run on anything, at any time. It leaves alone:
+With the default settings, formatting preserves the following content and layout:
 
-- the contents of `codeblock`, `pre`, `lines` and `screen`, and of any element with `xml:space="preserve"`, or any element you list under [`preserve-space`](/dogsbay-xml-docs/reference/project-config#format-style)
-- the line breaks you typed in prose, so one sentence per line survives
-- one blank line wherever you left blank lines
-- the spaces around an inline element, a comment, or a processing instruction in the middle of a sentence
-- your file's encoding, and the characters in it
+- Content in `codeblock`, `pre`, `lines`, and `screen` elements, elements with `xml:space="preserve"`, and elements listed under [`preserve-space`](/dogsbay-xml-docs/reference/project-config#format-style)
+- Existing line breaks in prose, including one sentence per line
+- One blank line at each location that contains blank lines
+- Spaces around inline elements, comments, and processing instructions within a sentence
+- The file encoding, with the character handling described in [Encodings](#encodings)
 
-Running it twice changes nothing the second time. If it does, that is a bug worth reporting.
+Project settings can change how formatting handles line breaks and blank lines. See [Format style](/dogsbay-xml-docs/reference/project-config#format-style). Formatting an unchanged document a second time produces no further changes.
 
 ## Encodings {#encodings}
 
-A file is read and written in the encoding its XML declaration names — `UTF-8`, `ISO-8859-1`, `windows-1252`, `Shift_JIS` and the rest — and the declaration is left saying the same thing. Accented and non-Latin text (`café`, `naïve`, `こんにちは`) comes back exactly as you wrote it, however many times you format.
+DogsBay XML reads and writes a file in the encoding specified by its XML declaration, such as `UTF-8`, `ISO-8859-1`, `windows-1252`, or `Shift_JIS`. Formatting preserves the encoding declaration and characters that the encoding can represent, including accented and non-Latin text.
 
-### A character your encoding cannot hold {#a-character-your-encoding-cannot-hold}
+### Characters outside the file encoding {#characters-outside-the-file-encoding}
 
-If your text contains a character the file's encoding has no room for — an arrow or an emoji in a Latin-1 file, say — it is written as a numeric character reference (`&#8594;`) rather than being dropped. That is the same character, spelled a way the encoding can carry, and every XML tool reads it back as the original.
+If the encoding cannot represent a character in text or an attribute value, DogsBay XML writes a numeric character reference. For example, an arrow in a Latin-1 file is written as `&#8594;`. An XML parser interprets this reference as the original character.
 
-A `CDATA` section holding such a character is written out as ordinary escaped text instead, which says the same thing to a reader. You may see a `<![CDATA[…]]>` section you wrote appear as escaped text; the content is unchanged. This only happens when there is something to rescue — otherwise your `CDATA` is left exactly as you wrote it.
+If a `CDATA` section contains such a character, DogsBay XML converts the section to escaped text to preserve its content. Other `CDATA` sections retain their original form.
 
-### The one place a character cannot be kept {#the-one-place-a-character-cannot-be-kept}
+### Characters in comments and processing instructions {#characters-in-comments-and-processing-instructions}
 
-Nothing can spell an arrow inside `<!-- a comment -->` or a processing instruction: a character reference there is literal text, not the character. So if your file's encoding has no room for it:
+Character references in comments and processing instructions are literal text. They cannot preserve characters that the file encoding cannot represent. The save behavior depends on how you access the file:
 
-- **in the editor**, the save goes ahead and a message names the character, so you can decide
-- **from an AI assistant or the command line**, the save is refused rather than done, because nothing would be there to notice the loss
+- **In the editor**, saving continues, and a message identifies the affected character. The saved file loses that character.
+- **Through an AI assistant or the command line**, saving fails with an error that identifies the affected character.
 
-Either way, the fix is to save the file as UTF-8 — change the declaration to `encoding="UTF-8"` — or to move the text out of the comment.
+To preserve the character, change the XML declaration to `encoding="UTF-8"` and save the file. For text in a comment, you can also move the text into element content, where a character reference can represent it.
 
-### Byte-order marks {#byte-order-marks}
+### Byte order marks {#byte-order-marks}
 
-Some editors start a file with a short invisible marker (a "BOM"). Formatting leaves it exactly as it found it: present if it was present, absent if it was not.
+A byte order mark (BOM) is a marker at the beginning of some encoded files. Formatting preserves an existing BOM and does not add one if it is absent.
 
 ## Known limitation {#known-limitation}
 
-Two inline elements written directly against each other, with no text beside them in the same element, are laid out on separate lines:
+Formatting places adjacent inline elements on separate lines when their parent element contains no text:
 
 ```xml
 <p><uicontrol>Save</uicontrol><uicontrol>Exit</uicontrol></p>
 ```
 
-A reader of the published output sees `Save Exit` rather than `SaveExit`, because the line break between them becomes a space. Where the paragraph also contains prose — which is almost always — the spacing is preserved correctly.
+The line break between the elements becomes a space in the published output, producing `Save Exit` instead of `SaveExit`. Formatting preserves the spacing when the parent element also contains prose.
 
-If this affects your content, keep those elements on one line and do not format that file, or put the text in a single element.
+If this limitation affects your content, keep the elements on one line and avoid formatting that file, or combine the text in a single element.
 
-## Related {#related}
+## Related information {#related-information}
 
-- [Format style](/dogsbay-xml-docs/reference/project-config#format-style) — the attributes a project can set, including sorting attributes
-- [Format settings](/dogsbay-xml-docs/reference/settings#format) — your own default style
-- [The command line](/dogsbay-xml-docs/reference/cli) — `format`, `reflow`, and `--check`
+- [Format style](/dogsbay-xml-docs/reference/project-config#format-style): Project formatting settings, including attribute sorting
+- [Format settings](/dogsbay-xml-docs/reference/settings#format): Default formatting settings
+- [The command line](/dogsbay-xml-docs/reference/cli): The `format` and `reflow` commands and the `--check` option
 
 ---
 
@@ -1180,7 +1180,7 @@ The build then silently drops the topic that uses the value your DITAVAL does no
 
 A subject scheme map declares which values an attribute may take. It turns a typo from an invisible content loss into something you can find.
 
-Select **Project > Map > Controlled Values…** to list the allowed values for each profiling attribute governed by a subject scheme. The view uses the active deliverable's map, then the map in the Map Explorer, then the project's default root map. It reads subject schemes referenced by that map and its included maps. Attributes are listed in name order, here and in `validate-conditions`, so two runs over the same project read the same way.
+Select **Project > Map > Controlled Values…** to list the allowed values for each profiling attribute governed by a subject scheme. The view uses the active deliverable's map, then the map in the Map Explorer, then the project's default root map. It reads subject schemes referenced by that map and its included maps. Both this view and `validate-conditions` list attributes alphabetically by name.
 
 **Check Project** can also find subject schemes elsewhere in the project when none is found through the default root map. It can therefore report values that the view does not list. A value outside the allowed set causes **Check Project** to fail; a DITA-OT build reports a warning.
 
@@ -1202,7 +1202,7 @@ If you omit `--map`, the command looks for subject schemes through the project's
 
 The command follows DITA-OT's subject scheme rules. It combines bindings from multiple definitions. A subject referenced by an `enumerationdef` defines the dimension; its child subjects define the allowed values.
 
-Use `--scope` to limit the scan to one map, a glob, or the project root. The `conditions` check in `project-health` runs the same validation. In the editor, select **Project > Validate Files > Controlled Values**.
+Use `--scope` to limit the scan to one map, a glob, or the project root. The `conditions` check in `project-health` runs the same validation. In the editor, select **Project > Validate Files > Controlled Values (Subject Scheme)**.
 
 ## Renaming a value everywhere {#renaming-a-value-everywhere}
 
@@ -1351,7 +1351,7 @@ Grammar validation resolves catalogs, so a DITA topic validates against the gram
 dogsbay-xml validate topics/installing-audacity.dita
 ```
 
-In the editor, problems appear in the margin as you type and in the error pane. To check the current document, select **XML > Check Well-Formedness**, **XML > Validate**, or **XML > Schematron**.
+In the editor, problems appear in the margin as you type and in the error pane. To check the current document, select **XML > Check Well-formedness**, **XML > Validate**, or **XML > Schematron**.
 
 ## A whole set {#a-whole-set}
 
@@ -1722,11 +1722,11 @@ A preview is immediate and approximate, so you can check your work as you write.
 
 Select **View > Preview in Tab**, or **View > Preview in Split** to keep the source beside it. The preview refreshes as you edit.
 
-The preview is not a plain rendering of the file you have open. It resolves conrefs, so reused content appears where it is pulled in, and it resolves key references when it knows which map provides the context — including a key reference that supplies a title's text, as in `<title>Installing <keyword keyref="product-name"/></title>`, which previews with the product name rather than with the word missing.
+The preview resolves content references (conrefs) and displays the referenced content. It also resolves key references when a map provides the context, including references within titles. For example, `<title>Installing <keyword keyref="product-name"/></title>` displays the product name defined by the key.
 
-In a split or tabbed view, the preview follows the deliverable you make active, so switching deliverable shows the same topic filtered the way that deliverable filters it.
+In a split or tabbed view, the preview uses the active deliverable's filters. When you change the active deliverable, the preview applies its filters to the topic.
 
-Choice tables and the reference domain's `<properties>` tables render as tables, with an **Option** / **Description** header when the table has no `<chhead>` — which is what the published output does.
+Choice tables and the reference domain's `<properties>` elements render as tables. A choice table without a `<chhead>` element uses **Option** and **Description** as column headings, consistent with the published output.
 
 From the command line:
 
@@ -1752,7 +1752,9 @@ Deliverables come from a DITA project file, which is a standard rather than some
 
 When a project has no project file, DogsBay XML uses the default root map. You can therefore build a documentation set that is not yet formalized.
 
-One deliverable is **active**: the status bar shows which, and the commands that act on "the project" use its map. Adding or editing a deliverable does not change which one is active — say so with **Set active** in **Manage Deliverables**. (The exception is when nothing was active yet, or when you are editing the active one and may have just renamed it.)
+The status bar identifies the active deliverable. Project commands use that deliverable's map. To change the active deliverable, select **Set active** in **Manage Deliverables**.
+
+Adding or editing another deliverable preserves the current selection. If no deliverable is active, the added or edited deliverable becomes active. Editing the active deliverable preserves its active status, including when you rename it.
 
 ## Building {#building}
 
@@ -1806,7 +1808,7 @@ Then set `customization.dir` to `mypdf` in the deliverable's publication paramet
 
 To include an index in the PDF, add `<indexlist/>` to the bookmap. The build report summarizes rendering warnings, such as missing characters, overflowing text, and changes to table layout.
 
-Warnings about the computer's own fonts are counted and listed separately from warnings about your document. The first PDF build on a machine reads every font it can find and reports the ones the renderer cannot parse — often dozens — and then caches the result, so later builds say nothing about them. Keeping the two apart means a deliverable reports the same number of document warnings on every machine and on every build, whether or not a PDF has been built there before.
+The build report counts and lists system font warnings separately from document warnings. During the first PDF build on a computer, the renderer scans available fonts and reports those it cannot parse. It caches the results, so later builds do not repeat these warnings. System font warnings do not affect the document warning count.
 
 ## Build messages {#build-messages}
 
@@ -1868,7 +1870,7 @@ dogsbay-xml check .            # health, then the build, then the built output
 
 In the editor, select **Project > Check Project** to run `check`. Its final stage checks the output folder for links to missing pages, fragments, and images. To check an output folder separately, run `dogsbay-xml check-output-links out/`.
 
-For PDF output, this stage checks that the deliverable produced a nonempty file. It does not validate links within the PDF, and says so: a PDF deliverable reports that it wrote a file, with no pages to check links in. The editor and the command line word this the same way.
+For PDF output, this stage checks that the deliverable produced a nonempty file. It does not validate links within the PDF. Both the editor and the command line report that the file was written and that no pages were checked for links.
 
 ## Related {#related}
 
@@ -1984,7 +1986,7 @@ When a client connects, the server tells the assistant where to start: the proje
 
 Every call is attributed to a session, so the audit log records which assistant did what.
 
-An assistant's save is **refused** rather than done if it would lose a character: one your file's encoding cannot hold, sitting in a comment or a processing instruction where nothing can stand in for it. The error names the character and what to do about it. A person saving the same file in the editor is told instead and can decide, because a person will see the message and an assistant would simply report success. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting#the-one-place-a-character-cannot-be-kept).
+A save request from an assistant fails if a comment or processing instruction contains a character that the file encoding cannot represent. The error identifies the character and provides corrective steps. In the editor, saving continues with a message about the affected character. See [Characters in comments and processing instructions](/dogsbay-xml-docs/authoring/formatting#characters-in-comments-and-processing-instructions).
 
 ## If the token changes {#if-the-token-changes}
 
@@ -2006,7 +2008,7 @@ Restart the editor, and give clients the new configuration.
   The same operations, without a client.
 
 - **[Driving the editor](/dogsbay-xml-docs/automation/driving-the-editor){icon="menu"}**
-  The same server, for working the interface from a script.
+  Automate the editor interface through the integration server.
 :::
 
 ---
@@ -2017,151 +2019,156 @@ URL: https://dogsbay.ai/dogsbay-xml-docs/automation/driving-the-editor.md
 
 ---
 title: Driving the editor
-description: Work the editor's interface from a script by naming what you click, and start from a known state, for recordings and end-to-end tests.
+description: Automate the editor interface for screen recordings, end-to-end tests, and scripted demonstrations by locating controls by name.
 type: how-to
 ---
 
 # Driving the editor {#driving-the-editor}
 
-The integration server can work the editor's interface the way a person does: open a menu, press a button in a dialog, type into the document, scroll a panel. It is how a screen recording, an end-to-end test or a scripted walkthrough drives a real editor rather than a mock of one.
+Use the integration server to open menus, click buttons, enter text, and scroll panels from a script. You can automate the editor interface for screen recordings, end-to-end tests, and scripted demonstrations.
 
-This is a different job from [connecting an AI assistant](/dogsbay-xml-docs/automation/mcp). An assistant asks for DITA operations and never touches the interface. A driver clicks things, and most of what it needs to know is *where they are*.
+To run DITA operations through an AI assistant, see [Connecting an AI assistant](/dogsbay-xml-docs/automation/mcp).
 
-## Turn on driving {#turn-on-driving}
+## Enabling interface automation {#enabling-interface-automation}
 
-Reading the interface needs nothing beyond the server. The part that acts on it is off unless you ask for it.
+Methods that run menu commands, enter text, or execute terminal commands require `--allow-driving`. The server token alone does not authorize these methods.
 
 :::steps
-1. **Start the editor with driving allowed**
+1. **Start the editor with interface automation enabled.**
 
    ```bash
    dogsbay-xml gui --allow-driving
    ```
-2. **Check the server is on** Driving uses the same server as everything else, so turn it on under **File > Settings > Server** or leave it enabled in the project's settings.
+2. **Verify that the integration server is enabled.** Enable the server in **File > Settings > Server** or in the project settings.
 :::
 
-The gate is deliberate rather than cautious. A menu command does whatever that command does, and a line in the editor's terminal can do anything at all, so the capability is withheld instead of being fenced in. An assistant holding the server's token gains none of it by default.
+The following table lists the methods and their requirements:
 
-| Method | What it does | Needs `--allow-driving` |
+| Method | Description | Requires `--allow-driving` |
 | --- | --- | --- |
-| `locate` | Says where something on screen is | no |
-| `reveal` | Scrolls something into view, then answers as `locate` does | no |
-| `clickButton` | Presses a button by its label, or only says where it is | to press |
-| `invokeAction` | Runs a menu command by its id, without opening a menu | yes |
-| `typeText` | Types key by key, through the component's own key handling | yes |
-| `terminalRun` | Runs a line in the editor's terminal | yes |
-| `setCursor`, `selectElement`, `selectPanel`, `switchSidebar` | Moves the caret, the selection, the visible panel | no |
-| `waitIdle` | Waits until the interface stops changing | no |
-| `screenshot` | Captures the window | no |
+| `locate` | Returns the location of an interface element | No |
+| `reveal` | Scrolls an interface element into view and returns its location | No |
+| `clickButton` | Clicks a button by its label or returns its location | Only to click |
+| `invokeAction` | Runs a menu command by its ID | Yes |
+| `typeText` | Enters text through the component's key handling | Yes |
+| `terminalRun` | Runs a command in the editor's terminal | Yes |
+| `setCursor`, `selectElement`, `selectPanel`, `switchSidebar` | Changes the cursor position, selection, or visible panel | No |
+| `waitIdle` | Waits until the interface stops changing | No |
+| `screenshot` | Captures the window | No |
 
-`invokeAction` and `clickButton` **start** their work and return rather than waiting for it to finish. A modal dialog runs its own event loop, so a call that waited for the dialog's outcome would wait for as long as the dialog stayed open — which, with nobody there to answer it, is forever. Everything such a call can refuse is therefore checked before the click is posted: an unknown action id, an unknown button, a disabled control. To find out what the click did, call `waitIdle`, or ask for the thing you expect to have changed.
+`invokeAction` and `clickButton` return before the action completes. This behavior allows a script to interact with a modal dialog that the action opens. The server checks for unknown action IDs, unknown buttons, and disabled controls before scheduling the action. To verify the result, call `waitIdle` or query the interface element that you expect to change.
 
-## Name what you click {#name-what-you-click}
+## Locating controls by name {#locating-controls-by-name}
 
-Positions measured from a screenshot break for reasons that have nothing to do with your script. They move when a window manager draws a title bar, when the theme or the font changes, when the display's scaling changes, and when a dialog gains a line of text. Worse, a script that mis-clicks does not usually fail — it presses something else and carries on.
+Use `locate` to find a control by its displayed text and type. Its position can change with the window manager, theme, font, display scaling, or dialog content. Coordinates copied from a screenshot can therefore target the wrong control.
 
-`locate` answers "where is the thing with this text?" with its box on screen. Give it the text and the kind.
+The following request returns the screen bounds of the row labeled **topics**:
 
 ```json
 {"method": "locate", "params": {"what": "row", "text": "topics"}}
 ```
 
-| Kind | Found by |
+| Type (`what`) | Matching criteria |
 | --- | --- |
-| `button` | Its label, then its tooltip or accessible name |
-| `menu` | A menu of the window's menu bar |
-| `item` | An item of whatever menu is open now, a context menu included |
-| `tab` | A tab of a tabbed pane |
-| `row` | A row of a list, a table or a tree — by the text the renderer draws |
-| `field` | The text field a label names |
-| `combo` | A drop-down, by the option showing in it |
-| `option` | An item of the open drop-down |
-| `text` | A place in the open document, by the words there |
-| `cell` | A cell of a table, by `column` and `row` — including an empty one |
-| `status` | A segment of the status bar, by the tooltip it is known by |
+| `button` | Button label, tooltip, or accessible name, in that order |
+| `menu` | Menu in the window's menu bar |
+| `item` | Item in an open menu, including a context menu |
+| `tab` | Tab in a tabbed pane |
+| `row` | Displayed text of a row in a list, table, or tree |
+| `field` | Label associated with a text field |
+| `combo` | Currently displayed option in a drop-down list |
+| `option` | Item in an open drop-down list |
+| `text` | Text in the open document |
+| `cell` | Table cell identified by `column` and `row`, including an empty cell |
+| `status` | Tooltip of a status bar segment |
 
-Text is matched as a button's label is: trimmed, ignoring case, ignoring a trailing ellipsis, and ignoring the colon a dialog puts after a field's label. So `Add` finds **Add…**, and `Value` finds the field labelled **Value:**.
+Matching ignores leading and trailing whitespace, case, a trailing ellipsis, and a trailing colon. For example, `Add` matches **Add…**, and `Value` matches the field labeled **Value:**.
 
-The kind is required. The text alone is ambiguous — a word can be both a row and a label beside a field — and choosing between them by some fixed order would be a coin toss.
+The `what` parameter is required because the same text can identify different types of controls, such as a row and a field label. Use the following parameters to refine a match:
 
-Three parameters cover the rest:
+- `nth`: Selects a match by its position, starting at 1. Set `nth` to `0` to require a unique match.
+- `column` and `row`: Identify a table cell by position. The `row` parameter accepts a number starting at 1 or `last`.
+- `offset`: Specifies a position within a text match when `what` is `"text"`.
 
-- `nth` picks one when a name fits several. Two rows of the same text is ordinary in a table, so an ambiguity has to be something a caller can get past. `0` means "there should only be one".
-- `column` and `row` address a cell by where it is, since the cells a script clicks are often empty and an empty cell has no text to be named by. `row` takes a 1-based number or `last`.
-- `offset` aims at one word inside a longer match, for `what: "text"`.
+If no control matches, the error lists the available names. If several controls match, the error lists their locations. A menu item in a closed menu returns a "not on screen" error. Open the menu before locating the item.
 
-**A refusal is the useful half.** A name that matches nothing is refused with the names that do exist, and an ambiguous one with where each candidate is. A mistake in a script surfaces as a one-line message on the first run instead of as a misclick in a recording. An item of a menu that is not open yet is refused as "not on screen" rather than reported missing, because a caller that names it before opening its menu has the name right and the order wrong.
+## Scrolling controls into view {#scrolling-controls-into-view}
 
-## Scroll with reveal {#scroll-with-reveal}
-
-Being scrolled out of view is the one reason `locate` fails for something that is really there. `reveal` is the cure: it takes the kinds `locate` takes, plus `panel` with `to: "end"` or `to: "start"`, scrolls, and then answers as `locate` would.
+Use `reveal` when a control is outside the visible area. It supports the same types as `locate` and returns the control's location after scrolling. To scroll a panel to its beginning or end, specify `"what": "panel"` and set `to` to `"start"` or `"end"`.
 
 ```json
 {"method": "reveal", "params": {"what": "panel", "panel": "Project Validation", "to": "end"}}
 ```
 
-It scrolls and does nothing else — no caret moved, no selection changed, no document touched. That is also why it is a separate verb rather than a flag on `locate`: `locate` can go on truthfully saying it changes nothing, which is what keeps it outside the permission gate.
+`reveal` preserves the cursor position, selection, and document content.
 
-## Press a button {#press-a-button}
+## Clicking a button {#clicking-a-button}
 
-`clickButton` matches a dialog's button by its label and presses it. `"press": false` asks only where it is, which needs no `--allow-driving`.
+Use `clickButton` to match a dialog button by its label and click it. To return the button's location without clicking it, set `"press": false`. This setting does not require `--allow-driving`.
 
-A recording usually wants `press: false`, then moves its own pointer to the middle of the button and clicks there: the name found the target, and the pointer did the part a viewer can see.
+For a recording that shows pointer movement, set `"press": false`, then use your recording script to move the pointer to the button's center and click it.
 
-Ambiguity is refused rather than resolved. Two buttons of the same label, or no active window and more than one dialog open, both come back asking you to say which. The window is chosen by: the one you named, else the active window, else the single dialog on screen, else the only window there is.
+The method selects a window in the following order:
 
-## Start from a known state {#start-from-a-known-state}
+1. The window that you specify
+2. The active window
+3. The only open dialog
+4. The only open window
 
-A run that starts from last week's session is not reproducible. These options give the editor a stated starting point instead of a remembered one.
+If multiple buttons match, or if multiple dialogs are open and none is active, specify the button or window in your request.
 
-| Option | What it fixes |
+## Setting the initial state {#setting-the-initial-state}
+
+Use the following options to configure a reproducible session:
+
+| Option | Description |
 | --- | --- |
-| `--settings DIR` | A profile of its own, so your settings are not the editor's usual ones |
-| `--project DIR` | Opens this folder as the project |
-| `--window WxH` | A known window size |
-| `--title TEXT` | A known window title, which is also how you name a window to `locate` |
-| `--terminal-font [FAMILY,]SIZE` | A legible terminal in a capture |
-| `--no-welcome` | No welcome screen in the way |
-| `--no-session-restore` | None of the previous session's files reopened |
-| `--no-change-marks` | No change marks in the margin |
+| `--settings DIR` | Uses a separate settings profile |
+| `--project DIR` | Opens the specified folder as the project |
+| `--window WxH` | Sets the window size |
+| `--title TEXT` | Sets the window title, which you can use to identify the window in `locate` requests |
+| `--terminal-font [FAMILY,]SIZE` | Sets the terminal font for recordings |
+| `--no-welcome` | Hides the welcome screen |
+| `--no-session-restore` | Prevents files from the previous session from reopening |
+| `--no-change-marks` | Hides change marks in the margin |
 
-A `--window` as large as the screen opens undecorated, so that the editor and the window manager agree there is no title bar.
+If `--window` specifies a size as large as the screen, the editor opens without window decorations, such as a title bar.
 
-## Lessons from recording the DITA tutorial {#lessons-from-recording-the-dita-tutorial}
+## Recording and testing guidelines {#recording-and-testing-guidelines}
 
-The 27 narrated stages of the DITA tutorial were recorded by driving a real editor. These are the things that cost time, and they generalise beyond recordings.
+Use the following practices when you record or test the interface:
 
-- **Check on a real display, not only in the test suite.** A green suite hid several faults that one live run found at once. A screenshot taken from the component tree rather than the screen is the trap to know about: it will happily confirm a position that is wrong.
-- **A recording environment needs a window manager.** Bare Xvfb draws no frames, so dialogs have no title bar, border or shadow and look broken. Use the window manager your readers use, not one whose frames match nothing.
-- **When the window manager and the toolkit disagree about decorations, everything is off by the height of a title bar.** That is what the undecorated screen-sized window is for.
-- **Positions break; names don't.** Every measured coordinate in the tutorial's cue sheets broke the day a window manager arrived. Nothing named broke.
-- **Ask the renderer, not the model.** A row's name is the text drawn in it, which is not always what the underlying object would call itself.
-- **Check that a click did what it should.** Read the cursor back after a click in the document; check a dialog's title after pressing a button. A silent misclick makes a run wrong without making it fail.
-- **Move the pointer the way a person does.** Open a menu by its path — the title, then across into the menu, then down its left side to the row. A diagonal crosses other menu titles and opens them.
-- **Drop-downs open from their arrow.** Clicking the middle of an editable drop-down only places a text cursor in it.
-- **Typing is guarded, and that guard is a feature.** `typeText` stops if focus moves part-way through, so a popup cannot quietly receive the rest of a listing.
-- **Collect the changes that affect every step before recording any of them.** Anything global — how files are saved, how the pointer behaves — means recording everything twice if you find it on stage 20.
-- **Don't drive an editor that is being rebuilt**, and don't run two capturing runs at once. They compete for the processor, and the one you keep shows the interface lagging behind the narration.
-- **Leave the machine as you found it.** Editors left running hold file-watch handles, and the next person's test suite fails on a limit rather than on a bug.
+- **Verify positions on a display.** A capture from the component tree can omit window decorations and report positions that differ from those on the screen.
+- **Use a window manager for recordings.** Xvfb alone does not draw window frames, title bars, or shadows. Use the window manager that your audience uses.
+- **Account for window decorations.** Differences between the window manager and the toolkit can offset positions by the height of a title bar. A screen-sized window without decorations avoids this offset.
+- **Locate controls by name.** Fixed coordinates can become incorrect when the display environment changes.
+- **Use the text displayed in each row.** It can differ from the text stored in the underlying data model.
+- **Verify the result of each click.** Query the cursor position after clicking in a document, or check the dialog title after clicking a button.
+- **Keep pointer movement within the menu.** Move from the menu title into the menu, then down to the item. A diagonal movement can cross another menu title and open that menu.
+- **Open drop-down lists by clicking their arrows.** Clicking the text area of an editable drop-down list places the text cursor there.
+- **Check for interrupted text entry.** `typeText` stops if focus changes during text entry, preventing the remaining text from being entered in another control.
+- **Finalize shared settings before recording.** Changes to file saving or pointer behavior can require you to record earlier steps again.
+- **Run one recording at a time.** Build the editor before recording. Concurrent builds or recordings can slow the interface and affect narration timing.
+- **Close the editor after each run.** Unused editor processes retain file watch handles and can cause later tests to exceed system limits.
 
-## Limits {#limits}
+## Limitations {#limitations}
 
-- Driving needs a running editor with a window. The headless server refuses these methods, and the command line has no interface to drive.
-- The HTML preview is a web view, and `locate` cannot see inside it yet. Clicks and scrolls there are still positional.
-- Targets named by XPath are not available; `locate` works from what is drawn.
-- Driving is reachable over the integration server only. These methods are not MCP tools, because they are not something an assistant should reach for.
+- Interface automation requires a running editor window. The headless server rejects these methods.
+- `locate` cannot identify controls inside the HTML preview. Use coordinates to click or scroll within the preview.
+- `locate` identifies displayed controls and text. It does not support XPath targets.
+- These methods are available only through the integration server. They are not exposed as MCP tools.
 
-## Related {#related}
+## Related information {#related-information}
 
 :::cards
 - **[Connecting an AI assistant](/dogsbay-xml-docs/automation/mcp){icon="sparkles"}**
-  The same server, for DITA operations rather than the interface.
+  Run DITA operations through the integration server.
 
 - **[The command line](/dogsbay-xml-docs/reference/cli){icon="terminal"}**
-  The options that give a run its starting state.
+  Configure the initial state of an editor session.
 
 - **[Settings](/dogsbay-xml-docs/reference/settings){icon="menu"}**
-  Where the integration server is turned on.
+  Enable the integration server.
 :::
 
 ---
@@ -2178,13 +2185,15 @@ type: reference
 
 # Menu reference {#menu-reference}
 
-This reference lists every menu bar command in the order that it appears. Items marked **DITA** come from the DITA plugin and appear only when that plugin is enabled.
+This reference lists the built-in menus and their commands. Items marked **DITA** require the DITA plugin. **Agent activity** requires the AI Agent plugin. Other enabled plugins can add menus, view choices, or commands. Plugin command order can depend on activation order.
 
 The menu bar contains **File**, **Edit**, **View**, **Project**, **XML**, **Refactor**, **Utilities**, and **Help**.
 
 Some menus change with the document. Preview entries are enabled only for a document that can be previewed, and the Document Views submenu lists the views the current document supports.
 
-In the menus, a command that opens a dialog ends in an ellipsis. The tables below omit it. **Schematron** is the one command whose ellipsis comes and goes: it becomes **Schematron…** only when no default schema is configured and you must select one.
+The tables omit trailing ellipses from menu labels. **XML > Schematron** and **Project > Validate Files > With Schematron** display an ellipsis when no default schema is configured and you must select one.
+
+For default shortcuts and binding settings, see [Keyboard shortcuts](/dogsbay-xml-docs/reference/shortcuts).
 
 ## File {#file}
 
@@ -2195,7 +2204,7 @@ In the menus, a command that opens a dialog ends in an ellipsis. The tables belo
 | Open File | Open a document. |
 | Open Project Folder | Open a folder as the project. |
 | Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |
-| Open Recent | Recently opened files and projects, in two groups. |
+| Open Recent | Recently opened files and projects, in two groups. Appears when at least one file or project is in the recent history. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Settings | Editor settings, on eight pages. See the [settings reference](/dogsbay-xml-docs/reference/settings). The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/dogsbay-xml-docs/reference/shortcuts). |
 | Close, Close All | Close the document, or all of them. |
@@ -2214,9 +2223,9 @@ In the menus, a command that opens a dialog ends in an ellipsis. The tables belo
 
 | Item | What it does |
 | --- | --- |
+| Document Views | Select **Editor**, **Author**, or **Split: XML + Author** for the current document. Plugins can add other views. |
 | Preview in Tab | Open the styled preview in its own tab. See [previewing](/dogsbay-xml-docs/publishing/publishing). |
 | Preview in Split | Open it beside the source. |
-| Document Views | Switch this document between Editor, Author, and the split views. |
 | Appearance | Full screen, which toolbars are shown, and the three sidebar toggles. |
 | Editor Layout | Split the tab area horizontally or vertically, unsplit it, and synchronize splits on XPath. |
 | Editor Properties | Margins, tag completion, smart indentation, error highlighting, and soft wrapping. |
@@ -2225,11 +2234,42 @@ In the menus, a command that opens a dialog ends in an ellipsis. The tables belo
 
 ### Appearance {#appearance}
 
-Full Screen; the Standard, Editor, and Fragment toolbars; and Toggle Primary Sidebar, Toggle Bottom Panel, and Toggle Secondary Sidebar.
+| Item | What it does |
+| --- | --- |
+| Full Screen | Toggle full-screen editing. |
+| Standard toolbar | Show or hide the standard toolbar. |
+| Editor toolbar | Show or hide the editor toolbar. |
+| Fragment toolbar | Show or hide the fragment toolbar. |
+| Toggle Primary Sidebar | Show or hide the left sidebar. |
+| Toggle Bottom Panel | Show or hide the bottom panel. |
+| Toggle Secondary Sidebar | Show or hide the right sidebar. |
+
+### Editor Layout {#editor-layout}
+
+| Item | What it does |
+| --- | --- |
+| Split Horizontally | Split the document tab area horizontally. |
+| Split Vertically | Split the document tab area vertically. |
+| Unsplit | Restore a single document tab area. |
+| Synchronise Splits on XPath | Synchronize the split views by XPath. |
 
 ### Editor Properties {#editor-properties}
 
-Show Annotation Margin, line number margin, folding margin, and overview margin; tag completion and end-tag completion; smart indentation; error highlighting; and soft wrapping.
+The submenu contains the following controls, in order:
+
+- **Show Annotation Margin**
+- **Show Linenumber Margin**
+- **Show Folding Margin**
+- **Show Overview Margin**
+- **Tag Completion**
+- **End Tag Completion**
+- **Smart Indentation**
+- **Error Highlighting**
+- **Soft Wrapping**
+
+### Viewer Properties {#viewer-properties}
+
+The submenu contains **Show Namespaces**, **Show Attributes**, **Show Comments**, **Show Text Content**, **Show Processing Instructions**, and **Inline Mixed Content**, in that order. These settings apply to the legacy Viewer view. The built-in **Document Views** submenu no longer includes that view.
 
 ## Project {#project}
 
@@ -2254,17 +2294,41 @@ Select a command to run an individual project-wide check.
 | --- | --- |
 | With DTD | Validate every file in scope against its grammar. |
 | With Schematron | Apply the default Schematron schema across the project. If none is configured, select a schema when prompted. |
-| With DITA-OT — Current Map, All Deliverables **DITA** | Run DITA-OT preprocessing and report validation errors. |
+| With DITA-OT — Current Map **DITA** | Run DITA-OT preprocessing for the current map and report validation errors. |
+| With DITA-OT — All Deliverables **DITA** | Run DITA-OT preprocessing for all deliverables and report validation errors. |
 | Controlled Values (Subject Scheme) **DITA** | Report profiling values the subject scheme does not allow. See [conditional content](/dogsbay-xml-docs/authoring/conditional-content). |
 
-To check the current document, use **XML > Check Well-Formedness**, **XML > Validate**, or **XML > Schematron**.
+To check the current document, use **XML > Check Well-formedness**, **XML > Validate**, or **XML > Schematron**.
+
+### Project > Metadata {#project-metadata}
+
+These commands require the DITA plugin.
+
+| Item | What it does |
+| --- | --- |
+| Edit Policy | Configure required and recommended metadata. |
+| Audit | Check project metadata against the policy. |
+| Normalize | Apply metadata normalization. |
+| Export Policy as Schematron | Export the policy as a Schematron schema. |
+
+### Project > Map {#project-map}
+
+These commands require the DITA plugin.
+
+| Item | What it does |
+| --- | --- |
+| Edit Structure | Edit the map structure. |
+| Edit Relationship Tables | Edit the map's relationship tables. |
+| Key Space | Inspect key definitions and resolved targets. |
+| Controlled Values | List profiling values allowed by subject schemes. |
 
 ### Project > Project Tools {#project-project-tools}
 
 | Item | What it does |
 | --- | --- |
 | Save Project Settings | Write the current setup into the project's `.dogsbay` folder so it is shared. See [project configuration](/dogsbay-xml-docs/reference/project-config). |
-| Format Project, Reflow Project | Apply the house style across the project. If an open document has unsaved changes, Format Project offers to save them first. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting). |
+| Format Project | Apply formatting settings across the project. If an open document has unsaved changes, the editor prompts you to save them first. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting). |
+| Reflow Project | Reflow prose across the project to one sentence per line. |
 | Manage Deliverables **DITA** | Edit the project's deliverables. |
 | Clear Temporary Build Files **DITA** | Remove the DITA-OT temporary folders that deliverables kept. |
 | Agent activity | The audit log of what agents changed. See [the agent](/dogsbay-xml-docs/agent/overview). |
@@ -2275,7 +2339,7 @@ Use the XML menu to validate and edit markup in the current document.
 
 | Item | What it does |
 | --- | --- |
-| Check Well-Formedness | Parse the document and report syntax errors. |
+| Check Well-formedness | Parse the document and report syntax errors. |
 | Validate | Validate against the document's grammar. See [validating](/dogsbay-xml-docs/finding/validation). |
 | Schematron | Apply the default Schematron schema to the current document. If none is configured, select a schema when prompted. |
 | Select Element, Select Element Content | Select the element at the cursor, or only what is inside it. |
@@ -2285,21 +2349,52 @@ Use the XML menu to validate and edit markup in the current document.
 | Strip Tags | Remove markup from the selection, keeping the text. |
 | Tag, Repeat last Tag | Wrap the selection in an element, or repeat the last one used. |
 | Rename Element | Rename the element at the cursor, and its end tag. |
-| Expand Empty Element | Turn a self-closing element into a start and end tag. |
-| Comment, CDATA | Wrap the selection as a comment or a CDATA section. |
-| Unlock | Remove protection from a region. |
+| Expand Empty Element | Toggle an empty element between a self-closing tag and separate start and end tags. |
+| Comment / Un-Comment | Add or remove comment markup, depending on the current selection. |
+| CDATA / Un-CDATA | Add or remove CDATA markup, depending on the current selection. |
+| Lock / Double Lock / Unlock | Cycle through editing protection levels. The label changes with the current state. |
 | Format | Pretty-print to the project's house style. |
 | Reflow Sentences | One sentence per line, leaving verbatim blocks alone. |
 | Goto Start Tag, Goto End Tag | Move between the two ends of an element. |
-| Goto Previous, Goto Next Attribute Value | Move between attribute values. |
+| Goto Previous Attribute Value, Goto Next Attribute Value | Move between attribute values. |
 | Strip Text | Remove text content from selected nodes. |
 | Change Case | Capitalize, decapitalize, uppercase, or lowercase element and attribute names. |
 | Namespaces | Move declarations to the root or to where they are first used, rename a prefix, or remove unused declarations. |
 | Nodes | Add, remove, rename, convert, or sort nodes; set their value; or add them to a namespace. |
 
+### XML > Change Case {#xml-change-case}
+
+The submenu contains the following commands, in order:
+
+- **Capitalize Elements and Attributes**
+- **DeCapitalize Elements and Attributes**
+- **Uppercase Elements and Attributes**
+- **Lowercase Elements and Attributes**
+
+### XML > Namespaces {#xml-namespaces}
+
+The submenu contains the following commands, in order:
+
+- **Move Namespaces Declarations to Root**
+- **Move Namespaces to Where First Used**
+- **Rename a Namespace Prefix**
+- **Remove Unused Namespaces**
+
+### XML > Nodes {#xml-nodes}
+
+The submenu contains the following commands, in order:
+
+- **Add Nodes**
+- **Remove Nodes**
+- **Set Nodes Value**
+- **Rename Nodes**
+- **Convert Nodes**
+- **Add Nodes to Namespace**
+- **Sort Nodes**
+
 ## Refactor {#refactor}
 
-Every command here reports a plan you review before it runs. The same operations are available from the [command line](./cli), and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).
+Commands that change content display a plan for review before applying it. **Find Broken References and Orphans** displays a report without changing files. The same operations are available from the [command line](./cli) and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).
 
 Commands are grouped by files and references, keys, content reuse, and attributes. **Find Broken References and Orphans** reports problems without changing files.
 
@@ -2330,8 +2425,21 @@ Use the Utilities menu to manage grammars, frameworks, templates, transforms, an
 | Types | Create Type, Set Type, Type Properties, and Manage Types: the grammars the editor validates against. |
 | Frameworks | Import Framework and Manage Frameworks — support for a vocabulary that is not DITA. |
 | Templates | Save As Template and Manage Templates: use a document as the starting point for new ones. |
-| Transforms | Run XSLT and XSL-FO as reusable scenarios: Execute Simple XSLT, Execute Advanced XSLT, Execute FO, the default scenario, Manage Scenarios, and Execute Previous. |
+| Transforms | Run XSLT and XSL-FO transformations or reusable scenarios. See [Transforms](#utilities-transforms). |
 | Bookmarks | Toggle Bookmark and Select Bookmark: mark a place and return to it. |
+
+### Utilities > Transforms {#utilities-transforms}
+
+| Item | What it does |
+| --- | --- |
+| Execute Simple XSLT | Configure and run a simple XSLT transformation. |
+| Execute Advanced XSLT | Configure and run an advanced XSLT transformation. |
+| Execute FO | Render XSL-FO output. |
+| Execute Scenario | Select and run a transformation scenario. |
+| Manage Scenarios | Configure transformation scenarios. |
+| Execute Previous | Repeat a previous transformation or scenario. |
+
+**Execute Previous** contains **Execute Previous XSLT**, **Execute Previous FO**, and **Execute Previous Scenario**, in that order. After a scenario runs, its entry displays **Execute "scenario name"**.
 
 ## Help {#help}
 
@@ -2341,7 +2449,7 @@ Use the Utilities menu to manage grammars, frameworks, templates, transforms, an
 
 Not everything is in a menu.
 
-**The view buttons** in the menu bar switch the current document between the Editor and Author views.
+**The view and layout buttons** in the menu bar select Editor or Author, open previews, show source and Author side by side, and split or unsplit the document tab area. With the macOS screen menu bar, these buttons are in the toolbar. The corresponding commands remain available in **View**.
 
 **The sidebars** hold the panels: Explorer, Search, Git, Topic Maps, XPath Query, Where Used, and Bookmarks on the left; AI Agent, Proposals, Outline, Properties, Navigator, Helper, and Metadata on the right. The three toggles in **View > Appearance** show and hide them.
 
@@ -2442,7 +2550,7 @@ The index covers references from maps, conrefs, links, and images. With a root m
 
 ### Bookmarks {#bookmarks}
 
-Places you marked, with Delete Bookmark to remove them. Mark and unmark from **Utilities > Toggle Bookmark**.
+Places you marked, with Delete Bookmark to remove them. Mark and unmark from **Utilities > Bookmarks > Toggle Bookmark**.
 
 ## Right sidebar {#right-sidebar}
 
@@ -2600,7 +2708,7 @@ Three groups:
 
 ## Format {#format}
 
-The house style used by **Format Document**, by format-on-save, and by the `dogsbay-xml format` command, so every route produces the same file. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting) for what formatting does and does not change.
+These settings apply to **XML > Format**, **Format on save**, and the `dogsbay-xml format` command. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting) for details about formatting behavior.
 
 | Setting | What it does |
 | --- | --- |
@@ -2616,7 +2724,7 @@ The house style used by **Format Document**, by format-on-save, and by the `dogs
 
 **Save to project (.dogsbay/config.xml)…** writes the current style into the open project so everyone working on it formats identically.
 
-One house-style option has no setting here: `sort-attributes` is set in a project's [`format-style`](/dogsbay-xml-docs/reference/project-config#format-style), because sorting rewrites every element with more than one attribute and so is a decision for a project rather than for one person. Opening this page and clicking OK leaves a project's setting alone.
+To sort attributes by name, set `sort-attributes` in the project's [`format-style`](/dogsbay-xml-docs/reference/project-config#format-style) configuration. This option is not available on the **Format** settings page. Clicking **OK** on this page preserves the project's attribute sorting setting.
 
 ## System {#system}
 
@@ -2711,7 +2819,7 @@ The field names are `author`, `source`, `publisher`, `copyryear`, `copyrholder`,
 
 ### Format style {#format-style}
 
-The `format-style` attributes set the house style used by **Format Document**, by format on save, and by the `dogsbay-xml format` command. An attribute that is missing takes its default value.
+The `format-style` attributes set the house style used by **XML > Format**, by format on save, and by the `dogsbay-xml format` command. An attribute that is missing takes its default value.
 
 | Attribute | Values | Default | Meaning |
 | --- | --- | --- | --- |
@@ -2725,11 +2833,11 @@ The `format-style` attributes set the house style used by **Format Document**, b
 | `preserve-blank-lines` | `true` or `false` | `true` | Keeps one blank line where you left blank lines, and removes the extras. |
 | `text-continuation` | `block` or `flush` | `block` | Where the continuation lines of wrapped text start. `block` aligns them with the element's indentation, and `flush` starts them at the first column, so moving an element does not re-indent its text. |
 | `trim-whitespace` | `true` or `false` | `true` | Removes whitespace at the ends of lines. |
-| `sort-attributes` | `true` or `false` | `false` | Writes each element's attributes in name order. Attribute order means nothing in XML, so this changes nothing a reader sees — but it rewrites every element that has more than one attribute, so expect one large diff the first time. There is no setting for it on the Format settings page, because it is a decision for a project rather than for one person. |
+| `sort-attributes` | `true` or `false` | `false` | Sorts each element's attributes alphabetically by name without changing their XML meaning. Enabling this option can produce many changes in the first file comparison. Set this option in the project configuration; it is not available on the **Format** settings page. |
 
 The contents of `codeblock`, `pre`, `lines` and `screen` elements are never reformatted. To protect other elements in the same way, add a `preserve-space` child element for each one, containing the element name.
 
-Formatting keeps the file's encoding and every character in it. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting) for what happens to a character the file's encoding cannot hold.
+Formatting preserves the file encoding. For characters that the encoding cannot represent, see [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting).
 
 If a project has no `format-style`, the editor uses the style on the [Format](/dogsbay-xml-docs/reference/settings#format) settings page.
 
@@ -3021,6 +3129,10 @@ These are the defaults. Every one of them can be changed in **File > Settings > 
 | Goto next Attribute value | Ctrl+Shift+Down |
 | Goto previous Attribute value | Ctrl+Shift+Up |
 
+## Commands without a default shortcut {#commands-without-a-default-shortcut}
+
+**XML > Format** has no default shortcut in the current binding catalogue. To assign one, select **File > Settings > Bindings** and find **Format the XML**. The labels and categories in **Bindings** can differ from menu labels and paths. For example, this command is in the **Edit** category but on the **XML** menu.
+
 ## Changing a key {#changing-a-key}
 
 Select **File > Settings > Bindings**, find the command (typing in the filter box narrows the list) and select **Change…**. Press the combination you want. Escape on its own cancels; Escape with a modifier is a combination like any other, so Ctrl+Escape can be bound.
@@ -3061,13 +3173,15 @@ Run `dogsbay-xml --help` for the full list, and `dogsbay-xml <command> --help` f
 | `info` | Report encoding, grammar, root element and size. |
 | `query` | Run an XPath expression over a file or a glob. |
 | `transform` | Apply an XSLT stylesheet. |
-| `format` | Pretty-print using the project's house style. Prints the result by default; `-i`/`--write` formats files in place, `-o FILE` writes one file, and `--check` writes nothing and exits non-zero while listing the files that are not already in house style. See [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting). |
+| `format` | Apply project formatting settings. Print the result by default, use `-i` or `--write` to format files in place, or use `-o FILE` to write one output file. Use `--check` to list files that require formatting without changing them. |
 | `reflow` | Reflow prose to one sentence per line, leaving verbatim blocks alone. |
 | `preview` | Render the styled DITA preview to HTML. |
 
-`format` and `reflow` keep the file's encoding and every character in it. `format` to the screen gives the same bytes as `--write` puts in the file, except that the screen output always ends with a newline — a project whose house style sets `final-newline="false"` therefore sees one extra byte there, and nowhere else.
+The `format` and `reflow` commands preserve the file encoding. For characters that the encoding cannot represent, see [Formatting and encodings](/dogsbay-xml-docs/authoring/formatting).
 
-`--check` is the one to use in CI: it reports what would change without changing it.
+The `format` command writes the same formatted content to standard output as `--write` writes to a file, except that standard output always ends with a newline. This newline is also present when the project sets `final-newline="false"`.
+
+Use `--check` in continuous integration (CI) checks. It leaves files unchanged and returns a nonzero exit status if a file requires formatting.
 
 ## Asking about the project {#asking-about-the-project}
 
