@@ -2049,6 +2049,8 @@ The following table lists the methods and their requirements:
 | `locate` | Returns the location of an interface element | No |
 | `reveal` | Scrolls an interface element into view and returns its location | No |
 | `locateRange` | Returns the on-screen rectangles for a range of the open document | No |
+| `locateNode` | Returns the on-screen rectangles for part of a node, selected by XPath | No |
+| `revealNode` | Scrolls part of a node into view and returns its rectangles | No |
 | `clickButton` | Clicks a button by its label or returns its location | Only to click |
 | `invokeAction` | Runs a menu command by its ID | Yes |
 | `typeText` | Enters text through the component's key handling | Yes |
@@ -2058,6 +2060,21 @@ The following table lists the methods and their requirements:
 | `screenshot` | Captures the window | No |
 
 `invokeAction` and `clickButton` return before the action completes. This behavior allows a script to interact with a modal dialog that the action opens. The server checks for unknown action IDs, unknown buttons, and disabled controls before scheduling the action. To verify the result, call `waitIdle` or query the interface element that you expect to change.
+
+## Recording a tutorial {#recording-a-tutorial}
+
+A recorded tutorial is a program. Each step names what it acts on, the editor reports where that is, and your script moves the pointer, types, and captures the screen. Nothing in the recording depends on a measured coordinate, so the recording survives a change of theme, font, or window manager.
+
+:::steps
+1. **Start the editor in a known state.** Use the options under [Setting the initial state](#setting-the-initial-state) to fix the settings profile, the project, and the window size. Start a session from the same state every time, so a recording made today and one made next month differ only where the editor changed.
+2. **Run a window manager on the recording display.** A bare virtual display draws no window frames, title bars, or shadows, and dialogs look broken. Use the window manager your audience uses.
+3. **Name every target in your script.** Use [`locate`](#locating-controls-by-name) for anything a reader can see the name of, and [`locateNode`](#highlighting-part-of-a-document) for an element or attribute in the open document. Treat a refusal as the fastest feedback you have: an unknown name is refused with the names that exist, before the pointer moves.
+4. **Bring each target into view before you act on it.** Use [`reveal` or `revealNode`](#scrolling-controls-into-view) with `"align": "top"` to place what the narration is about to describe at the top of the view.
+5. **Draw annotations from the reported rectangles.** Request the rectangles for the phrase, element, or attribute being described, and draw the marks over the captured video rather than in the editor. The editor's own state does not change, so what you type next goes where your script expects, and you can restyle or retime a mark without recording again.
+6. **Verify each step as you go.** Query the cursor position after a click in a document, or check a dialog's title after a button. A misclick does not fail; it presses something else and the recording continues.
+:::
+
+For the practices that cost the most time to learn, see [Recording and testing guidelines](#recording-and-testing-guidelines).
 
 ## Locating controls by name {#locating-controls-by-name}
 
@@ -2101,6 +2118,26 @@ Use `reveal` when a control is outside the visible area. It supports the same ty
 {"method": "reveal", "params": {"what": "panel", "panel": "Project Validation", "to": "end"}}
 ```
 
+To place the target in the view rather than merely bring it inside the edge, set `align`:
+
+| `align` | Result |
+| --- | --- |
+| `nearest` | Scrolls the least amount needed. This is the default. |
+| `top` | Places the target's first line one line below the top edge |
+| `center` | Places the target's first line in the middle of the view |
+
+Use `top` after entering or pasting text. The view follows the cursor to the end of the change, and `top` returns to the beginning of it.
+
+Use `revealNode` to scroll to part of a node. It takes the same parameters as `locateNode` and returns the same response.
+
+```json
+{"method": "revealNode", "params": {"select": "//tgroup[1]", "part": "start-tag", "align": "top"}}
+```
+
+For a target taller than the view, `top` and `center` both place its first line, so a long element arrives showing its start rather than its middle. Near the end of a document there is nothing left to scroll, so the target lands wherever the document ends. The response reports the position the target actually has, so draw annotations from the returned rectangles rather than from the alignment you requested.
+
+`align` applies to `text` and to targets drawn inside a scrollable view, such as a row, a cell, or a tab. For a button, menu item, or field, the target is its own component and `align` has no effect. With `"what": "panel"`, `align` returns an error: use `to` with `start` or `end`.
+
 `reveal` preserves the cursor position, selection, and document content.
 
 ## Highlighting part of a document {#highlighting-part-of-a-document}
@@ -2118,6 +2155,29 @@ The response contains `start`, `end`, the `text` of the range, a `visibility` va
 Both offsets are required and must be whole numbers. A fractional offset returns an error rather than being rounded. A range covering more than 400 lines returns an error.
 
 `locateRange` reports positions only. It does not scroll, move the cursor, or change the selection.
+
+To highlight an element or an attribute, use `locateNode` and select it with an XPath expression. The response is the same as `locateRange`'s.
+
+```json
+{"method": "locateNode", "params": {"select": "//tgroup[1]/@cols", "part": "value"}}
+```
+
+Set `part` to the portion of the node to measure:
+
+| `part` | Measures |
+| --- | --- |
+| `element` | The element, from its start tag through its end tag. This is the default. |
+| `start-tag`, `end-tag` | That tag alone. For an element written as a single empty tag, `start-tag` is the whole element. |
+| `content` | Everything between the tags |
+| `name` | The name in the start tag, or an attribute's name |
+| `attribute` | The attribute, its quotes included |
+| `value` | The attribute's value, inside its quotes |
+
+If the expression matches several nodes, the error reports how many. Set `nth` to select one, counting from 1 in document order. To use a prefix the document does not declare, pass `namespaces` as an object mapping each prefix to its URI.
+
+Asking for a part a node does not have returns an error naming the parts it does have. An element written as a single empty tag has no content and no end tag, and an element whose tags hold nothing has no content.
+
+The editor records the position of elements and attributes. A text node, CDATA section, comment, processing instruction, namespace declaration, or entity reference has no recorded position: select the element around it and request its `content`, or find the words with `locate`. An attribute supplied by a DTD rather than written in the file, such as `class` in DITA, is reported as having no position for the same reason.
 
 ## Clicking a button {#clicking-a-button}
 
@@ -2167,12 +2227,18 @@ Use the following practices when you record or test the interface:
 - **Finalize shared settings before recording.** Changes to file saving or pointer behavior can require you to record earlier steps again.
 - **Run one recording at a time.** Build the editor before recording. Concurrent builds or recordings can slow the interface and affect narration timing.
 - **Close the editor after each run.** Unused editor processes retain file watch handles and can cause later tests to exceed system limits.
+- **Draw annotations over the video, not in the editor.** Marks drawn afterwards can be restyled and retimed without recording again, and they leave the editor's cursor and selection untouched.
+- **Request rectangles after scrolling, not before.** A rectangle describes where a target is now. Reveal first, then ask.
 
 ## Limitations {#limitations}
 
 - Interface automation requires a running editor window. The headless server rejects these methods.
 - `locate` cannot identify controls inside the HTML preview. Use coordinates to click or scroll within the preview.
-- `locate` identifies displayed controls and text. It does not support XPath targets.
+- `locate` identifies displayed controls and text by name. To select an element or attribute instead, use `locateNode`.
+- `locateNode` and `revealNode` require a document with an XML tree. For a file the editor does not parse as XML, such as Markdown or AsciiDoc, use `locateRange` with character offsets.
+- A range covering more than 400 lines on screen returns an error. For a long element, request `"part": "start-tag"`.
+- A document whose lines end in CRLF returns an error from `locateNode` until it has been edited once. The editor holds LF internally while the stored positions follow the file, so the two disagree.
+- Recording requires a virtual display, a window manager, and a screen capture tool, which in practice means Linux.
 - These methods are available only through the integration server. They are not exposed as MCP tools.
 
 ## Related information {#related-information}
