@@ -98,11 +98,8 @@ Refactoring commands run as dry runs by default and report what they would do. P
 - **[Installing](./install){icon="download"}**
   Install packages for Linux, macOS, and Windows, or build from source.
 
-- **[Tutorial: fixing a DITA project by hand](./tutorial-manual){icon="rocket"}**
-  Thirty minutes to find the issues in a real, deliberately broken project and fix one yourself.
-
-- **[Tutorial: using an agent to fix a DITA project](./tutorial-agentic){icon="sparkles"}**
-  The same project, with the agent doing the repetitive part.
+- **[Learning DITA](./learn-dita){icon="rocket"}**
+  The 27-stage tutorial that builds this editor's sample project, one DITA feature at a time.
 :::
 
 ---
@@ -128,7 +125,7 @@ Each installer bundles its own Java runtime, so no separate JDK is required. It 
 :::steps
 1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.
 2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to the Applications folder. On Windows, run the installer.
-3. **Start the editor** The Welcome tab opens. From there you can open the sample project, which is where the [tutorial](./tutorial-manual) starts.
+3. **Start the editor** The Welcome tab opens. From there you can open the sample project: the finished guide from the [DITA tutorial](./learn-dita).
 :::
 
 ## The command line {#the-command-line}
@@ -290,175 +287,35 @@ AI assistants and live-editor commands connect to the integration server. The se
 
 ---
 
-# Tutorial: Fixing a DITA project by hand
+# Learning DITA
 
-URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md
-
----
-title: "Tutorial: Fixing a DITA project by hand"
-description: Open a DITA project with deliberate errors, find them with the project tools, and fix one by hand.
-type: tutorial
----
-
-# Tutorial: Fixing a DITA project by hand {#tutorial-fixing-a-dita-project-by-hand}
-
-In this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix one by hand.
-
-The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.
-
-**Time:** about 30 minutes. **You need:** DogsBay XML. See [Installing](./install). You do not need an agent or a sign-in.
-
-## Step 1: Open the sample project {#step-1-open-the-sample-project}
-
-:::steps
-1. **Select File > Open Sample Project** The editor asks where to put it.
-2. **Choose a location** The editor copies the sample into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.
-3. **Wait for the project to open** The Topic Maps panel loads `audacity-guide.ditamap`. The sample already includes its publishing configuration.
-:::
-
-You now have your own copy to break further and repair.
-
-## Step 2: See what is wrong {#step-2-see-what-is-wrong}
-
-Rather than opening individual files to look for problems, you can run the project health check from the command line:
-
-```bash
-dogsbay-xml project-health . --schematron house-style.sch
-```
-
-The report covers specific kinds of problems:
-
-- References that point at something missing
-- Keys that are used but never defined, or defined and never used
-- Topics that are not included in any map
-- Files that fail validation against their grammar
-- Profiling values the subject scheme does not allow
-- Required metadata the project's policy says a topic must carry
-- House rules from `house-style.sch`, such as every topic needing a `shortdesc`
-
-The last check needs the `--schematron` option. A DTD cannot express a rule such as "every topic needs a shortdesc," so the rule lives in a Schematron schema. The health check applies the schema only when you name it.
-
-Read the output before you change anything. The results describe the project, not only the file that you have open.
-
-> [!TIP]
-> `check-links` and `health` are narrower and faster if you only want one part of that picture.
-
-## Step 3: Fix one problem by hand {#step-3-fix-one-problem-by-hand}
-
-Pick a topic that has no short description.
-
-:::steps
-1. **Open the topic** Select it in the Explorer.
-2. **Switch to the Author view** Select **View > Document Views > Author**, or use the view buttons in the menu bar. The topic is shown as blocks rather than as tags.
-3. **Add a short description** Place the cursor after the title and use the insert menu to add a `shortdesc`, then write one sentence that says what the topic is for.
-4. **Save** Select **File > Save**. The XML is written back with your formatting intact.
-:::
-
-Switch back with **View > Document Views > Editor**, and confirm that the element is where you expect. Both views show the same document and retain your position when you switch between them.
-
-## What you learned {#what-you-learned}
-
-- The sample project is a copy, so you can experiment freely.
-- Project-level checks find problems across files.
-- The Author and Editor views show the same document and retain your position when you switch views.
-
-## Where to go next {#where-to-go-next}
-
-:::cards
-- **[Tutorial: Using an agent to fix a DITA project](./tutorial-agentic){icon="sparkles"}**
-  The same project, with the agent doing the repetitive part.
-
-- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
-  The checks behind the health report you ran.
-:::
+URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/learn-dita.md
 
 ---
-
-# Tutorial: Using an agent to fix a DITA project
-
-URL: https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-agentic.md
-
----
-title: "Tutorial: Using an agent to fix a DITA project"
-description: Open a DITA project with deliberate errors, find them with the project tools, and fix them with the AI agent.
-type: tutorial
+title: Learning DITA
+description: The DITA tutorial builds the editor's sample project one feature at a time, in 27 stages, with written lessons and a video for each.
+type: explanation
 ---
 
-# Tutorial: Using an agent to fix a DITA project {#tutorial-using-an-agent-to-fix-a-dita-project}
+# Learning DITA {#learning-dita}
 
-In this tutorial, you inherit a documentation set that does not build cleanly, find its problems, and fix some of them with the AI agent.
+DogsBay XML is an editor, not a DITA course. If you are new to DITA, or new to a part of it, the tutorial is where to go: it builds a real user guide one feature at a time, and the project it ends with is the sample this editor ships.
 
-The project is a DITA user guide for the Audacity audio editor. It ships with the editor, and it is deliberately broken: topics without descriptions, links that point nowhere, a hardcoded product name that should be a key, and conditions that the subject scheme disallows.
+## The tutorial {#the-tutorial}
 
-**Time:** about 30 minutes. **You need:** DogsBay XML. See [Installing](./install). You need a subscription or API key only when you reach the agent section.
+[**Learn DITA by building a user guide**](https://dogsbay.ai/dogsbay-xml-dita-tutorial-docs/) — 27 stages, from one topic to a filtered, indexed, key-driven publication set. Each stage adds one DITA feature, builds it, and checks it. Videos are being recorded, one per stage, linked from each lesson.
 
-## Step 1: Open the sample project {#step-1-open-the-sample-project}
+The lessons use DogsBay XML, but nothing in them depends on it. Any XML editor and DITA-OT will follow along.
 
-:::steps
-1. **Select File > Open Sample Project** The editor asks where to put it.
-2. **Choose a location** The editor copies the sample into a new `audacity-demo` folder inside the location you choose. It never uses the folder you chose as the project itself, and it never overwrites anything: if `audacity-demo` exists, the copy becomes `audacity-demo-2`.
-3. **Wait for the project to open** The Topic Maps panel loads `audacity-guide.ditamap`. The sample already includes its publishing configuration.
-:::
+## The sample project {#the-sample-project}
 
-You now have your own copy to break further and repair.
+**File** > **Open Sample Project** copies the finished guide — the result of the last stage — into a folder you choose, and opens it. It is a healthy project: **Project** > **Check Project** is clean, and every deliverable in its `project.json` builds. Use it to read a finished DITA project, to try a command on something real, or to compare against your own work.
 
-## Step 2: Open the agent {#step-2-open-the-agent}
+Each stage is also a branch of [the tutorial repository](https://github.com/dogsbay/dogsbay-xml-dita-tutorial), from `tutorial/00-setup` to `tutorial/26-final`, so you can see any stage without Git: browse the branch on GitHub, or download it as a zip.
 
-:::steps
-1. **Open the AI Agent panel** Open **AI Agent** at the top of the right sidebar. The first tab is the built-in agent, which runs with your authority and does not need the integration server.
-2. **Choose a provider and sign in** Use the provider bar at the top of the panel. The key is stored in your operating system keychain, not in the project.
-:::
+## Fixing a project you have inherited {#fixing-a-project-you-have-inherited}
 
-If you prefer to control Claude Code, Codex, or Gemini from the panel, see [Using a hosted agent](/dogsbay-xml-docs/agent/hosted-agents). A hosted session opens at tier T1 and needs the integration server; the built-in agent needs neither.
-
-## Step 3: Ask it to find and fix the problems {#step-3-ask-it-to-find-and-fix-the-problems}
-
-An agent can handle repetitive updates across many topics.
-
-:::steps
-1. **Ask for the survey first** For example: *Run a project health check on this project, apply house-style.sch, and summarize the problems by kind.* The agent calls the same `project-health` operation as the command line, so the results cover the project instead of a few files. Name the schema because missing short descriptions are a house rule. If the project specifies a default Schematron schema in its [configuration](/dogsbay-xml-docs/reference/project-config), the health check applies that schema automatically.
-2. **Pick one kind of problem** *Add a one-sentence shortdesc to every topic that has none.* Naming one kind at a time keeps the review in the next step manageable.
-3. **Watch the panel while it works** The panel lists each operation as it runs. You can verify that the agent is calling the editor's DITA commands instead of rewriting files as text.
-:::
-
-The agent works across the project rather than opening each file in turn, because it has the editor's project operations available to it.
-
-## Step 4: Review what it proposes {#step-4-review-what-it-proposes}
-
-The agent's edits do not overwrite your files. They arrive as tracked changes.
-
-:::steps
-1. **Open the Proposals panel** The panel lists each proposed change with the identity that made it.
-2. **Select one** The editor jumps to the affected part of the document and shows the change in place.
-3. **Accept or reject it** Use **Accept** or **Reject** for one change, or **Accept all** and **Reject all** when you have read enough to trust the batch.
-:::
-
-This is the part worth slowing down for. The agent proposes; you decide.
-
-## Step 5: Check the project again {#step-5-check-the-project-again}
-
-```bash
-dogsbay-xml project-health . --schematron house-style.sch
-```
-
-Fewer problems should remain. What is left is the more interesting work: the hardcoded product name that should be a key, the conditions that are not in the subject scheme, and the topic that is too long and should be split.
-
-## What you learned {#what-you-learned}
-
-- The sample project is a copy, so you can experiment freely.
-- Project-level checks find problems across files.
-- The agent calls the editor's own DITA operations rather than editing text.
-- You review the agent's proposed changes and decide whether to accept them.
-
-## Where to go next {#where-to-go-next}
-
-:::cards
-- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon="sparkles"}**
-  Tiers, the write gate, and the audit log.
-
-- **[Reviewing an agent's changes](/dogsbay-xml-docs/agent/proposals){icon="check"}**
-  Proposals in more detail, including comments.
-:::
+Finding and repairing what is wrong with a DITA project someone else wrote — with the audits, and with the agent doing the repetitive part — is its own tutorial, over a project written to be broken. It is being prepared separately. In the meantime, [Validating a project](../finding/validation) covers the audits, and [The agent, and what it may touch](../agent/overview) covers what the agent is allowed to do.
 
 ---
 
@@ -2286,7 +2143,7 @@ For default shortcuts and binding settings, see [Keyboard shortcuts](/dogsbay-xm
 | New Project | Create a project. |
 | Open File | Open a document. |
 | Open Project Folder | Open a folder as the project. |
-| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/dogsbay-xml-docs/getting-started/tutorial-manual). |
+| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See [Learning DITA](/dogsbay-xml-docs/getting-started/learn-dita). |
 | Open Recent | Recently opened files and projects, in two groups. Appears when at least one file or project is in the recent history. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Settings | Editor settings, on eight pages. See the [settings reference](/dogsbay-xml-docs/reference/settings). The **Server** page turns on the [integration server](/dogsbay-xml-docs/automation/mcp) and holds the agent defaults, including how long [session transcripts](/dogsbay-xml-docs/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/dogsbay-xml-docs/reference/shortcuts). |

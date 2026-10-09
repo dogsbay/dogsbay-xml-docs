@@ -9,8 +9,7 @@
 - Getting started:
     - DogsBay XML overview: getting-started/dogsbay-xml-overview.md
     - Installing: getting-started/install.md
-    - "Tutorial: Fixing a DITA project by hand": getting-started/tutorial-manual.md
-    - "Tutorial: Using an agent to fix a DITA project": getting-started/tutorial-agentic.md
+    - Learning DITA: getting-started/learn-dita.md
 - Working with the agent:
     - The agent, and what it may touch: agent/overview.md
     - Which agent to use: agent/choosing.md

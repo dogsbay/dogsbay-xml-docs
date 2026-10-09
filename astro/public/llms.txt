@@ -10,8 +10,7 @@
 
 - [DogsBay XML overview](https://dogsbay.ai/dogsbay-xml-docs/getting-started/dogsbay-xml-overview.md): What the editor does, who it is for, and the three ideas that shape it.
 - [Installing](https://dogsbay.ai/dogsbay-xml-docs/getting-started/install.md): Install DogsBay XML, put its command line on your PATH, and turn on the integration server.
-- [Tutorial: Fixing a DITA project by hand](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-manual.md): Open a DITA project with deliberate errors, find them with the project tools, and fix one by hand.
-- [Tutorial: Using an agent to fix a DITA project](https://dogsbay.ai/dogsbay-xml-docs/getting-started/tutorial-agentic.md): Open a DITA project with deliberate errors, find them with the project tools, and fix them with the AI agent.
+- [Learning DITA](https://dogsbay.ai/dogsbay-xml-docs/getting-started/learn-dita.md): The DITA tutorial builds the editor's sample project one feature at a time, in 27 stages, with written lessons and a video for each.
 
 ## Working with the agent
 
