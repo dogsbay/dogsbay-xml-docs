@@ -24,8 +24,8 @@ Each installer bundles its own Java runtime, so no separate JDK is required. It 
    installer.
 
 3. **Start the editor**
-   The Welcome tab opens. From there you can open the sample project, which is
-   where the [tutorial](./tutorial-manual) starts.
+   The Welcome tab opens. From there you can open the sample project: the
+   finished guide from the [DITA tutorial](./learn-dita).
 :::
 
 ## The command line

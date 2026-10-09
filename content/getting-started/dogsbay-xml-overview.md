@@ -48,9 +48,6 @@ Refactoring commands run as dry runs by default and report what they would do. P
 - **[Installing](./install)** {icon="download"}
   Install packages for Linux, macOS, and Windows, or build from source.
 
-- **[Tutorial: fixing a DITA project by hand](./tutorial-manual)** {icon="rocket"}
-  Thirty minutes to find the issues in a real, deliberately broken project and fix one yourself.
-
-- **[Tutorial: using an agent to fix a DITA project](./tutorial-agentic)** {icon="sparkles"}
-  The same project, with the agent doing the repetitive part.
+- **[Learning DITA](./learn-dita)** {icon="rocket"}
+  The 27-stage tutorial that builds this editor's sample project, one DITA feature at a time.
 :::

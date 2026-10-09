@@ -15,12 +15,8 @@
         "href": "/dogsbay-xml-docs/getting-started/install"
       },
       {
-        "label": "Tutorial: Fixing a DITA project by hand",
-        "href": "/dogsbay-xml-docs/getting-started/tutorial-manual"
-      },
-      {
-        "label": "Tutorial: Using an agent to fix a DITA project",
-        "href": "/dogsbay-xml-docs/getting-started/tutorial-agentic"
+        "label": "Learning DITA",
+        "href": "/dogsbay-xml-docs/getting-started/learn-dita"
       }
     ]
   },

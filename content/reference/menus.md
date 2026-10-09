@@ -33,7 +33,7 @@ For default shortcuts and binding settings, see
 | New Project | Create a project. |
 | Open File | Open a document. |
 | Open Project Folder | Open a folder as the project. |
-| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See the [tutorial](/getting-started/tutorial-manual). |
+| Open Sample Project | Copy the bundled Audacity DITA sample into a new folder and open it. Disabled while the sample is already open. See [Learning DITA](/getting-started/learn-dita). |
 | Open Recent | Recently opened files and projects, in two groups. Appears when at least one file or project is in the recent history. |
 | Save, Save As, Save All | Write the document, under a new name, or every modified document. |
 | Settings | Editor settings, on eight pages. See the [settings reference](/reference/settings). The **Server** page turns on the [integration server](/automation/mcp) and holds the agent defaults, including how long [session transcripts](/agent/overview#session-transcripts) are kept; **Bindings** is where you change a [keyboard shortcut](/reference/shortcuts). |
