@@ -10,7 +10,7 @@ DogsBay XML is an editor, not a DITA course. If you are new to DITA, or new to a
 
 ## The tutorial
 
-**[Learn DITA by building a user guide](https://dogsbay.ai/dogsbay-xml-dita-tutorial-docs/)** — 27 stages, from one topic to a filtered, indexed, key-driven publication set. Each stage adds one DITA feature, builds it, and checks it. Videos are being recorded, one per stage, linked from each lesson.
+**[Learn DITA by building a user guide](https://dogsbay.ai/dita-tutorial/)** — 27 stages, from one topic to a filtered, indexed, key-driven publication set. Each stage adds one DITA feature, builds it, and checks it. Videos are being recorded, one per stage, linked from each lesson.
 
 The lessons use DogsBay XML, but nothing in them depends on it. Any XML editor and DITA-OT will follow along.
 
