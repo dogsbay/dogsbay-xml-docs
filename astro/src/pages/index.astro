@@ -38,6 +38,9 @@ const title = "DogsBay XML";
 const description = "An XML and DITA editor with an AI agent that works on your content model and shows you every change before it lands." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
+const canonicalUrl = null ?? undefined;
+const alternates = [];
+const breadcrumbJsonLd = null ?? undefined;
 const nofollow = false;
 const excludeFromSearch = false;
 const pageTags = null;
@@ -53,6 +56,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
 
 <DocsLayout
   siteName={siteConfig.siteName}
+  siteTagline={siteConfig.tagline}
   title={title}
   nav={nav as any[]}
   headings={headings}
@@ -67,6 +71,10 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   themeColor={siteConfig.themeColor || undefined}
   noindex={noindex}
   nofollow={nofollow}
+  canonicalUrl={canonicalUrl}
+  alternates={alternates}
+  breadcrumbJsonLd={breadcrumbJsonLd}
+  ogType="website"
   excludeFromSearch={excludeFromSearch}
   plausibleDomain={siteConfig.plausible?.domain}
   plausibleScriptUrl={siteConfig.plausible?.scriptUrl}
@@ -76,6 +84,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   tagsIndexPath={tagsIndexPath}
   tagPrefixes={siteConfig.tagPrefixes}
   tagLabels={siteConfig.tagLabels}
+  tagAutoColor={siteConfig.tagAutoColor}
   taxonomyIndexPaths={siteConfig.taxonomyIndexPaths}
   taxonomyDisplay={siteConfig.taxonomyDisplay}
   status={pageStatus ?? undefined}
@@ -112,7 +121,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       </ul>
       <p>You can use the built-in agent or bring an agent that you already use, such as Claude Code, Codex, or OpenCode. You do not have to learn a new agent interface to be productive.</p>
       <p>The editor tracks an agent's edits to a DITA file as changes that you accept or reject. Refactoring commands run as dry runs and require an explicit instruction before they apply changes.</p>
-      <Alert variant="note" class="my-4">
+      <Alert variant="note" data-type="note" class="my-4">
         <AlertTitle>Note</AlertTitle>
         <AlertDescription>
           <p>The integration server that AI assistants and the live-editor commands use is off by default. Turn it on in <strong>File &gt; Settings &gt; Server</strong> when you need it. The built-in agent does not require it.</p>

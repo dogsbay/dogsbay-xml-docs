@@ -30,6 +30,9 @@ const title = "Learning DITA";
 const description = "The DITA tutorial builds the editor's sample project one feature at a time, in 27 stages, with written lessons and a video for each." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
+const canonicalUrl = null ?? undefined;
+const alternates = [];
+const breadcrumbJsonLd = null ?? undefined;
 const nofollow = false;
 const excludeFromSearch = false;
 const pageTags = null;
@@ -40,11 +43,12 @@ const pageCategory = ["getting-started"];
 const pageTaxonomies = null;
 const tagsIndexPath = "/dogsbay-xml-docs/tags";
 const lastUpdated = null || undefined;
-const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Learning DITA {#learning-dita}\n\nDogsBay XML is an editor, not a DITA course. If you are new to DITA, or new to a part of it, the tutorial is where to go: it builds a real user guide one feature at a time, and the project it ends with is the sample this editor ships.\n\n## The tutorial {#the-tutorial}\n\n[**Learn DITA by building a user guide**](https://dogsbay.ai/dita-tutorial/) — 27 stages, from one topic to a filtered, indexed, key-driven publication set. Each stage adds one DITA feature, builds it, and checks it. Videos are being recorded, one per stage, linked from each lesson.\n\nThe lessons use DogsBay XML, but nothing in them depends on it. Any XML editor and DITA-OT will follow along.\n\n## The sample project {#the-sample-project}\n\n**File** > **Open Sample Project** copies the finished guide — the result of the last stage — into a folder you choose, and opens it. It is a healthy project: **Project** > **Check Project** is clean, and every deliverable in its `project.json` builds. Use it to read a finished DITA project, to try a command on something real, or to compare against your own work.\n\nEach stage is also a branch of [the tutorial repository](https://github.com/dogsbay/dogsbay-xml-dita-tutorial), from `tutorial/00-setup` to `tutorial/26-final`, so you can see any stage without Git: browse the branch on GitHub, or download it as a zip.\n\n## Fixing a project you have inherited {#fixing-a-project-you-have-inherited}\n\nIf what you have is someone else's project rather than one of your own, [Validating a project](../finding/validation) covers the audits that find what is wrong with it, and [The agent, and what it may touch](../agent/overview) covers what the agent is allowed to change.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/learn-dita.md"} ?? undefined;
+const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplexity","gemini"],"placement":"header","copyButton":true,"footerLink":true,"markdownBody":"# Learning DITA {#learning-dita}\n\nDogsBay XML is an editor, not a DITA course. If you are new to DITA, or new to a part of it, the tutorial is where to go: it builds a real user guide one feature at a time, and the project it ends with is the sample this editor ships.\n\n## The tutorial {#the-tutorial}\n\n[**Learn DITA by building a user guide**](https://dogsbay.ai/dita-tutorial/) — 27 stages, from one topic to a filtered, indexed, key-driven publication set. Each stage adds one DITA feature, builds it, and checks it. Videos are being recorded, one per stage, linked from each lesson.\n\nThe lessons use DogsBay XML, but nothing in them depends on it. Any XML editor and DITA-OT will follow along.\n\n## The sample project {#the-sample-project}\n\n**File** > **Open Sample Project** copies the finished guide — the result of the last stage — into a folder you choose, and opens it. It is a healthy project: **Project** > **Check Project** is clean, and every deliverable in its `project.json` builds. Use it to read a finished DITA project, to try a command on something real, or to compare against your own work.\n\nEach stage is also a branch of [the tutorial repository](https://github.com/dogsbay/dogsbay-xml-dita-tutorial), from `tutorial/00-setup` to `tutorial/26-final`, so you can see any stage without Git: browse the branch on GitHub, or download it as a zip.\n\n## Fixing a project you have inherited {#fixing-a-project-you-have-inherited}\n\nIf what you have is someone else's project rather than one of your own, [Validating a project](/dogsbay-xml-docs/finding/validation) covers the audits that find what is wrong with it, and [The agent, and what it may touch](/dogsbay-xml-docs/agent/overview) covers what the agent is allowed to change.\n","mdUrl":"https://dogsbay.ai/dogsbay-xml-docs/getting-started/learn-dita.md"} ?? undefined;
 ---
 
 <DocsLayout
   siteName={siteConfig.siteName}
+  siteTagline={siteConfig.tagline}
   title={title}
   nav={nav as any[]}
   headings={headings}
@@ -59,6 +63,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   themeColor={siteConfig.themeColor || undefined}
   noindex={noindex}
   nofollow={nofollow}
+  canonicalUrl={canonicalUrl}
+  alternates={alternates}
+  breadcrumbJsonLd={breadcrumbJsonLd}
   excludeFromSearch={excludeFromSearch}
   plausibleDomain={siteConfig.plausible?.domain}
   plausibleScriptUrl={siteConfig.plausible?.scriptUrl}
@@ -68,6 +75,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   tagsIndexPath={tagsIndexPath}
   tagPrefixes={siteConfig.tagPrefixes}
   tagLabels={siteConfig.tagLabels}
+  tagAutoColor={siteConfig.tagAutoColor}
   taxonomyIndexPaths={siteConfig.taxonomyIndexPaths}
   taxonomyDisplay={siteConfig.taxonomyDisplay}
   status={pageStatus ?? undefined}
@@ -103,7 +111,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <p><strong>File</strong> &gt; <strong>Open Sample Project</strong> copies the finished guide — the result of the last stage — into a folder you choose, and opens it. It is a healthy project: <strong>Project</strong> &gt; <strong>Check Project</strong> is clean, and every deliverable in its <code>project.json</code> builds. Use it to read a finished DITA project, to try a command on something real, or to compare against your own work.</p>
       <p>Each stage is also a branch of <a href="https://github.com/dogsbay/dogsbay-xml-dita-tutorial">the tutorial repository</a>, from <code>tutorial/00-setup</code> to <code>tutorial/26-final</code>, so you can see any stage without Git: browse the branch on GitHub, or download it as a zip.</p>
       <h2 id="fixing-a-project-you-have-inherited" class="group scroll-mt-20">Fixing a project you have inherited<a href="#fixing-a-project-you-have-inherited" class="ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 no-underline" aria-hidden="true" tabindex="-1" data-pagefind-ignore>&para;</a></h2>
-      <p>If what you have is someone else's project rather than one of your own, <a href="../finding/validation">Validating a project</a> covers the audits that find what is wrong with it, and <a href="../agent/overview">The agent, and what it may touch</a> covers what the agent is allowed to change.</p>
+      <p>If what you have is someone else's project rather than one of your own, <a href="/dogsbay-xml-docs/finding/validation">Validating a project</a> covers the audits that find what is wrong with it, and <a href="/dogsbay-xml-docs/agent/overview">The agent, and what it may touch</a> covers what the agent is allowed to change.</p>
     </article>
   </MarkdownContentStack>
 </DocsLayout>

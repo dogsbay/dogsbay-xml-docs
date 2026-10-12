@@ -1,0 +1,16 @@
+---
+/**
+ * FileTree — the `:::files` directive: a nested list shown as folders and files.
+ * The markup is fileTreeHtml (markup.ts), shared with dogsbay-ssg.
+ */
+import { fileTreeHtml, type FileTreeItem } from "./markup.js";
+
+interface Props {
+  items: FileTreeItem[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<Fragment set:html={fileTreeHtml(items, className ?? "")} />

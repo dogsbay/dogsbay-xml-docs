@@ -95,10 +95,10 @@ Refactoring commands run as dry runs by default and report what they would do. P
 ## Where to start {#where-to-start}
 
 :::cards
-- **[Installing](./install){icon="download"}**
+- **[Installing](/dogsbay-xml-docs/getting-started/install){icon="download"}**
   Install packages for Linux, macOS, and Windows, or build from source.
 
-- **[Learning DITA](./learn-dita){icon="rocket"}**
+- **[Learning DITA](/dogsbay-xml-docs/getting-started/learn-dita){icon="rocket"}**
   The 27-stage tutorial that builds this editor's sample project, one DITA feature at a time.
 :::
 
@@ -125,7 +125,7 @@ Each installer bundles its own Java runtime, so no separate JDK is required. It 
 :::steps
 1. **Download the installer for your platform** Go to the [releases page](https://github.com/dogsbay/dogsbay-xml/releases) and download the `.deb` or `.rpm` package for Linux, the `.dmg` for macOS, or the Windows installer.
 2. **Install it the usual way for your platform** On Linux, install the package with your package manager. On macOS, open the disk image and drag the application to the Applications folder. On Windows, run the installer.
-3. **Start the editor** The Welcome tab opens. From there you can open the sample project: the finished guide from the [DITA tutorial](./learn-dita).
+3. **Start the editor** The Welcome tab opens. From there you can open the sample project: the finished guide from the [DITA tutorial](/dogsbay-xml-docs/getting-started/learn-dita).
 :::
 
 ## The command line {#the-command-line}
@@ -315,7 +315,7 @@ Each stage is also a branch of [the tutorial repository](https://github.com/dogs
 
 ## Fixing a project you have inherited {#fixing-a-project-you-have-inherited}
 
-If what you have is someone else's project rather than one of your own, [Validating a project](../finding/validation) covers the audits that find what is wrong with it, and [The agent, and what it may touch](../agent/overview) covers what the agent is allowed to change.
+If what you have is someone else's project rather than one of your own, [Validating a project](/dogsbay-xml-docs/finding/validation) covers the audits that find what is wrong with it, and [The agent, and what it may touch](/dogsbay-xml-docs/agent/overview) covers what the agent is allowed to change.
 
 ---
 
@@ -337,7 +337,7 @@ The **built-in agent** runs inside the editor. You choose a provider, DogsBay XM
 
 A **hosted agent** is a separate program that you already use, such as Claude Code, Codex, Gemini CLI, OpenCode, or Goose. The editor starts it, communicates with it over the Agent Client Protocol, and gives it access to the editor's DITA tools. The agent keeps its own sign-in and model, so your subscription applies.
 
-[Which agent to use](./choosing) compares the two; this page is about what either of them may touch.
+[Which agent to use](/dogsbay-xml-docs/agent/choosing) compares the two; this page is about what either of them may touch.
 
 Both appear in the **AI Agent** panel on the right. The built-in agent is the first tab; each hosted agent you start gets a tab of its own.
 
@@ -378,9 +378,9 @@ Every change from an agent session passes one checkpoint, which applies three te
 
 ### Proposals {#proposals}
 
-When an agent edits a DITA file, the editor records the edit as a tracked change instead of applying it silently. You accept or reject it in the **Proposals** panel. See [Reviewing an agent's changes](./proposals).
+When an agent edits a DITA file, the editor records the edit as a tracked change instead of applying it silently. You accept or reject it in the **Proposals** panel. See [Reviewing an agent's changes](/dogsbay-xml-docs/agent/proposals).
 
-Agents can read and edit files on disk without opening them in editor tabs. If an edit is applied without proposal markup, the editor reports this to the agent. You can review these changes in version control. The agent can undo its own changes with `review_revert`; see [Undoing an agent's changes](./proposals#undoing-an-agents-changes).
+Agents can read and edit files on disk without opening them in editor tabs. If an edit is applied without proposal markup, the editor reports this to the agent. You can review these changes in version control. The agent can undo its own changes with `review_revert`; see [Undoing an agent's changes](/dogsbay-xml-docs/agent/proposals#undoing-an-agents-changes).
 
 ## What is recorded {#what-is-recorded}
 
@@ -429,10 +429,10 @@ The gear in the AI Agent panel opens the provider settings, which say what is st
 ## Related {#related}
 
 :::cards
-- **[Which agent to use](./choosing){icon="scale"}**
+- **[Which agent to use](/dogsbay-xml-docs/agent/choosing){icon="scale"}**
   What each kind is good for, and when to run both.
 
-- **[Using Claude Code, Codex, or Gemini](./hosted-agents){icon="terminal"}**
+- **[Using Claude Code, Codex, or Gemini](/dogsbay-xml-docs/agent/hosted-agents){icon="terminal"}**
   Start a hosted agent and learn what it needs.
 :::
 
@@ -464,7 +464,7 @@ Use a **hosted agent** when you want its own workflow and features.
 
 - **You already use it and pay for it.** Claude Code, Codex, and Gemini CLI use their own sign-in, so your existing subscription applies.
 - **You want that agent's features.** You can use its planning, file tools, and approach to large refactoring tasks.
-- **You want to limit its editor access.** A hosted session starts at T1, and you decide which tools to provide. The built-in agent runs with your authority. See [Capability tier](./overview#capability-tier). An agent with its own file tools effectively operates at Tier 3 because the tier limits only what the editor provides.
+- **You want to limit its editor access.** A hosted session starts at T1, and you decide which tools to provide. The built-in agent runs with your authority. See [Capability tier](/dogsbay-xml-docs/agent/overview#capability-tier). An agent with its own file tools effectively operates at Tier 3 because the tier limits only what the editor provides.
 - **You can also use a local model.** If the agent supports local models, configure it to use one. For example, OpenCode supports an OpenAI-compatible provider that points to Ollama, LM Studio, or llama.cpp, and Goose supports Ollama. Configure the model in the agent, not the editor.
 
 You can use both kinds of agent. For example, use the built-in agent for DITA work, where the map, keys, and deliverable provide essential context. Use a hosted agent alongside it for code-related work.
@@ -472,10 +472,10 @@ You can use both kinds of agent. For example, use the built-in agent for DITA wo
 ## Related {#related}
 
 :::cards
-- **[The agent, and what it may touch](./overview){icon="shield"}**
+- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon="shield"}**
   Tiers, the write gate, and the audit log, which apply to both.
 
-- **[Using Claude Code, Codex, or Gemini](./hosted-agents){icon="terminal"}**
+- **[Using Claude Code, Codex, or Gemini](/dogsbay-xml-docs/agent/hosted-agents){icon="terminal"}**
   Starting a hosted agent, signing it in, and what it needs.
 :::
 
@@ -583,7 +583,7 @@ The editor can run an agent you already use as a separate program and give it ac
 
 This setup works with any agent that supports the Agent Client Protocol. Claude Code, Codex, and Gemini CLI are common choices. OpenCode and Goose also support the protocol, and you can configure either to use a local model.
 
-If you are deciding between this and the agent that ships with the editor, see [which agent to use](./choosing).
+If you are deciding between this and the agent that ships with the editor, see [which agent to use](/dogsbay-xml-docs/agent/choosing).
 
 ## Before you start {#before-you-start}
 
@@ -651,13 +651,13 @@ Closing a session while an agent is still downloading no longer interrupts the d
 ## Related {#related}
 
 :::cards
-- **[Which agent to use](./choosing){icon="scale"}**
+- **[Which agent to use](/dogsbay-xml-docs/agent/choosing){icon="scale"}**
   This or the built-in agent, and when to run both.
 
-- **[The agent, and what it may touch](./overview){icon="shield"}**
+- **[The agent, and what it may touch](/dogsbay-xml-docs/agent/overview){icon="shield"}**
   Tiers, the write gate, and the audit log in full.
 
-- **[Reviewing an agent's changes](./proposals){icon="check"}**
+- **[Reviewing an agent's changes](/dogsbay-xml-docs/agent/proposals){icon="check"}**
   What happens to the edits it makes.
 :::
 
@@ -970,10 +970,10 @@ dogsbay-xml merge-keydefs audacity-guide.ditamap --apply
 ## Related {#related}
 
 :::cards
-- **[Topics and maps](./topics-and-maps){icon="file-text"}**
+- **[Topics and maps](/dogsbay-xml-docs/authoring/topics-and-maps){icon="file-text"}**
   Assemble topics and rename them without breaking references.
 
-- **[Conditional content](./conditional-content){icon="filter"}**
+- **[Conditional content](/dogsbay-xml-docs/authoring/conditional-content){icon="filter"}**
   Conditions, branch filtering, and controlled values.
 :::
 
@@ -1083,7 +1083,7 @@ The first prints the plan; the second applies it.
 ## Related {#related}
 
 :::cards
-- **[Keys and reuse](./keys-and-reuse){icon="key"}**
+- **[Keys and reuse](/dogsbay-xml-docs/authoring/keys-and-reuse){icon="key"}**
   Why the same key resolves differently under different conditions.
 
 - **[Publishing](/dogsbay-xml-docs/publishing/publishing){icon="package"}**
@@ -1174,7 +1174,7 @@ dogsbay-xml schematron-project . metadata-policy.sch
 - **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
   Grammar, Schematron, and project-wide checks.
 
-- **[Conditional content](./conditional-content){icon="filter"}**
+- **[Conditional content](/dogsbay-xml-docs/authoring/conditional-content){icon="filter"}**
   Controlled values for profiling attributes.
 :::
 
@@ -1334,7 +1334,7 @@ dogsbay-xml check-output-links out/   # links in what the build wrote
 ## Related {#related}
 
 :::cards
-- **[Refactoring](./refactoring){icon="wand"}**
+- **[Refactoring](/dogsbay-xml-docs/finding/refactoring){icon="wand"}**
   Fix what validation finds without breaking references.
 
 - **[Metadata](/dogsbay-xml-docs/authoring/metadata){icon="tag"}**
@@ -1459,7 +1459,7 @@ Select **Refactor > Find Broken References and Orphans** to list broken referenc
 
 Use the refactoring commands to address findings as appropriate. For example, use **Retarget References** to update a reference or **Create Key from Selected Text** to define a key. Review unused keys and orphan topics before removing them; they might be needed by another publication.
 
-For project validation, a build, and output-link checks, select **Project > Check Project**, or run `dogsbay-xml check .`. To run only the project health report, use `dogsbay-xml project-health .`. See [Validating a project](./validation).
+For project validation, a build, and output-link checks, select **Project > Check Project**, or run `dogsbay-xml check .`. To run only the project health report, use `dogsbay-xml project-health .`. See [Validating a project](/dogsbay-xml-docs/finding/validation).
 
 ## When a refactoring refuses {#when-a-refactoring-refuses}
 
@@ -1468,7 +1468,7 @@ If a refactoring would create a broken reference, it reports the problem instead
 ## Related {#related}
 
 :::cards
-- **[Validating a project](./validation){icon="check"}**
+- **[Validating a project](/dogsbay-xml-docs/finding/validation){icon="check"}**
   Find what needs fixing, and confirm the result.
 
 - **[Keys and reuse](/dogsbay-xml-docs/authoring/keys-and-reuse){icon="key"}**
@@ -2334,7 +2334,7 @@ The submenu contains the following commands, in order:
 
 ## Refactor {#refactor}
 
-Commands that change content display a plan for review before applying it. **Find Broken References and Orphans** displays a report without changing files. The same operations are available from the [command line](./cli) and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).
+Commands that change content display a plan for review before applying it. **Find Broken References and Orphans** displays a report without changing files. The same operations are available from the [command line](/dogsbay-xml-docs/reference/cli) and are described in [refactoring](/dogsbay-xml-docs/finding/refactoring).
 
 Commands are grouped by files and references, keys, content reuse, and attributes. **Find Broken References and Orphans** reports problems without changing files.
 
@@ -2549,10 +2549,10 @@ The first terminal opens in the project folder, or in the folder shown in the Ex
 ## Related {#related}
 
 :::cards
-- **[Menu reference](./menus){icon="menu"}**
+- **[Menu reference](/dogsbay-xml-docs/reference/menus){icon="menu"}**
   Every command in the menu bar.
 
-- **[The command line](./cli){icon="terminal"}**
+- **[The command line](/dogsbay-xml-docs/reference/cli){icon="terminal"}**
   The same operations without the interface.
 :::
 

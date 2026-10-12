@@ -34,6 +34,9 @@ const title = "Topics and maps";
 const description = "Write topics in the source or Author view, assemble them into maps, and edit map structure without breaking references." || undefined;
 const ogImage = "" || undefined;
 const noindex = false;
+const canonicalUrl = null ?? undefined;
+const alternates = [];
+const breadcrumbJsonLd = null ?? undefined;
 const nofollow = false;
 const excludeFromSearch = false;
 const pageTags = null;
@@ -49,6 +52,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
 
 <DocsLayout
   siteName={siteConfig.siteName}
+  siteTagline={siteConfig.tagline}
   title={title}
   nav={nav as any[]}
   headings={headings}
@@ -63,6 +67,9 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   themeColor={siteConfig.themeColor || undefined}
   noindex={noindex}
   nofollow={nofollow}
+  canonicalUrl={canonicalUrl}
+  alternates={alternates}
+  breadcrumbJsonLd={breadcrumbJsonLd}
   excludeFromSearch={excludeFromSearch}
   plausibleDomain={siteConfig.plausible?.domain}
   plausibleScriptUrl={siteConfig.plausible?.scriptUrl}
@@ -72,6 +79,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
   tagsIndexPath={tagsIndexPath}
   tagPrefixes={siteConfig.tagPrefixes}
   tagLabels={siteConfig.tagLabels}
+  tagAutoColor={siteConfig.tagAutoColor}
   taxonomyIndexPaths={siteConfig.taxonomyIndexPaths}
   taxonomyDisplay={siteConfig.taxonomyDisplay}
   status={pageStatus ?? undefined}
@@ -117,7 +125,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <p>To change the structure, edit the map in the panel, or use <code>edit-map</code> from the command line for a change you want to script or repeat:</p>
       <CodeBlock code={"dogsbay-xml edit-map audacity-guide.ditamap insert \\\n  --parent / --href topics/new-topic.dita --navtitle \"New topic\""} lang="bash" />
       <p>The operation is <code>set-attr</code>, <code>insert</code>, <code>remove</code>, or <code>move</code>. Specify each target as an element ID or a child path such as <code>/1/3</code>. Structural edits preserve the file's formatting and keep references intact.</p>
-      <Alert variant="note" class="my-4">
+      <Alert variant="note" data-type="note" class="my-4">
         <AlertTitle>Note</AlertTitle>
         <AlertDescription>
           <p><code>edit-map</code> writes unless you pass <code>--dry-run</code>, which is the opposite of the refactoring commands. Those print a plan and do nothing until you pass <code>--apply</code>.</p>
@@ -131,7 +139,7 @@ const llmActionsProps = {"enabled":true,"providers":["claude","chatgpt","perplex
       <p>Then let the editor do the rename, so the references follow:</p>
       <CodeBlock code={"dogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita\ndogsbay-xml rename-file topics/installing-audacity.dita topics/installing.dita --apply"} lang="bash" />
       <p>The first command shows what would change. The second does it.</p>
-      <Alert variant="warning" class="my-4">
+      <Alert variant="warning" data-type="warning" class="my-4">
         <AlertTitle>Warning</AlertTitle>
         <AlertDescription>
           <p>Renaming a topic in a file manager leaves every reference to it pointing to a file that is no longer there. <code>check-links</code> finds those broken references after the fact, but renaming through the editor avoids creating them.</p>
