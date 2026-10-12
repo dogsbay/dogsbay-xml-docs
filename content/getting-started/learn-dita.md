@@ -22,4 +22,4 @@ Each stage is also a branch of [the tutorial repository](https://github.com/dogs
 
 ## Fixing a project you have inherited
 
-Finding and repairing what is wrong with a DITA project someone else wrote — with the audits, and with the agent doing the repetitive part — is its own tutorial, over a project written to be broken. It is being prepared separately. In the meantime, [Validating a project](../finding/validation) covers the audits, and [The agent, and what it may touch](../agent/overview) covers what the agent is allowed to do.
+If what you have is someone else's project rather than one of your own, [Validating a project](../finding/validation) covers the audits that find what is wrong with it, and [The agent, and what it may touch](../agent/overview) covers what the agent is allowed to change.
